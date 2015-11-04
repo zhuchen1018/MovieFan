@@ -18,6 +18,7 @@ import com.myapp.storage.DBWrapper;
 import com.myapp.storage.MD5Encryptor;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.UserEntity;
+import com.myapp.utils.ServletCommon;
 
 
 public class Logoff extends HttpServlet 
@@ -57,16 +58,6 @@ public class Logoff extends HttpServlet
 		out.println("</BODY></HTML>");		
 		
 		db.close();
-	}
-
-	private boolean userLogin(String name) throws IOException 
-	{
-		return db.userLogin(name);
-	}
-	
-	private boolean hasLogin(String name) throws IOException 
-	{
-		return db.isLogin(name);
 	}
 }
 

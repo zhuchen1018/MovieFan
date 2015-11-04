@@ -16,6 +16,7 @@ import com.myapp.storage.DBWrapper;
 import com.myapp.storage.MD5Encryptor;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.UserEntity;
+import com.myapp.utils.ServletCommon;
 
 public class Register extends HttpServlet 
 {

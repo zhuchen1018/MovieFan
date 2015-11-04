@@ -10,7 +10,7 @@ import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
 import com.sleepycat.persist.SecondaryIndex;
 
-import com.myapp.storage.entity.ChannelEntity;
+import com.myapp.storage.entity.GroupEntity;
 
 import com.sleepycat.je.DatabaseEntry;
 import com.sleepycat.je.DatabaseException;
@@ -22,25 +22,25 @@ import com.sleepycat.je.DatabaseException;
  */
 public class GroupAccessor 
 {
-	private PrimaryIndex<String, ChannelEntity> channels;
+	private PrimaryIndex<String, GroupEntity> channels;
 
 	public GroupAccessor(EntityStore store)
 	{
-		channels = store.getPrimaryIndex(String.class, ChannelEntity.class);
+		channels = store.getPrimaryIndex(String.class, GroupEntity.class);
 	}
 
-	public PrimaryIndex<String, ChannelEntity> getPrimaryIndex() 
+	public PrimaryIndex<String, GroupEntity> getPrimaryIndex() 
 	{
 		return channels;
 	}
 
-	public List<ChannelEntity> getAllEntities()
+	public List<GroupEntity> getAllEntities()
 	{
-		List<ChannelEntity> channelList = new ArrayList<ChannelEntity>();
-		EntityCursor<ChannelEntity> channel_cursor = this.channels.entities();
+		List<GroupEntity> channelList = new ArrayList<GroupEntity>();
+		EntityCursor<GroupEntity> channel_cursor = this.channels.entities();
 		try
 		{
-			Iterator<ChannelEntity> iter = channel_cursor.iterator();
+			Iterator<GroupEntity> iter = channel_cursor.iterator();
 			while(iter.hasNext())
 			{
 				channelList.add(iter.next());
@@ -57,7 +57,7 @@ public class GroupAccessor
 		return channelList;
 	}
 
-	public ChannelEntity getEntity(String name)
+	public GroupEntity getEntity(String name)
 	{
 		return channels.get(name);
 	}
@@ -67,7 +67,7 @@ public class GroupAccessor
 		return channels.delete(pKey);
 	}
 
-	public ChannelEntity putEntity(ChannelEntity entity)
+	public GroupEntity putEntity(GroupEntity entity)
 	{
 		return channels.put(entity);
 	}
@@ -77,9 +77,9 @@ public class GroupAccessor
 		return channels.contains(name);
 	}
 
-	public void add(String name, String[] xpaths, String creator) 
+	public void add(String name, String creator) 
 	{
-		ChannelEntity ch = new ChannelEntity(name, xpaths, creator);
+		GroupEntity ch = new GroupEntity(name,  creator);
 		putEntity(ch);
 	}
 }

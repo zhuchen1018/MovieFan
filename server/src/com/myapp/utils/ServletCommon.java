@@ -1,8 +1,9 @@
-package com.myapp.servlet;
+package com.myapp.utils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.Hashtable;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -13,15 +14,12 @@ import com.myapp.storage.DBWrapper;
 
 public class ServletCommon 
 {
-	private final static int COOKIE_AGE = 24  * 3600 * 7; 
-	private final static String HOME_URL = "/home"; 
-
 	public static void PrintErrorPage(String info, HttpServletResponse response) throws IOException
 	{
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		out.println("<HTML><HEAD><TITLE>ERROR</TITLE></HEAD><BODY>");
-		out.println("<P>" + "ERROR:"+ "</P>");
+		out.println("<P>" + "Sorry:"+ "</P>");
 		out.println("<P>" + info + "</P>");
 
 		gotoHome(response);
@@ -44,11 +42,21 @@ public class ServletCommon
 		return false;
 	}
 	
+	public static String getSessionUsername(HttpServletRequest request )
+	{
+		HttpSession session = request.getSession(false);
+		if(session == null)
+		{
+			return null;
+		}
+		return (String) session.getAttribute("username");
+	}
+	
 	public static void addLoginCookie(HttpServletRequest request, HttpServletResponse response, String username) throws IOException
 	{
 		HttpSession session = request.getSession();
 		session.setAttribute("username", username); 
-		session.setMaxInactiveInterval(COOKIE_AGE);
+		session.setMaxInactiveInterval(ServletConst.COOKIE_AGE);
 	
 		/*
 		String host = request.getServerName();
@@ -94,7 +102,7 @@ public class ServletCommon
 
 	public static void gotoHome(HttpServletResponse res) throws IOException
 	{
-		ShowLink(HOME_URL, "Go to Home", res);
+		ShowLink(ServletConst.HOME_URL, "Go to Home", res);
 	}
 
 	public static void ShowLink(String link, String name,  HttpServletResponse res) throws IOException 
@@ -112,5 +120,33 @@ public class ServletCommon
 			db = new DBWrapper();
 		}
 		return db;
+	}
+
+	/**
+	 * eg:field1=value1&field2=value2&field3=value3...
+	 * @param query
+	 * @return key-value of query string
+	 */
+	public static Hashtable<String, String> parseQueryString(String query)
+	{
+		if(query == null || query.trim().isEmpty())
+		{
+			return null;
+		}
+		Hashtable<String, String>kv = new Hashtable<String, String>();
+		//field=value
+		String[] sp = query.split("&");
+		for(int i = 0; i < sp.length; ++i)
+		{
+			String[] pair = sp[i].split("=");
+			String key = pair[0].trim();
+			String value = ""; 
+			if(pair.length == 2)
+			{
+				value = pair[1].trim(); 
+			}
+			kv.put(key, value);
+		}
+		return kv;
 	}
 }

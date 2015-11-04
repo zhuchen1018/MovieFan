@@ -20,8 +20,9 @@ import com.myapp.storage.DBConst;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.MD5Encryptor;
 import com.myapp.storage.accessor.UserAccessor;
-import com.myapp.storage.entity.ChannelEntity;
+import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.UserEntity;
+import com.myapp.utils.ServletCommon;
 
 
 /*

@@ -9,7 +9,7 @@ import com.sleepycat.je.EnvironmentConfig;
 import com.sleepycat.je.EnvironmentFailureException;
 import com.sleepycat.persist.StoreConfig;
 import com.myapp.storage.accessor.*;
-import com.myapp.storage.entity.ChannelEntity;
+import com.myapp.storage.entity.GroupEntity;
 
 import com.sleepycat.je.Environment;
 import com.sleepycat.persist.EntityStore;
@@ -231,28 +231,7 @@ public class DBWrapper
 		return true;
 	}
 
-	public boolean userLogoff(String name) throws IOException 
-	{
-		UserAccessor ua = getUserAccessor();
-		if(ua == null)
-		{
-			logger.error("get UserAccessor failed! " + name);
-			return false;
-		}
-		ua.Logoff(name);
-		return true;
-	}
-
-	public boolean isLogin(String name) throws IOException 
-	{
-		UserAccessor ua = getUserAccessor();
-		if(ua == null)
-		{
-			logger.error("get UserAccessor failed! " + name);
-			return false;
-		}
-		return ua.isLogin(name);
-	}
+	
 
 	public boolean isClose()
 	{
@@ -263,30 +242,24 @@ public class DBWrapper
 		System.out.println(s);
 	}
 
-	public void addUrltoChannel(String channel, String url, Long crawl_time)
-	{
-		ChannelEntity ch = getChannel(channel);
-		if(ch == null)
-		{
-			return ;
-		}
-		ch.addUrl(url, crawl_time);
-		groupEA.putEntity(ch);
-	}
-
 	public boolean hasChannel(String name) 
 	{
 		return groupEA.contains(name);
 	}
 	
-	public List<ChannelEntity>  getAllChannels() 
+	public List<GroupEntity>  getAllChannels() 
 	{
 		return  groupEA.getAllEntities(); 
 	}
 
-	public void StoreChannel(String name, String[] xpaths, String creator)
+	public void StoreGroup(String name, String creator)
 	{
-		groupEA.add(name, xpaths, creator);
+		groupEA.add(name, creator);
+	}
+	
+	public boolean hasGroup(String name)
+	{
+		return groupEA.contains(name);
 	}
 
 	public void DelChannel(String name) 
@@ -294,14 +267,14 @@ public class DBWrapper
 		groupEA.delEntity(name);
 	}
 
-	public ChannelEntity getChannel(String name) 
+	public GroupEntity getChannel(String name) 
 	{
 		return groupEA.getEntity(name);
 	}
 
 	public String getChannelCreator(String name) 
 	{
-		ChannelEntity ch = getChannel(name);
+		GroupEntity ch = getChannel(name);
 		if(ch == null)
 		{
 			return null;
@@ -309,5 +282,11 @@ public class DBWrapper
 		return ch.getCreator();
 	}
 
-	
+	public void addUserTweet(String username, String info) 
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

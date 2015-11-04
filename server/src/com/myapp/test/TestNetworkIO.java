@@ -8,8 +8,9 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import org.junit.Test;
 
+import com.myapp.utils.HttpClient;
+
 import junit.framework.TestCase;
-import com.myapp.servlet.HttpClient;
 
 
 /*

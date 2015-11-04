@@ -85,28 +85,5 @@ public class UserAccessor
 		putEntity(user);
 		return true;
 	}
-	
-	public boolean Logoff(String name) 
-	{
-		UserEntity user = getEntity(name);
-		if(user == null)
-		{
-			return false;
-		}
-		user.Logoff();
-		putEntity(user);
-		return true;
-	}
-
-	public boolean isLogin(String name) 
-	{
-		UserEntity user = getEntity(name);
-		if(user == null)
-		{
-			//logger.error("hasLogin cannot find user: " + name);
-			return false;
-		}
-		return user.isLogin();
-	}
 }
 

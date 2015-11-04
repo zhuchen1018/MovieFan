@@ -1,7 +1,9 @@
 package com.myapp.storage.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 
+import com.myapp.model.TweetObj;
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
@@ -14,6 +16,8 @@ public class UserEntity
 
 	private String password;
 	private long login_time; 
+
+	private ArrayList<TweetObj>tweets = new ArrayList<TweetObj>(); 
 	
 	public UserEntity()
 	{
@@ -54,17 +58,6 @@ public class UserEntity
 		login_time = time;
 	}
 
-	public void Logoff()
-	{
-		login_time = -1;
-	}	
-
-	public boolean isLogin()
-	{
-		print("UserEntity logintime: "  + login_time);
-		return login_time != -1; 
-	}
-
 	public void Login()
 	{
 		long time = (new Date()).getTime();
@@ -80,5 +73,10 @@ public class UserEntity
 	public long getLogin() 
 	{
 		return login_time;
+	}
+	
+	public void addTweet(String info)
+	{
+		tweets.add(new TweetObj(info));
 	}
 }

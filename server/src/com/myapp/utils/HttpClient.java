@@ -1,4 +1,4 @@
-package com.myapp.servlet;
+package com.myapp.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

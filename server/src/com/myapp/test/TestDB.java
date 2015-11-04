@@ -16,12 +16,13 @@ import java.util.Map.Entry;
 import org.junit.Before;
 import org.junit.Test;
 import junit.framework.TestCase;
-import com.myapp.servlet.HttpClient;
+
 import com.myapp.storage.DBConst;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
-import com.myapp.storage.entity.ChannelEntity;
+import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.UserEntity;
+import com.myapp.utils.HttpClient;
 
 import org.w3c.dom.Document;
 
@@ -65,18 +66,6 @@ public class TestDB extends TestCase
 		//login checkpassword
 		assertTrue(db.checkLoginPassword(name, password));
 
-		//login
-		db.userLogin(name);
-		print("db hasLogin: " + db.isLogin(name));
-		//assertTrue(db.hasLogin(name));
-
-		//logoff
-		db.userLogoff(name);
-		print("db hasLogin: " + db.isLogin(name));
-
-		//check
-		print("db hasLogin: " + db.isLogin(name));
-		db.close();
 	}
 
 	@Test
@@ -100,42 +89,5 @@ public class TestDB extends TestCase
 		System.out.println(s);
 	}
 
-	private void displayChannel() throws IOException
-	{
-		db = new DBWrapper();
-		List<ChannelEntity> channels  = db.getAllChannels(); 
-		for(int i = 0; i < channels.size(); ++i)
-		{
-			ChannelEntity ce = channels.get(i);
-			print("<P>" + "===========\n" + "</P>");
-			print("<P>" + "Channels:" +  ce.getName() + "</P>");
-			String[] xpaths = ce.getXPaths();
-			if(xpaths != null)
-			{
-				for(int j = 0; j < xpaths.length; ++j)
-				{
-					print("<P>" + "XPaths:" + xpaths[j] + "</P>");
-				}
-			}
-			print("<P>" + "Creator:" +  ce.getCreator() + "</P>");
-			print("<P>" + "\n" + "</P>");
-			HashMap<String, Long>urls = ce.getUrls();
-			if(urls == null)
-			{
-				continue;
-			}
-			for (Entry<String, Long> entry : urls.entrySet()) 
-			{
-			    String url = entry.getKey();
-			    Long time = entry.getValue();
-			    Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			    String time_str = formatter.format(time);
-			    print("<P>" + "Crawled on: " +  time_str + "</P>");
-			    print("<P>" + "Location: " +  url + "</P>");
-
-			}
-			print("<P>" + "=============\n" + "</P>");
-		}
-	}
 }
 
