@@ -52,7 +52,7 @@ public class ServletCommon
 		return (String) session.getAttribute("username");
 	}
 	
-	public static void addLoginCookie(HttpServletRequest request, HttpServletResponse response, String username) throws IOException
+	public static void addSession(HttpServletRequest request, HttpServletResponse response, String username) throws IOException
 	{
 		HttpSession session = request.getSession();
 		session.setAttribute("username", username); 
@@ -76,7 +76,7 @@ public class ServletCommon
 		*/
 	}
 
-	public static void delLoginCookie(HttpServletRequest request, HttpServletResponse response)
+	public static void delSession(HttpServletRequest request, HttpServletResponse response)
 	{
 		HttpSession session = request.getSession();
 		session.invalidate();

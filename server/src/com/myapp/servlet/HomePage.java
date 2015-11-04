@@ -54,7 +54,7 @@ public class HomePage  extends HttpServlet
 		out.println("<P>" + "\n" + "</P>");
 		out.println("<a href=\"/register\" class=\"button\">Register</a>");
 
-		/*need login link*/
+		/*not logined*/
 		if(!ServletCommon.isSessionValid(request))
 		{
 			out.println("<P>" + "\n" + "</P>");
@@ -64,10 +64,11 @@ public class HomePage  extends HttpServlet
 		{
 			out.println("<P>" + "\n" + "</P>");
 			out.println("<a href=\"/logoff\" class=\"button\">Logoff</a>");
+
+			out.println("<P>" + "\n" + "</P>");
+			out.println("<a href=\"/user_page" + "?" + "user=" + ServletCommon.getSessionUsername(request) 
+				+ "\" class=\"button\">My Page</a>");
 		}
-		
-		//out.println("<P>" + "\n" + "</P>");
-		//out.println("<a href=\"/create_channel\" class=\"button\">Create New Channel</a>");
 		
 		//out.println("<P>" + "\n" + "</P>");
 		//out.println("<a href=\"/del_channel\" class=\"button\">Delete a Channel</a>");

@@ -16,28 +16,28 @@ import com.sleepycat.je.DatabaseEntry;
 import com.sleepycat.je.DatabaseException;
 
 /**
- * DB Accessor for Channel Entity 
+ * DB Accessor for group Entity 
  * @author Haoyun 
  *
  */
 public class GroupAccessor 
 {
-	private PrimaryIndex<String, GroupEntity> channels;
+	private PrimaryIndex<String, GroupEntity> groups;
 
 	public GroupAccessor(EntityStore store)
 	{
-		channels = store.getPrimaryIndex(String.class, GroupEntity.class);
+		groups = store.getPrimaryIndex(String.class, GroupEntity.class);
 	}
 
 	public PrimaryIndex<String, GroupEntity> getPrimaryIndex() 
 	{
-		return channels;
+		return groups;
 	}
 
 	public List<GroupEntity> getAllEntities()
 	{
 		List<GroupEntity> channelList = new ArrayList<GroupEntity>();
-		EntityCursor<GroupEntity> channel_cursor = this.channels.entities();
+		EntityCursor<GroupEntity> channel_cursor = this.groups.entities();
 		try
 		{
 			Iterator<GroupEntity> iter = channel_cursor.iterator();
@@ -59,22 +59,22 @@ public class GroupAccessor
 
 	public GroupEntity getEntity(String name)
 	{
-		return channels.get(name);
+		return groups.get(name);
 	}
 
 	public boolean delEntity(String pKey)
 	{
-		return channels.delete(pKey);
+		return groups.delete(pKey);
 	}
 
 	public GroupEntity putEntity(GroupEntity entity)
 	{
-		return channels.put(entity);
+		return groups.put(entity);
 	}
 
 	public boolean contains(String name) 
 	{
-		return channels.contains(name);
+		return groups.contains(name);
 	}
 
 	public void add(String name, String creator) 

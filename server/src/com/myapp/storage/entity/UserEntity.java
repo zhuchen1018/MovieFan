@@ -3,7 +3,6 @@ package com.myapp.storage.entity;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.myapp.model.TweetObj;
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
@@ -16,8 +15,7 @@ public class UserEntity
 
 	private String password;
 	private long login_time; 
-
-	private ArrayList<TweetObj>tweets = new ArrayList<TweetObj>(); 
+	static private ArrayList<TweetEntity>tweets = new ArrayList<TweetEntity>(); 
 	
 	public UserEntity()
 	{
@@ -64,7 +62,6 @@ public class UserEntity
 		login_time = time;
 	}	
 	
-	
 	private void print(String s)
 	{
 		System.out.println(s);
@@ -77,6 +74,11 @@ public class UserEntity
 	
 	public void addTweet(String info)
 	{
-		tweets.add(new TweetObj(info));
+		tweets.add(new TweetEntity(info));
+	}
+
+	public ArrayList<TweetEntity> getAllTweets() 
+	{
+		return tweets;
 	}
 }

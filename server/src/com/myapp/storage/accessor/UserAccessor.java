@@ -85,5 +85,16 @@ public class UserAccessor
 		putEntity(user);
 		return true;
 	}
+
+	public void addTweet(String username, String info) 
+	{
+		UserEntity user = getEntity(username);
+		if(user == null)
+		{
+			return;
+		}
+		user.addTweet(info);
+		putEntity(user);
+	}
 }
 

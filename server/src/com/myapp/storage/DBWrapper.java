@@ -10,7 +10,7 @@ import com.sleepycat.je.EnvironmentFailureException;
 import com.sleepycat.persist.StoreConfig;
 import com.myapp.storage.accessor.*;
 import com.myapp.storage.entity.GroupEntity;
-
+import com.myapp.storage.entity.UserEntity;
 import com.sleepycat.je.Environment;
 import com.sleepycat.persist.EntityStore;
 
@@ -177,77 +177,60 @@ public class DBWrapper
 		return file;
 	}
 	
+
+	/**
+	 ******************* Accessor funcs****************************
+	 */
 	public UserAccessor getUserAccessor() throws IOException
 	{
-		//userEA = new UserAccessor(getStore(DBConst.USER_STORE_NAME));
 		return userEA;
 	}
 
-	/*
-	 * Accessor funcs
-	 */
+	public void addUserTweet(String username, String info) throws IOException 
+	{
+		UserAccessor userEA = getUserAccessor();
+		if(userEA != null)
+		{
+			userEA.addTweet(username, info);
+		}
+	}
 	public void addUser(String name, String password) throws IOException 
 	{
 		UserAccessor ua = getUserAccessor();
-		if(ua == null)
-		{
-			logger.error("get UserEntityAccessor failed!");
-			return;
-		}
 		ua.add(name, password);
+	}
+
+	public UserEntity getUserEntity(String name) throws IOException
+	{
+		UserAccessor ua = getUserAccessor();
+		return ua.getEntity(name); 
 	}
 
 	public boolean hasUser(String name) throws IOException
 	{
 		UserAccessor ua = getUserAccessor();
-		if(ua == null)
-		{
-			logger.error("get UserEntityAccessor failed!");
-			return false;
-		}
 		return ua.hasUser(name);
 	}
 
 	public boolean checkLoginPassword(String name, String password) throws IOException 
 	{
 		UserAccessor ua = getUserAccessor();
-		if(ua == null)
-		{
-			logger.error("get UserEntityAccessor failed!");
-			return false;
-		}
 		return ua.checkPassword(name, password);
 	}
 
 	public boolean userLogin(String name) throws IOException 
 	{
 		UserAccessor ua = getUserAccessor();
-		if(ua == null)
-		{
-			logger.error("get UserAccessor failed! " + name);
-			return false;
-		}
 		ua.Login(name);
 		return true;
 	}
-
-	
 
 	public boolean isClose()
 	{
 		return is_close;
 	}
-	public static void print(String s)
-	{
-		System.out.println(s);
-	}
-
-	public boolean hasChannel(String name) 
-	{
-		return groupEA.contains(name);
-	}
 	
-	public List<GroupEntity>  getAllChannels() 
+	public List<GroupEntity>  getAllGroups() 
 	{
 		return  groupEA.getAllEntities(); 
 	}
@@ -257,36 +240,31 @@ public class DBWrapper
 		groupEA.add(name, creator);
 	}
 	
+	public GroupEntity getGroup(String name)
+	{
+		return groupEA.getEntity(name);
+	}
+
 	public boolean hasGroup(String name)
 	{
 		return groupEA.contains(name);
 	}
 
-	public void DelChannel(String name) 
+	public String getGroupCreator(String name) 
 	{
-		groupEA.delEntity(name);
-	}
-
-	public GroupEntity getChannel(String name) 
-	{
-		return groupEA.getEntity(name);
-	}
-
-	public String getChannelCreator(String name) 
-	{
-		GroupEntity ch = getChannel(name);
-		if(ch == null)
+		GroupEntity g = getGroup(name);
+		if(g == null)
 		{
 			return null;
 		}
-		return ch.getCreator();
+		return g.getCreator();
 	}
 
-	public void addUserTweet(String username, String info) 
+	
+	
+	public static void print(String s)
 	{
-		// TODO Auto-generated method stub
-		
+		System.out.println(s);
 	}
-
 
 }
