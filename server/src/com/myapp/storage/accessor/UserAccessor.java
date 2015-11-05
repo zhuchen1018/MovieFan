@@ -86,14 +86,14 @@ public class UserAccessor
 		return true;
 	}
 
-	public void addTweet(String username, String info) 
+	public void addTweet(String username, Long tid) 
 	{
 		UserEntity user = getEntity(username);
 		if(user == null)
 		{
 			return;
 		}
-		user.addTweet(info);
+		user.addTweet(tid);
 		putEntity(user);
 	}
 }

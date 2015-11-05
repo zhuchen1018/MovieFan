@@ -17,7 +17,6 @@ import org.w3c.tidy.Tidy;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.myapp.storage.entity.WebPageEntity;
 
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;

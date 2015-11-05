@@ -3,40 +3,33 @@ package com.myapp.storage.entity;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 
-@Persistent
-public class TweetEntity 
+@Entity
+public class TweetEntity extends TextBase 
 {
 	public TweetEntity()
 	{
-		
+		this.like_nums = 0;
+		this.repost_nums = 0;
 	}
-	@PrimaryKey
-	long id;
-	long releaseTime;
-	String info;
-	static ArrayList<CommentEntity>comments = new ArrayList<CommentEntity>(); 
 
-	public TweetEntity(String info)
+	ArrayList<Long>comments = new ArrayList<Long>(); 
+
+	public TweetEntity(String creator, String body)
 	{
-		this.info = info;
+		this.creator = creator;
+		this.body = body;
 		this.releaseTime = (new Date()).getTime();
+		this.like_nums = 0;
+		this.repost_nums = 0;
 	}
 	
-	public void addComment(String username, String info)
+	public void addComment(Long id)
 	{
-		comments.add(new CommentEntity(username, info));
+		comments.add(id); 
 	}
-
-	public long getReleaseTime() 
-	{
-		return releaseTime;
-	}
-
-	public String getInfo()
-	{
-		return info;
-	}
+	
 }

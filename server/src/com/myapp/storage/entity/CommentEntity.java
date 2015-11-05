@@ -6,23 +6,18 @@ import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 
-@Persistent
-public class CommentEntity 
+@Entity
+public class CommentEntity extends TextBase 
 {
 	public CommentEntity()
 	{
 		
 	}
-	@PrimaryKey
-	long id;
-	String username;
-	long releaseTime;
-	String info;
 	
 	public CommentEntity(String username, String info)
 	{
-		this.username = username;
-		this.info = info;
+		this.creator = username;
+		this.body = info;
 		this.releaseTime = (new Date()).getTime();
 	}
 }

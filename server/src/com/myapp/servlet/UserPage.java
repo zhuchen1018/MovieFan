@@ -26,7 +26,6 @@ import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.ServletCommon;
 import com.myapp.utils.ServletConst;
 
-//TODO: use query string to define each URL
 public class UserPage extends HttpServlet 
 {
 	private DBWrapper db; 
@@ -65,19 +64,11 @@ public class UserPage extends HttpServlet
 		}
 		
 		db = ServletCommon.initDB(db);
-		db.addUserTweet(username, info);
+		db.addTweet(username, info);
 		db.close();
 		
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("<HTML><HEAD><TITLE>Twitter </TITLE></HEAD><BODY>");
-		String res = "Twitter successed!";
-		out.println("<P>" + res + "</P>");
-		out.println("<P>" + "\n" + "</P>");
-		
-		ServletCommon.gotoHome(response);
-		out.println("</BODY></HTML>");		
-		
+		showTweetWindow(username, response);
+		showMyNews(username, response);
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -126,14 +117,18 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		ArrayList<TweetEntity>tweets = user.getAllTweets(); 
-		Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		for(int i = tweets.size() - 1; i >= 0; --i)
+		ArrayList<Long>tweets_id = user.getAllTweets(); 
+		ArrayList<TweetEntity>tweets = db.getTweetEntityByIds(tweets_id); 
+		if(tweets != null && tweets.size() > 0)
 		{
-			TweetEntity t = tweets.get(i);
-			String time_str = formatter.format(t.getReleaseTime());
-			out.println("<P>" + time_str  + "</P>");
-			out.println("<P>" + t.getInfo() + "</P>");
+			Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			for(int i = tweets.size() - 1; i >= 0; --i)
+			{
+				TweetEntity t = tweets.get(i);
+				String time_str = formatter.format(t.getReleaseTime());
+				out.println("<P>" + time_str  + "</P>");
+				out.println("<P>" + t.getBody() + "</P>");
+			}
 		}
 	}
 

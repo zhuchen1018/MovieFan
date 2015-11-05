@@ -12,10 +12,12 @@ public class UserEntity
 {
 	@PrimaryKey
 	private String name;
-
 	private String password;
+
+	private String head_url;
 	private long login_time; 
-	static private ArrayList<TweetEntity>tweets = new ArrayList<TweetEntity>(); 
+	static private ArrayList<Long>tweets = new ArrayList<Long>(); 
+	static private ArrayList<Long>articles = new ArrayList<Long>(); 
 	
 	public UserEntity()
 	{
@@ -72,13 +74,23 @@ public class UserEntity
 		return login_time;
 	}
 	
-	public void addTweet(String info)
+	public void addTweet(Long id)
 	{
-		tweets.add(new TweetEntity(info));
+		tweets.add(id);
 	}
 
-	public ArrayList<TweetEntity> getAllTweets() 
+	public void addArticle(Long id)
+	{
+		articles.add(id);
+	}
+
+	public ArrayList<Long> getAllTweets() 
 	{
 		return tweets;
+	}
+	
+	public ArrayList<Long> getAllArticles() 
+	{
+		return articles;
 	}
 }

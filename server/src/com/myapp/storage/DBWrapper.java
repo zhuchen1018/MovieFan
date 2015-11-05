@@ -10,10 +10,12 @@ import com.sleepycat.je.EnvironmentFailureException;
 import com.sleepycat.persist.StoreConfig;
 import com.myapp.storage.accessor.*;
 import com.myapp.storage.entity.GroupEntity;
+import com.myapp.storage.entity.TweetEntity;
 import com.myapp.storage.entity.UserEntity;
 import com.sleepycat.je.Environment;
 import com.sleepycat.persist.EntityStore;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +32,7 @@ public class DBWrapper
 	 */
 	private UserAccessor userEA;
 	private GroupAccessor groupEA;
+	private TweetAccessor tweetEA;
 	
 	private boolean is_close;
 	
@@ -69,6 +72,9 @@ public class DBWrapper
 		
 		userEA = new UserAccessor(store);
 		groupEA = new GroupAccessor(store);
+		tweetEA = new TweetAccessor(store);
+		
+		logger.info("db setup!!");
 	}
 
 	private void initAccessors()
@@ -186,14 +192,20 @@ public class DBWrapper
 		return userEA;
 	}
 
-	public void addUserTweet(String username, String info) throws IOException 
+	public void addTweet(String username, String body) throws IOException 
 	{
-		UserAccessor userEA = getUserAccessor();
-		if(userEA != null)
+		UserEntity user  = getUserEntity(username);
+		if(user != null)
 		{
-			userEA.addTweet(username, info);
+			TweetEntity t = tweetEA.addTweet(username, body);
+			userEA.addTweet(username, t.getId());
+		}
+		else
+		{
+			//TODO: error log
 		}
 	}
+
 	public void addUser(String name, String password) throws IOException 
 	{
 		UserAccessor ua = getUserAccessor();
@@ -259,12 +271,15 @@ public class DBWrapper
 		}
 		return g.getCreator();
 	}
-
-	
 	
 	public static void print(String s)
 	{
 		System.out.println(s);
+	}
+
+	public ArrayList<TweetEntity> getTweetEntityByIds(ArrayList<Long> tweets_id)
+	{
+		return tweetEA.getTweetEntityByIds(tweets_id);
 	}
 
 }
