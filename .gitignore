@@ -3,7 +3,7 @@
 .metadata/
 
 *.war
-*.jar
+#*.jar
 
 server/database/*
 server/target/*

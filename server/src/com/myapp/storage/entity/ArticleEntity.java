@@ -10,32 +10,18 @@ import com.sleepycat.persist.model.PrimaryKey;
 @Entity
 public class ArticleEntity extends TextBase 
 {
-	@PrimaryKey
-	long id;
-	String username;
 	String head;
-	String body;
-	long releaseTime;
-	int like_nums;
-	int repost_nums;
-	ArrayList<Long>comments; 
-	
+	ArrayList<Long>comments = new ArrayList<Long>(); 
+
 	public ArticleEntity()
 	{
-		this.id = getNewArticleId();
-		this.username = "";
-		this.head = "";
-		this.body = "";
-		this.releaseTime = (Long) null; 
-		this.like_nums = 0;
-		this.repost_nums = 0;
-		this.comments = new ArrayList<Long>(); 
+		
 	}
 	
 	public ArticleEntity(String username, String head, String body)
 	{
 		this.id = getNewArticleId();
-		this.username = username;
+		this.creator = username;
 		this.head = head;
 		this.body = body;
 		this.releaseTime = (new Date()).getTime();

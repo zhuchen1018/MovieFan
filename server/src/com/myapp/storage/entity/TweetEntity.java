@@ -10,13 +10,13 @@ import com.sleepycat.persist.model.PrimaryKey;
 @Entity
 public class TweetEntity extends TextBase 
 {
+	ArrayList<Long>comments = new ArrayList<Long>(); 
+	
 	public TweetEntity()
 	{
 		this.like_nums = 0;
 		this.repost_nums = 0;
 	}
-
-	ArrayList<Long>comments = new ArrayList<Long>(); 
 
 	public TweetEntity(String creator, String body)
 	{

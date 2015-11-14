@@ -4,6 +4,10 @@ import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 import com.sleepycat.persist.model.SecondaryKey;
 import static com.sleepycat.persist.model.Relationship.*;
+
+import java.util.ArrayList;
+import java.util.Date;
+
 import static com.sleepycat.persist.model.DeleteAction.*;
 
 @Persistent
@@ -20,6 +24,13 @@ class TextBase
 	int like_nums;
 	int repost_nums;
 	
+	public TextBase() 
+	{ 
+		this.body = body;
+		this.releaseTime = (new Date()).getTime();
+		this.like_nums = 0;
+		this.repost_nums = 0;
+	}	
 	public void addLikeNum() 
 	{
 		like_nums++;
