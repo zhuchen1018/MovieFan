@@ -62,27 +62,6 @@
      <url-pattern>/home</url-pattern>
    </servlet-mapping>  
 
-    <servlet>
-     <servlet-name>create_channel</servlet-name>
-     <servlet-class>com.myapp.servlet.CreateChannel</servlet-class> 
-   </servlet>
-    
-   <servlet-mapping>
-     <servlet-name>create_channel</servlet-name>
-     <url-pattern>/create_channel</url-pattern>
-   </servlet-mapping>  
-
-
-    <servlet>
-     <servlet-name>del_channel</servlet-name>
-     <servlet-class>com.myapp.servlet.DelChannel</servlet-class> 
-   </servlet>
-    
-   <servlet-mapping>
-     <servlet-name>del_channel</servlet-name>
-     <url-pattern>/del_channel</url-pattern>
-   </servlet-mapping>  
-
 
    <!-- add any additional servlets and servlet mappings here -->
 </web-app>
