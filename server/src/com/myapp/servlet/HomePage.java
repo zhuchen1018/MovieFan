@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,7 +57,6 @@ public class HomePage  extends HttpServlet
 		out.println("<P>" + "\n" + "</P>");
 		out.println("<a href=\"/register\" class=\"button\">Register</a>");
 
-		/*not logined*/
 		if(!ServletCommon.isSessionValid(request))
 		{
 			out.println("<P>" + "\n" + "</P>");
@@ -70,13 +72,18 @@ public class HomePage  extends HttpServlet
 				+ "\" class=\"button\">My Page</a>");
 		}
 		
-		//out.println("<P>" + "\n" + "</P>");
-		//out.println("<a href=\"/del_channel\" class=\"button\">Delete a Channel</a>");
-		
-		//out.println("<P>" + "\n" + "</P>");
-		//out.println("<P>" + "All Channels:\n" + "</P>");
-		
 		db.close();
+
+		
+		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/home.jsp");
+		try 
+		{
+			rd.forward(request, response);
+		} 
+		catch (ServletException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 }
 
