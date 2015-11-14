@@ -2,6 +2,7 @@ package com.myapp.storage.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.Persistent;
@@ -11,13 +12,26 @@ import com.sleepycat.persist.model.PrimaryKey;
 public class UserEntity
 {
 	@PrimaryKey
+	//private long uid; 
+
 	private String name;
 	private String password;
-
 	private String head_url;
 	private long login_time; 
+
+	//settings
+	static private Hashtable<String, String>settings = new Hashtable<String, String>(); 
+
+	//friends' id
+	static private ArrayList<Long>friends = new ArrayList<Long>(); 
+	//tweet's id
 	static private ArrayList<Long>tweets = new ArrayList<Long>(); 
+	//article 's id
 	static private ArrayList<Long>articles = new ArrayList<Long>(); 
+	//comment's id
+	static private ArrayList<Long>comments = new ArrayList<Long>(); 
+	//group 's id
+	static private ArrayList<Long>groups = new ArrayList<Long>(); 
 	
 	public UserEntity()
 	{
@@ -92,5 +106,20 @@ public class UserEntity
 	public ArrayList<Long> getAllArticles() 
 	{
 		return articles;
+	}
+	
+	public ArrayList<Long> getAllGroups() 
+	{
+		return groups;
+	}
+	
+	public ArrayList<Long> getAllFriends() 
+	{
+		return friends;
+	}
+	
+	public ArrayList<Long> getAllComments() 
+	{
+		return comments;
 	}
 }
