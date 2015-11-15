@@ -3,14 +3,7 @@
 *.war
 
 server/database/*
-.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.fdt
-.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.fdx
-.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.fnm
-.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.frq
-.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.nrm
-.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.prx
-.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.tii
-.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/_0.tis
-.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/segments.gen
-.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/segments_1
-.recommenders/index/http___download_eclipse_org_recommenders_models_mars_/write.lock
+server/src/WEB-INF/*
+server/target/*
+
+.recommenders/*

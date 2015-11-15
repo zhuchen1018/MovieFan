@@ -62,6 +62,21 @@
      <url-pattern>/home</url-pattern>
    </servlet-mapping>  
 
+  <servlet>
+     <servlet-name>search</servlet-name>
+     <servlet-class>com.myapp.servlet.Search</servlet-class> 
+   </servlet>
+    
+   <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/search_movie</url-pattern>
+   </servlet-mapping>  
+   
+   <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/search_movie_result</url-pattern>
+   </servlet-mapping>  
 
+ 
    <!-- add any additional servlets and servlet mappings here -->
 </web-app>

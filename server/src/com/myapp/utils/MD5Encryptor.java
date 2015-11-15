@@ -1,4 +1,4 @@
-package com.myapp.storage;
+package com.myapp.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

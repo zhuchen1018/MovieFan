@@ -13,18 +13,30 @@ public class ServletConst
 	/*URL*/
 	public final static String HOME_URL = "/home"; 
 
+	//Account
 	public static final String REGISTER_URL = "/register";
 	public final static String LOGIN_URL = "/login"; 
 	public final static String LOGOFF_URL = "/logoff";
 	public static final String ACCOUNT_SETTING_URL = "/setting";
-
-	public static final String CREATE_GROUP_URL = "/create_group";
-
-	public static final String JOIN_GROUP_URL = "/join_group";
-
-	public static final String LEAVE_GROUP_URL = "/leave_group";
+	
+	//User
 	public static final String USER_TWEET_URL = "/tweet";
 
+	//Group
+	public static final String CREATE_GROUP_URL = "/create_group";
+	public static final String JOIN_GROUP_URL = "/join_group";
+	public static final String LEAVE_GROUP_URL = "/leave_group";
+	
+
+	//Search
+	public static final String SEARCH_MOVIE = "/search_movie";
+	public static final String SEARCH_MOVIE_RES = "/search_movie_result";
+
+	public static final String SEARCH_USER = "/search_user";
+	public static final String SEARCH_USER_RES = "/search_user_result"; 
+
+	public static final String SEARCH_GROUP = "/search_group";
+	public static final String SEARCH_GROUP_RES = "/search_group_result";
 
 
 

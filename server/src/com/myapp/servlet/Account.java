@@ -15,9 +15,9 @@ import org.w3c.dom.Document;
 
 import com.myapp.storage.DBConst;
 import com.myapp.storage.DBWrapper;
-import com.myapp.storage.MD5Encryptor;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.UserEntity;
+import com.myapp.utils.MD5Encryptor;
 import com.myapp.utils.ServletCommon;
 import com.myapp.utils.ServletConst;
 
