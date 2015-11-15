@@ -36,7 +36,7 @@ public class DBWrapper
 	
 	private boolean is_close;
 	
-	static final Logger logger = Logger.getLogger(DBWrapper.class);	
+	//static final Logger logger = Logger.getLogger(DBWrapper.class);	
 	
 	public DBWrapper() throws IOException
 	{
@@ -59,7 +59,7 @@ public class DBWrapper
 		}
 		catch(EnvironmentFailureException e)
 		{
-			logger.error(e.getCause());
+			//logger.error(e.getCause());
 			System.exit(-1);
 		}
 
@@ -74,7 +74,7 @@ public class DBWrapper
 		groupEA = new GroupAccessor(store);
 		tweetEA = new TweetAccessor(store);
 		
-		logger.info("db setup!!");
+		//logger.info("db setup!!");
 	}
 
 	private void initAccessors()
@@ -152,7 +152,7 @@ public class DBWrapper
 		File dir = new File(dir_name);
 		if (!dir.exists()) 
 		{
-			logger.info("creating directory: " + dir_name);
+			//logger.info("creating directory: " + dir_name);
 			boolean res = false;
 			try
 			{
@@ -161,11 +161,11 @@ public class DBWrapper
 			} 
 			catch(SecurityException se)
 			{
-				logger.error("Create dir " + dir_name + " failed");
+				//logger.error("Create dir " + dir_name + " failed");
 			}        
 			if(res) 
 			{    
-				logger.info("Create dir " + dir_name + " successed");
+				//logger.info("Create dir " + dir_name + " successed");
 			}
 		}
 		return dir;

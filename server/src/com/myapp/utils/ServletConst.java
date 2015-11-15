@@ -2,7 +2,8 @@ package com.myapp.utils;
 
 public class ServletConst 
 {
-	public final static int COOKIE_AGE = 24  * 3600 * 7; 
+	// 7 days
+	public final static int LOGIN_SESSION_AGE = 24  * 3600 * 7; 
 
 	/*message*/
 	public final static String LOGIN_FIRST_INFO = "Please login first.";
@@ -37,10 +38,5 @@ public class ServletConst
 
 	public static final String SEARCH_GROUP = "/search_group";
 	public static final String SEARCH_GROUP_RES = "/search_group_result";
-
-
-
-
-
 
 }

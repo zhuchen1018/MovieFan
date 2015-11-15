@@ -186,19 +186,8 @@ public class Account extends HttpServlet
 
 	private void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("<form action=\"/register\" method=\"post\">");
-		
-		out.println("<P>" + "Create new account:\n" + "</P>");
-		out.println("<P>" + "Username:" + "</P>");
-		out.println("<input type=\"text\" name=\"USERNAME\" value=\"\" />");
-		
-		out.println("<P>" + "Password:" + "</P>");
-		out.println("<input type=\"text\" name=\"PASSWORD\" value=\"\" />");
-
-		out.println("<input type=\"submit\" />");
-		out.println("</form>");
+		String location = "/htmls/register.html";
+		ServletCommon.sendRedirect(response, location);
 	}
 
 	private void handleLogoff(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -225,21 +214,9 @@ public class Account extends HttpServlet
 
 	public void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("<form action=\"/login\" method=\"post\">");
-		
-		out.println("<P>" + "Login:\n" + "</P>");
-		out.println("<P>" + "Username:" + "</P>");
-		out.println("<input type=\"text\" name=\"USERNAME\" value=\"\" />");
-		
-		out.println("<P>" + "Password:" + "</P>");
-		out.println("<input type=\"text\" name=\"PASSWORD\" value=\"\" />");
-
-		out.println("<input type=\"submit\" />");
-		out.println("</form>");
+		String location = "/htmls/login.html";
+		ServletCommon.sendRedirect(response, location);
 	}
-
 
 	private boolean checkNameLegal(String name, HttpServletRequest request, HttpServletResponse response) throws IOException
 	{

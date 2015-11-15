@@ -14,17 +14,25 @@ import com.myapp.storage.DBWrapper;
 
 public class ServletCommon 
 {
-	public static void PrintErrorPage(String info, HttpServletResponse response) throws IOException
+	public static void PrintErrorPage(String info, HttpServletResponse response) 
 	{
 		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("<HTML><HEAD><TITLE>ERROR</TITLE></HEAD><BODY>");
-		out.println("<P>" + "Sorry:"+ "</P>");
-		out.println("<P>" + info + "</P>");
+		PrintWriter out;
+		try 
+		{
+			out = response.getWriter();
+			out.println("<HTML><HEAD><TITLE>ERROR</TITLE></HEAD><BODY>");
+			out.println("<P>" + "Sorry:"+ "</P>");
+			out.println("<P>" + info + "</P>");
 
-		gotoHome(response);
+			gotoHome(response);
 
-		out.println("</BODY></HTML>");		
+			out.println("</BODY></HTML>");		
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public static boolean isSessionValid(HttpServletRequest request )
@@ -41,7 +49,7 @@ public class ServletCommon
 		}
 		return false;
 	}
-	
+
 	public static String getSessionUsername(HttpServletRequest request )
 	{
 		HttpSession session = request.getSession(false);
@@ -51,13 +59,13 @@ public class ServletCommon
 		}
 		return (String) session.getAttribute("username");
 	}
-	
+
 	public static void addSession(HttpServletRequest request, HttpServletResponse response, String username) throws IOException
 	{
 		HttpSession session = request.getSession();
 		session.setAttribute("username", username); 
-		session.setMaxInactiveInterval(ServletConst.COOKIE_AGE);
-	
+		session.setMaxInactiveInterval(ServletConst.LOGIN_SESSION_AGE);
+
 		/*
 		String host = request.getServerName();
 		String path = request.getServletPath();
@@ -67,13 +75,13 @@ public class ServletCommon
 		c.setPath(path);
 		c.setMaxAge(COOKIE_AGE);
 		response.addCookie(c);	
-		
+
 		PrintWriter out = response.getWriter();
 		out.println("<P>" + "Set-Cookie:" + "</P>");
 		out.println("<P>" + "Host: " + host + "</P>");
 		out.println("<P>" + "Path: " + path + "</P>");
 		out.println("<P>" + "\n" + "</P>");
-		*/
+		 */
 	}
 
 	public static void delSession(HttpServletRequest request, HttpServletResponse response)
@@ -97,7 +105,7 @@ public class ServletCommon
         		}
         	}
         }
-        */
+		 */
 	}
 
 	public static void gotoHome(HttpServletResponse res) throws IOException

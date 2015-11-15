@@ -1,6 +1,7 @@
 .metadata/
 
 *.war
+*.class
 
 server/database/*
 server/src/WEB-INF/*
