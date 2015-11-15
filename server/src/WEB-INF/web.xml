@@ -76,7 +76,26 @@
      <servlet-name>search</servlet-name>
      <url-pattern>/search_movie_result</url-pattern>
    </servlet-mapping>  
-
  
+ <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/search_user</url-pattern>
+   </servlet-mapping>  
+   
+   <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/search_user_result</url-pattern>
+   </servlet-mapping>  
+  
+  <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/search_group</url-pattern>
+   </servlet-mapping>  
+   
+   <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/search_group_result</url-pattern>
+   </servlet-mapping>  
+   
    <!-- add any additional servlets and servlet mappings here -->
 </web-app>

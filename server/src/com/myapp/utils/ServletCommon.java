@@ -149,4 +149,16 @@ public class ServletCommon
 		}
 		return kv;
 	}
+
+	public static void sendRedirect(HttpServletResponse response, String location) 
+	{
+		try 
+		{
+			response.sendRedirect(location);
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}	
+	}
 }

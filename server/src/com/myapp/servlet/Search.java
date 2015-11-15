@@ -76,7 +76,14 @@ public class Search extends HttpServlet
 
 	private void handleSearchMoviePost(HttpServletRequest request, HttpServletResponse response) 
 	{
-		String key = request.getParameter("MOVIE_KEY");
+		String key = request.getParameter("seach_movie");
+		if(key == null || key.isEmpty())
+		{
+			String location = "/htmls/404.html";
+			ServletCommon.sendRedirect(response, location);
+			return;
+		}
+
 		SQLDBMovieQuery sql = new SQLDBMovieQuery(key);
 		request.setAttribute("MovieListView", sql.getMovieObject());
 
@@ -106,45 +113,29 @@ public class Search extends HttpServlet
 		{
 			handleSearchGroupGet(request, response);
 		}
+		else
+		{
+			String location = "/htmls/404.html";
+			ServletCommon.sendRedirect(response, location);
+		}
 	}
 
 	private void handleSearchGroupGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		RequestDispatcher rd= request.getRequestDispatcher ("/htmls/search_group.html");
-		try 
-		{
-			rd.forward(request, response);
-		} 
-		catch (IOException | ServletException e) 
-		{
-			e.printStackTrace();
-		}
+		String location = "/htmls/search_group.html";
+		ServletCommon.sendRedirect(response, location);
 	}
 
 	private void handleSearchUserGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		RequestDispatcher rd= request.getRequestDispatcher ("/htmls/search_user.html");
-		try 
-		{
-			rd.forward(request, response);
-		} 
-		catch (IOException | ServletException e) 
-		{
-			e.printStackTrace();
-		}
+		String location = "/htmls/search_user.html";
+		ServletCommon.sendRedirect(response, location);
 	}
 
 	private void handleSearchMovieGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		RequestDispatcher rd= request.getRequestDispatcher ("/htmls/search_movie.html");
-		try 
-		{
-			rd.forward(request, response);
-		} 
-		catch (IOException | ServletException e) 
-		{
-			e.printStackTrace();
-		}
+		String location = "/htmls/search_movie.html";
+		ServletCommon.sendRedirect(response, location);
 	}
 }
 
