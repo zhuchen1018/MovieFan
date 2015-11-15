@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.w3c.dom.Document;
 
-import com.myapp.storage.DBConst;
+import com.myapp.SQL.SQLDBMovieQuery;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.UserEntity;
@@ -34,15 +34,15 @@ public class Search extends HttpServlet
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String url = request.getServletPath();
-		if(url.equals(ServletConst.SEARCH_MOVIE))
+		if(url.equals(ServletConst.SEARCH_MOVIE_RES))
 		{
 			handleSearchMoviePost(request, response);
 		}
-		else if(url.equals(ServletConst.SEARCH_USER))
+		else if(url.equals(ServletConst.SEARCH_USER_RES))
 		{
 			handleSearchUserPost(request, response);
 		}
-		else if(url.equals(ServletConst.SEARCH_GROUP))
+		else if(url.equals(ServletConst.SEARCH_GROUP_RES))
 		{
 			handleSearchGroupPost(request, response);
 		}
@@ -76,6 +76,10 @@ public class Search extends HttpServlet
 
 	private void handleSearchMoviePost(HttpServletRequest request, HttpServletResponse response) 
 	{
+		String key = request.getParameter("MOVIE_KEY");
+		SQLDBMovieQuery sql = new SQLDBMovieQuery(key);
+		request.setAttribute("MovieListView", sql.getMovieObject());
+
 		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/MovieList.jsp");
 		try 
 		{
