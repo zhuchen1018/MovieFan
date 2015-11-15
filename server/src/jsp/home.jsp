@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>MovieFans.com</title>
+<link rel="shortcut icon" href="/images/1.png">
 </head>
 <%@ page import="java.util.Date" %>
 <body>

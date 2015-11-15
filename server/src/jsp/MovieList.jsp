@@ -5,6 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Moviepage</title>
+<link rel="shortcut icon" href="/images/1.png">
 </head>
 <body>
 <h1>Search Result</h1><br>
