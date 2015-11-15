@@ -15,7 +15,7 @@ import java.util.Properties;
  */
 public class SQLDBWrapper 
 {
-	public static Connection getConnection() throws SQLException 
+	public static Connection getConnection() 
 	{
 		String host = "moviefans.cudyjofu9j3z.us-west-2.rds.amazonaws.com";
 		String port = "1521";
@@ -29,8 +29,16 @@ public class SQLDBWrapper
 		props.put("password", password);
 		
 		//get connection
-		Connection conn = DriverManager.getConnection(url, props);
-		return conn;
+		Connection conn=null;
+		try{
+			conn = DriverManager.getConnection(url, props);
+		}
+		catch(SQLException ex){
+			ex.printStackTrace();
+		}
+		finally{
+			return conn;
+		}
 	
 		/*
 		//test query
