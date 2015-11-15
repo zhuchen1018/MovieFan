@@ -8,6 +8,7 @@ javac -classpath WEB-INF/lib/*:WEB-INF/classes -d WEB-INF/classes com/myapp/view
 javac -classpath WEB-INF/lib/*:WEB-INF/classes -d WEB-INF/classes com/myapp/SQL/*.java
 javac -classpath WEB-INF/lib/*:WEB-INF/classes -d WEB-INF/classes com/myapp/servlet/*.java
 #javac -classpath WEB-INF/lib/*:WEB-INF/classes -d WEB-INF/classes/jsp jsp/*.jsp
-jar -cvf servlet.war jsp htmls images css WEB-INF 
+jar -cvf servlet.war jsp htmls images css WEB-INF *.*
+
 mv servlet.war ../
 
