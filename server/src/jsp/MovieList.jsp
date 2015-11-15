@@ -9,20 +9,21 @@
 <body>
 <h1>Search Result</h1><br>
 <%! int i=1; int j=3; %>
+<%@ page import="com.myapp.view.*" %>
+<%MovieListView mlv = (MovieListView)request.getAttribute("MovieListView"); %>
 <%
-while( j>0 ){
-%>
-<h4><%=i+"." %></h4>
-<tr>
-<td>movie_name</td><br>
-<td>director</td><br>
-<td>actor</td><br>
-</tr>
+
+for(int i=0;i<mlv.getMovieNumber();++i){%>
+	<td><%=mlv.getMovies().get(i).getName()%></td><br>
+	<td><%=mlv.getMovies().get(i).getOverview()%></td><br>
 <%
-i++;
-j--;
-}
+} 
 %>
+
+
+
+
+
  
 </body>
 </html>
