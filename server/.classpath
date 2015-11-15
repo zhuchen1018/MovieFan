@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="src/WEB-INF/lib/log4j-1.2.9.jar"/>
 	<classpathentry kind="lib" path="src/WEB-INF/lib/servlet-api.jar"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="src/WEB-INF/lib/ojdbc7.jar"/>
 	<classpathentry kind="output" path="target/classes/"/>
 </classpath>
