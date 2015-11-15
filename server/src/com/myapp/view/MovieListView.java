@@ -2,24 +2,30 @@ package com.myapp.view;
 import java.util.*;
 
 public class MovieListView {
-	private MovieObjectView[] movies;
+	private ArrayList<MovieObjectView> movies;
 	private int movieCount;
 	
 	public MovieListView(){
+		movies=new ArrayList<MovieObjectView>();
 		movieCount=0;
 	}
 	
-	public MovieListView(MovieObjectView[] movies){
+	public MovieListView(ArrayList<MovieObjectView> movies){
 		this.movies=movies;
-		this.movieCount=movies.length;
+		this.movieCount=movies.size();
 	}
 	
-	public void setMovies(MovieObjectView[] movies){
+	public void setMovies(ArrayList<MovieObjectView> movies){
 		this.movies=movies;
-		this.movieCount=movies.length;
+		this.movieCount=movies.size();
 	}
 	
-	public MovieObjectView[] getMovies(){
+	public void addMovie(MovieObjectView movie){
+		movies.add(movie);
+		movieCount++;
+	}
+	
+	public ArrayList<MovieObjectView> getMovies(){
 		return movies;
 	}
 	
