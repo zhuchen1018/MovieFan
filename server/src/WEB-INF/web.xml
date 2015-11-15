@@ -96,6 +96,11 @@
      <servlet-name>search</servlet-name>
      <url-pattern>/search_group_result</url-pattern>
    </servlet-mapping>  
+
+   <error-page>
+   <error-code>404</error-code>
+   <location>/htmls/404.html</location>
+   </error-page>
    
    <!-- add any additional servlets and servlet mappings here -->
 </web-app>
