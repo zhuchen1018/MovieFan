@@ -22,6 +22,12 @@ public class SQLDBMovieQuery {
 		rating=0.0;
 	}
 	
+	public SQLDBMovieQuery(String name){
+		conn=SQLDBWrapper.getConnection();
+		this.name=name;
+		searchMovie();
+	}
+	
 	public SQLDBMovieQuery(String name,String movieId,int length,double rating){
 		conn=SQLDBWrapper.getConnection();
 		this.name=name;
@@ -123,12 +129,12 @@ public class SQLDBMovieQuery {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		SQLDBMovieQuery sql=new SQLDBMovieQuery();
-		//sql.setMovieId("843");
-		//sql.setLength(100);
-		sql.setRating(7.5);
-		sql.searchMovie();
-		sql.closeConnection();
+		SQLDBMovieQuery sql=new SQLDBMovieQuery("In the Mood for Love");
+		MovieListView m=sql.getMovieObject();
+		for(int i=0;i<m.getMovieNumber();++i){
+			System.out.println(m.getMovies().get(i).getName());
+			System.out.println(m.getMovies().get(i).getOverview());
+		}
 	}
 
 }
