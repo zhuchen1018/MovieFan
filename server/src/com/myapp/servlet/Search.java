@@ -34,6 +34,7 @@ public class Search extends HttpServlet
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String url = request.getServletPath();
+		System.out.println("hello: " + url);
 		if(url.equals(ServletConst.SEARCH_MOVIE_RES))
 		{
 			handleSearchMoviePost(request, response);
@@ -76,7 +77,7 @@ public class Search extends HttpServlet
 
 	private void handleSearchMoviePost(HttpServletRequest request, HttpServletResponse response) 
 	{
-		String key = request.getParameter("seach_movie");
+		String key = request.getParameter("search_movie");
 		if(key == null || key.isEmpty())
 		{
 			String location = "/htmls/404.html";
