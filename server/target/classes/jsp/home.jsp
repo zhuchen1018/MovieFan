@@ -4,11 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>MovieFans home</title>
+<title>MovieFans.com</title>
+<link rel="shortcut icon" href="/images/1.png">
 </head>
 <%@ page import="java.util.Date" %>
 <body>
-<h3>Hi jason</h3><br>
+<h3>Hi This is the home page</h3><br>
 <strong>Current Time is</strong>: <%=new Date() %>
  
 </body>
