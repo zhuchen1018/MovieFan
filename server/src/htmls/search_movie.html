@@ -2,3 +2,33 @@
 <input type="text" name="search_movie" value="" />
 <input type="submit" /> 
 </form>
+
+<br><br>
+<h3>Advance Search</h3>
+<form action= "/search_movie_result" method="post">
+<input type="checkbox" name="formDoor[]" value="Action" />Action &nbsp;
+<input type="checkbox" name="formDoor[]" value="Adventure" />Adventure &nbsp;
+<input type="checkbox" name="formDoor[]" value="Horror" />Horror &nbsp;
+<input type="checkbox" name="formDoor[]" value="Romance" />Romance &nbsp;
+<input type="checkbox" name="formDoor[]" value="War" />War <br/>
+<input type="checkbox" name="formDoor[]" value="Documentary" />Documentary &nbsp;
+<input type="checkbox" name="formDoor[]" value="Drama" />Drama &nbsp;
+<input type="checkbox" name="formDoor[]" value="Thriller" />Thriller &nbsp;
+<input type="checkbox" name="formDoor[]" value="Crime" />Crime &nbsp;
+<input type="checkbox" name="formDoor[]" value="Fantasy" />Fantasy <br/>
+<input type="checkbox" name="formDoor[]" value="Animation" />Animation &nbsp;
+<input type="checkbox" name="formDoor[]" value="Fantasy" />Fantasy &nbsp;
+<input type="checkbox" name="formDoor[]" value="Comedy" />Comedy &nbsp;
+<input type="checkbox" name="formDoor[]" value="Children" />Children &nbsp;
+<input type="checkbox" name="formDoor[]" value="Musical" />Musical <br><br>
+
+<p>Order By</p>
+<select name ="OrderBy">
+  <option selected="true" style="display:none;"></option>
+  <option value="USERRATING">Rating</option>
+  <option value="RELEASEDATE">Year</option>
+  <option value="VOTE">Number Of Votes</option>
+</select>
+
+<input type="submit" /> 
+</form>

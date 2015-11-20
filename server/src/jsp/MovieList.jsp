@@ -15,8 +15,16 @@
 <%
 
 for(int i=0;i<mlv.getMovieNumber();++i){%>
-	<td><%=mlv.getMovies().get(i).getName()%></td><br>
+	<%String po = mlv.getMovies().get(i).getPoster();%>
+	<br>
+	<td><%=i+1+"." %><td><br>
+	<td><%=mlv.getMovies().get(i).getName()+" "+mlv.getMovies().get(i).getRating()%></td><br>
 	<td><%=mlv.getMovies().get(i).getOverview()%></td><br>
+	<%if(!po.equals("null")){ %>
+		<img src=<%=po%> alt="Poster" style="width:200px;height:160px;"><br>
+	<% } else { %>
+		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"><br>
+	<%} %>
 <%
 } 
 %>
