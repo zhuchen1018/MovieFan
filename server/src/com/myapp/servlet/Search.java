@@ -81,12 +81,7 @@ public class Search extends HttpServlet
 		String [] SelectedGenres = request.getParameterValues("formDoor[]");
 		String OrderBy = request.getParameter("OrderBy");
 		
-		for(String s: SelectedGenres){
-			System.out.println(s);
-		}
-		System.out.println(OrderBy);
-		
-		if(key == null || key.isEmpty())
+		if((key == null || key.isEmpty()) && (SelectedGenres.length==0&&OrderBy==null))
 		{
 			String location = "/htmls/404.html";
 			ServletCommon.sendRedirect(response, location);
