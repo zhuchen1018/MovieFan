@@ -2,6 +2,7 @@ package com.myapp.SQL;
 import com.myapp.view.*;
 import java.io.IOException;
 import java.sql.*;
+import java.util.*;
 
 public class SQLDBMovieQuery {
 	private Connection conn;
@@ -10,37 +11,69 @@ public class SQLDBMovieQuery {
 	private String name;
 	private String movieId;
 	private int length;
-	private double rating;
+	private int orderBy;
+	private int year;
+	private int votes;
 	private String sql;
+	private String[] genres;
 	private MovieListView list;
+	private HashMap<String,Integer> map;
+	public static final int ORDERBY_RATING=0,ORDERBY_TIME=1,ORDERBY_VOTES=2;
+	
+	private void setMovieGenreId(){
+		map=new HashMap<String,Integer>();
+		map.put("Adverture", 0);
+		map.put("Animation", 1);
+		map.put("Children", 2);
+		map.put("Comedy", 3);
+		map.put("Fantasy", 4);
+		map.put("Romance", 5);
+		map.put("Drama", 6);
+		map.put("Action", 7);
+		map.put("Crime", 8);
+		map.put("Thriller", 9);
+		map.put("Horror", 10);
+		map.put("Mystery", 11);
+		map.put("Sci-Fi", 12);
+		map.put("Documentary", 14);
+		map.put("War", 15);
+		map.put("Musical", 16);
+	}
 	
 	public SQLDBMovieQuery(){
 		conn=SQLDBWrapper.getConnection();
 		name=null;
 		movieId=null;
 		length=0;
-		rating=0.0;
+		setMovieGenreId();
 	}
 	
 	public SQLDBMovieQuery(String name){
 		conn=SQLDBWrapper.getConnection();
 		this.name=name;
+		setMovieGenreId();
 		searchMovie();
 	}
 	
-	public SQLDBMovieQuery(String name,String movieId,int length,double rating){
+	public SQLDBMovieQuery(String name,String movieId,int length,String orderbyName,String[] genres){
 		conn=SQLDBWrapper.getConnection();
 		this.name=name;
 		this.movieId=movieId;
 		this.length=length;
-		this.rating=rating;
+		if(orderbyName.equals("USERRATING")) orderBy=ORDERBY_RATING;
+		else if(orderbyName.equals("RELEASEDATE")) orderBy=ORDERBY_TIME;
+		else orderBy=ORDERBY_VOTES;
+		this.genres=genres;
+		setMovieGenreId();
+		searchMovie();
 	}
 	
 	public void searchMovie(){
 		if(conn==null) return;
-		String cond[]=new String[4];
-		for(int i=0;i<4;++i) cond[i]=null;
-		boolean emptySearch=true,firstCondition=true;
+		String cond[]=new String[3+genres.length];
+		for(int i=0;i<3+genres.length;++i) cond[i]=null;
+		boolean emptySearch=true,firstCondition=true,genreRequired=true;
+		if(genres==null||genres.length==0) genreRequired=false;
 		if(name!=null){ 
 			cond[0]="title='"+name+"' ";
 			emptySearch=false;
@@ -53,13 +86,15 @@ public class SQLDBMovieQuery {
 			cond[2]="Runtime="+String.valueOf(length)+" ";
 			emptySearch=false;
 		}
-		if(rating!=0.0){ 
-			cond[3]="Userrating="+String.valueOf(rating)+" ";
-			emptySearch=false;
+		for(int i=0;i<genres.length;++i){
+			cond[3+i]="genreId='"+String.valueOf((int)map.get(genres[i])+"' ");
 		}
-		if(emptySearch) return;
-		sql="select * from basicTMDBInfo where ";
-		for(int i=0;i<4;++i){
+		//if(emptySearch) return;
+		if(!genreRequired)
+			sql="select * from basicTMDBInfo where ";
+		else
+			sql="select * from basicTMDBInfo b join MovieGenre m on b.movieId=m.movieId where ";
+		for(int i=0;i<3+genres.length;++i){
 			if(cond[i]!=null){
 				if(firstCondition){
 					firstCondition=false;
@@ -71,7 +106,11 @@ public class SQLDBMovieQuery {
 				}
 			}
 		}
+		if(orderBy==ORDERBY_RATING) sql+="order by userrating DESC";
+		else if(orderBy==ORDERBY_TIME) sql+="order by releaseDate DESC";
+		else if(orderBy==ORDERBY_TIME) sql+="order by votes DESC";
 		sql=sql.trim();
+		System.out.println("in");
 		System.out.println(sql);
 		try{
 			state=conn.createStatement();
@@ -108,10 +147,6 @@ public class SQLDBMovieQuery {
 		this.length=length;
 	}
 	
-	public void setRating(double rating){
-		this.rating=rating;
-	}
-	
 	public void setMovieId(String movieId){
 		this.movieId=movieId;
 	}
@@ -129,7 +164,9 @@ public class SQLDBMovieQuery {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		SQLDBMovieQuery sql=new SQLDBMovieQuery("In the Mood for Love");
+		//SQLDBMovieQuery sql=new SQLDBMovieQuery("In the Mood for Love");
+		String[] genres={"Action"};
+		SQLDBMovieQuery sql=new SQLDBMovieQuery(null,null,0,"USERRATING",genres);
 		MovieListView m=sql.getMovieObject();
 		for(int i=0;i<m.getMovieNumber();++i){
 			System.out.println(m.getMovies().get(i).getName());
