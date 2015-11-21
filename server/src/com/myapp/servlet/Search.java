@@ -78,6 +78,14 @@ public class Search extends HttpServlet
 	private void handleSearchMoviePost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String key = request.getParameter("search_movie");
+		String [] SelectedGenres = request.getParameterValues("formDoor[]");
+		String OrderBy = request.getParameter("OrderBy");
+		
+		for(String s: SelectedGenres){
+			System.out.println(s);
+		}
+		System.out.println(OrderBy);
+		
 		if(key == null || key.isEmpty())
 		{
 			String location = "/htmls/404.html";
