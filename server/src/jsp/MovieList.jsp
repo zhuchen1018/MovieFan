@@ -9,22 +9,17 @@
 </head>
 <body>
 <h1>Search Result</h1><br>
-<%! int i=1; int j=3; %>
+<%! int i=1; %>
 <%@ page import="com.myapp.view.*" %>
 <%MovieListView mlv = (MovieListView)request.getAttribute("MovieListView"); %>
 <%
 
 for(int i=0;i<mlv.getMovieNumber();++i){%>
-	<%String po = mlv.getMovies().get(i).getPoster();%>
-	<br>
-	<td><%=i+1+"." %><td><br>
-	<td><%=mlv.getMovies().get(i).getName()+" "+mlv.getMovies().get(i).getRating()%></td><br>
-	<td><%=mlv.getMovies().get(i).getOverview()%></td><br>
-	<%if(!po.equals("null")){ %>
-		<img src=<%=po%> alt="Poster" style="width:200px;height:160px;"><br>
-	<% } else { %>
-		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"><br>
-	<%} %>
+ <% MovieObjectView mov = mlv.getMovies().get(i);
+	if(mov != null) 
+      request.getSession().setAttribute("item", mov);
+    %>
+    <jsp:include page="MovieObj.jsp"/>	
 <%
 } 
 %>
