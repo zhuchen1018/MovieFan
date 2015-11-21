@@ -4,28 +4,36 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel = "stylesheet" type ="text/css" href = "Rating.css">
 <title>Movie Object</title>
 </head>
 <body>
 <%@ page import="com.myapp.view.*" %>
 
 <% MovieObjectView mov = (MovieObjectView) request.getSession().getAttribute("item");
-%> 
-    <%String po = mov.getPoster();
-      String homepage = mov.getPageUrl();%>
+
+      String po = mov.getPoster();
+      String homepage = mov.getPageUrl();
+      double rating = mov.getRating();
+      String width = rating*10 + "%";
+%>
       
-	<td><%=mov.getName()%></td><br>
+	<a href = "/jsp/MoviePage.jsp"><td><%=mov.getName()%></td></a><br>	
     <td>Overview: <%=mov.getOverview()%> </td><br>   
-    <td>Rating: <%=mov.getRating()%></td><br>
+    <td>Rating: <%=rating%>    
+    <div class="rating-box"> 
+      <div style="width:<%=width%>" class="rating"></div> 
+    </div>
+    </td><br>
+    
     <%if(!po.equals("null")){ %>
-		<img src=<%=po%> alt="Poster" style="width:200px;height:160px;"><br>
+		<a href = "/jsp/MoviePage.jsp"><img src=<%=po%> alt="Poster" style="width:200px;height:160px;"></a><br>
 	<% } else { %>
 		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"><br>
-	<%} %>
-    <%if (!homepage.equals( "null")) {
+	<%}
+      if (!homepage.equals( "null")) {
        out.print("Movie HomePage :" +  homepage);  	
     }%> <br>
-
     
 </body>
 </html>
