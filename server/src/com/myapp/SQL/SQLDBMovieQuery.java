@@ -22,7 +22,7 @@ public class SQLDBMovieQuery {
 	
 	private void setMovieGenreId(){
 		map=new HashMap<String,Integer>();
-		map.put("Adverture", 0);
+		map.put("Adventure", 0);
 		map.put("Animation", 1);
 		map.put("Children", 2);
 		map.put("Comedy", 3);
