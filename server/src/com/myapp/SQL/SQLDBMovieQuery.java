@@ -41,25 +41,33 @@ public class SQLDBMovieQuery {
 		map.put("Musical", 16);
 	}
 	
-	public SQLDBMovieQuery(String value,int searchMode){
+	public SQLDBMovieQuery(String value,int searchMode) throws Exception{
 		conn=SQLDBWrapper.getConnection();
+		if(conn==null) throw new Exception("connection not created!");
 		setMovieGenreId();
 		if(searchMode==Const.ID_SEARCH){ 
 			this.movieId=value;
-			searchMovieByMovieId();
+			if(!searchMovieByMovieId()){
+				throw new Exception("Id search fail!");
+			}
 		}
 		else if(searchMode==Const.NAME_SEARCH){
 			this.name=value;
-			searchMovieByName();
+			if(!searchMovieByName()){
+				throw new Exception("Name search fail!");
+			}
 		}
 	}
 	
-	public SQLDBMovieQuery(String orderBy,String genre){
+	public SQLDBMovieQuery(String orderBy,String genre) throws Exception{
 		conn=SQLDBWrapper.getConnection();
+		if(conn==null) throw new Exception("connection not created!");
 		setMovieGenreId();
 		this.orderBy=orderBy;
 		this.genre=genre;
-		advancedSearch();
+		if(!advancedSearch()){
+			throw new Exception("Advanced search fail!");
+		}
 	}
 	
 	private boolean QueryMovieObject(){
@@ -116,28 +124,28 @@ public class SQLDBMovieQuery {
 		}
 	}
 	
-	private void searchMovieByName(){
+	private boolean searchMovieByName(){
 		conn=SQLDBWrapper.getConnection();
 		sql="select * from basicTMDBInfo where title='"+name+"'";
 		System.out.println(sql);
-		QueryMovieObject();
+		return QueryMovieObject();
 	}
 	
-	private void searchMovieByMovieId(){
+	private boolean searchMovieByMovieId(){
 		conn=SQLDBWrapper.getConnection();
 		sql="select * from basicTMDBInfo where movieId='"+movieId+"'";
 		System.out.println(sql);
-		QueryMoviePage();
+		return QueryMoviePage();
 	}
 	
-	private void advancedSearch(){
+	private boolean advancedSearch(){
 		conn=SQLDBWrapper.getConnection();
 		sql="select * from basicTMDBInfo b join movieGenre m on b.movieId=m.movieId where m.genreId='";
 		sql+=String.valueOf(map.get(genre))+"' order by ";
 		sql+=orderBy;
 		sql+=" DESC";
 		System.out.println(sql);
-		QueryMovieObject();
+		return QueryMovieObject();
 	}
 	
 	public MovieListView getMovieObject(){
@@ -162,12 +170,12 @@ public class SQLDBMovieQuery {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//SQLDBMovieQuery sql=new SQLDBMovieQuery("In the Mood for Love",Const.NAME_SEARCH);
-		SQLDBMovieQuery sql=new SQLDBMovieQuery("USERRATING","Adventure");
+		/*SQLDBMovieQuery sql=new SQLDBMovieQuery("USERRATING","Adventure");
 		MovieListView m=sql.getMovieObject();
 		for(int i=0;i<m.getMovieNumber();++i){
 			System.out.println(m.getMovies().get(i).getName());
 			System.out.println(m.getMovies().get(i).getOverview());
-		}
+		}*/
 		/*SQLDBMovieQuery sql=new SQLDBMovieQuery("843",Const.ID_SEARCH);
 		MoviePageView v=sql.getMovieHomepage();
 		System.out.println(v.getName());
