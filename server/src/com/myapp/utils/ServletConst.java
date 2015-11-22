@@ -22,6 +22,9 @@ public class ServletConst
 	
 	//User
 	public static final String USER_TWEET_URL = "/tweet";
+	public static final String USER_COMMENT_URL = "/comment";
+	public static final String USER_ARTICLE_URL = "/article";
+	public static final String USER_NEWS_URL = "/news";
 
 	//Group
 	public static final String CREATE_GROUP_URL = "/create_group";
@@ -38,5 +41,6 @@ public class ServletConst
 
 	public static final String SEARCH_GROUP = "/search_group";
 	public static final String SEARCH_GROUP_RES = "/search_group_result";
+
 
 }

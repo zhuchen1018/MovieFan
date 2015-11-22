@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.w3c.dom.Document;
 
-import com.myapp.storage.Const;
+import com.myapp.utils.Const;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.GroupEntity;
@@ -81,6 +81,7 @@ public class HomePage  extends HttpServlet
 			out.println("<a href=\"/user_page" + "?" + "user=" + ServletCommon.getSessionUsername(request) 
 				+ "\" class=\"button\">My Page</a>");
 		}
+		/*
 				
 		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/home.jsp");
 		try 
@@ -91,6 +92,7 @@ public class HomePage  extends HttpServlet
 		{
 			e.printStackTrace();
 		}
+		*/
 	}
 }
 

@@ -23,7 +23,7 @@ public class IdGenerator
 	public IdGenerator(String name) 
 	{
 		this.name = name;
-		this.nextId = 1;
+		this.nextId = 0;
 	}
 
 	/*get funcs*/

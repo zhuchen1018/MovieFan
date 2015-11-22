@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import org.w3c.dom.Document;
 
-import com.myapp.storage.Const;
+import com.myapp.utils.Const;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.TweetEntity;
@@ -53,9 +53,9 @@ public class UserPage extends HttpServlet
 		{
 			handleTweetPost(request, response);
 		}
-		else
+		else if(url.equals(ServletConst.USER_COMMENT_URL))
 		{
-			
+
 		}
 	}
 
@@ -68,18 +68,18 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage(ServletConst.LOGIN_FIRST_INFO,  response);
 			return;
 		}	
-		
+
 		String info = request.getParameter("TWEET"); 
 		if(info == null)
 		{
 			ServletCommon.PrintErrorPage("Please say something.",  response);
 			return;
 		}
-		
+
 		initDB();
 		db.addTweet(username, info);
-		db.close();
-		
+		db.sync();
+
 		showTweetWindow(username, response);
 		showMyNews(username, response);
 	}
@@ -117,35 +117,46 @@ public class UserPage extends HttpServlet
 		}
 	}
 
-	private void showTweets(String username, HttpServletResponse response) throws IOException 
+	private void showTweets(String username, HttpServletResponse response) 
 	{
 		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		
-		initDB();
-		UserEntity user = db.getUserEntity(username);
-		if(user == null)
+		PrintWriter out;
+		try 
 		{
-			ServletCommon.PrintErrorPage(ServletConst.NO_THIS_USER_INFO,  response);
-			return;
-		}
+			out = response.getWriter();
 
-		ArrayList<Long>tweets_id = user.getAllTweets(); 
-		ArrayList<TweetEntity>tweets = db.getTweetEntityByIds(tweets_id); 
-		if(tweets != null && tweets.size() > 0)
-		{
-			Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			for(int i = tweets.size() - 1; i >= 0; --i)
+			initDB();
+			UserEntity userEntity = db.getUserEntity(username);
+			if(userEntity == null)
 			{
-				TweetEntity t = tweets.get(i);
-				String time_str = formatter.format(t.getReleaseTime());
-				out.println("<P>" + time_str  + "</P>");
-				out.println("<P>" + t.getBody() + "</P>");
+				ServletCommon.PrintErrorPage(ServletConst.NO_THIS_USER_INFO,  response);
+				return;
 			}
+
+			ArrayList<Long>tweets_id = userEntity.getAllTweets(); 
+
+			System.out.println("jason tweet size:" + tweets_id.size());
+
+			ArrayList<TweetEntity>tweets = db.getTweetEntityByIds(tweets_id); 
+			if(tweets != null && tweets.size() > 0)
+			{
+				Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				for(int i = tweets.size() - 1; i >= 0; --i)
+				{
+					TweetEntity t = tweets.get(i);
+					String time_str = formatter.format(t.getReleaseTime());
+					out.println("<P>" + "tid:" + t.getId() + "</P>");
+					out.println("<P>" + time_str  + "</P>");
+					out.println("<P>" + t.getBody() + "</P>");
+				}
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private void showMyNews(String username, HttpServletResponse response) throws IOException 
+	private void showMyNews(String username, HttpServletResponse response) 
 	{
 		showTweets(username, response);
 	}
@@ -155,7 +166,7 @@ public class UserPage extends HttpServlet
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		out.println("<form action=\"/tweet\" method=\"post\">");
-			
+
 		out.println("<P>" + "Say something..." + "</P>");
 		out.println("<input type=\"text\" name=\"TWEET\" value=\"\" />");
 

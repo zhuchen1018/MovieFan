@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 import junit.framework.TestCase;
 
-import com.myapp.storage.Const;
+import com.myapp.utils.Const;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.GroupEntity;

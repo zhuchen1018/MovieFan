@@ -24,21 +24,21 @@ public class UserEntity
 	private long login_time; 
 
 	//account settings
-	static private Hashtable<String, String>settings = new Hashtable<String, String>(); 
+	//private Hashtable<String, String>settings = new Hashtable<String, String>(); 
 	
-	//friends' id
-	static private ArrayList<Long>news= new ArrayList<Long>(); 
+	//news' id
+	private ArrayList<Long>news= new ArrayList<Long>(); 
 
 	//friends' id
-	static private ArrayList<Long>friends = new ArrayList<Long>(); 
+	private ArrayList<Long>friends = new ArrayList<Long>(); 
 	//tweet's id
-	static private ArrayList<Long>tweets = new ArrayList<Long>(); 
+	private ArrayList<Long>tweets = new ArrayList<Long>(); 
 	//article 's id
-	static private ArrayList<Long>articles = new ArrayList<Long>(); 
+	private ArrayList<Long>articles = new ArrayList<Long>(); 
 	//comment's id
-	static private ArrayList<Long>comments = new ArrayList<Long>(); 
+	private ArrayList<Long>comments = new ArrayList<Long>(); 
 	//group 's id
-	static private ArrayList<Long>groups = new ArrayList<Long>(); 
+	private ArrayList<Long>groups = new ArrayList<Long>(); 
 	
 	public UserEntity()
 	{

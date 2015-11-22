@@ -14,6 +14,7 @@ import com.myapp.storage.entity.TweetEntity;
 import com.myapp.storage.entity.UserEntity;
 import com.sleepycat.je.Environment;
 import com.sleepycat.persist.EntityStore;
+import com.myapp.utils.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -204,7 +205,7 @@ public class DBWrapper
 		UserEntity user  = getUserEntity(username);
 		if(user != null)
 		{
-			TweetEntity t = tweetEA.addTweet(username, body);
+			TweetEntity t = tweetEA.addTweet(idEA.getNextTweetId(), username, body);
 			userEA.addTweet(username, t.getId());
 		}
 		else

@@ -15,9 +15,9 @@ public class TweetAccessor
 		tweets = store.getPrimaryIndex(Long.class, TweetEntity.class);
 	}
 
-	public TweetEntity addTweet(String username, String body) 
+	public TweetEntity addTweet(long id, String username, String body) 
 	{
-		TweetEntity t = new TweetEntity(username, body);
+		TweetEntity t = new TweetEntity(id, username, body);
 		tweets.put(t);
 		return t;
 	}

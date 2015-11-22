@@ -18,8 +18,9 @@ public class TweetEntity extends TextBase
 		this.repost_nums = 0;
 	}
 
-	public TweetEntity(String creator, String body)
+	public TweetEntity(long id, String creator, String body)
 	{
+		this.id = id;
 		this.creator = creator;
 		this.body = body;
 		this.releaseTime = (new Date()).getTime();

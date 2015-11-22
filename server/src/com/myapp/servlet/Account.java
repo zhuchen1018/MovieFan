@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.w3c.dom.Document;
 
-import com.myapp.storage.Const;
+import com.myapp.utils.Const;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.UserEntity;
