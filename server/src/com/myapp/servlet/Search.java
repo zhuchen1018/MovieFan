@@ -204,7 +204,6 @@ public class Search extends HttpServlet
 				try
 				{
 					sql = new SQLDBMovieQuery(movie_id,Const.ID_SEARCH);
-
 				}
 				catch(Exception ex)
 				{
@@ -214,8 +213,8 @@ public class Search extends HttpServlet
 					return;
 				}
 
-				request.setAttribute("MovieListView", null); 
-				request.setAttribute("MovieListView", sql.getMovieObject());
+				request.setAttribute("MoviePageView", null); 
+				request.setAttribute("MoviePageView", sql.getMovieHomepage());
 
 				RequestDispatcher rd= request.getRequestDispatcher ("/jsp/MoviePage.jsp");
 				try 

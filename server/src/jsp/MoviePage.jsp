@@ -11,7 +11,7 @@
 <%@ page import="com.myapp.view.*" %>
 <%MoviePageView mpv = (MoviePageView) request.getAttribute("MoviePageView"); 
     String overview, name, ratingStar, releaseYear, poster, homePage, director;
-    double rating;
+    double rating = 1.0;
     int runTime, votes;
     
     overview = mpv.getOverview();
