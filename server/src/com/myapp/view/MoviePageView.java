@@ -8,25 +8,16 @@ public class MoviePageView{
 	private String poster;
 	private String releaseDate;
 	private String homepage;
+	private String tagline;
 	private int votes;
 	private int length;
 	private double rating;
+	private ArrayList<String> youtube_trailer;
+	private ArrayList<String> alternate_title;
+	//private String directorId;
+	//private ArrayList<String> castId;
 	
 	public MoviePageView(){
-		
-	}
-	
-	public MoviePageView(String movieId,String name,String overview,String poster,String releaseDate,
-			String homepage,int votes,int length,double rating){
-		this.movieId=movieId;
-		this.name=name;
-		this.overview=overview;
-		this.poster=poster;
-		this.releaseDate=releaseDate;
-		this.homepage=homepage;
-		this.votes=votes;
-		this.length=length;
-		this.rating=rating;
 	}
 	
 	public void setMovieId(String movieId){
@@ -51,6 +42,18 @@ public class MoviePageView{
 	
 	public void setHomepage(String homepage){
 		this.homepage=homepage;
+	}
+	
+	public void setTagline(String tagline){
+		this.tagline=tagline;
+	}
+	
+	public void setAlternate_title(ArrayList<String> alternate_title){
+		this.alternate_title=alternate_title;
+	}
+	
+	public void setYoutube_Trailer(ArrayList<String> youtube_trailer){
+		this.youtube_trailer=youtube_trailer;
 	}
 	
 	public void setVotes(int votes){
@@ -87,6 +90,18 @@ public class MoviePageView{
 	
 	public String getHomepage(){
 		return homepage;
+	}
+	
+	public String getTagline(){
+		return tagline;
+	}
+	
+	public ArrayList<String> getAlternate_title(){
+		return alternate_title;
+	}
+	
+	public ArrayList<String> getYoutube_trailer(){
+		return youtube_trailer;
 	}
 	
 	public int getVotes(){
