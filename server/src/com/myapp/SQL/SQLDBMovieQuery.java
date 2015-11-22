@@ -102,6 +102,7 @@ public class SQLDBMovieQuery {
 	private boolean QueryMoviePage(){
 		try{
 			state=conn.createStatement();
+			sql="select * from basicTMDBInfo where movieId='"+movieId+"'";
 			rs=state.executeQuery(sql);
 			homepage=new MoviePageView();
 			while(rs.next()){
@@ -115,6 +116,25 @@ public class SQLDBMovieQuery {
 				homepage.setLength(rs.getInt("runtime"));
 				homepage.setRating(rs.getDouble("userrating"));
 			}
+			//basic info
+			sql="select b.movieId,y.url from basicTMDBInfo b join YoutubeTrailer y on b.movieId=y.movieId ";
+			sql+="where y.movieId='"+movieId+"'";
+			rs=state.executeQuery(sql);
+			ArrayList<String> youtubeTrailer=new ArrayList<String>();
+			while(rs.next()){
+				youtubeTrailer.add(rs.getString("Url"));
+			}
+			homepage.setYoutube_Trailer(youtubeTrailer);
+			//youtube trailer
+			sql="select b.movieId,a.name from basicTMDBInfo b join AlternateTitle a on b.movieId=a.movieId ";
+			sql+="where a.movieId='"+movieId+"'";
+			rs=state.executeQuery(sql);
+			ArrayList<String> alternateTitle=new ArrayList<String>();
+			while(rs.next()){
+				alternateTitle.add(rs.getString("Name"));
+			}
+			homepage.setAlternate_title(alternateTitle);
+			//alternate title
 			return true;
 		}
 		catch(SQLException ex){
@@ -133,8 +153,6 @@ public class SQLDBMovieQuery {
 	
 	private boolean searchMovieByMovieId(){
 		conn=SQLDBWrapper.getConnection();
-		sql="select * from basicTMDBInfo where movieId='"+movieId+"'";
-		System.out.println(sql);
 		return QueryMoviePage();
 	}
 	
@@ -176,10 +194,22 @@ public class SQLDBMovieQuery {
 			System.out.println(m.getMovies().get(i).getName());
 			System.out.println(m.getMovies().get(i).getOverview());
 		}*/
-		/*SQLDBMovieQuery sql=new SQLDBMovieQuery("843",Const.ID_SEARCH);
+		SQLDBMovieQuery sql=null;
+		try{
+			sql=new SQLDBMovieQuery("123025",Const.ID_SEARCH);
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
 		MoviePageView v=sql.getMovieHomepage();
 		System.out.println(v.getName());
-		System.out.println(v.getOverview());*/
+		System.out.println(v.getOverview());
+		for(int i=0;i<v.getYoutube_trailer().size();++i){
+			System.out.println(v.getYoutube_trailer().get(i));
+		}
+		for(int i=0;i<v.getAlternate_title().size();++i){
+			System.out.println(v.getAlternate_title().get(i));
+		}
 	}
 
 }
