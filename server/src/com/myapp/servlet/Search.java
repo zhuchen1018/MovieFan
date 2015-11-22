@@ -87,8 +87,14 @@ public class Search extends HttpServlet
 			ServletCommon.sendRedirect(response, location);
 			return;
 		}
-
-		SQLDBMovieQuery sql = new SQLDBMovieQuery(null,null,0,OrderBy,SelectedGenres);
+		
+		SQLDBMovieQuery sql;
+		if(key==null ||key.isEmpty()){
+			sql = new SQLDBMovieQuery(null,null,0,OrderBy,SelectedGenres);
+		}
+		else{
+			sql = new SQLDBMovieQuery(key);
+		}
 		request.setAttribute("MovieListView", sql.getMovieObject());
 
 		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/MovieList.jsp");
