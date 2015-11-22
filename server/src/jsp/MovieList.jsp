@@ -24,10 +24,6 @@ for(int i=0;i<mlv.getMovieNumber();++i){%>
 } 
 %>
 
-
-
-
-
  
 </body>
 </html>

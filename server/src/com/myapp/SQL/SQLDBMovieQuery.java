@@ -165,7 +165,7 @@ public class SQLDBMovieQuery {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//SQLDBMovieQuery sql=new SQLDBMovieQuery("In the Mood for Love");
-		String[] genres={"Action"};
+		String[] genres={"Action","War"};
 		SQLDBMovieQuery sql=new SQLDBMovieQuery(null,null,0,"USERRATING",genres);
 		MovieListView m=sql.getMovieObject();
 		for(int i=0;i<m.getMovieNumber();++i){
