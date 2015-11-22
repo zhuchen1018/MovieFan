@@ -19,6 +19,7 @@ import com.myapp.SQL.SQLDBMovieQuery;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.UserEntity;
+import com.myapp.utils.Const;
 import com.myapp.utils.MD5Encryptor;
 import com.myapp.utils.ServletCommon;
 import com.myapp.utils.ServletConst;
@@ -78,24 +79,22 @@ public class Search extends HttpServlet
 	private void handleSearchMoviePost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String key = request.getParameter("search_movie");
-		String [] SelectedGenres = request.getParameterValues("formDoor[]");
-		String OrderBy = request.getParameter("OrderBy");
 		
-		if((key == null || key.isEmpty()) && (SelectedGenres.length==0&&OrderBy==null))
+		if(key == null || key.isEmpty())
 		{
 			String location = "/htmls/404.html";
 			ServletCommon.sendRedirect(response, location);
 			return;
 		}
 
-		SQLDBMovieQuery sql;
-		if(key==null ||key.isEmpty())
-		{
-			sql = new SQLDBMovieQuery(null,null,0,OrderBy,SelectedGenres);
+		SQLDBMovieQuery sql=null;
+		try{
+			sql = new SQLDBMovieQuery(key,Const.NAME_SEARCH);
 		}
-		else
-		{
-			sql = new SQLDBMovieQuery(key);
+		catch(Exception ex){
+			System.out.println(ex.getMessage());
+			ex.printStackTrace();
+			//jason
 		}
 		request.setAttribute("MovieListView", null); 
 		request.setAttribute("MovieListView", sql.getMovieObject());
