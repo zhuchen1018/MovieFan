@@ -10,6 +10,11 @@ import java.util.Date;
 
 import static com.sleepycat.persist.model.DeleteAction.*;
 
+/**
+ *  User release text message, like article, twitter, comment
+ * @author Wingszero
+ *
+ */
 @Persistent
 class TextBase
 {
@@ -31,6 +36,7 @@ class TextBase
 		this.like_nums = 0;
 		this.repost_nums = 0;
 	}	
+
 	public void addLikeNum() 
 	{
 		like_nums++;

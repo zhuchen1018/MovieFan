@@ -89,6 +89,7 @@ public class Search extends HttpServlet
 		}
 
 		SQLDBMovieQuery sql = new SQLDBMovieQuery(key);
+		request.setAttribute("MovieListView", null); 
 		request.setAttribute("MovieListView", sql.getMovieObject());
 
 		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/MovieList.jsp");

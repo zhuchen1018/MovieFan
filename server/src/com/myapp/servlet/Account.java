@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.w3c.dom.Document;
 
-import com.myapp.storage.DBConst;
+import com.myapp.storage.Const;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.UserEntity;
@@ -28,6 +28,19 @@ public class Account extends HttpServlet
 
 	public Account() throws IOException
 	{
+	}
+
+	public void initDB()
+	{
+		if(db != null) return;
+		try 
+		{
+			db = new DBWrapper();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -47,7 +60,7 @@ public class Account extends HttpServlet
 		}
 	}
 
-	private void handleRegisterPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
+	private void handleRegisterPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String name = request.getParameter("USERNAME");
 		if(name == null)
@@ -71,10 +84,9 @@ public class Account extends HttpServlet
 		{
 			return;
 		}
-		
-		db = ServletCommon.initDB(db);
 
-		/* Check db if the name is unique*/
+		initDB();
+
 		if(db.hasUser(name))
 		{
 			ServletCommon.PrintErrorPage("Sorry, this username has already been registered!",  response);
@@ -83,7 +95,7 @@ public class Account extends HttpServlet
 
 		/*: DB add new user*/
 		db.addUser(name, MD5Encryptor.crypt(password));
-	
+
 		/*auto login*/
 		ServletCommon.addSession(request, response, name);
 
@@ -91,28 +103,35 @@ public class Account extends HttpServlet
 		 * result page:
 		 */
 		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.println("<HTML><HEAD><TITLE>Register </TITLE></HEAD><BODY>");
-		String res = "Register successed!";
-		out.println("<P>" + res + "</P>");
-		out.println("<P>" + "\n" + "</P>");
-		
-		ServletCommon.gotoHome(response);
-		out.println("</BODY></HTML>");		
-		
-		db.close();
-		
+		PrintWriter out;
+		try 
+		{
+			out = response.getWriter();
+			out.println("<HTML><HEAD><TITLE>Register </TITLE></HEAD><BODY>");
+			String res = "Register successed!";
+			out.println("<P>" + res + "</P>");
+			out.println("<P>" + "\n" + "</P>");
+
+			ServletCommon.gotoHome(response);
+			out.println("</BODY></HTML>");		
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		db.sync();
 	}
 
 	private void handleSettingPost(HttpServletRequest request, HttpServletResponse response) 
 	{
-		
+
 	}
 
 	private void handleLoginPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		PrintWriter out = response.getWriter();
-		
+
 		String name = request.getParameter("USERNAME");
 		if(name == null)
 		{
@@ -120,8 +139,7 @@ public class Account extends HttpServlet
 			return;
 		}
 
-		db = ServletCommon.initDB(db);
-		
+		initDB();
 		/* Check db if the user exists*/
 		if(!db.hasUser(name))
 		{
@@ -130,7 +148,7 @@ public class Account extends HttpServlet
 			ServletCommon.ShowLink("/login", "Login", response); 
 			return;
 		}
-		
+
 		String password = request.getParameter("PASSWORD");
 		if(password == null)
 		{
@@ -146,13 +164,13 @@ public class Account extends HttpServlet
 		}
 
 		ServletCommon.addSession(request, response, name);
-	
+
 		response.setContentType("text/html");
 		out.println("<HTML><HEAD><TITLE>Login</TITLE></HEAD><BODY>");
 		String res = "Login successed!"; 
 		out.println("<P>" + res + "</P>");
 		out.println("<P>" + "\n" + "</P>");
-		
+
 		ServletCommon.gotoHome(response);
 		out.println("</BODY></HTML>");		
 	}
@@ -181,7 +199,7 @@ public class Account extends HttpServlet
 	private void handleSetting(HttpServletRequest request, HttpServletResponse response) 
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -194,20 +212,20 @@ public class Account extends HttpServlet
 	{
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		
+
 		if(!ServletCommon.isSessionValid(request))
 		{
 			ServletCommon.PrintErrorPage("You are not logined now", response);
 			return;
 		}
-		
+
 		ServletCommon.delSession(request, response);
 
 		out.println("<HTML><HEAD><TITLE>Log off</TITLE></HEAD><BODY>");
 		String res = "Logoff successed!"; 
 		out.println("<P>" + res + "</P>");
 		out.println("<P>" + "\n" + "</P>");
-		
+
 		ServletCommon.gotoHome(response);
 		out.println("</BODY></HTML>");		
 	}
@@ -218,7 +236,7 @@ public class Account extends HttpServlet
 		ServletCommon.sendRedirect(response, location);
 	}
 
-	private boolean checkNameLegal(String name, HttpServletRequest request, HttpServletResponse response) throws IOException
+	private boolean checkNameLegal(String name, HttpServletRequest request, HttpServletResponse response)
 	{
 		if(name.isEmpty())
 		{
@@ -238,7 +256,7 @@ public class Account extends HttpServlet
 		return true;
 	}
 
-	private boolean checkPasswordLegal(String password, HttpServletRequest request, HttpServletResponse response) throws IOException
+	private boolean checkPasswordLegal(String password, HttpServletRequest request, HttpServletResponse response) 
 	{
 		if(password.isEmpty())
 		{

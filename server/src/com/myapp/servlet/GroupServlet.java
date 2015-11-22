@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.w3c.dom.Document;
 
-import com.myapp.storage.DBConst;
+import com.myapp.storage.Const;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.UserEntity;
@@ -30,9 +30,22 @@ public class GroupServlet extends HttpServlet
 	{
 	}
 
+	public void initDB()
+	{
+		if(db != null) return;
+		try 
+		{
+			db = new DBWrapper();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
-		db = ServletCommon.initDB(db);
+		initDB();
 
 		if(!ServletCommon.isSessionValid(request))
 		{
@@ -84,8 +97,8 @@ public class GroupServlet extends HttpServlet
 
 		ServletCommon.gotoHome(response);
 		out.println("</BODY></HTML>");		
-
-		db.close();
+		
+		db.sync();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException 

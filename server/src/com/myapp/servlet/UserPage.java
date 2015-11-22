@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import org.w3c.dom.Document;
 
-import com.myapp.storage.DBConst;
+import com.myapp.storage.Const;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.TweetEntity;
@@ -31,6 +31,19 @@ public class UserPage extends HttpServlet
 	private DBWrapper db; 
 	public UserPage() throws IOException
 	{
+	}
+
+	public void initDB()
+	{
+		if(db != null) return;
+		try 
+		{
+			db = new DBWrapper();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -63,7 +76,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 		
-		db = ServletCommon.initDB(db);
+		initDB();
 		db.addTweet(username, info);
 		db.close();
 		
@@ -82,7 +95,7 @@ public class UserPage extends HttpServlet
 		}
 
 		String target_name = query.get("user");
-		db = ServletCommon.initDB(db);
+		initDB();
 		UserEntity user = db.getUserEntity(target_name);
 
 		if(user == null)
@@ -109,7 +122,7 @@ public class UserPage extends HttpServlet
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
-		db = ServletCommon.initDB(db);
+		initDB();
 		UserEntity user = db.getUserEntity(username);
 		if(user == null)
 		{

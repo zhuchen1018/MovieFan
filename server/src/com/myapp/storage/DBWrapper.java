@@ -33,6 +33,7 @@ public class DBWrapper
 	private UserAccessor userEA;
 	private GroupAccessor groupEA;
 	private TweetAccessor tweetEA;
+	private IdGeneratorAccessor idEA;
 	
 	private boolean is_close;
 	
@@ -52,7 +53,7 @@ public class DBWrapper
 		ec.setReadOnly(false);
 		ec.setTransactional(true);
 
-		env_home = createDir(DBConst.ROOT);
+		env_home = createDir(Const.ROOT);
 		try
 		{
 			env = new Environment(env_home, ec);
@@ -68,11 +69,12 @@ public class DBWrapper
 		sc.setAllowCreate(true);
 		sc.setReadOnly(false);
 		sc.setTransactional(true);
-		store = new EntityStore(env, DBConst.DB_STORE_NAME, sc);
+		store = new EntityStore(env, Const.DB_STORE_NAME, sc);
 		
 		userEA = new UserAccessor(store);
 		groupEA = new GroupAccessor(store);
 		tweetEA = new TweetAccessor(store);
+		idEA = new IdGeneratorAccessor(store);
 		
 		//logger.info("db setup!!");
 	}
@@ -93,6 +95,11 @@ public class DBWrapper
 	public Environment getEnv() 
 	{
 		return env;
+	}
+	
+	public void sync()
+	{
+		store.sync();
 	}
 
 	// Close the store and environment.
@@ -187,7 +194,7 @@ public class DBWrapper
 	/**
 	 ******************* Accessor funcs****************************
 	 */
-	public UserAccessor getUserAccessor() throws IOException
+	public UserAccessor getUserAccessor() 
 	{
 		return userEA;
 	}
@@ -206,10 +213,11 @@ public class DBWrapper
 		}
 	}
 
-	public void addUser(String name, String password) throws IOException 
+	public void addUser(String name, String password) 
 	{
+		long uid = idEA.getNextId(Const.USER_ID_TYPE);
 		UserAccessor ua = getUserAccessor();
-		ua.add(name, password);
+		ua.add(uid, name, password);
 	}
 
 	public UserEntity getUserEntity(String name) throws IOException
@@ -217,17 +225,26 @@ public class DBWrapper
 		UserAccessor ua = getUserAccessor();
 		return ua.getEntity(name); 
 	}
-
-	public boolean hasUser(String name) throws IOException
+	
+	public UserEntity getUserEntity(long uid) throws IOException
 	{
 		UserAccessor ua = getUserAccessor();
+		return ua.getEntity(uid); 
+	}
+
+	public boolean hasUser(String name) 
+	{
+		UserAccessor ua;
+		ua = getUserAccessor();
 		return ua.hasUser(name);
 	}
 
-	public boolean checkLoginPassword(String name, String password) throws IOException 
+	public boolean checkLoginPassword(String name, String password) 
 	{
-		UserAccessor ua = getUserAccessor();
+		UserAccessor ua;
+		ua = getUserAccessor();
 		return ua.checkPassword(name, password);
+		
 	}
 
 	public boolean userLogin(String name) throws IOException 

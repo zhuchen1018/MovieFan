@@ -1,6 +1,6 @@
 package com.myapp.storage;
 
-public class DBConst 
+public class Const 
 {
 	public final static String ROOT = "./database/"; 
 	//public final static String WebPageRoot = ROOT + "web_pages/"; 
@@ -29,4 +29,11 @@ public class DBConst
 	public final static String[] ALL_ACCESSORS = {
 			URL_STORE_NAME, WEBPAGE_STORE_NAME}; 
 	 */
+	
+	public final static String USER_ID_TYPE = "USER_ID_TYPE"; 
+	public final static String TWEET_ID_TYPE = "TWEET_ID_TYPE"; 
+	public final static String ARTICLE_ID_TYPE = "ARTICLE_ID_TYPE"; 
+	public final static String COMMENT_ID_TYPE = "COMMENT_ID_TYPE"; 
+	public final static String NEWS_ID_TYPE = "NEWS_ID_TYPE"; 
+	public final static String GROUP_ID_TYPE = "GROUP_ID_TYPE"; 
 }

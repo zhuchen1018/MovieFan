@@ -7,20 +7,27 @@ import java.util.Hashtable;
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
+import com.sleepycat.persist.model.SecondaryKey;
+import static  com.sleepycat.persist.model.Relationship.*;
+import com.sleepycat.persist.model.SecondaryKey;
 
 @Entity
 public class UserEntity
 {
 	@PrimaryKey
-	//private long uid; 
-
 	private String name;
+
 	private String password;
+	//jpeg
 	private String head_url;
+
 	private long login_time; 
 
-	//settings
+	//account settings
 	static private Hashtable<String, String>settings = new Hashtable<String, String>(); 
+	
+	//friends' id
+	static private ArrayList<Long>news= new ArrayList<Long>(); 
 
 	//friends' id
 	static private ArrayList<Long>friends = new ArrayList<Long>(); 

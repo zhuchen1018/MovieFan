@@ -60,7 +60,7 @@ public class ServletCommon
 		return (String) session.getAttribute("username");
 	}
 
-	public static void addSession(HttpServletRequest request, HttpServletResponse response, String username) throws IOException
+	public static void addSession(HttpServletRequest request, HttpServletResponse response, String username) 
 	{
 		HttpSession session = request.getSession();
 		session.setAttribute("username", username); 
@@ -121,6 +121,7 @@ public class ServletCommon
 		out.println("<P>" + "\n" + "</P>");
 	}
 
+	/*
 	public static DBWrapper initDB(DBWrapper db) throws IOException 
 	{
 		if(db == null || db.isClose())
@@ -129,6 +130,7 @@ public class ServletCommon
 		}
 		return db;
 	}
+	*/
 
 	/**
 	 * eg:field1=value1&field2=value2&field3=value3...
