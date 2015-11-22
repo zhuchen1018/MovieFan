@@ -17,21 +17,23 @@
       int votes = mov.getVotes();
       String releaseDate = mov.getReleaseDate();
       int movieLength = mov.getLength();
-      String width = rating*10 + "%";
+      String movieID = mov.getMovieId();
+      String width = rating*10 + "%";    
+      String directURL = "/search_movie?movie_id=";
+      directURL = directURL.concat(movieID);
 %>
       
-	<a href = "/jsp/MoviePage.jsp"><td><%=mov.getName()%></td></a> nbsp; <br>	
+	<a href = <%=directURL %>><td><%=mov.getName()%></td></a> &nbsp; <td>(<%=votes%> votes) &nbsp; Release Date: <%=releaseDate %> &nbsp; Runtime: <%=movieLength %></td><br>	
     <td>Overview: <%=mov.getOverview()%> </td><br>   
     <td>Rating: <%=rating%> 
       <div class="rating-box"> 
         <div style="width:<%=width%>" class="rating"></div> 
       </div>
     </td><br>
-    
     <%if(!po.equals("null")){ %>
-		<a href = "/jsp/MoviePage.jsp"><img src=<%=po%> alt="Poster" style="width:200px;height:160px;"></a><br>
+		<a href = <%=directURL %>><img src=<%=po%> alt="Poster" style="width:200px;height:160px;"></a><br>
 	<% } else { %>
-		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"><br>
+		<a href = <%=directURL %>><img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"></a><br>
 	<%}%>
      <br>
     
