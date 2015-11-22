@@ -20,10 +20,10 @@
       
 	<a href = "/jsp/MoviePage.jsp"><td><%=mov.getName()%></td></a><br>	
     <td>Overview: <%=mov.getOverview()%> </td><br>   
-    <td>Rating: <%=rating%>    
-    <div class="rating-box"> 
-      <div style="width:<%=width%>" class="rating"></div> 
-    </div>
+    <td>Rating: <%=rating%> 
+      <div class="rating-box"> 
+        <div style="width:<%=width%>" class="rating"></div> 
+      </div>
     </td><br>
     
     <%if(!po.equals("null")){ %>
