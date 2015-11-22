@@ -13,12 +13,14 @@
 <% MovieObjectView mov = (MovieObjectView) request.getSession().getAttribute("item");
 
       String po = mov.getPoster();
-      String homepage = mov.getPageUrl();
       double rating = mov.getRating();
+      int votes = mov.getVotes();
+      String releaseDate = mov.getReleaseDate();
+      int movieLength = mov.getLength();
       String width = rating*10 + "%";
 %>
       
-	<a href = "/jsp/MoviePage.jsp"><td><%=mov.getName()%></td></a><br>	
+	<a href = "/jsp/MoviePage.jsp"><td><%=mov.getName()%></td></a> nbsp; <br>	
     <td>Overview: <%=mov.getOverview()%> </td><br>   
     <td>Rating: <%=rating%> 
       <div class="rating-box"> 
@@ -30,10 +32,8 @@
 		<a href = "/jsp/MoviePage.jsp"><img src=<%=po%> alt="Poster" style="width:200px;height:160px;"></a><br>
 	<% } else { %>
 		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"><br>
-	<%}
-      if (!homepage.equals( "null")) {
-       out.print("Movie HomePage :" +  homepage);  	
-    }%> <br>
+	<%}%>
+     <br>
     
 </body>
 </html>
