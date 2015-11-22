@@ -2,26 +2,33 @@ package com.myapp.view;
 import java.util.*;
 
 public class MovieObjectView {
-	private String pageUrl;
+	private String movieId;
 	private String name;
 	private String overview;
 	private String poster;
+	private String releaseDate;
+	private int votes;
+	private int length;
 	private double rating;
 	
 	public MovieObjectView(){
 		
 	}
 	
-	public MovieObjectView(String pageUrl,String name,String overview,String poster,double rating){
-		this.pageUrl=pageUrl;
+	public MovieObjectView(String movieId,String name,String overview,String poster,String releaseDate,
+			int votes,int length,double rating){
+		this.movieId=movieId;
 		this.name=name;
 		this.overview=overview;
 		this.poster=poster;
+		this.releaseDate=releaseDate;
+		this.votes=votes;
+		this.length=length;
 		this.rating=rating;
 	}
 	
-	public void setPageUrl(String pageUrl){
-		this.pageUrl=pageUrl;
+	public void setMovieId(String movieId){
+		this.movieId=movieId;
 	}
 	
 	public void setName(String name){
@@ -36,12 +43,24 @@ public class MovieObjectView {
 		this.poster=poster;
 	}
 	
+	public void setReleaseDate(String releaseDate){
+		this.releaseDate=releaseDate;
+	}
+	
+	public void setVotes(int votes){
+		this.votes=votes;
+	}
+	
+	public void setLength(int length){
+		this.length=length;
+	}
+	
 	public void setRating(double rating){
 		this.rating=rating;
 	}
 	
-	public String getPageUrl(){
-		return pageUrl;
+	public String getMovieId(){
+		return movieId;
 	}
 	
 	public String getName(){
@@ -54,6 +73,18 @@ public class MovieObjectView {
 	
 	public String getPoster(){
 		return poster;
+	}
+	
+	public String getReleaseDate(){
+		return releaseDate;
+	}
+	
+	public int getVotes(){
+		return votes;
+	}
+	
+	public int getLength(){
+		return length;
 	}
 	
 	public double getRating(){

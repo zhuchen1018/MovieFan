@@ -2,7 +2,6 @@ package com.myapp.utils;
 
 public class Const 
 {
-	
 	public final static String ROOT = "./database/"; 
 	//public final static String WebPageRoot = ROOT + "web_pages/"; 
 	
@@ -37,4 +36,8 @@ public class Const
 	public final static String COMMENT_ID_TYPE = "COMMENT_ID_TYPE"; 
 	public final static String NEWS_ID_TYPE = "NEWS_ID_TYPE"; 
 	public final static String GROUP_ID_TYPE = "GROUP_ID_TYPE"; 
+	
+	
+	public static final int ORDERBY_RATING=0,ORDERBY_TIME=1,ORDERBY_VOTES=2;//orderby
+	public static final int ID_SEARCH=0,NAME_SEARCH=1;
 }
