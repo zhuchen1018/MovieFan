@@ -88,7 +88,15 @@ public class Search extends HttpServlet
 			return;
 		}
 
-		SQLDBMovieQuery sql = new SQLDBMovieQuery(key);
+		SQLDBMovieQuery sql;
+		if(key==null ||key.isEmpty())
+		{
+			sql = new SQLDBMovieQuery(null,null,0,OrderBy,SelectedGenres);
+		}
+		else
+		{
+			sql = new SQLDBMovieQuery(key);
+		}
 		request.setAttribute("MovieListView", null); 
 		request.setAttribute("MovieListView", sql.getMovieObject());
 

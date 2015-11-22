@@ -215,9 +215,8 @@ public class DBWrapper
 
 	public void addUser(String name, String password) 
 	{
-		long uid = idEA.getNextId(Const.USER_ID_TYPE);
 		UserAccessor ua = getUserAccessor();
-		ua.add(uid, name, password);
+		ua.add(name, password);
 	}
 
 	public UserEntity getUserEntity(String name) throws IOException
@@ -226,12 +225,7 @@ public class DBWrapper
 		return ua.getEntity(name); 
 	}
 	
-	public UserEntity getUserEntity(long uid) throws IOException
-	{
-		UserAccessor ua = getUserAccessor();
-		return ua.getEntity(uid); 
-	}
-
+	
 	public boolean hasUser(String name) 
 	{
 		UserAccessor ua;
