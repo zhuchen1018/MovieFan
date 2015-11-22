@@ -39,6 +39,10 @@ public class Search extends HttpServlet
 		{
 			handleSearchMoviePost(request, response);
 		}
+		else if(url.equals(ServletConst.SEARCH_MOVIE_RES_ADVANCED))
+		{
+			handleSearchMovieAdvancedPost(request, response);
+		}
 		else if(url.equals(ServletConst.SEARCH_USER_RES))
 		{
 			handleSearchUserPost(request, response);
@@ -47,6 +51,11 @@ public class Search extends HttpServlet
 		{
 			handleSearchGroupPost(request, response);
 		}
+	}
+
+	private void handleSearchMovieAdvancedPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		
 	}
 
 	private void handleSearchGroupPost(HttpServletRequest request, HttpServletResponse response) 
@@ -118,6 +127,12 @@ public class Search extends HttpServlet
 		{
 			handleSearchMovieGet(request, response);
 		}
+		/*
+		else if(url.equals(ServletConst.SEARCH_MOVIE_ADVANCED))
+		{
+			handleSearchMovieAdvancedGet(request, response);
+		}
+		*/
 		else if(url.equals(ServletConst.SEARCH_USER))
 		{
 			handleSearchUserGet(request, response);
@@ -132,6 +147,7 @@ public class Search extends HttpServlet
 			ServletCommon.sendRedirect(response, location);
 		}
 	}
+
 
 	private void handleSearchGroupGet(HttpServletRequest request, HttpServletResponse response) 
 	{
