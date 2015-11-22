@@ -204,7 +204,7 @@ public class Account extends HttpServlet
 
 	private void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
-		String location = "/htmls/register.html";
+		String location = "/htmls/RegisterPage.html";
 		ServletCommon.sendRedirect(response, location);
 	}
 
@@ -232,7 +232,7 @@ public class Account extends HttpServlet
 
 	public void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
-		String location = "/htmls/login.html";
+		String location = "/htmls/LoginPage.html";
 		ServletCommon.sendRedirect(response, location);
 	}
 
