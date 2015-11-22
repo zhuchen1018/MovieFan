@@ -56,7 +56,34 @@ public class Search extends HttpServlet
 
 	private void handleSearchMovieAdvancedPost(HttpServletRequest request, HttpServletResponse response) 
 	{
-		
+		String genre = request.getParameter("formDoor[]");
+		String order = request.getParameter("OrderBy");
+
+		SQLDBMovieQuery sql=null;
+		try
+		{
+			sql = new SQLDBMovieQuery(order, genre);
+		}
+		catch(Exception ex)
+		{
+			System.out.println(ex.getMessage());
+			ex.printStackTrace();
+			ServletCommon.redirect404(response);
+			return;
+		}
+		request.setAttribute("MovieListView", null); 
+		request.setAttribute("MovieListView", sql.getMovieObject());
+
+		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/MovieList.jsp");
+		try 
+		{
+			rd.forward(request, response);
+		} 
+		catch (IOException | ServletException e) 
+		{
+			e.printStackTrace();
+			ServletCommon.redirect404(response);
+		}
 	}
 
 	private void handleSearchGroupPost(HttpServletRequest request, HttpServletResponse response) 
@@ -69,6 +96,7 @@ public class Search extends HttpServlet
 		catch (IOException | ServletException e) 
 		{
 			e.printStackTrace();
+			ServletCommon.redirect404(response);
 		}
 	}
 
@@ -82,6 +110,7 @@ public class Search extends HttpServlet
 		catch (IOException | ServletException e) 
 		{
 			e.printStackTrace();
+			ServletCommon.redirect404(response);
 		}
 	}
 
@@ -91,8 +120,7 @@ public class Search extends HttpServlet
 		
 		if(key == null || key.isEmpty())
 		{
-			String location = "/htmls/404.html";
-			ServletCommon.sendRedirect(response, location);
+			ServletCommon.redirect404(response);
 			return;
 		}
 
@@ -100,10 +128,12 @@ public class Search extends HttpServlet
 		try{
 			sql = new SQLDBMovieQuery(key,Const.NAME_SEARCH);
 		}
-		catch(Exception ex){
+		catch(Exception ex)
+		{
 			System.out.println(ex.getMessage());
 			ex.printStackTrace();
-			//jason
+			ServletCommon.redirect404(response);
+			return;
 		}
 		request.setAttribute("MovieListView", null); 
 		request.setAttribute("MovieListView", sql.getMovieObject());
@@ -116,6 +146,7 @@ public class Search extends HttpServlet
 		catch (IOException | ServletException e) 
 		{
 			e.printStackTrace();
+			ServletCommon.redirect404(response);
 		}
 	}
 
@@ -142,8 +173,7 @@ public class Search extends HttpServlet
 		}
 		else
 		{
-			String location = "/htmls/404.html";
-			ServletCommon.sendRedirect(response, location);
+			ServletCommon.redirect404(response);
 		}
 	}
 

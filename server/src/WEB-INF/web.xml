@@ -76,6 +76,11 @@
      <servlet-name>search</servlet-name>
      <url-pattern>/search_movie_result</url-pattern>
    </servlet-mapping>  
+   
+    <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/search_movie_result_advanced</url-pattern>
+   </servlet-mapping>  
  
  <servlet-mapping>
      <servlet-name>search</servlet-name>
