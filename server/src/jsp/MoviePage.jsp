@@ -10,14 +10,14 @@
 <body>
 <%@ page import="com.myapp.view.*" %>
 <%MoviePageView mpv = (MoviePageView) request.getAttribute("MoviePageView"); 
-    String overview, name, ratingStar, releaseDate, poster, homePage, director;
+    String overview, name, ratingStar, releaseYear, poster, homePage, director;
     double rating;
     int runTime, votes;
     
     overview = mpv.getOverview();
     name = mpv.getName();
     ratingStar = rating*10 + "%";
-    releaseDate = mpv.getReleaseDate();
+    releaseYear = mpv.getReleaseDate().substring(0, 4);
     poster = mpv.getPoster();
     homePage = mpv.getHomepage();
     rating = mpv.getRating();
@@ -25,7 +25,7 @@
     votes = mpv.getVotes();
     
 %>
-    <td> <%=name%><%=releaseDate%></td><br>
+    <td> <%=name%> (<%=releaseYear%>)</td><br>
     <td> <%=runTime%>
     <td>Rating: <%=rating%>( <%=votes%> votes)</td>
     <td><div class="rating-box"> 
