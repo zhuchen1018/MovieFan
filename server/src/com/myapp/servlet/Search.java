@@ -3,6 +3,7 @@ package com.myapp.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.util.Hashtable;
 import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
@@ -35,10 +36,14 @@ public class Search extends HttpServlet
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String url = request.getServletPath();
-		System.out.println("hello: " + url);
+		System.out.println("doPost: " + url);
 		if(url.equals(ServletConst.SEARCH_MOVIE_RES))
 		{
 			handleSearchMoviePost(request, response);
+		}
+		else if(url.equals(ServletConst.SEARCH_MOVIE_RES_ADVANCED))
+		{
+			handleSearchMovieAdvancedPost(request, response);
 		}
 		else if(url.equals(ServletConst.SEARCH_USER_RES))
 		{
@@ -47,6 +52,38 @@ public class Search extends HttpServlet
 		else if(url.equals(ServletConst.SEARCH_GROUP_RES))
 		{
 			handleSearchGroupPost(request, response);
+		}
+	}
+
+	private void handleSearchMovieAdvancedPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String genre = request.getParameter("formDoor[]");
+		String order = request.getParameter("OrderBy");
+
+		SQLDBMovieQuery sql=null;
+		try
+		{
+			sql = new SQLDBMovieQuery(order, genre);
+		}
+		catch(Exception ex)
+		{
+			System.out.println(ex.getMessage());
+			ex.printStackTrace();
+			ServletCommon.redirect404(response);
+			return;
+		}
+		request.setAttribute("MovieListView", null); 
+		request.setAttribute("MovieListView", sql.getMovieObject());
+
+		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/MovieList.jsp");
+		try 
+		{
+			rd.forward(request, response);
+		} 
+		catch (IOException | ServletException e) 
+		{
+			e.printStackTrace();
+			ServletCommon.redirect404(response);
 		}
 	}
 
@@ -60,6 +97,7 @@ public class Search extends HttpServlet
 		catch (IOException | ServletException e) 
 		{
 			e.printStackTrace();
+			ServletCommon.redirect404(response);
 		}
 	}
 
@@ -73,29 +111,36 @@ public class Search extends HttpServlet
 		catch (IOException | ServletException e) 
 		{
 			e.printStackTrace();
+			ServletCommon.redirect404(response);
 		}
 	}
 
+	/**
+	 * User normal movie search
+	 * @param request
+	 * @param response
+	 */
 	private void handleSearchMoviePost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String key = request.getParameter("search_movie");
-		
 		if(key == null || key.isEmpty())
 		{
-			String location = "/htmls/404.html";
-			ServletCommon.sendRedirect(response, location);
+			ServletCommon.redirect404(response);
+			return;
+		}
+		SQLDBMovieQuery sql=null;
+		try
+		{
+			sql = new SQLDBMovieQuery(key,Const.NAME_SEARCH);
+		}
+		catch(Exception ex)
+		{
+			System.out.println(ex.getMessage());
+			ex.printStackTrace();
+			ServletCommon.redirect404(response);
 			return;
 		}
 
-		SQLDBMovieQuery sql=null;
-		try{
-			sql = new SQLDBMovieQuery(key,Const.NAME_SEARCH);
-		}
-		catch(Exception ex){
-			System.out.println(ex.getMessage());
-			ex.printStackTrace();
-			//jason
-		}
 		request.setAttribute("MovieListView", null); 
 		request.setAttribute("MovieListView", sql.getMovieObject());
 
@@ -107,6 +152,7 @@ public class Search extends HttpServlet
 		catch (IOException | ServletException e) 
 		{
 			e.printStackTrace();
+			ServletCommon.redirect404(response);
 		}
 	}
 
@@ -127,27 +173,72 @@ public class Search extends HttpServlet
 		}
 		else
 		{
-			String location = "/htmls/404.html";
-			ServletCommon.sendRedirect(response, location);
+			ServletCommon.redirect404(response);
 		}
 	}
 
 	private void handleSearchGroupGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		String location = "/htmls/search_group.html";
+		String location = "/htmls/SearchGroupPage.html";
 		ServletCommon.sendRedirect(response, location);
 	}
 
 	private void handleSearchUserGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		String location = "/htmls/search_user.html";
+		String location = "/htmls/SearchUserPage.html";
 		ServletCommon.sendRedirect(response, location);
 	}
 
 	private void handleSearchMovieGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		String location = "/htmls/search_movie.html";
-		ServletCommon.sendRedirect(response, location);
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		//search movie by movie_id: from click movie ref 
+		if(query != null && !query.isEmpty())
+		{
+			String movie_id = query.get("movie_id");
+			System.out.println("jason query.get " + movie_id);
+
+			if(movie_id != null && !movie_id.isEmpty())
+			{
+				SQLDBMovieQuery sql=null;
+				try
+				{
+					sql = new SQLDBMovieQuery(movie_id,Const.ID_SEARCH);
+
+				}
+				catch(Exception ex)
+				{
+					System.out.println(ex.getMessage());
+					ex.printStackTrace();
+					ServletCommon.redirect404(response);
+					return;
+				}
+
+				request.setAttribute("MovieListView", null); 
+				request.setAttribute("MovieListView", sql.getMovieObject());
+
+				RequestDispatcher rd= request.getRequestDispatcher ("/jsp/MoviePage.jsp");
+				try 
+				{
+					rd.forward(request, response);
+				} 
+				catch (IOException | ServletException e) 
+				{
+					e.printStackTrace();
+					ServletCommon.redirect404(response);
+				}
+			}
+			else
+			{
+				ServletCommon.redirect404(response);
+				return;
+			}
+		}
+		else
+		{
+			String location = "/htmls/SearchMoviePage.html";
+			ServletCommon.sendRedirect(response, location);
+		}
 	}
 }
 

@@ -12,27 +12,30 @@
 
 <% MovieObjectView mov = (MovieObjectView) request.getSession().getAttribute("item");
 
-      String poster = mov.getPoster();
+      String po = mov.getPoster();
       double rating = mov.getRating();
-      String ratingStar = rating*10 + "%";
-      String releaseDate = mov.getReleaseDate().substring(0,4);
-%> 
-	<a href = "/jsp/MoviePage.jsp"><td><%=mov.getName()%></td></a> (<%=releaseDate%>)<br>
-	<td>Overview: <%=mov.getOverview()%> </td><br> 	 
-    <td>Rating: <%=rating%> (<%=mov.getVotes()%> voted)</td>
-    <td><div class="rating-box"> 
-        <div style="width:<%=ratingStar%>" class="rating"></div> 
-        </div></td><br> 
+      int votes = mov.getVotes();
+      String releaseDate = mov.getReleaseDate();
+      int movieLength = mov.getLength();
+      String movieID = mov.getMovieId();
+      String width = rating*10 + "%";    
+      String directURL = "/search_movie?movie_id=";
+      directURL = directURL.concat(movieID);
+%>
+      
+	<a href = <%=directURL %>><td><%=mov.getName()%></td></a> &nbsp; <td>(<%=votes%> votes) &nbsp; Release Date: <%=releaseDate %> &nbsp; Runtime: <%=movieLength %></td><br>	
+    <td>Overview: <%=mov.getOverview()%> </td><br>   
+    <td>Rating: <%=rating%> 
+      <div class="rating-box"> 
+        <div style="width:<%=width%>" class="rating"></div> 
+      </div>
+    </td><br>
+    <%if(!po.equals("null")){ %>
+		<a href = <%=directURL %>><img src=<%=po%> alt="Poster" style="width:200px;height:160px;"></a><br>
+	<% } else { %>
+		<a href = <%=directURL %>><img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"></a><br>
+	<%}%>
+     <br>
 
-    <%if(!poster.equals("null")){ %>
-		<a href = "/jsp/MoviePage.jsp"><img src=<%=poster%> alt="Poster" style="width:200px;height:160px;"></a><br>
-	<% 
-	} 
-    else { %>
-		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"><br>
-	<% 
-	} 
-	%> <br>
-	
 </body>
 </html>

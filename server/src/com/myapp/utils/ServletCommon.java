@@ -171,4 +171,9 @@ public class ServletCommon
 			e.printStackTrace();
 		}	
 	}
+	
+	public static void redirect404(HttpServletResponse response)
+	{
+		sendRedirect(response, "/htmls/404.html");
+	}
 }

@@ -34,6 +34,7 @@ public class ServletConst
 
 	//Search
 	public static final String SEARCH_MOVIE = "/search_movie";
+	public static final String SEARCH_MOVIE_RES_ADVANCED = "/search_movie_result_advanced";
 	public static final String SEARCH_MOVIE_RES = "/search_movie_result";
 
 	public static final String SEARCH_USER = "/search_user";
