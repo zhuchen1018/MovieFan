@@ -23,20 +23,23 @@ public class UserEntity
 
 	private long login_time; 
 
-	//account settings
-	//private Hashtable<String, String>settings = new Hashtable<String, String>(); 
 	
 	//news' id
 	private ArrayList<Long>news= new ArrayList<Long>(); 
 
 	//friends' id
 	private ArrayList<Long>friends = new ArrayList<Long>(); 
+
+	/*
 	//tweet's id
 	private ArrayList<Long>tweets = new ArrayList<Long>(); 
 	//article 's id
 	private ArrayList<Long>articles = new ArrayList<Long>(); 
+	*/
+	
 	//comment's id
 	private ArrayList<Long>comments = new ArrayList<Long>(); 
+
 	//group 's id
 	private ArrayList<Long>groups = new ArrayList<Long>(); 
 	
@@ -95,6 +98,13 @@ public class UserEntity
 		return login_time;
 	}
 	
+	public void addNews(Long id)
+	{
+		news.add(id);
+	}
+
+
+	/*
 	public void addTweet(Long id)
 	{
 		tweets.add(id);
@@ -114,6 +124,7 @@ public class UserEntity
 	{
 		return articles;
 	}
+	*/
 	
 	public ArrayList<Long> getAllGroups() 
 	{
@@ -128,5 +139,10 @@ public class UserEntity
 	public ArrayList<Long> getAllComments() 
 	{
 		return comments;
+	}
+
+	public ArrayList<Long> getNews() 
+	{
+		return news;
 	}
 }

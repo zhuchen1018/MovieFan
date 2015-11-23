@@ -29,15 +29,17 @@ public class IdGeneratorAccessor
 		return nextid;
 	}
 
+	/*
 	public long getNextTweetId() 
 	{
 		return getNextId(Const.TWEET_ID_TYPE); 
 	}
-	
+
 	public long getNextArticled() 
 	{
 		return getNextId(Const.ARTICLE_ID_TYPE); 
 	}
+	*/
 	
 	public long getNextCommentId() 
 	{

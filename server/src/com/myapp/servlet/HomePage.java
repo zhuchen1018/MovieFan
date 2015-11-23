@@ -66,6 +66,7 @@ public class HomePage  extends HttpServlet
 			
 		out.println("<P>" + "\n" + "</P>");
 		out.println("<a href=\"/register\" class=\"button\">Register</a>");
+			
 
 		if(!ServletCommon.isSessionValid(request))
 		{
@@ -81,6 +82,8 @@ public class HomePage  extends HttpServlet
 			out.println("<a href=\"/user_page" + "?" + "user=" + ServletCommon.getSessionUsername(request) 
 				+ "\" class=\"button\">My Page</a>");
 		}
+
+		out.println("<a href=\"/search_movie\" class=\"button\">SearchMovie</a>");
 		/*
 				
 		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/home.jsp");

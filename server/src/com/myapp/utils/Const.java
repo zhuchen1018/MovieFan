@@ -40,4 +40,15 @@ public class Const
 	
 	public static final int ORDERBY_RATING=0,ORDERBY_TIME=1,ORDERBY_VOTES=2;//orderby
 	public static final int ID_SEARCH=0,NAME_SEARCH=1;
+	
+
+	/**
+	 * news type
+	 */
+	public final static String NEWS_TWITTER = "news_twitter"; 
+	public final static String NEWS_MOVIE_REVIEW = "news_movie_review"; 
+	public final static String NEWS_MAKE_FRIENDS = "news_make_friends"; 
+	public final static String NEWS_ADD_GROUP = "news_add_group"; 
+	public final static String NEWS_SHARE_MOVIE = "news_share_movie"; 
+	public final static String NEWS_LIKE_MOVIE = "news_like_movie"; 
 }

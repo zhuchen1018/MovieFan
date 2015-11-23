@@ -86,6 +86,7 @@ public class UserAccessor
 		return true;
 	}
 
+	/*
 	public void addTweet(String username, Long tid) 
 	{
 		UserEntity user = getEntity(username);
@@ -96,5 +97,6 @@ public class UserAccessor
 		user.addTweet(tid);
 		putEntity(user);
 	}
+	*/
 }
 

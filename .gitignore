@@ -4,7 +4,7 @@
 *.class
 
 server/database/*
-server/src/WEB-INF/classes/*
+server/src/WEB-INF/classes/
 server/target/*
 
 .recommenders/*

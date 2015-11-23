@@ -12,6 +12,7 @@ public class ArticleEntity extends TextBase
 {
 	String head;
 	ArrayList<Long>comments = new ArrayList<Long>(); 
+	int repost_nums;
 
 	public ArticleEntity()
 	{
