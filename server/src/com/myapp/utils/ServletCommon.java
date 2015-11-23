@@ -59,6 +59,22 @@ public class ServletCommon
 		}
 		return (String) session.getAttribute("username");
 	}
+	
+	public static boolean hasLoginSession(HttpServletRequest request)
+	{
+		String name = getSessionUsername(request);
+		if(name == null || name.isEmpty())
+		{
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean isMyPage(String username, HttpServletRequest request)
+	{
+		String name = getSessionUsername(request);
+		return name != null && name.equals(username);
+	}
 
 	public static void addSession(HttpServletRequest request, HttpServletResponse response, String username) 
 	{
