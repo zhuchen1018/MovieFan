@@ -27,17 +27,7 @@ img {
 .caption {
     display: block;
 }
-div.movieInfo {
-    vertical-align: top;
-    display: inline-block;
-    text-align: left;
-    width: 100px;
-}
-img {
-    width: 100px;
-    height: 100px;
-    background-color: grey;
-}
-.caption {
-    display: block;
-}
+
+#container {width: 100%;}
+#photo {float: left; width: 20%;}
+#content {float: right; width: 80%;}

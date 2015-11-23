@@ -32,23 +32,25 @@
     casts = mpv.getCast();
     
 %>
-<div class="movieInfo">
+<div id="container">
     <%if(!poster.equals("null")){ %>
-		<a href = "/jsp/MoviePage.jsp"><img src=<%=poster%> alt="Poster" style="width:200px;height:160px;"></a><br>
+		<div id="photo"><a href = "/jsp/MoviePage.jsp"><img src=<%=poster%> alt="Poster" 
+		style="width:200px;height:300px"> </a></div>
 	<%
 	} else { %>
-		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"><br>
-	<%} %> <br>
-    <td><span class="caption"> <%=name%> (<%=releaseYear%>)</td><br>
-    <td> Runtime: <%=runTime%> (mins)</td><br>
-    <td> Rating: <%=rating%> (<%=votes %> votes)</span></td>
-    <td><div class="rating-box"> 
+		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:300px;">
+	<%} %> 
+    <td> 
+    <div id="content"><%=name%> (<%=releaseYear%>) </div><br>
+    <div id="content">Runtime: <%=runTime%> (mins)</div><br>
+    <div id="content">Rating: <%=rating%> (<%=votes %> votes)</div>
+    <div class="rating-box"> 
         <div style="width:<%=ratingStar%>" class="rating"></div> 
         </div>
     </td>
     <br>
-</div>	
-    <h4>OverView </h4><td><%=overview%></td><br>
+    <div id="content"><h4>OverView </h4><td><%=overview%></td></div> <br>
+</div>
 
     <h4>director:</h4><br>
     <%request.getSession().setAttribute("person",director);%>
@@ -73,6 +75,7 @@
 	<%
 	}
 	%>
+	<br>
 		
     <td> <a href=<%=homePage%>>HomePage</a></td><br>
     
