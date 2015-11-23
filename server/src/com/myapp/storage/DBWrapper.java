@@ -11,7 +11,7 @@ import com.sleepycat.persist.StoreConfig;
 import com.myapp.storage.accessor.*;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.NewsEntity;
-import com.myapp.storage.entity.TweetEntity;
+//import com.myapp.storage.entity.TweetEntity;
 import com.myapp.storage.entity.UserEntity;
 import com.sleepycat.je.Environment;
 import com.sleepycat.persist.EntityStore;
@@ -308,9 +308,9 @@ public class DBWrapper
 		return null;
 	}
 		
-	public ArrayList<NewsEntity> getNewsEntityByIds(ArrayList<Long> tweets_id)
+	public ArrayList<NewsEntity> getNewsEntityByIds(ArrayList<Long> ids)
 	{
-		return newsEA.getNewsEntityByIds(tweets_id);
+		return newsEA.getNewsEntityByIds(ids);
 	}
 
 	public void storeNews(NewsEntity news_obj, UserEntity user)
@@ -321,6 +321,8 @@ public class DBWrapper
 		//update user store
 		user.addNews(news_obj.getId());
 		userEA.putEntity(user);	
+	
+		store.sync();
 	}
 
 	public void addNewsTwitter(String username, String tweet) 
@@ -401,9 +403,8 @@ public class DBWrapper
 		
 	}
 
-	public ArrayList<TweetEntity> getNewsByIds(ArrayList<Long> newsId) 
+	public ArrayList<NewsEntity> getNewsByIds(ArrayList<Long> newsId) 
 	{
-		newsEA.getNewsEntityByIds(newsId);
-		return null;
+		return newsEA.getNewsEntityByIds(newsId);
 	}
 }

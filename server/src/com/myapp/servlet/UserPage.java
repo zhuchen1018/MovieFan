@@ -193,16 +193,14 @@ public class UserPage extends HttpServlet
 			}
 
 			ArrayList<Long>newsId = userEntity.getNews(); 
-
-			System.out.println("jason tweet size:" + newsId.size());
-
-			ArrayList<TweetEntity>newsList = db.getNewsByIds(newsId); 
+			ArrayList<NewsEntity>newsList = db.getNewsByIds(newsId); 
+			System.out.println("news list:" + newsList.size());
 			if(newsList != null && newsList.size() > 0)
 			{
 				Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				for(int i = newsList.size() - 1; i >= 0; --i)
 				{
-					TweetEntity t = newsList.get(i);
+					NewsEntity t = newsList.get(i);
 					String time_str = formatter.format(t.getReleaseTime());
 					out.println("<P>" + "tid:" + t.getId() + "</P>");
 					out.println("<P>" + time_str  + "</P>");
