@@ -30,7 +30,9 @@ public class SQLDBWrapper
 		
 		//get connection
 		Connection conn=null;
-		try{
+		try
+		{
+			DriverManager.registerDriver (new oracle.jdbc.OracleDriver());
 			conn = DriverManager.getConnection(url, props);
 		}
 		catch(SQLException ex){
