@@ -245,8 +245,8 @@ public class SQLDBMovieQuery {
 			System.out.println(v.getAlternate_title().get(i));
 		}
 		System.out.println(v.getDirector().getName());
-		for(int i=0;i<v.getCast().getpersonNumber();++i){
-			System.out.println(v.getCast().getpersons().get(i).getName());
+		for(int i=0;i<v.getCast().getPersonNumber();++i){
+			System.out.println(v.getCast().getPersons().get(i).getName());
 		}
 	}
 

@@ -25,11 +25,11 @@ public class PersonListView {
 		personCount++;
 	}
 	
-	public ArrayList<PersonObjectView> getpersons(){
+	public ArrayList<PersonObjectView> getPersons(){
 		return persons;
 	}
 	
-	public int getpersonNumber(){
+	public int getPersonNumber(){
 		return personCount;
 	}
 }
