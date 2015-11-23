@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel = "stylesheet" type ="text/css" href = "Style.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Person Object</title>
 </head>
@@ -15,7 +16,10 @@
       
 %>
 <%if(!profile.equals("null")){ %>
-<td><%=name%> </td> &nbsp; <img src=<%=profile%> alt="Poster" style="width:80px;height:80px;">
+<div class="item">
+ <img src=<%=profile%> alt="Poster" style="width:80px;height:80px;">
+ <td><span class="caption"><%=name%></span></td> &nbsp;
+</div>
 <%}else{ %>
 <td><%=name%> </td> &nbsp; <img src="/images/not-found.png" alt="Profile" style="width:80px;height:80px;">
 <%} %>

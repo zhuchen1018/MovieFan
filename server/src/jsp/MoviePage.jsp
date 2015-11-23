@@ -4,7 +4,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel = "stylesheet" type ="text/css" href = "Rating.css">
+<link rel = "stylesheet" type ="text/css" href = "Style.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
@@ -32,14 +32,24 @@
     casts = mpv.getCast();
     
 %>
-    <td> <%=name%> (<%=releaseYear%>)</td><br>
+<div class="movieInfo">
+    <%if(!poster.equals("null")){ %>
+		<a href = "/jsp/MoviePage.jsp"><img src=<%=poster%> alt="Poster" style="width:200px;height:160px;"></a><br>
+	<%
+	} else { %>
+		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"><br>
+	<%} %> <br>
+    <td><span class="caption"> <%=name%> (<%=releaseYear%>)</td><br>
     <td> Runtime: <%=runTime%> (mins)</td><br>
-    <td>Rating: <%=rating%> (<%=votes %> votes)</td>
+    <td> Rating: <%=rating%> (<%=votes %> votes)</span></td>
     <td><div class="rating-box"> 
         <div style="width:<%=ratingStar%>" class="rating"></div> 
         </div>
     </td>
     <br>
+</div>	
+    <h4>OverView </h4><td><%=overview%></td><br>
+
     <h4>director:</h4><br>
     <%request.getSession().setAttribute("person",director);%>
     <jsp:include page="Person.jsp"/>
@@ -50,12 +60,7 @@
 	<% }
     %>
     <br>
-    <h4>OverView </h4><td><%=overview%></td><br>
-    <%if(!poster.equals("null")){ %>
-		<a href = "/jsp/MoviePage.jsp"><img src=<%=poster%> alt="Poster" style="width:200px;height:160px;"></a><br>
-	<% } else { %>
-		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"><br>
-	<%} %> <br>
+
 	<% int i = 1 ;%>
 	<%for(String s : trailers) {
 	   int index = s.indexOf("v=");
