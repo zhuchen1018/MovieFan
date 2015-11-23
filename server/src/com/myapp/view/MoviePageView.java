@@ -14,8 +14,8 @@ public class MoviePageView{
 	private double rating;
 	private ArrayList<String> youtube_trailer;
 	private ArrayList<String> alternate_title;
-	//private String directorId;
-	//private ArrayList<String> castId;
+	private PersonObjectView director;
+	private PersonListView list;
 	
 	public MoviePageView(){
 	}
@@ -68,6 +68,14 @@ public class MoviePageView{
 		this.rating=rating;
 	}
 	
+	public void setDirector(PersonObjectView director){
+		this.director=director;
+	}
+	
+	public void setCast(PersonListView list){
+		this.list=list;
+	}
+	
 	public String getMovieId(){
 		return movieId;
 	}
@@ -114,5 +122,13 @@ public class MoviePageView{
 	
 	public double getRating(){
 		return rating;
+	}
+	
+	public PersonObjectView getDirector(){
+		return director;
+	}
+	
+	public PersonListView getCast(){
+		return list;
 	}
 }

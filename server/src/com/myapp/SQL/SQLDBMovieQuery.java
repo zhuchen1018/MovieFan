@@ -17,8 +17,10 @@ public class SQLDBMovieQuery {
 	private String sql;
 	private String orderBy;
 	private String genre;
-	private MovieListView list;
+	private MovieListView movieList;
 	private MoviePageView homepage;
+	private PersonObjectView director;
+	private PersonListView personList;
 	private HashMap<String,Integer> map;
 	
 	private void setMovieGenreId(){
@@ -74,7 +76,7 @@ public class SQLDBMovieQuery {
 		try{
 			state=conn.createStatement();
 			rs=state.executeQuery(sql);
-			list=new MovieListView();
+			movieList=new MovieListView();
 			int count=0;
 			while(rs.next()&&count<30){
 				MovieObjectView movieObj=new MovieObjectView();
@@ -86,7 +88,7 @@ public class SQLDBMovieQuery {
 				movieObj.setVotes(rs.getInt("vote"));
 				movieObj.setLength(rs.getInt("runtime"));
 				movieObj.setRating(rs.getDouble("userrating"));
-				list.addMovie(movieObj);
+				movieList.addMovie(movieObj);
 				count++;
 			}
 			//System.out.println(list.getMovieNumber());
@@ -135,6 +137,38 @@ public class SQLDBMovieQuery {
 			}
 			homepage.setAlternate_title(alternateTitle);
 			//alternate title
+			sql="select p.profile,p.name,p.personId,p.dayOfBirth,p.dayOfDeath,p.biography ";
+			sql+="from basicTMDBInfo b join MoviePerson m on b.movieId=m.movieId ";
+			sql+="join Person p on p.personId=m.personId ";
+			sql+="where b.movieId='"+movieId+"'";
+			rs=state.executeQuery(sql);
+			personList=new PersonListView();
+			while(rs.next()){
+				PersonObjectView p=new PersonObjectView();
+				p.setProfile(rs.getString("profile"));
+				p.setName(rs.getString("name"));
+				p.setPersonId(rs.getString("personId"));
+				p.setDayOfBirth(rs.getString("dayOfBirth"));
+				p.setDayOfDeath(rs.getString("dayOfDeath"));
+				p.setBiography(rs.getString("biography"));
+				personList.addPerson(p);
+			}
+			homepage.setCast(personList);
+			//cast
+			sql="select p.profile,p.name,p.personId,p.dayOfBirth,p.dayOfDeath,p.biography ";
+			sql+="from basicTMDBInfo b join Person p on b.directorId=p.personId "; 
+			sql+="where b.movieId='"+movieId+"'";
+			rs=state.executeQuery(sql);
+			director=new PersonObjectView();
+			while(rs.next()){
+				director.setProfile(rs.getString("profile"));
+				director.setName(rs.getString("name"));
+				director.setPersonId(rs.getString("personId"));
+				director.setDayOfBirth(rs.getString("dayOfBirth"));
+				director.setDayOfDeath(rs.getString("dayOfDeath"));
+				director.setBiography(rs.getString("biography"));
+			}
+			homepage.setDirector(director);
 			return true;
 		}
 		catch(SQLException ex){
@@ -167,7 +201,7 @@ public class SQLDBMovieQuery {
 	}
 	
 	public MovieListView getMovieObject(){
-		return list;
+		return movieList;
 	}
 	
 	public MoviePageView getMovieHomepage(){
@@ -196,7 +230,7 @@ public class SQLDBMovieQuery {
 		}*/
 		SQLDBMovieQuery sql=null;
 		try{
-			sql=new SQLDBMovieQuery("123025",Const.ID_SEARCH);
+			sql=new SQLDBMovieQuery("843",Const.ID_SEARCH);
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -209,6 +243,10 @@ public class SQLDBMovieQuery {
 		}
 		for(int i=0;i<v.getAlternate_title().size();++i){
 			System.out.println(v.getAlternate_title().get(i));
+		}
+		System.out.println(v.getDirector().getName());
+		for(int i=0;i<v.getCast().getpersonNumber();++i){
+			System.out.println(v.getCast().getpersons().get(i).getName());
 		}
 	}
 
