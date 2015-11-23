@@ -10,6 +10,7 @@ public class MovieObjectView {
 	private int votes;
 	private int length;
 	private double rating;
+	private int diff;
 	
 	public MovieObjectView(){
 		
@@ -25,6 +26,37 @@ public class MovieObjectView {
 		this.votes=votes;
 		this.length=length;
 		this.rating=rating;
+	}
+	
+	private int calculateNameDiff(int[] v1,int[] v2){
+		int result=0;
+		for(int i=0;i<v1.length;++i){
+			result+=Math.abs(v1[i]-v2[i]);
+		}
+		return result;
+	}
+	
+	private int[] getCharacterGroup(String s){
+		int[] group=new int[36];
+		s=s.toLowerCase();
+		for(int i=0;i<36;++i) group[i]=0;
+		for(int i=0;i<s.length();++i){
+			if(s.charAt(i)>='a'&&s.charAt(i)<='z'){
+				group[s.charAt(i)-'a']++;
+			}
+			else if(s.charAt(i)>='0'&&s.charAt(i)<='9')group[26+s.charAt(i)-'0']++;
+		}
+		return group;
+	}
+	
+	public void setDiff(String name){
+		int[] v1=getCharacterGroup(name);
+		int[] v2=getCharacterGroup(this.name);
+		this.diff=calculateNameDiff(v1,v2);
+	}
+	
+	public int getDiff(){
+		return diff;
 	}
 	
 	public void setMovieId(String movieId){

@@ -22,6 +22,7 @@ public class SQLDBMovieQuery {
 	private PersonObjectView director;
 	private PersonListView personList;
 	private HashMap<String,Integer> map;
+	private ArrayList<String> names;
 	
 	private void setMovieGenreId(){
 		map=new HashMap<String,Integer>();
@@ -92,6 +93,20 @@ public class SQLDBMovieQuery {
 				count++;
 			}
 			//System.out.println(list.getMovieNumber());
+			if(names!=null){
+				String s="";
+				for(int i=0;i<names.size();++i) s+=names.get(i);
+				for(int i=0;i<movieList.getMovieNumber();++i){
+					movieList.getMovies().get(i).setDiff(s);
+				}
+				Collections.sort(movieList.getMovies(), new Comparator(){
+					public int compare(Object s1,Object s2){
+						int n1=((MovieObjectView)s1).getDiff();
+						int n2=((MovieObjectView)s2).getDiff();
+						return n1-n2;
+					}
+				});
+			}
 			return true;
 		}
 		catch(SQLException ex){
@@ -180,7 +195,20 @@ public class SQLDBMovieQuery {
 	
 	private boolean searchMovieByName(){
 		conn=SQLDBWrapper.getConnection();
-		sql="select * from basicTMDBInfo where title='"+name+"'";
+		names=new ArrayList<String>();
+		String s=name;
+		s=s.trim();
+		while(s.indexOf(" ")!=-1){
+			names.add(s.substring(0, s.indexOf(" ")));
+			s=s.substring(s.indexOf(" "), s.length());
+			s=s.trim();
+		}
+		names.add(s);
+		sql="select * from basicTMDBInfo where title like '%";
+		for(int i=0;i<names.size();++i){
+			sql+=names.get(i)+"%";
+		}
+		sql+="'";
 		System.out.println(sql);
 		return QueryMovieObject();
 	}
@@ -221,14 +249,23 @@ public class SQLDBMovieQuery {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		//SQLDBMovieQuery sql=new SQLDBMovieQuery("In the Mood for Love",Const.NAME_SEARCH);
-		/*SQLDBMovieQuery sql=new SQLDBMovieQuery("USERRATING","Adventure");
+		SQLDBMovieQuery sql=null;
+		try{
+			//SQLDBMovieQuery sql=new SQLDBMovieQuery("USERRATING","Adventure");
+			sql=new SQLDBMovieQuery("A P",Const.NAME_SEARCH);
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
 		MovieListView m=sql.getMovieObject();
 		for(int i=0;i<m.getMovieNumber();++i){
+			System.out.println("-------------------");
 			System.out.println(m.getMovies().get(i).getName());
 			System.out.println(m.getMovies().get(i).getOverview());
-		}*/
-		SQLDBMovieQuery sql=null;
+			System.out.println("-------------------");
+		}
+		System.out.println(m.getMovieNumber());
+		/*SQLDBMovieQuery sql=null;
 		try{
 			sql=new SQLDBMovieQuery("843",Const.ID_SEARCH);
 		}
@@ -247,7 +284,7 @@ public class SQLDBMovieQuery {
 		System.out.println(v.getDirector().getName());
 		for(int i=0;i<v.getCast().getPersonNumber();++i){
 			System.out.println(v.getCast().getPersons().get(i).getName());
-		}
+		}*/
 	}
 
 }
