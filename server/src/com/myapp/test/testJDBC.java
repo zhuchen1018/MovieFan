@@ -9,6 +9,8 @@ import java.util.Properties;
 
 import org.junit.Test;
 
+import com.myapp.SQL.SQLDBWrapper;
+
 import junit.framework.TestCase;
 
 /**
@@ -23,24 +25,19 @@ public class testJDBC extends TestCase
 	@Test
 	public void testConnect() throws SQLException 
 	{
-		String host = "moviefans.cudyjofu9j3z.us-west-2.rds.amazonaws.com";
-		String port = "1521";
-		String sid = "EBDB";
-		String url = "jdbc:oracle:thin:@" + host + ":" + port + ":" + sid; 
-		String username = "jason";
-		String password = "962464cis550";
-		
-		Properties props = new Properties();
-		props.put("user", username);
-		props.put("password", password);
+		long start = System.currentTimeMillis();
 		
 		//get connection
-		Connection conn = DriverManager.getConnection(url, props);
+		Connection conn = SQLDBWrapper.getConnection(); 
+		System.out.println("get conn used time: " + (System.currentTimeMillis() - start)/1000F);
 		
+		start = System.currentTimeMillis();
 		//test query
 		String sql ="select count(*) from BASICTMDBINFO";
 		Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
 		ResultSet result = st.executeQuery(sql);
+
+		System.out.println("sql used time: " + (System.currentTimeMillis() - start)/1000F);
 
 		while(result.next())
 		{

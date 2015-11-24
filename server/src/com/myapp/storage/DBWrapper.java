@@ -338,8 +338,6 @@ public class DBWrapper
 	{
 		return newsEA.getNewsEntityByIds(ids);
 	}
-	
-
 
 	public void storeNews(NewsEntity news_obj, UserEntity user)
 	{

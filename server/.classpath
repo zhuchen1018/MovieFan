@@ -11,5 +11,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="src/WEB-INF/lib/ojdbc7.jar"/>
 	<classpathentry kind="lib" path="src/WEB-INF/lib/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="src/WEB-INF/lib/c3p0-0.9.5.1.jar"/>
+	<classpathentry kind="lib" path="src/WEB-INF/lib/c3p0-oracle-thin-extras-0.9.5.1.jar"/>
+	<classpathentry kind="lib" path="src/WEB-INF/lib/mchange-commons-java-0.2.10.jar"/>
 	<classpathentry kind="output" path="target/classes/"/>
 </classpath>

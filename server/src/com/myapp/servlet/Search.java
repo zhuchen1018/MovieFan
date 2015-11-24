@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.w3c.dom.Document;
 
 import com.myapp.SQL.SQLDBMovieQuery;
+import com.myapp.SQL.SQLDBWrapper;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.UserEntity;
@@ -29,8 +30,10 @@ public class Search extends HttpServlet
 {
 	private DBWrapper db; 
 
-	public Search() throws IOException
+	public void init()
 	{
+		/*Load first time, avoid latency*/
+		SQLDBWrapper.getConnection();
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 

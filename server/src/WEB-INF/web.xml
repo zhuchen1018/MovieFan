@@ -70,6 +70,7 @@
   <servlet>
      <servlet-name>search</servlet-name>
      <servlet-class>com.myapp.servlet.Search</servlet-class> 
+     <load-on-startup>0</load-on-startup>
    </servlet>
     
    <servlet-mapping>
