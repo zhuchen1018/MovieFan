@@ -25,6 +25,11 @@
      <servlet-name>user_page</servlet-name>
      <url-pattern>/tweet</url-pattern>
    </servlet-mapping>  
+   
+   <servlet-mapping>
+     <servlet-name>user_page</servlet-name>
+     <url-pattern>/test_news</url-pattern>
+   </servlet-mapping>  
       
     <servlet>
      <servlet-name>account</servlet-name>

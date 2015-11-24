@@ -10,29 +10,32 @@ public class NewsEntity extends TextBase
 {
 	String title = null;
 	
-	String newsType = null;
+	byte newsType;
 	
 	String movie_id = null;
 	String movie_poster_url = null;
 	
 	ArrayList<Long>comments = null;
 
+	//for make friends, share movie to friends etc.
 	ArrayList<String>receiver = null;
 
 	int repost_nums;
 
 	public NewsEntity()
 	{
+		
 	}
 
 	/**
+	 * 
 	 * For twitter type
 	 * @param body
 	 * @param type
 	 */
-	public NewsEntity(long id, String body, String type) 
+	public NewsEntity(String username,long id, String body, byte type) 
 	{ 
-		super(id, body);
+		super(username, id, body);
 		newsType = type;
 		comments = new ArrayList<Long>();
 		repost_nums = 0;
@@ -43,9 +46,9 @@ public class NewsEntity extends TextBase
 	 * @param newsMovieReview 
 	 * @param String
 	 */
-	public NewsEntity(long id, String t, String body, String mid, String url, String type) 
+	public NewsEntity(String username, long id, String t, String body, String mid, String url, byte type) 
 	{ 
-		super(id, body);
+		super(username, id, body);
 		title = t;
 		newsType = type;
 		movie_id = mid;
@@ -60,9 +63,9 @@ public class NewsEntity extends TextBase
 	 * @param body
 	 * @param type
 	 */
-	public NewsEntity(long id,  ArrayList<String>receivers, String type) 
+	public NewsEntity(String username, long id,  ArrayList<String>receivers, byte type) 
 	{ 
-		super(id, null);
+		super(username, id, null);
 		newsType = type;
 		comments = new ArrayList<Long>();
 		receiver = receivers; 
@@ -73,9 +76,9 @@ public class NewsEntity extends TextBase
 	 * @param body
 	 * @param type
 	 */
-	public NewsEntity(long id,  String mid, String url, ArrayList<String>friends, String type) 
+	public NewsEntity(String username, long id,  String mid, String url, ArrayList<String>friends, byte type) 
 	{ 
-		super(id, null);
+		super(username, id, null);
 		newsType = type;
 		movie_id = mid;
 		movie_poster_url = url;
@@ -92,9 +95,9 @@ public class NewsEntity extends TextBase
 	 * @param url
 	 * @param newsLikeMovie
 	 */
-	public NewsEntity(long id, String mid, String url, String type) 
+	public NewsEntity(String username, long id, String mid, String url, byte type) 
 	{
-		super(id, null);
+		super(username, id, null);
 		newsType = type;
 		movie_id = mid;
 		movie_poster_url = url;
@@ -103,15 +106,48 @@ public class NewsEntity extends TextBase
 		repost_nums = 0;
 	}
 
-	public void addComment(Long id)
+	
+	/*GET FUNCTIONS*/
+
+	public byte getNewsType() 
 	{
-		comments.add(id);
+		return newsType;
 	}
 	
+	public String getMovidId()
+	{
+		return movie_id;
+	}
 	
-	public void addRepostNum()
+	public String getMoviePosterUrl()
+	{
+		return movie_poster_url;
+	}
+
+	public ArrayList<Long> getComments()
+	{
+		return comments;
+	}
+
+	public ArrayList<String>getReceivers()
+	{
+		return receiver;
+	}
+
+	public int getRepostNums()
+	{
+		return repost_nums;
+	}
+	
+	/*SET FUNCTIONS*/
+	public void addRepostNums()
 	{
 		repost_nums++;
+	}
+	
+	public void addComment(long cid)
+	{
+		comments.add(cid);
 	}
 }
 

@@ -97,7 +97,7 @@ public class UserPage extends HttpServlet
 		db.sync();
 
 		showTweetWindow(username, response);
-		showMyNews(username, response);
+		showAllRelatedNews(username, response);
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -111,6 +111,12 @@ public class UserPage extends HttpServlet
 		}
 
 		String username = ServletCommon.getSessionUsername(request);
+		if(username == null || username.isEmpty())
+		{
+			return;
+		}
+
+
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
 		if(query == null || query.get("user") == null)
 		{
@@ -132,7 +138,7 @@ public class UserPage extends HttpServlet
 		if(ServletCommon.isMyPage(target_name, request))
 		{
 			showTweetWindow(username, response);
-			showMyNews(username, response);
+			showAllRelatedNews(username, response);
 		}
 		else
 		{
@@ -140,9 +146,19 @@ public class UserPage extends HttpServlet
 		}
 	}
 
+	/**
+	 * test news list
+	 * @param request
+	 * @param response
+	 */
 	private void handleTestNewsGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String username = ServletCommon.getSessionUsername(request);
+		if(username == null || username.isEmpty())
+		{
+			return;
+		}
+
 		initDB();
 
 		//twitter
@@ -176,6 +192,13 @@ public class UserPage extends HttpServlet
 		db.addNewsLikeMovie(username, movie_id, url); 
 	}
 
+	/**
+	 * display a user's all news
+	 * TODO:
+	 * 
+	 * @param username
+	 * @param response
+	 */
 	private void showNews(String username, HttpServletResponse response) 
 	{
 		response.setContentType("text/html");
@@ -185,15 +208,15 @@ public class UserPage extends HttpServlet
 			out = response.getWriter();
 
 			initDB();
-			UserEntity userEntity = db.getUserEntity(username);
-			if(userEntity == null)
+
+			ArrayList<Long>newsId = db.getUserNews(username); 
+			if(newsId == null)
 			{
 				ServletCommon.PrintErrorPage(ServletConst.NO_THIS_USER_INFO,  response);
 				return;
 			}
 
-			ArrayList<Long>newsId = userEntity.getNews(); 
-			ArrayList<NewsEntity>newsList = db.getNewsByIds(newsId); 
+			ArrayList<NewsEntity>newsList = db.getNewsEntityByIds(newsId); 
 			System.out.println("news list:" + newsList.size());
 			if(newsList != null && newsList.size() > 0)
 			{
@@ -203,8 +226,9 @@ public class UserPage extends HttpServlet
 					NewsEntity t = newsList.get(i);
 					String time_str = formatter.format(t.getReleaseTime());
 					out.println("<P>" + "tid:" + t.getId() + "</P>");
-					out.println("<P>" + time_str  + "</P>");
-					out.println("<P>" + t.getBody() + "</P>");
+					out.println("<P>" + "news type:" + t.getNewsType() + "</P>");
+					out.println("<P>" + "time: " + time_str  + "</P>");
+					out.println("<P>" + "body: " + t.getBody() + "</P>");
 				}
 			}
 		}
@@ -214,8 +238,16 @@ public class UserPage extends HttpServlet
 		}
 	}
 
-	private void showMyNews(String username, HttpServletResponse response) 
+	/**
+	 * TODO:
+	 * should also show my friends' news
+	 * @param username
+	 * @param response
+	 */
+	private void showAllRelatedNews(String username, HttpServletResponse response) 
 	{
+		initDB();
+		ArrayList<String>friends = db.getFriends(username);
 		showNews(username, response);
 	}
 

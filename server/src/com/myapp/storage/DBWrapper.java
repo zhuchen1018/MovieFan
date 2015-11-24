@@ -299,12 +299,38 @@ public class DBWrapper
 	}
 
 	/**
-	 * TODO
+	 * Get a user's news with max of limit
 	 * @param limit
 	 * @return
 	 */
-	public ArrayList<Integer> getUserNews(int limit)
+	public ArrayList<Long> getUserNews(String username, int limit)
 	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			ArrayList<Long>news = user.getNews();
+			if(news != null)
+			{
+				List<Long> list = news.subList(Math.max(0, news.size() - limit), news.size());
+				return (ArrayList<Long>) list;
+			}
+			return user.getNews();
+		}
+		return null;
+	}
+	
+	/**
+	 * Get a user's all news 
+	 * @param limit
+	 * @return
+	 */
+	public ArrayList<Long> getUserNews(String username)
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			return user.getNews();
+		}
 		return null;
 	}
 		
@@ -312,6 +338,8 @@ public class DBWrapper
 	{
 		return newsEA.getNewsEntityByIds(ids);
 	}
+	
+
 
 	public void storeNews(NewsEntity news_obj, UserEntity user)
 	{
@@ -325,6 +353,8 @@ public class DBWrapper
 		store.sync();
 	}
 
+	/*All kinds of add news functions*/
+	
 	public void addNewsTwitter(String username, String tweet) 
 	{
 		UserEntity user = getUserEntity(username);
@@ -333,7 +363,7 @@ public class DBWrapper
 			print("addNewsTwitter: user is null " + username);
 			return;
 		}
-		NewsEntity news_obj = new NewsEntity(idEA.getNextNewsId(), tweet, Const.NEWS_TWITTER);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), tweet, Const.NEWS_TWITTER);
 		storeNews(news_obj, user);
 	}
 
@@ -345,7 +375,7 @@ public class DBWrapper
 			print("addNewsMovieReview: user is null " + username);
 			return;
 		}
-		NewsEntity news_obj = new NewsEntity(idEA.getNextNewsId(), title, body, movie_id, movie_url, Const.NEWS_MOVIE_REVIEW);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), title, body, movie_id, movie_url, Const.NEWS_MOVIE_REVIEW);
 		storeNews(news_obj, user);
 	}
 
@@ -359,7 +389,7 @@ public class DBWrapper
 		}
 		ArrayList<String>receivers = new ArrayList<String>();
 		receivers.add(receiver);
-		NewsEntity news_obj = new NewsEntity(idEA.getNextNewsId(), receivers, Const.NEWS_MAKE_FRIENDS);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), receivers, Const.NEWS_MAKE_FRIENDS);
 		storeNews(news_obj, user);
 	}
 
@@ -374,7 +404,7 @@ public class DBWrapper
 		}
 		ArrayList<String>receivers = new ArrayList<String>();
 		receivers.add(groupid);
-		NewsEntity news_obj = new NewsEntity(idEA.getNextNewsId(), receivers, Const.NEWS_ADD_GROUP);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), receivers, Const.NEWS_ADD_GROUP);
 		storeNews(news_obj, user);
 	}
 
@@ -386,7 +416,7 @@ public class DBWrapper
 			print("addNewsShareMovies: user is null " + username);
 			return;
 		}
-		NewsEntity news_obj = new NewsEntity(idEA.getNextNewsId(), movie_id, url, friend_list, Const.NEWS_SHARE_MOVIE);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), movie_id, url, friend_list, Const.NEWS_SHARE_MOVIE);
 		storeNews(news_obj, user);
 	}
 
@@ -398,13 +428,18 @@ public class DBWrapper
 			print("addNewsTwitter: user is null " + username);
 			return;
 		}
-		NewsEntity news_obj = new NewsEntity(idEA.getNextNewsId(), movie_id, url, Const.NEWS_LIKE_MOVIE);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), movie_id, url, Const.NEWS_LIKE_MOVIE);
 		storeNews(news_obj, user);
 		
 	}
 
-	public ArrayList<NewsEntity> getNewsByIds(ArrayList<Long> newsId) 
+	public ArrayList<String> getFriends(String username) 
 	{
-		return newsEA.getNewsEntityByIds(newsId);
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			return user.getFriends();
+		}
+		return null;
 	}
 }

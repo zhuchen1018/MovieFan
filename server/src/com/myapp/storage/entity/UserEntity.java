@@ -27,8 +27,8 @@ public class UserEntity
 	//news' id
 	private ArrayList<Long>news= new ArrayList<Long>(); 
 
-	//friends' id
-	private ArrayList<Long>friends = new ArrayList<Long>(); 
+	//friends username 
+	private ArrayList<String>friends = new ArrayList<String>(); 
 
 	/*
 	//tweet's id
@@ -66,6 +66,36 @@ public class UserEntity
 		return password;
 	}
 	
+	public String getHeadUrl() 
+	{
+		return head_url;
+	}
+
+	public long getLogin() 
+	{
+		return login_time;
+	}
+
+	public ArrayList<Long> getGroups() 
+	{
+		return groups;
+	}
+	
+	public ArrayList<String> getFriends() 
+	{
+		return friends;
+	}
+	
+	public ArrayList<Long> getComments() 
+	{
+		return comments;
+	}
+
+	public ArrayList<Long> getNews() 
+	{
+		return news;
+	}	
+	
 	/*set funcs*/
 	public void setName(String data)
 	{
@@ -93,10 +123,6 @@ public class UserEntity
 		System.out.println(s);
 	}
 
-	public long getLogin() 
-	{
-		return login_time;
-	}
 	
 	public void addNews(Long id)
 	{
@@ -126,23 +152,5 @@ public class UserEntity
 	}
 	*/
 	
-	public ArrayList<Long> getAllGroups() 
-	{
-		return groups;
-	}
 	
-	public ArrayList<Long> getAllFriends() 
-	{
-		return friends;
-	}
-	
-	public ArrayList<Long> getAllComments() 
-	{
-		return comments;
-	}
-
-	public ArrayList<Long> getNews() 
-	{
-		return news;
-	}
 }
