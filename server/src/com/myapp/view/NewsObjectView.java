@@ -11,12 +11,13 @@ public class NewsObjectView {
 	private String url;
 	private String title;
 	private String movieId;
+	private String movieName;
 	private ArrayList<String> ToList;
 	private int type;
 	private long releaseTime;
 	private int likeNums;	
 	
-	public NewsObjectView(String username, String text, String url, String title, String movieId, 
+	public NewsObjectView(String username, String text, String url, String title, String movieId,String movieName, 
 			ArrayList<String>ToList, int type, long releaseTime, int likeNums)
 	{
 		this.username = username;
@@ -24,6 +25,7 @@ public class NewsObjectView {
 		this.url = url;
 		this.title = title;
 		this.movieId = movieId;
+		this.movieName=movieName;
 		this.ToList = ToList;
 		this.type = type;
 		this.releaseTime = releaseTime;
@@ -61,6 +63,10 @@ public class NewsObjectView {
 		this.movieId=movieId;
 	}
 	
+	public void setMovieName(String movieName){
+		this.movieName=movieName;
+	}
+	
 	public void setToList(ArrayList<String> ToList){
 		this.ToList=ToList;
 	}
@@ -91,6 +97,10 @@ public class NewsObjectView {
 	
 	public String getMovieId(){
 		return movieId;
+	}
+	
+	public String getMovieName(){
+		return movieName;
 	}
 	
 	public ArrayList<String> getToList(){
