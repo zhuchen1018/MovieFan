@@ -33,7 +33,7 @@ public class Search extends HttpServlet
 	public void init()
 	{
 		/*Load first time, avoid latency*/
-		SQLDBWrapper.getConnection();
+		//SQLDBWrapper.getConnection();
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
