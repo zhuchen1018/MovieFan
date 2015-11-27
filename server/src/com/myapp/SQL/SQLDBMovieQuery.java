@@ -60,6 +60,7 @@ public class SQLDBMovieQuery {
 				throw new Exception("Name search fail!");
 			}
 		}
+		conn.close();
 	}
 	
 	public SQLDBMovieQuery(String orderBy,String genre) throws Exception{
@@ -71,6 +72,7 @@ public class SQLDBMovieQuery {
 		if(!advancedSearch()){
 			throw new Exception("Advanced search fail!");
 		}
+		conn.close();
 	}
 	
 	private boolean QueryMovieObject(){
