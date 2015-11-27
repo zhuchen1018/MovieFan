@@ -9,7 +9,23 @@ public class NewsObjectView {
 	private String movieId;
 	private ArrayList<String> ToList;
 	private int type;
+	private long releaseTime;
+	private int likeNums;	
 	
+	public NewsObjectView(String username, String text, String url, String title, String movieId, 
+			ArrayList<String>ToList, int type, long releaseTime, int likeNums)
+	{
+		this.username = username;
+		this.text = text;
+		this.url = url;
+		this.title = title;
+		this.movieId = movieId;
+		this.ToList = ToList;
+		this.type = type;
+		this.releaseTime = releaseTime;
+		this.likeNums = likeNums;
+	}
+
 	public NewsObjectView(){
 		text=null;
 		username=null;
