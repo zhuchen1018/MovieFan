@@ -12,7 +12,7 @@ public class SQLDBMovieQuery {
 	private String name;
 	private String movieId;
 	private int length;
-	private int year;
+	private int date;
 	private int votes;
 	private String sql;
 	private String orderBy;
@@ -63,12 +63,13 @@ public class SQLDBMovieQuery {
 		conn.close();
 	}
 	
-	public SQLDBMovieQuery(String orderBy,String genre) throws Exception{
+	public SQLDBMovieQuery(String orderBy,String genre,int length) throws Exception{
 		conn=SQLDBWrapper.getConnection();
 		if(conn==null) throw new Exception("connection not created!");
 		setMovieGenreId();
 		this.orderBy=orderBy;
 		this.genre=genre;
+		this.length=length;
 		if(!advancedSearch()){
 			throw new Exception("Advanced search fail!");
 		}
@@ -217,8 +218,39 @@ public class SQLDBMovieQuery {
 	
 	private boolean advancedSearch(){
 		conn=SQLDBWrapper.getConnection();
+		int low,high;
+		if(length==Const.MOVIE_LENGTH_0_30){
+			low=0;high=30;
+		}
+		else if(length==Const.MOVIE_LENGTH_30_60){
+			low=30;high=60;
+		}
+		else if(length==Const.MOVIE_LENGTH_60_90){
+			low=60;high=90;
+		}
+		else if(length==Const.MOVIE_LENGTH_90_120){
+			low=90;high=120;
+		}
+		else if(length==Const.MOVIE_LENGTH_120_MORE){
+			low=120;high=10000;
+		}
+		else{
+			low=-1;high=-1;
+		}
 		sql="select * from basicTMDBInfo b join movieGenre m on b.movieId=m.movieId where m.genreId='";
-		sql+=String.valueOf(map.get(genre))+"' order by ";
+		sql+=String.valueOf(map.get(genre))+"'";
+		switch(low){
+		case -1: break;
+		case 0:
+		case 30:
+		case 60:
+		case 90:
+			sql+=" and b.runtime>="+String.valueOf(low)+" and b.runtime<"+String.valueOf(high);
+			break;
+		case 120:
+			sql+=" and b.runtime>="+String.valueOf(low);
+		}
+		sql+=" order by ";
 		sql+=orderBy;
 		sql+=" DESC";
 		System.out.println(sql);
@@ -248,8 +280,8 @@ public class SQLDBMovieQuery {
 		// TODO Auto-generated method stub
 		SQLDBMovieQuery sql=null;
 		try{
-			//SQLDBMovieQuery sql=new SQLDBMovieQuery("USERRATING","Adventure");
-			sql=new SQLDBMovieQuery("A P",Const.NAME_SEARCH);
+			sql=new SQLDBMovieQuery("USERRATING","Adventure",5);
+			//sql=new SQLDBMovieQuery("A P",Const.NAME_SEARCH);
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
@@ -262,7 +294,7 @@ public class SQLDBMovieQuery {
 			System.out.println("-------------------");
 		}
 		System.out.println(m.getMovieNumber());
-		/*SQLDBMovieQuery sql=null;
+		/*
 		try{
 			sql=new SQLDBMovieQuery("843",Const.ID_SEARCH);
 		}

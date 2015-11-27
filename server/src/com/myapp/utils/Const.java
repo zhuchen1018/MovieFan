@@ -29,4 +29,10 @@ public class Const
 	public final static int NEWS_ADD_GROUP = 4; 
 	public final static int NEWS_SHARE_MOVIE = 5; 
 	public final static int NEWS_LIKE_MOVIE = 6; 
+	
+	public final static int MOVIE_LENGTH_0_30=1;
+	public final static int MOVIE_LENGTH_30_60=2;
+	public final static int MOVIE_LENGTH_60_90=3;
+	public final static int MOVIE_LENGTH_90_120=4;
+	public final static int MOVIE_LENGTH_120_MORE=5;
 }
