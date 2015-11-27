@@ -14,6 +14,8 @@
 <%NewsListView nlv = (NewsListView)request.getAttribute("NewsListView"); %>
 <%
 
+if(nlv==null)
+	System.out.println("null la!!!!!!!!!");
 for(int i=0;i<nlv.getNewsNumber();++i){%>
  <% NewsObjectView nov = nlv.getNews().get(i);
  	int type = nov.getType();
@@ -30,6 +32,18 @@ for(int i=0;i<nlv.getNewsNumber();++i){%>
 		case Const.NEWS_LIKE_MOVIE:
 			request.getSession().setAttribute("nlm", nov); %>
 			<jsp:include page="NewsLikeMovie.jsp"/><%
+			break;
+		case Const.NEWS_SHARE_MOVIE:
+			request.getSession().setAttribute("nsm", nov); %>
+			<jsp:include page="NewsShareMovie.jsp"/><%
+			break;
+		case Const.NEWS_MOVIE_REVIEW:
+			request.getSession().setAttribute("nmr", nov); %>
+			<jsp:include page="NewsMovieReview.jsp"/><%
+			break;
+		case Const.NEWS_ADD_GROUP:
+			request.getSession().setAttribute("nag", nov); %>
+			<jsp:include page="NewsAddGroup.jsp"/><%
 			break;
 		}
 	}

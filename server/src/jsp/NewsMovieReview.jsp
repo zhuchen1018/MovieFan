@@ -7,20 +7,22 @@
 <title>Insert title here</title>
 </head>
 <body>
+
 <%@ page import="com.myapp.view.*" %>
 
-<% NewsObjectView nov = (NewsObjectView) request.getSession().getAttribute("nt");
+<% NewsObjectView nov = (NewsObjectView) request.getSession().getAttribute("nmr");
 	String userName = nov.getUsername();
-	String tweetContent = nov.getText();
-	String tweetTime = nov.getReleaseTime();
+	String time = nov.getReleaseTime();
 	String note = nov.getNote();
-
+	String MovieComment = nov.getText();
+	String movieid = nov.getMovieId();
 %>
       
-    <h3><%=userName%> </h3> &nbsp; <h4><%=note%></h4><br>   
-    <h4><%=tweetTime %></h4><br><br>
-    <td><%=tweetContent %></td>
+    <h3><%=userName%> </h3> &nbsp; <h4><%=note%></h4> <h4><%=movieid%></h4><br> 
+    <td>MovieComment</td><br>  
+    <h4><%=time %></h4><br><br>
     <br>
+
 
 </body>
 </html>

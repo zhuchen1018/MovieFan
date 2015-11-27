@@ -9,21 +9,23 @@
 <body>
 
 <%@ page import="com.myapp.view.*" %>
-
-<% NewsObjectView nov = (NewsObjectView) request.getSession().getAttribute("nlm");
+<%@ page import="java.util.*" %>
+<% NewsObjectView nov = (NewsObjectView) request.getSession().getAttribute("nsm");
 	String userName = nov.getUsername();
 	String time = nov.getReleaseTime();
 	String note = nov.getNote();
 	String MovieComment = nov.getText();
 	String movieid = nov.getMovieId();
+	ArrayList<String> ToList = nov.getToList();
 %>
       
-    <h3><%=userName%> </h3> &nbsp; <h4><%=note%></h4> <h4><%=movieid%></h4><br> 
-    <td>MovieComment</td><br>  
-    <h4><%=time %></h4><br><br>
+    <h3><%=userName%> </h3> &nbsp; <h4><%=note%></h4> <h4><%=movieid%></h4> <td>to</td><br> 
+    
+    <%for(int i=0;i<ToList.size();i++) {%>
+    <td><%=ToList.get(i)%></td><br>  
     <br>
-
-
-
+<% 
+}
+%>
 </body>
 </html>

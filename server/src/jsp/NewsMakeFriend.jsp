@@ -17,7 +17,7 @@
 	String friend = nov.getToList().get(0);
 %>
       
-    <h3><%=userName%> </h3> &nbsd; <h4><%=note%></h4> <h4><%=friend%></h4><br>   
+    <h3><%=userName%> </h3> &nbsp; <h4><%=note%></h4> <h4><%=friend%></h4><br>   
     <h4><%=time %></h4><br><br>
     <br>
 
