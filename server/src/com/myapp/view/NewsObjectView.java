@@ -17,7 +17,7 @@ public class NewsObjectView {
 	private long releaseTime;
 	private int likeNums;	
 	
-	public NewsObjectView(String username, String text, String url, String title, String movieId,String movieName, 
+	public NewsObjectView(String username, String text, String url, String title, String movieId,
 			ArrayList<String>ToList, int type, long releaseTime, int likeNums)
 	{
 		this.username = username;
@@ -25,7 +25,7 @@ public class NewsObjectView {
 		this.url = url;
 		this.title = title;
 		this.movieId = movieId;
-		this.movieName=movieName;
+		//this.movieName=movieName;
 		this.ToList = ToList;
 		this.type = type;
 		this.releaseTime = releaseTime;
