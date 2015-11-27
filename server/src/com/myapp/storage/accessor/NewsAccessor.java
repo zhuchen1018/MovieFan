@@ -34,4 +34,8 @@ public class NewsAccessor
 		return res;
 	}
 
+	public NewsEntity getNewsEntityById(long id) 
+	{
+		return news.get(id);
+	}
 }

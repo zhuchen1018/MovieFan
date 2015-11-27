@@ -13,6 +13,7 @@ public class NewsEntity extends TextBase
 	int newsType;
 	
 	String movie_id = null;
+	String movie_name = null;
 	String movie_poster_url = null;
 	
 	ArrayList<Long>comments = null;
@@ -20,7 +21,7 @@ public class NewsEntity extends TextBase
 	//for make friends, share movie to friends etc.
 	ArrayList<String>receiver = null;
 
-	int repost_nums;
+	int repost_nums ;
 
 	public NewsEntity()
 	{
@@ -46,12 +47,13 @@ public class NewsEntity extends TextBase
 	 * @param newsMovieReview 
 	 * @param String
 	 */
-	public NewsEntity(String username, long id, String t, String body, String mid, String url, int type) 
+	public NewsEntity(String username, long id, String t, String body, String mid, String mname, String url, int type) 
 	{ 
 		super(username, id, body);
 		title = t;
 		newsType = type;
 		movie_id = mid;
+		movie_name = mname;
 		movie_poster_url = url;
 		comments = new ArrayList<Long>();
 		receiver = new ArrayList<String>();
@@ -76,7 +78,7 @@ public class NewsEntity extends TextBase
 	 * @param body
 	 * @param type
 	 */
-	public NewsEntity(String username, long id,  String mid, String url, ArrayList<String>friends, int type) 
+	public NewsEntity(String username, long id,  String mid, String mname, String url, ArrayList<String>friends, int type) 
 	{ 
 		super(username, id, null);
 		newsType = type;
@@ -137,6 +139,16 @@ public class NewsEntity extends TextBase
 	public int getRepostNums()
 	{
 		return repost_nums;
+	}
+	
+	public String getTitle()
+	{
+		return title;
+	}
+	
+	public String getMovieName() 
+	{
+		return movie_name;
 	}
 	
 	/*SET FUNCTIONS*/

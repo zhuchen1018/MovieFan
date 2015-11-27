@@ -176,11 +176,12 @@ public class UserPage extends HttpServlet
 		String url = null; 
 		String title = null; 
 		String movieId = null; 
+		String movieName = null; 
 		ArrayList<String>ToList = null;
 		int type = Const.NEWS_TWITTER; 
 		long releaseTime = (new Date()).getTime(); 
 		int likeNums = 2; 
-		NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
 		db.addNewsTwitter(username, text);
 
@@ -189,22 +190,24 @@ public class UserPage extends HttpServlet
 		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
 		title = "This is title";
 		movieId = "843";
+		movieName = "this is movie name"; 
 		ToList = null;
 		type = Const.NEWS_MOVIE_REVIEW; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
-		db.addNewsMovieReview(username, title, text, movieId, url);
+		db.addNewsMovieReview(username, title, text, movieId, movieName, url);
 
 		//make friends
 		text = null;
 		url = null;
 		title = null;
 		movieId = null;
+		movieName = null; 
 		String  receiver = "jason123";
 		ToList = new ArrayList<String>();
 		ToList.add(receiver);
 		type = Const.NEWS_MAKE_FRIENDS; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
 		db.addNewsMakeFriends(username, receiver); 
 
@@ -213,11 +216,12 @@ public class UserPage extends HttpServlet
 		url = null;
 		title = null;
 		movieId = null;
+		movieName = null; 
 		String  groupid = "123";
 		ToList = new ArrayList<String>();	
 		ToList.add(groupid);
 		type = Const.NEWS_ADD_GROUP; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
 		db.addNewsAddGroup(username, groupid); 
 
@@ -226,23 +230,25 @@ public class UserPage extends HttpServlet
 		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
 		title = null;
 		movieId = "843";
+		movieName = "This is a moviename"; 
 		ToList = new ArrayList<String>();
 		ToList.add("jason1");
 		ToList.add("jason2");
 		ToList.add("jason3");
 		type = Const.NEWS_SHARE_MOVIE; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
-		db.addNewsShareMovies(username, movieId, url, ToList); 
+		db.addNewsShareMovies(username, movieId, movieName, url, ToList); 
 
 		//like movies
 		text = null;
 		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
 		title = null;
 		movieId = "843";
+		movieName = null; 
 		ToList = null;
 		type = Const.NEWS_LIKE_MOVIE; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
 		db.addNewsLikeMovie(username, movieId, url); 
 
@@ -281,44 +287,45 @@ public class UserPage extends HttpServlet
 			out = response.getWriter();
 
 			initDB();
-
-			/*
-			ArrayList<Long>newsId = db.getUserNews(username); 
-			if(newsId == null)
+			NewsListView newsListView = new NewsListView();
+			
+			ArrayList<Long>newids = db.getUserNews(username);
+			for(long id: newids)
 			{
-				ServletCommon.PrintErrorPage(ServletConst.NO_THIS_USER_INFO,  response);
-				return;
+				NewsEntity newsEntity = db.getNewsEntityByIds(id);
+				if(newsEntity == null) continue;
+				int type = newsEntity.getNewsType();
+				String text = newsEntity.getBody(); 
+				String url = newsEntity.getMoviePosterUrl() ;
+				String title = newsEntity.getTitle(); 
+				String movieId = newsEntity.getMovidId(); 
+				String movieName = newsEntity.getMovieName(); 
+				long releaseTime = newsEntity.getReleaseTime(); 
+				int likeNums = newsEntity.getLikeNums(); 
+				ArrayList<String>ToList = newsEntity.getReceivers();
+				NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
+				newsListView.addNews(newsViewObj);
 			}
 
-			ArrayList<NewsEntity>newsList = db.getNewsEntityByIds(newsId); 
-			System.out.println("news list:" + newsList.size());
-			if(newsList != null && newsList.size() > 0)
-			{
-				Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				for(int i = newsList.size() - 1; i >= 0; --i)
-				{
-					NewsEntity t = newsList.get(i);
-					String time_str = formatter.format(t.getReleaseTime());
-					out.println("<P>" + "tid:" + t.getId() + "</P>");
-					out.println("<P>" + "news type:" + t.getNewsType() + "</P>");
-					out.println("<P>" + "time: " + time_str  + "</P>");
-					out.println("<P>" + "body: " + t.getBody() + "</P>");
-				}
-			}
-			 */
+			//send it to jsp
+			request.setAttribute("NewsListView", null); 
+			request.setAttribute("NewsListView", newsListView); 
+
 			RequestDispatcher rd= request.getRequestDispatcher ("/jsp/NewsList.jsp");
-			rd.forward(request, response);
+			try 
+			{
+				rd.forward(request, response);
+			} 
+			catch (ServletException e1) 
+			{
+				e1.printStackTrace();
+			} 
 		}
 		catch(IOException e)
 		{
 			e.printStackTrace();
 			ServletCommon.redirect404(response);
 		} 
-		catch (ServletException e) 
-		{
-			e.printStackTrace();
-			ServletCommon.redirect404(response);
-		}
 	}
 
 	/**

@@ -314,7 +314,6 @@ public class DBWrapper
 				List<Long> list = news.subList(Math.max(0, news.size() - limit), news.size());
 				return (ArrayList<Long>) list;
 			}
-			return user.getNews();
 		}
 		return null;
 	}
@@ -337,6 +336,11 @@ public class DBWrapper
 	public ArrayList<NewsEntity> getNewsEntityByIds(ArrayList<Long> ids)
 	{
 		return newsEA.getNewsEntityByIds(ids);
+	}
+	
+	public NewsEntity getNewsEntityByIds(long id)
+	{
+		return newsEA.getNewsEntityById(id);
 	}
 
 	public void storeNews(NewsEntity news_obj, UserEntity user)
@@ -365,7 +369,7 @@ public class DBWrapper
 		storeNews(news_obj, user);
 	}
 
-	public void addNewsMovieReview(String username, String title, String body, String movie_id, String movie_url) 
+	public void addNewsMovieReview(String username, String title, String body, String movie_id, String movie_name, String movie_url) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
@@ -373,7 +377,7 @@ public class DBWrapper
 			print("addNewsMovieReview: user is null " + username);
 			return;
 		}
-		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), title, body, movie_id, movie_url, Const.NEWS_MOVIE_REVIEW);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), title, body, movie_id, movie_name, movie_url, Const.NEWS_MOVIE_REVIEW);
 		storeNews(news_obj, user);
 	}
 
@@ -406,7 +410,7 @@ public class DBWrapper
 		storeNews(news_obj, user);
 	}
 
-	public void addNewsShareMovies(String username, String movie_id, String url, ArrayList<String> friend_list) 
+	public void addNewsShareMovies(String username, String movie_id, String movie_name, String url, ArrayList<String> friend_list) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
@@ -414,7 +418,7 @@ public class DBWrapper
 			print("addNewsShareMovies: user is null " + username);
 			return;
 		}
-		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), movie_id, url, friend_list, Const.NEWS_SHARE_MOVIE);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), movie_id, movie_name, url, friend_list, Const.NEWS_SHARE_MOVIE);
 		storeNews(news_obj, user);
 	}
 
