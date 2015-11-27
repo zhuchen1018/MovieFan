@@ -2,7 +2,6 @@ package com.myapp.storage;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.UnknownHostException;
 
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.EnvironmentConfig;
@@ -11,7 +10,6 @@ import com.sleepycat.persist.StoreConfig;
 import com.myapp.storage.accessor.*;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.NewsEntity;
-//import com.myapp.storage.entity.TweetEntity;
 import com.myapp.storage.entity.UserEntity;
 import com.sleepycat.je.Environment;
 import com.sleepycat.persist.EntityStore;
@@ -20,11 +18,10 @@ import com.myapp.utils.Const;
 import java.util.ArrayList;
 import java.util.List;
 
+//import org.apache.log4j.Logger;
 
-import org.apache.log4j.Logger;
 public class DBWrapper 
 {
-	private static String envDirectory = null;
 	private Environment env;
 	private File env_home;
 	private EntityStore store;
@@ -34,7 +31,6 @@ public class DBWrapper
 	 */
 	private UserAccessor userEA;
 	private GroupAccessor groupEA;
-	//private TweetAccessor newsEA;
 	private NewsAccessor newsEA;
 	private IdGeneratorAccessor idEA;
 	
@@ -82,10 +78,6 @@ public class DBWrapper
 		//logger.info("db setup!!");
 	}
 
-	private void initAccessors()
-	{
-		
-	}
 
 	/*
 	public EntityStore getStore(String name) throws DatabaseException
@@ -181,6 +173,7 @@ public class DBWrapper
 		return dir;
 	}
 
+	/*
 	private static File createFile(String root, String name) throws IOException
 	{
 		print("DBWrapper createFile: root: " + root + ", file: " + name);
@@ -192,7 +185,7 @@ public class DBWrapper
 		}
 		return file;
 	}
-	
+	*/
 
 	/**
 	 ******************* Accessor funcs****************************
@@ -268,24 +261,24 @@ public class DBWrapper
 		return  groupEA.getAllEntities(); 
 	}
 
-	public void StoreGroup(String name, String creator)
+	public GroupEntity storeGroup(String name, String creator)
 	{
-		groupEA.add(name, creator);
+		return groupEA.add(idEA.getNextGroupId(), name, creator);
 	}
 	
-	public GroupEntity getGroup(String name)
+	public GroupEntity getGroupEntity(Long id)
 	{
-		return groupEA.getEntity(name);
+		return groupEA.getEntity(id);
 	}
 
-	public boolean hasGroup(String name)
+	public boolean hasGroupByName(String name)
 	{
-		return groupEA.contains(name);
+		return groupEA.containsByName(name);
 	}
 
-	public String getGroupCreator(String name) 
+	public String getGroupCreator(Long id) 
 	{
-		GroupEntity g = getGroup(name);
+		GroupEntity g = getGroupEntity(id);
 		if(g == null)
 		{
 			return null;
@@ -381,7 +374,7 @@ public class DBWrapper
 		storeNews(news_obj, user);
 	}
 
-	public void addNewsMakeFriends(String username, String receiver) 
+	public void userAddNewsMakeFriends(String username, String receiver) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
@@ -445,12 +438,53 @@ public class DBWrapper
 		return null;
 	}
 
-	public void addFriend(String username, String friendname) 
+	public void userAddFriend(String username, String friendname) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
 		{
 			user.addFriend(friendname);
 		}
+	}
+
+	public ArrayList<String> getUserFriends(String username) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			return user.getFriends();
+		}
+		return null;
+	}
+
+	public ArrayList<Long> getUserGroup(String username) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			return user.getGroups();
+		}
+		return null;
+	}
+
+	public String getGroupName(long gid) 
+	{
+		GroupEntity gobj = getGroupEntity(gid);
+		if(gobj != null)
+		{
+			return gobj.getName();
+		}
+		return null;
+	}
+
+	public void userAddGroup(String username, Long id) 
+	{
+		UserEntity user = getUserEntity(username);
+		GroupEntity gobj = getGroupEntity(id);
+		if(user != null && gobj != null)
+		{
+			user.addGroup(id);
+			gobj.addMember(username);
+		}	
 	}		
 }

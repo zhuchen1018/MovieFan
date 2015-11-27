@@ -2,14 +2,10 @@ package com.myapp.storage.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Hashtable;
 
 import com.sleepycat.persist.model.Entity;
-import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
-import com.sleepycat.persist.model.SecondaryKey;
-import static  com.sleepycat.persist.model.Relationship.*;
-import com.sleepycat.persist.model.SecondaryKey;
+
 
 @Entity
 public class UserEntity
@@ -23,20 +19,12 @@ public class UserEntity
 
 	private long login_time; 
 
-	
 	//news' id
 	private ArrayList<Long>news= new ArrayList<Long>(); 
 
 	//friends username 
 	private ArrayList<String>friends = new ArrayList<String>(); 
 
-	/*
-	//tweet's id
-	private ArrayList<Long>tweets = new ArrayList<Long>(); 
-	//article 's id
-	private ArrayList<Long>articles = new ArrayList<Long>(); 
-	*/
-	
 	//comment's id
 	private ArrayList<Long>comments = new ArrayList<Long>(); 
 
@@ -96,6 +84,7 @@ public class UserEntity
 		return news;
 	}	
 	
+	
 	/*set funcs*/
 	public void setName(String data)
 	{
@@ -118,12 +107,6 @@ public class UserEntity
 		login_time = time;
 	}	
 	
-	private void print(String s)
-	{
-		System.out.println(s);
-	}
-
-	
 	public void addNews(Long id)
 	{
 		news.add(id);
@@ -134,27 +117,9 @@ public class UserEntity
 		friends.add(friendname);
 	}
 
-	/*
-	public void addTweet(Long id)
+	public void addGroup(Long id) 
 	{
-		tweets.add(id);
+		groups.add(id);
 	}
 
-	public void addArticle(Long id)
-	{
-		articles.add(id);
-	}
-
-	public ArrayList<Long> getAllTweets() 
-	{
-		return tweets;
-	}
-	
-	public ArrayList<Long> getAllArticles() 
-	{
-		return articles;
-	}
-	*/
-	
-	
 }

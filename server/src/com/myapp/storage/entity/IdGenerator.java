@@ -1,11 +1,6 @@
 package com.myapp.storage.entity;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Hashtable;
-
 import com.sleepycat.persist.model.Entity;
-import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 
 @Entity
@@ -32,10 +27,4 @@ public class IdGenerator
 		nextId ++;
 		return nextId;
 	}
-	
-	private void print(String s)
-	{
-		System.out.println(s);
-	}
-	
 }

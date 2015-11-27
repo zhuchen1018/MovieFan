@@ -1,10 +1,7 @@
 package com.myapp.storage.accessor;
 
-import java.util.ArrayList;
-
 import com.myapp.utils.Const;
 import com.myapp.storage.entity.IdGenerator;
-import com.myapp.storage.entity.TweetEntity;
 import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
 
@@ -29,18 +26,6 @@ public class IdGeneratorAccessor
 		return nextid;
 	}
 
-	/*
-	public long getNextTweetId() 
-	{
-		return getNextId(Const.TWEET_ID_TYPE); 
-	}
-
-	public long getNextArticled() 
-	{
-		return getNextId(Const.ARTICLE_ID_TYPE); 
-	}
-	*/
-	
 	public long getNextCommentId() 
 	{
 		return getNextId(Const.COMMENT_ID_TYPE); 

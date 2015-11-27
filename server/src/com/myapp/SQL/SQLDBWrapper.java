@@ -1,11 +1,7 @@
 package com.myapp.SQL;
 import java.beans.PropertyVetoException;
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Properties;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 

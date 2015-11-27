@@ -2,28 +2,22 @@ package com.myapp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
-import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.w3c.dom.Document;
-
-import com.myapp.utils.Const;
 import com.myapp.storage.DBWrapper;
-import com.myapp.storage.accessor.UserAccessor;
-import com.myapp.storage.entity.UserEntity;
-import com.myapp.utils.MD5Encryptor;
 import com.myapp.utils.ServletCommon;
 import com.myapp.utils.ServletConst;
 
 public class GroupServlet extends HttpServlet 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1849777603528766598L;
 	private DBWrapper db; 
 
 	public GroupServlet () throws IOException
@@ -74,16 +68,7 @@ public class GroupServlet extends HttpServlet
 			return;
 		}
 
-		String xpath_value = request.getParameter("NewGroupXPaths");
-		if(xpath_value == null)
-		{
-			ServletCommon.PrintErrorPage("Please enter xpaths.", response);
-			return;
-		}
-		xpath_value = URLDecoder.decode(xpath_value, "UTF-8");
-		String[] xpaths = xpath_value.split(";"); 
-
-		db.StoreGroup(name,  creator);
+		db.storeGroup(name,  creator);
 
 		/*
 		 * result page:
@@ -181,7 +166,7 @@ public class GroupServlet extends HttpServlet
 
 	private boolean hasGroup(String name) throws IOException 
 	{
-		return db.hasGroup(name);
+		return db.hasGroupByName(name);
 	}
 
 }

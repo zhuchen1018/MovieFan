@@ -9,7 +9,9 @@ import com.sleepycat.persist.model.PrimaryKey;
 public class GroupEntity 
 {
 	@PrimaryKey
+	private Long id;
 	private String name;
+	private String head_url;
 	private String creator;
 	private Set<String> keywords = new HashSet<String>();
 	private Set<String> members = new HashSet<String>();
@@ -18,15 +20,21 @@ public class GroupEntity
 	{
 	}
 	
-	public GroupEntity(String name, String creator)
+	public GroupEntity(Long id, String name, String creator)
 	{
+		this.id = id;
 		this.name = name;
 		this.creator = creator;
-		keywords = new HashSet<String>();
-		members = new HashSet<String>();
+		this.keywords = new HashSet<String>();
+		this.members = new HashSet<String>();
 	}
 
 	/*get funcs*/
+	public Long getId()
+	{
+		return id;
+	}
+
 	public String getName()
 	{
 		return name;
@@ -54,5 +62,15 @@ public class GroupEntity
 	private static void print(String s)
 	{
 		System.out.println(s);
+	}
+
+	public String getHeadUrl() 
+	{
+		return head_url;
+	}
+
+	public void addMember(String username) 
+	{
+		members.add(username);
 	}
 }

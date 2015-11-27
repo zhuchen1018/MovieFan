@@ -1,34 +1,25 @@
 package com.myapp.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URLDecoder;
 import java.util.Hashtable;
-import java.util.regex.Pattern;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.w3c.dom.Document;
 
 import com.myapp.SQL.SQLDBMovieQuery;
-import com.myapp.SQL.SQLDBWrapper;
-import com.myapp.storage.DBWrapper;
-import com.myapp.storage.accessor.UserAccessor;
-import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.Const;
-import com.myapp.utils.MD5Encryptor;
 import com.myapp.utils.ServletCommon;
 import com.myapp.utils.ServletConst;
 
 public class Search extends HttpServlet 
 {
-	private DBWrapper db; 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2835467381465359391L;
 
 	public void init()
 	{

@@ -2,29 +2,10 @@ package com.myapp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.regex.Pattern;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.w3c.dom.Document;
-
-import com.myapp.utils.Const;
 import com.myapp.storage.DBWrapper;
-import com.myapp.storage.accessor.UserAccessor;
-import com.myapp.storage.entity.GroupEntity;
-import com.myapp.storage.entity.UserEntity;
-import com.myapp.utils.MD5Encryptor;
 import com.myapp.utils.ServletCommon;
 
 
@@ -35,6 +16,10 @@ import com.myapp.utils.ServletCommon;
  */
 public class HomePage  extends HttpServlet 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8696988485281625971L;
 	private DBWrapper db; 
 
 	public HomePage () throws IOException

@@ -1,7 +1,6 @@
 package com.myapp.storage.entity;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.sleepycat.persist.model.Entity;
 

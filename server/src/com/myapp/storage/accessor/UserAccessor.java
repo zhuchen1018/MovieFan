@@ -1,18 +1,10 @@
 package com.myapp.storage.accessor;
 
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
-import com.sleepycat.persist.model.Entity;
-import com.sleepycat.persist.model.PrimaryKey;
-
-//import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.UserEntity;
-
 import java.util.Date;
 
-import org.apache.log4j.Logger;
 /*
  * DB Accessor for UserEntity 
  * @author Haoyun 

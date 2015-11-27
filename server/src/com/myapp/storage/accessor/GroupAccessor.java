@@ -1,18 +1,13 @@
 package com.myapp.storage.accessor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
-import com.sleepycat.persist.SecondaryIndex;
-
 import com.myapp.storage.entity.GroupEntity;
-
-import com.sleepycat.je.DatabaseEntry;
 import com.sleepycat.je.DatabaseException;
 
 /**
@@ -22,28 +17,31 @@ import com.sleepycat.je.DatabaseException;
  */
 public class GroupAccessor 
 {
-	private PrimaryIndex<String, GroupEntity> groups;
+	private PrimaryIndex<Long, GroupEntity> groupsById;
+
+	//TODO
+	//private SecondaryKey<Long, GroupEntity> groupsByName;
 
 	public GroupAccessor(EntityStore store)
 	{
-		groups = store.getPrimaryIndex(String.class, GroupEntity.class);
+		groupsById = store.getPrimaryIndex(Long.class, GroupEntity.class);
 	}
 
-	public PrimaryIndex<String, GroupEntity> getPrimaryIndex() 
+	public PrimaryIndex<Long, GroupEntity> getPrimaryIndex() 
 	{
-		return groups;
+		return groupsById;
 	}
 
 	public List<GroupEntity> getAllEntities()
 	{
-		List<GroupEntity> channelList = new ArrayList<GroupEntity>();
-		EntityCursor<GroupEntity> channel_cursor = this.groups.entities();
+		List<GroupEntity> gannelList = new ArrayList<GroupEntity>();
+		EntityCursor<GroupEntity> gannel_cursor = this.groupsById.entities();
 		try
 		{
-			Iterator<GroupEntity> iter = channel_cursor.iterator();
+			Iterator<GroupEntity> iter = gannel_cursor.iterator();
 			while(iter.hasNext())
 			{
-				channelList.add(iter.next());
+				gannelList.add(iter.next());
 			}
 		}
 		catch(DatabaseException dbe) 
@@ -52,34 +50,41 @@ public class GroupAccessor
 		}
 		finally
 		{
-			channel_cursor.close();
+			gannel_cursor.close();
 		}
-		return channelList;
+		return gannelList;
 	}
 
-	public GroupEntity getEntity(String name)
+	public GroupEntity getEntity(Long id)
 	{
-		return groups.get(name);
+		return groupsById.get(id);
 	}
 
-	public boolean delEntity(String pKey)
+	public boolean delEntity(Long pKey)
 	{
-		return groups.delete(pKey);
+		return groupsById.delete(pKey);
 	}
 
 	public GroupEntity putEntity(GroupEntity entity)
 	{
-		return groups.put(entity);
+		return groupsById.put(entity);
 	}
 
-	public boolean contains(String name) 
+	public boolean containsById(Long id) 
 	{
-		return groups.contains(name);
+		return groupsById.contains(id);
+	}
+	
+	public boolean containsByName(String name) 
+	{
+		//return groupsByName.contains(name);
+		return true;
 	}
 
-	public void add(String name, String creator) 
+	public GroupEntity add(long id, String name, String creator) 
 	{
-		GroupEntity ch = new GroupEntity(name,  creator);
-		putEntity(ch);
+		GroupEntity g = new GroupEntity(id, name,  creator);
+		putEntity(g);
+		return g;
 	}
 }

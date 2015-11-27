@@ -4,10 +4,7 @@ import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 import com.sleepycat.persist.model.SecondaryKey;
 import static com.sleepycat.persist.model.Relationship.*;
-
-import java.util.ArrayList;
 import java.util.Date;
-
 import static com.sleepycat.persist.model.DeleteAction.*;
 
 /**
