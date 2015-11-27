@@ -1,4 +1,6 @@
 package com.myapp.view;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class NewsObjectView {
@@ -33,6 +35,7 @@ public class NewsObjectView {
 		title=null;
 		movieId=null;
 		ToList=null;
+		releaseTime=-1;
 		type=-1;
 	}
 	
@@ -64,6 +67,10 @@ public class NewsObjectView {
 		this.type=type;
 	}
 	
+	public void setReleaseTime(long releaseTime){
+		this.releaseTime=releaseTime;
+	}
+	
 	public String getText(){
 		return text;
 	}
@@ -90,5 +97,10 @@ public class NewsObjectView {
 	
 	public int getType(){
 		return type;
+	}
+	
+	public String getReleaseTime(){
+		Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		formatter.format(releaseTime);
 	}
 }
