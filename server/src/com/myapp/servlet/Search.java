@@ -62,11 +62,18 @@ public class Search extends HttpServlet
 	{
 		String genre = request.getParameter("formDoor[]");
 		String order = request.getParameter("OrderBy");
+		String lengthJudge = request.getParameter("MovieLength");
+		int length;
+		if(lengthJudge==null){
+			length = -1;
+		}
+		else
+			length = Integer.valueOf(lengthJudge);
 
 		SQLDBMovieQuery sql=null;
 		try
 		{
-			sql = new SQLDBMovieQuery(order, genre);
+			sql = new SQLDBMovieQuery(order, genre,length);
 		}
 		catch(Exception ex)
 		{
