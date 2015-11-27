@@ -4,7 +4,8 @@
 </form>
 
 <br><br>
-<h3>Advance Search</h3>
+<h2>Advance Search</h2>
+<h4>Genre</h4>
 <form action= "/search_movie_result_advanced" method="post">
 <input type="radio" name="formDoor[]" value="Action" />Action &nbsp;
 <input type="radio" name="formDoor[]" value="Adventure" />Adventure &nbsp;
@@ -21,7 +22,15 @@
 <input type="radio" name="formDoor[]" value="Comedy" />Comedy &nbsp;
 <input type="radio" name="formDoor[]" value="Children" />Children &nbsp;
 <input type="radio" name="formDoor[]" value="Sci-Fi" />Sci-fi &nbsp;
-<input type="radio" name="formDoor[]" value="Musical" />Musical <br><br>
+<input type="radio" name="formDoor[]" value="Musical" />Musical <br>
+
+<h4>Length</h4>
+<input type="radio" name="MovieLength" value="0" />&#60;30 mins &nbsp;
+<input type="radio" name="MovieLength" value="1" />31-60 mins &nbsp;
+<input type="radio" name="MovieLength" value="2" />61-90 mins &nbsp;
+<input type="radio" name="MovieLength" value="3" />91-120 mins &nbsp;
+<input type="radio" name="MovieLength" value="4" />&#62;120 mins &nbsp;<br>
+
 
 <p>Order By</p>
 <select name ="OrderBy">
