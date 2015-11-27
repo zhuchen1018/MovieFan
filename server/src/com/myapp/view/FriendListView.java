@@ -24,4 +24,8 @@ public class FriendListView {
 		return friendList.size();
 	}
 	
+	public void addFriendObject(FriendObjectView friend){
+		friendList.add(friend);
+	}
+	
 }
