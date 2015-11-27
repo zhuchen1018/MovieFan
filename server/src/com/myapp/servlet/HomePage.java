@@ -83,6 +83,7 @@ public class HomePage  extends HttpServlet
 				+ "\" class=\"button\">My Page</a>");
 
 			out.println("<a href=\"/test_news \" class=\"button\">Test News Here</a>");
+			out.println("<a href=\"/test_friends \" class=\"button\">Test Friends Here</a>");
 		}
 
 		out.println("<a href=\"/search_movie\" class=\"button\">SearchMovie</a>");

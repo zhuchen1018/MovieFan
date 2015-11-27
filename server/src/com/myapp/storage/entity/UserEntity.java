@@ -129,6 +129,10 @@ public class UserEntity
 		news.add(id);
 	}
 
+	public void addFriend(String friendname) 
+	{
+		friends.add(friendname);
+	}
 
 	/*
 	public void addTweet(Long id)

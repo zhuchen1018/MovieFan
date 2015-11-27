@@ -444,4 +444,13 @@ public class DBWrapper
 		}
 		return null;
 	}
+
+	public void addFriend(String username, String friendname) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			user.addFriend(friendname);
+		}
+	}		
 }

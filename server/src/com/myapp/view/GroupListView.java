@@ -5,7 +5,7 @@ public class GroupListView {
 	private ArrayList<GroupObjectView> groupList;
 	
 	public GroupListView(){
-		
+		groupList = new ArrayList<GroupObjectView>();
 	}
 	
 	public GroupListView(ArrayList<GroupObjectView> groupList){

@@ -5,7 +5,7 @@ public class FriendListView {
 	private ArrayList<FriendObjectView> friendList;
 	
 	public FriendListView(){
-		
+		friendList = new ArrayList<FriendObjectView>();
 	}
 	
 	public FriendListView(ArrayList<FriendObjectView> friendList){

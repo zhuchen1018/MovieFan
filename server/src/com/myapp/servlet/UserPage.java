@@ -29,6 +29,8 @@ import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.MD5Encryptor;
 import com.myapp.utils.ServletCommon;
 import com.myapp.utils.ServletConst;
+import com.myapp.view.FriendListView;
+import com.myapp.view.FriendObjectView;
 import com.myapp.view.NewsListView;
 import com.myapp.view.NewsObjectView;
 
@@ -116,6 +118,11 @@ public class UserPage extends HttpServlet
 			handleTestNewsGet(request, response);
 			return;
 		}
+		else if(url.equals(ServletConst.TEST_FRIENDS_URL))
+		{
+			handleFriendsGet(request, response);
+			return;
+		}
 
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null || username.isEmpty())
@@ -123,14 +130,12 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
 		if(query == null || query.get("user") == null)
 		{
 			ServletCommon.PrintErrorPage(ServletConst.NO_THIS_USER_INFO,  response);
 			return;
 		}
-
 
 		String target_name = query.get("user");
 		initDB();
@@ -146,11 +151,65 @@ public class UserPage extends HttpServlet
 		{
 			showTweetWindow(username, response);
 			showAllRelatedNews(username, request, response);
+			showFriendList(username, request, response);
 		}
 		else
 		{
 			showNews(target_name, request, response);
 		}
+	}
+
+	private void handleFriendsGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null || username.isEmpty())
+		{
+			ServletCommon.PrintErrorPage(ServletConst.LOGIN_FIRST_INFO,  response);
+			return;
+		}
+
+		initDB();
+		
+		FriendListView flv = new FriendListView(); 
+
+		String friend = "a_friend";
+		db.addFriend(username, friend);
+		db.addNewsMakeFriends(username, friend);
+		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
+		FriendObjectView fov = new FriendObjectView(url, friend);
+		flv.addFriendObject(fov);
+
+
+		friend = "b_friend";
+		db.addFriend(username, friend); 
+		db.addNewsMakeFriends(username, friend);
+		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
+		FriendObjectView fov2 = new FriendObjectView(url, friend);
+		flv.addFriendObject(fov2);
+
+		friend = "c_friend";
+		db.addFriend(username, friend); 
+		db.addNewsMakeFriends(username, friend);
+		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
+		FriendObjectView fov3 = new FriendObjectView(url, friend);
+		flv.addFriendObject(fov3);
+		
+		//send it to jsp
+		request.setAttribute("FriendListView", null); 
+		request.setAttribute("FriendListView", flv); 
+
+		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/FriendList.jsp");
+		try {
+			rd.forward(request, response);
+		} catch (ServletException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
+		catch (IOException e1) 
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}	
 	}
 
 	/**
@@ -269,6 +328,10 @@ public class UserPage extends HttpServlet
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+	}
+	private void showFriendList(String username, HttpServletRequest request, HttpServletResponse response) 
+	{
+		
 	}
 
 	/**
