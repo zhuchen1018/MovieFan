@@ -101,6 +101,6 @@ public class NewsObjectView {
 	
 	public String getReleaseTime(){
 		Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		formatter.format(releaseTime);
+		return formatter.format(releaseTime);
 	}
 }
