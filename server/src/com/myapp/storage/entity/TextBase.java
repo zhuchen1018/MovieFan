@@ -27,14 +27,27 @@ class TextBase
     String body;
 	long releaseTime;
 	int like_nums;
-	int repost_nums;
 	
 	public TextBase() 
+	{
+		
+	}
+
+	public TextBase(long id, String body) 
 	{ 
+		this.id = id;
 		this.body = body;
 		this.releaseTime = (new Date()).getTime();
 		this.like_nums = 0;
-		this.repost_nums = 0;
+	}	
+	
+	public TextBase(String username, long id, String body) 
+	{ 
+		this.id = id;
+		this.body = body;
+		this.releaseTime = (new Date()).getTime();
+		this.like_nums = 0;
+		this.creator = username;
 	}	
 
 	public void addLikeNum() 
@@ -42,11 +55,6 @@ class TextBase
 		like_nums++;
 	}
 
-	public void addRepostNum()
-	{
-		repost_nums++;
-	}
-	
 	public long getId()
 	{
 		return id;
@@ -60,5 +68,15 @@ class TextBase
 	public String getBody() 
 	{
 		return body;
+	}
+	
+	public String getCreator() 
+	{
+		return creator;
+	}
+	
+	public int getLikeNums() 
+	{
+		return like_nums;
 	}
 }

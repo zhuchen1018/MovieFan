@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.myapp.storage.DBWrapper;
-
 public class ServletCommon 
 {
 	public static void PrintErrorPage(String info, HttpServletResponse response) 

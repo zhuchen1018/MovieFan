@@ -10,7 +10,8 @@ import com.sleepycat.je.EnvironmentFailureException;
 import com.sleepycat.persist.StoreConfig;
 import com.myapp.storage.accessor.*;
 import com.myapp.storage.entity.GroupEntity;
-import com.myapp.storage.entity.TweetEntity;
+import com.myapp.storage.entity.NewsEntity;
+//import com.myapp.storage.entity.TweetEntity;
 import com.myapp.storage.entity.UserEntity;
 import com.sleepycat.je.Environment;
 import com.sleepycat.persist.EntityStore;
@@ -33,7 +34,8 @@ public class DBWrapper
 	 */
 	private UserAccessor userEA;
 	private GroupAccessor groupEA;
-	private TweetAccessor tweetEA;
+	//private TweetAccessor newsEA;
+	private NewsAccessor newsEA;
 	private IdGeneratorAccessor idEA;
 	
 	private boolean is_close;
@@ -74,7 +76,7 @@ public class DBWrapper
 		
 		userEA = new UserAccessor(store);
 		groupEA = new GroupAccessor(store);
-		tweetEA = new TweetAccessor(store);
+		newsEA = new NewsAccessor(store);
 		idEA = new IdGeneratorAccessor(store);
 		
 		//logger.info("db setup!!");
@@ -200,12 +202,18 @@ public class DBWrapper
 		return userEA;
 	}
 
+	public void addNextNewsId()
+	{
+		idEA.getNextNewsId();
+	}
+
+	/*
 	public void addTweet(String username, String body) throws IOException 
 	{
 		UserEntity user  = getUserEntity(username);
 		if(user != null)
 		{
-			TweetEntity t = tweetEA.addTweet(idEA.getNextTweetId(), username, body);
+			NewsEntity t = newsEA.addTweet(idEA.getNextTweetId(), username, body);
 			userEA.addTweet(username, t.getId());
 		}
 		else
@@ -213,6 +221,7 @@ public class DBWrapper
 			//TODO: error log
 		}
 	}
+	*/
 
 	public void addUser(String name, String password) 
 	{
@@ -220,7 +229,7 @@ public class DBWrapper
 		ua.add(name, password);
 	}
 
-	public UserEntity getUserEntity(String name) throws IOException
+	public UserEntity getUserEntity(String name) 
 	{
 		UserAccessor ua = getUserAccessor();
 		return ua.getEntity(name); 
@@ -289,9 +298,146 @@ public class DBWrapper
 		System.out.println(s);
 	}
 
-	public ArrayList<TweetEntity> getTweetEntityByIds(ArrayList<Long> tweets_id)
+	/**
+	 * Get a user's news with max of limit
+	 * @param limit
+	 * @return
+	 */
+	public ArrayList<Long> getUserNews(String username, int limit)
 	{
-		return tweetEA.getTweetEntityByIds(tweets_id);
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			ArrayList<Long>news = user.getNews();
+			if(news != null)
+			{
+				List<Long> list = news.subList(Math.max(0, news.size() - limit), news.size());
+				return (ArrayList<Long>) list;
+			}
+			return user.getNews();
+		}
+		return null;
+	}
+	
+	/**
+	 * Get a user's all news 
+	 * @param limit
+	 * @return
+	 */
+	public ArrayList<Long> getUserNews(String username)
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			return user.getNews();
+		}
+		return null;
+	}
+		
+	public ArrayList<NewsEntity> getNewsEntityByIds(ArrayList<Long> ids)
+	{
+		return newsEA.getNewsEntityByIds(ids);
 	}
 
+	public void storeNews(NewsEntity news_obj, UserEntity user)
+	{
+		//update news store
+		newsEA.addNews(news_obj);
+		
+		//update user store
+		user.addNews(news_obj.getId());
+		userEA.putEntity(user);	
+	
+		store.sync();
+	}
+
+	/*All kinds of add news functions*/
+	
+	public void addNewsTwitter(String username, String tweet) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user == null)
+		{
+			print("addNewsTwitter: user is null " + username);
+			return;
+		}
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), tweet, Const.NEWS_TWITTER);
+		storeNews(news_obj, user);
+	}
+
+	public void addNewsMovieReview(String username, String title, String body, String movie_id, String movie_url) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user == null)
+		{
+			print("addNewsMovieReview: user is null " + username);
+			return;
+		}
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), title, body, movie_id, movie_url, Const.NEWS_MOVIE_REVIEW);
+		storeNews(news_obj, user);
+	}
+
+	public void addNewsMakeFriends(String username, String receiver) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user == null)
+		{
+			print("addNewsMakeFriends: user is null " + username);
+			return;
+		}
+		ArrayList<String>receivers = new ArrayList<String>();
+		receivers.add(receiver);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), receivers, Const.NEWS_MAKE_FRIENDS);
+		storeNews(news_obj, user);
+	}
+
+	public void addNewsAddGroup(String username, String groupid) 
+	{
+	
+		UserEntity user = getUserEntity(username);
+		if(user == null)
+		{
+			print("addNewsAddGroup: user is null " + username);
+			return;
+		}
+		ArrayList<String>receivers = new ArrayList<String>();
+		receivers.add(groupid);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), receivers, Const.NEWS_ADD_GROUP);
+		storeNews(news_obj, user);
+	}
+
+	public void addNewsShareMovies(String username, String movie_id, String url, ArrayList<String> friend_list) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user == null)
+		{
+			print("addNewsShareMovies: user is null " + username);
+			return;
+		}
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), movie_id, url, friend_list, Const.NEWS_SHARE_MOVIE);
+		storeNews(news_obj, user);
+	}
+
+	public void addNewsLikeMovie(String username, String movie_id, String url) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user == null)
+		{
+			print("addNewsTwitter: user is null " + username);
+			return;
+		}
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), movie_id, url, Const.NEWS_LIKE_MOVIE);
+		storeNews(news_obj, user);
+		
+	}
+
+	public ArrayList<String> getFriends(String username) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			return user.getFriends();
+		}
+		return null;
+	}
 }

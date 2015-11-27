@@ -195,22 +195,17 @@ public class SQLDBMovieQuery {
 		}
 	}
 	
-	private boolean searchMovieByName(){
+	private boolean searchMovieByName() throws Exception{
 		conn=SQLDBWrapper.getConnection();
-		names=new ArrayList<String>();
-		String s=name;
-		s=s.trim();
-		while(s.indexOf(" ")!=-1){
-			names.add(s.substring(0, s.indexOf(" ")));
-			s=s.substring(s.indexOf(" "), s.length());
-			s=s.trim();
+		if(conn==null) throw new Exception("connection not created!");
+		String[] tokens = name.trim().toLowerCase().split(" ");
+		names = new ArrayList<String>(Arrays.asList(tokens)); 
+		sql ="select * from basicTMDBInfo where lower(title) like '%";
+		for(String s: names)
+		{
+			sql = sql.concat(s.trim().concat("%"));
 		}
-		names.add(s);
-		sql="select * from basicTMDBInfo where title like '%";
-		for(int i=0;i<names.size();++i){
-			sql+=names.get(i)+"%";
-		}
-		sql+="'";
+		sql += "'";
 		System.out.println(sql);
 		return QueryMovieObject();
 	}

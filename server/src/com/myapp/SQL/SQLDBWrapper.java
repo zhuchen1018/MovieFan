@@ -1,4 +1,5 @@
 package com.myapp.SQL;
+import java.beans.PropertyVetoException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -6,57 +7,66 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
- *   Interface for the Relational DB
- *   for Movie data
+ * 
+ * SQL connection pool for sql connection
+ * Cause: new a connection to DB is a bottleneck, usually takes seconds.
  * @author Haoyun 
  *
  */
 public class SQLDBWrapper 
 {
-	public static Connection getConnection() 
+	private static ComboPooledDataSource cpds; 
+
+	//init the connection pool
+	static 
 	{
+		//long st = System.currentTimeMillis();
+		cpds = new ComboPooledDataSource();
+		try 
+		{
+			cpds.setDriverClass( "oracle.jdbc.driver.OracleDriver" ); 
+		} 
+		catch (PropertyVetoException e) 
+		{
+			e.printStackTrace();
+		} 
+
 		String host = "moviefans.cudyjofu9j3z.us-west-2.rds.amazonaws.com";
 		String port = "1521";
 		String sid = "EBDB";
 		String url = "jdbc:oracle:thin:@" + host + ":" + port + ":" + sid; 
 		String username = "jason";
 		String password = "962464cis550";
-		
-		Properties props = new Properties();
-		props.put("user", username);
-		props.put("password", password);
-		
-		//get connection
-		Connection conn=null;
-		try
-		{
-			DriverManager.registerDriver (new oracle.jdbc.OracleDriver());
-			conn = DriverManager.getConnection(url, props);
-		}
-		catch(SQLException ex){
-			ex.printStackTrace();
-		}
-		finally{
-			return conn;
-		}
-	
-		/*
-		//test query
-		String sql ="select count(*) from BASICTMDBINFO";
-		Statement st = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-		ResultSet result = st.executeQuery(sql);
 
-		while(result.next())
+		cpds.setJdbcUrl(url);
+		cpds.setUser(username);
+		cpds.setPassword(password);
+
+		cpds.setMinPoolSize(10);
+		cpds.setAcquireIncrement(5);
+		cpds.setMaxPoolSize(50);
+		
+		//System.out.println("Init connection pool time:" + (System.currentTimeMillis() - st));
+	}
+
+	public static Connection getConnection() 
+	{
+		try 
 		{
-			System.out.println("Result: " +  result.getString(1));
+			return cpds.getConnection();
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
 		}
-		*/
+		return null;
 	}
 }
 
 
 
-	
+
 

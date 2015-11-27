@@ -11,6 +11,7 @@ import com.sleepycat.persist.model.PrimaryKey;
 public class TweetEntity extends TextBase 
 {
 	ArrayList<Long>comments = new ArrayList<Long>(); 
+	int repost_nums;
 	
 	public TweetEntity()
 	{
