@@ -17,7 +17,7 @@ public class NewsObjectView {
 	private long releaseTime;
 	private int likeNums;	
 	
-	public NewsObjectView(String username, String text, String url, String title, String movieId,
+	public NewsObjectView(String username, String text, String url, String title, String movieId,String movieName, 
 			ArrayList<String>ToList, int type, long releaseTime, int likeNums)
 	{
 		this.username = username;
@@ -25,7 +25,7 @@ public class NewsObjectView {
 		this.url = url;
 		this.title = title;
 		this.movieId = movieId;
-		//this.movieName=movieName;
+		this.movieName=movieName;
 		this.ToList = ToList;
 		this.type = type;
 		this.releaseTime = releaseTime;
@@ -121,7 +121,7 @@ public class NewsObjectView {
 		if(type==Const.NEWS_MAKE_FRIENDS) return "make friend with";
 		if(type==Const.NEWS_LIKE_MOVIE) return "likes the movie";
 		if(type==Const.NEWS_MOVIE_REVIEW) return "comment the movie";
-		if(type==Const.NEWS_SHARE_MOVIE) return "shared the movie with";
+		if(type==Const.NEWS_SHARE_MOVIE) return "shared the movie";
 		if(type==Const.NEWS_ADD_GROUP) return "joined the group";
 		return "";
 	}
