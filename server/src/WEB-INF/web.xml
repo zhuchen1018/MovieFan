@@ -113,6 +113,26 @@
      <servlet-name>search</servlet-name>
      <url-pattern>/search_group_result</url-pattern>
    </servlet-mapping>  
+   
+   <servlet>
+     <servlet-name>group</servlet-name>
+     <servlet-class>com.myapp.servlet.GroupServlet</servlet-class> 
+   </servlet>
+    
+   <servlet-mapping>
+     <servlet-name>group</servlet-name>
+     <url-pattern>/create_group</url-pattern>
+   </servlet-mapping>  
+   
+   <servlet-mapping>
+     <servlet-name>group</servlet-name>
+     <url-pattern>/join_group</url-pattern>
+   </servlet-mapping>  
+   
+   <servlet-mapping>
+     <servlet-name>group</servlet-name>
+     <url-pattern>/leave_group</url-pattern>
+   </servlet-mapping>  
 
    <error-page>
    <error-code>404</error-code>

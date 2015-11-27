@@ -119,7 +119,14 @@ public class UserEntity
 
 	public void addGroup(Long id) 
 	{
-		groups.add(id);
+		if(!groups.contains(id))
+		{
+			groups.add(id);
+		}
 	}
 
+	public void leaveGroup(Long id) 
+	{
+		groups.remove(id);
+	}
 }

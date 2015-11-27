@@ -2,6 +2,7 @@ package com.myapp.storage.accessor;
 
 import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
+import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.UserEntity;
 import java.util.Date;
 
@@ -14,9 +15,9 @@ import java.util.Date;
 public class UserAccessor
 {
 	private PrimaryIndex<String, UserEntity> users;
-	
+
 	//static final Logger logger = Logger.getLogger(DBWrapper.class);	
-	
+
 	public UserAccessor(EntityStore store)
 	{
 		users = store.getPrimaryIndex(String.class, UserEntity.class);
@@ -48,12 +49,12 @@ public class UserAccessor
 	{
 		return users.get(name);
 	}
-	
+
 	public void putEntity(UserEntity user)
 	{
 		users.put(user);
 	}
-	
+
 	public boolean checkPassword(String name, String password) 
 	{
 		UserEntity ue = getEntity(name);
@@ -78,6 +79,26 @@ public class UserAccessor
 		return true;
 	}
 
+	public void addGroup(String username, Long id) 
+	{
+		UserEntity user = getEntity(username);
+		if(user != null)
+		{
+			user.addGroup(id);
+			putEntity(user);
+		}	
+	}
+
+	public void leaveGroup(String username, Long id) 
+	{
+		UserEntity user = getEntity(username);
+		if(user != null)
+		{
+			user.leaveGroup(id);
+			putEntity(user);
+		}	
+	}
+
 	/*
 	public void addTweet(String username, Long tid) 
 	{
@@ -89,6 +110,6 @@ public class UserAccessor
 		user.addTweet(tid);
 		putEntity(user);
 	}
-	*/
+	 */
 }
 

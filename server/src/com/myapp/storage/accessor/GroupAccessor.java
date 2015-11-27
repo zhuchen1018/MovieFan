@@ -74,7 +74,12 @@ public class GroupAccessor
 	{
 		return groupsById.contains(id);
 	}
-	
+
+	/**
+	 * TODO
+	 * @param name
+	 * @return
+	 */
 	public boolean containsByName(String name) 
 	{
 		//return groupsByName.contains(name);
@@ -86,5 +91,25 @@ public class GroupAccessor
 		GroupEntity g = new GroupEntity(id, name,  creator);
 		putEntity(g);
 		return g;
+	}
+
+	public void addMember(Long id, String username) 
+	{
+		GroupEntity g = getEntity(id);
+		if(g != null)
+		{
+			g.addMember(username);
+		}
+		putEntity(g);
+	}
+
+	public void removeMember(Long id, String username) 
+	{
+		GroupEntity g = getEntity(id);
+		if(g != null)
+		{
+			g.removeMember(username);
+		}
+		putEntity(g);
 	}
 }

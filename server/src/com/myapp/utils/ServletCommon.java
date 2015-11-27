@@ -33,7 +33,7 @@ public class ServletCommon
 		}
 	}
 
-	public static boolean isSessionValid(HttpServletRequest request )
+	public static boolean isSessionValid(HttpServletRequest request)
 	{
 		HttpSession session = request.getSession(false);
 		if(session == null)
@@ -47,7 +47,7 @@ public class ServletCommon
 		}
 		return false;
 	}
-
+	
 	public static String getSessionUsername(HttpServletRequest request )
 	{
 		HttpSession session = request.getSession(false);
@@ -78,7 +78,7 @@ public class ServletCommon
 	{
 		HttpSession session = request.getSession();
 		session.setAttribute("username", username); 
-		session.setMaxInactiveInterval(ServletConst.LOGIN_SESSION_AGE);
+		session.setMaxInactiveInterval(Const.LOGIN_SESSION_AGE);
 
 		/*
 		String host = request.getServerName();
@@ -124,7 +124,7 @@ public class ServletCommon
 
 	public static void gotoHome(HttpServletResponse res) throws IOException
 	{
-		ShowLink(ServletConst.HOME_URL, "Go to Home", res);
+		ShowLink(Const.HOME_URL, "Go to Home", res);
 	}
 
 	public static void ShowLink(String link, String name,  HttpServletResponse res) throws IOException 
@@ -189,5 +189,10 @@ public class ServletCommon
 	public static void redirect404(HttpServletResponse response)
 	{
 		sendRedirect(response, "/htmls/404.html");
+	}
+	
+	public static void redirect500(HttpServletResponse response)
+	{
+		sendRedirect(response, "/htmls/500.html");
 	}
 }

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.myapp.storage.DBWrapper;
 import com.myapp.utils.MD5Encryptor;
 import com.myapp.utils.ServletCommon;
-import com.myapp.utils.ServletConst;
+import com.myapp.utils.Const;
 
 
 public class Account extends HttpServlet 
@@ -43,15 +43,15 @@ public class Account extends HttpServlet
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String url = request.getServletPath();
-		if(url.equals(ServletConst.REGISTER_URL))
+		if(url.equals(Const.REGISTER_URL))
 		{
 			handleRegisterPost(request, response);
 		}
-		else if(url.equals(ServletConst.LOGIN_URL))
+		else if(url.equals(Const.LOGIN_URL))
 		{
 			handleLoginPost(request, response);
 		}
-		else if(url.equals(ServletConst.ACCOUNT_SETTING_URL))
+		else if(url.equals(Const.ACCOUNT_SETTING_URL))
 		{
 			handleSettingPost(request, response);
 		}
@@ -175,19 +175,19 @@ public class Account extends HttpServlet
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String url = request.getServletPath();
-		if(url.equals(ServletConst.LOGIN_URL))
+		if(url.equals(Const.LOGIN_URL))
 		{
 			handleLogin(request, response);
 		}
-		else if(url.equals(ServletConst.LOGOFF_URL))
+		else if(url.equals(Const.LOGOFF_URL))
 		{
 			handleLogoff(request, response);
 		}
-		else if(url.equals(ServletConst.REGISTER_URL))
+		else if(url.equals(Const.REGISTER_URL))
 		{
 			handleRegister(request, response);
 		}
-		else if(url.equals(ServletConst.ACCOUNT_SETTING_URL))
+		else if(url.equals(Const.ACCOUNT_SETTING_URL))
 		{
 			handleSetting(request, response);
 		}

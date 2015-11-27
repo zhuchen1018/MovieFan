@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.myapp.SQL.SQLDBMovieQuery;
 import com.myapp.utils.Const;
 import com.myapp.utils.ServletCommon;
-import com.myapp.utils.ServletConst;
+import com.myapp.utils.Const;
 
 public class Search extends HttpServlet 
 {
@@ -31,19 +31,19 @@ public class Search extends HttpServlet
 	{
 		String url = request.getServletPath();
 		System.out.println("doPost: " + url);
-		if(url.equals(ServletConst.SEARCH_MOVIE_RES))
+		if(url.equals(Const.SEARCH_MOVIE_RES))
 		{
 			handleSearchMoviePost(request, response);
 		}
-		else if(url.equals(ServletConst.SEARCH_MOVIE_RES_ADVANCED))
+		else if(url.equals(Const.SEARCH_MOVIE_RES_ADVANCED))
 		{
 			handleSearchMovieAdvancedPost(request, response);
 		}
-		else if(url.equals(ServletConst.SEARCH_USER_RES))
+		else if(url.equals(Const.SEARCH_USER_RES))
 		{
 			handleSearchUserPost(request, response);
 		}
-		else if(url.equals(ServletConst.SEARCH_GROUP_RES))
+		else if(url.equals(Const.SEARCH_GROUP_RES))
 		{
 			handleSearchGroupPost(request, response);
 		}
@@ -160,15 +160,15 @@ public class Search extends HttpServlet
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String url = request.getServletPath();
-		if(url.equals(ServletConst.SEARCH_MOVIE))
+		if(url.equals(Const.SEARCH_MOVIE))
 		{
 			handleSearchMovieGet(request, response);
 		}
-		else if(url.equals(ServletConst.SEARCH_USER))
+		else if(url.equals(Const.SEARCH_USER))
 		{
 			handleSearchUserGet(request, response);
 		}
-		else if(url.equals(ServletConst.SEARCH_GROUP))
+		else if(url.equals(Const.SEARCH_GROUP))
 		{
 			handleSearchGroupGet(request, response);
 		}

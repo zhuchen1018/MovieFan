@@ -390,7 +390,6 @@ public class DBWrapper
 
 	public void addNewsAddGroup(String username, String groupid) 
 	{
-	
 		UserEntity user = getUserEntity(username);
 		if(user == null)
 		{
@@ -483,8 +482,20 @@ public class DBWrapper
 		GroupEntity gobj = getGroupEntity(id);
 		if(user != null && gobj != null)
 		{
-			user.addGroup(id);
-			gobj.addMember(username);
+			userEA.addGroup(username, id);
+			groupEA.addMember(id, username);
+			addNewsAddGroup(username, String.valueOf(id)); 
 		}	
+	}
+
+	public void userLeaveGroup(String username, Long id) 
+	{
+		UserEntity user = getUserEntity(username);
+		GroupEntity gobj = getGroupEntity(id);
+		if(user != null && gobj != null)
+		{
+			userEA.leaveGroup(username, id);
+			groupEA.removeMember(id, username);
+		}		
 	}		
 }

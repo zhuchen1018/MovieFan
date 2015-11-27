@@ -53,7 +53,7 @@ public class HomePage  extends HttpServlet
 		out.println("<a href=\"/register\" class=\"button\">Register</a>");
 			
 
-		if(!ServletCommon.isSessionValid(request))
+		if(!ServletCommon.hasLoginSession(request))
 		{
 			out.println("<P>" + "\n" + "</P>");
 			out.println("<a href=\"/login\" class=\"button\">Login</a>");
@@ -69,6 +69,7 @@ public class HomePage  extends HttpServlet
 
 			out.println("<a href=\"/test_news \" class=\"button\">Test News Here</a>");
 			out.println("<a href=\"/test_friends \" class=\"button\">Test Friends Here</a>");
+			out.println("<a href=\"/create_group \" class=\"button\">Test Creater Group </a>");
 		}
 
 		out.println("<a href=\"/search_movie\" class=\"button\">SearchMovie</a>");

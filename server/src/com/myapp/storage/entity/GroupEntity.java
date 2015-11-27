@@ -73,4 +73,9 @@ public class GroupEntity
 	{
 		members.add(username);
 	}
+
+	public void removeMember(String username) 
+	{
+		members.remove(username);
+	}
 }

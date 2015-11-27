@@ -22,7 +22,6 @@ import com.myapp.storage.DBWrapper;
 import com.myapp.storage.accessor.UserAccessor;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.UserEntity;
-import com.myapp.utils.HttpClient;
 
 import org.w3c.dom.Document;
 

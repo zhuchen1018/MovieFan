@@ -8,7 +8,6 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import org.junit.Test;
 
-import com.myapp.utils.HttpClient;
 
 import junit.framework.TestCase;
 
@@ -29,15 +28,6 @@ public class TestNetworkIO extends TestCase
 		long date = HttpClient.getUrlLastModified(url); 
 		print("lastModified: " + date);
 		*/
-	}
-
-	@Test
-	public void testGET() throws UnknownHostException, IOException 
-	{
-		String url = "https://dbappserv.cis.upenn.edu/crawltest.html";
-		//url = "http://www.nba.com/";
-		String content = HttpClient.fetchFileContent(url);
-		print("Content: " + content);
 	}
 	
 	@Test

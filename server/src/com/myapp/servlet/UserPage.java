@@ -22,7 +22,7 @@ import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.NewsEntity;
 import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.ServletCommon;
-import com.myapp.utils.ServletConst;
+import com.myapp.utils.Const;
 import com.myapp.view.FriendListView;
 import com.myapp.view.FriendObjectView;
 import com.myapp.view.GroupListView;
@@ -58,15 +58,15 @@ public class UserPage extends HttpServlet
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String url = request.getServletPath();
-		if(url.equals(ServletConst.USER_TWEET_URL))
+		if(url.equals(Const.USER_TWEET_URL))
 		{
 			handleTweetPost(request, response);
 		}
-		else if(url.equals(ServletConst.USER_COMMENT_URL))
+		else if(url.equals(Const.USER_COMMENT_URL))
 		{
 			handleCommentPost(request, response);
 		}
-		else if(url.equals(ServletConst.USER_ARTICLE_URL))
+		else if(url.equals(Const.USER_ARTICLE_URL))
 		{
 			handleArticlePost(request, response);
 		}
@@ -89,7 +89,7 @@ public class UserPage extends HttpServlet
 		String username = (String) session.getAttribute("username");
 		if(username == null || username.isEmpty())
 		{
-			ServletCommon.PrintErrorPage(ServletConst.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
 			return;
 		}	
 
@@ -111,22 +111,22 @@ public class UserPage extends HttpServlet
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String url = request.getServletPath();
-		if(url.equals(ServletConst.TEST_USER_NEWS_URL))
+		if(url.equals(Const.TEST_USER_NEWS_URL))
 		{
 			handleTestNewsGet(request, response);
 			return;
 		}
-		else if(url.equals(ServletConst.TEST_FRIENDS_URL))
+		else if(url.equals(Const.TEST_FRIENDS_URL))
 		{
 			handleTestFriendsGet(request, response);
 			return;
 		}
-		else if(url.equals(ServletConst.TEST_GROUPS_URL))
+		else if(url.equals(Const.TEST_GROUPS_URL))
 		{
 			handleTestGroupsGet(request, response);
 			return;
 		}
-		else if(url.equals(ServletConst.USER_PAGE_URL))
+		else if(url.equals(Const.USER_PAGE_URL))
 		{
 			handleUserPageGet(request, response);
 		}
@@ -142,7 +142,7 @@ public class UserPage extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null || username.isEmpty())
 		{
-			ServletCommon.PrintErrorPage(ServletConst.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
 			return;
 		}
 
@@ -220,7 +220,6 @@ public class UserPage extends HttpServlet
 	 */
 	private void handleUserPageGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		//get query string for which user page
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
 		if(query == null || query.get("user") == null)
 		{
@@ -240,7 +239,7 @@ public class UserPage extends HttpServlet
 		UserEntity user = db.getUserEntity(targetName);
 		if(user == null)
 		{
-			ServletCommon.PrintErrorPage(ServletConst.NO_THIS_USER_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
 			return;
 		}
 
@@ -320,7 +319,7 @@ public class UserPage extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null || username.isEmpty())
 		{
-			ServletCommon.PrintErrorPage(ServletConst.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
 			return;
 		}
 
@@ -378,7 +377,7 @@ public class UserPage extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null || username.isEmpty())
 		{
-			ServletCommon.PrintErrorPage(ServletConst.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
 			return;
 		}
 
