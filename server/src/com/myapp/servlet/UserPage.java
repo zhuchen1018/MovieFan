@@ -251,16 +251,17 @@ public class UserPage extends HttpServlet
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", newsListView); 
 
-		PrintWriter out;
-		try 
-		{
-			out = response.getWriter();
-			out.println("<P>" + "\n" + "</P>");
-			out.println("<a href=\"/user_page" + "?" + "user=" + username + "\" class=\"button\">My Page</a>");
+		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/NewsList.jsp");
+		try {
+			rd.forward(request, response);
+		} catch (ServletException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		} 
-		catch (IOException e) 
+		catch (IOException e1) 
 		{
-			e.printStackTrace();
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
 	}
 
