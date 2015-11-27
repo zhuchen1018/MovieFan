@@ -2,31 +2,26 @@ package com.myapp.view;
 import java.util.*;
 
 public class FriendListView {
-	private ArrayList<String> name;
-	private ArrayList<String> pageUrl;
+	private ArrayList<FriendObjectView> friendList;
 	
 	public FriendListView(){
 		
 	}
 	
-	public FriendListView(ArrayList<String> name,ArrayList<String> pageUrl){
-		this.name=name;
-		this.pageUrl=pageUrl;
+	public FriendListView(ArrayList<FriendObjectView> friendList){
+		this.friendList=friendList;
 	}
 	
-	public void setName(ArrayList<String> name){
-		this.name=name;
+	public void setFriendList(ArrayList<FriendObjectView> friendList){
+		this.friendList=friendList;
 	}
 	
-	public void setPageUrl(ArrayList<String> pageUrl){
-		this.pageUrl=pageUrl;
+	public ArrayList<FriendObjectView> getFriendList(){
+		return friendList;
 	}
 	
-	public ArrayList getName(){
-		return name;
+	public int getFriendCount(){
+		return friendList.size();
 	}
 	
-	public ArrayList getPageUrl(){
-		return pageUrl;
-	}
 }

@@ -121,7 +121,7 @@ public class NewsObjectView {
 		if(type==Const.NEWS_MAKE_FRIENDS) return "make friend with";
 		if(type==Const.NEWS_LIKE_MOVIE) return "likes the movie";
 		if(type==Const.NEWS_MOVIE_REVIEW) return "comment the movie";
-		if(type==Const.NEWS_SHARE_MOVIE) return "shared the movie";
+		if(type==Const.NEWS_SHARE_MOVIE) return "shared the movied";
 		if(type==Const.NEWS_ADD_GROUP) return "joined the group";
 		return "";
 	}
