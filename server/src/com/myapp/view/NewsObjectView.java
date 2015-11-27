@@ -3,6 +3,8 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.myapp.utils.Const;
+
 public class NewsObjectView {
 	private String text;
 	private String username;
@@ -102,5 +104,15 @@ public class NewsObjectView {
 	public String getReleaseTime(){
 		Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return formatter.format(releaseTime);
+	}
+	
+	public String getNote(){
+		if(type==Const.NEWS_TWITTER) return "published a twitt";
+		if(type==Const.NEWS_MAKE_FRIENDS) return "make friend with";
+		if(type==Const.NEWS_LIKE_MOVIE) return "likes the movie";
+		if(type==Const.NEWS_MOVIE_REVIEW) return "comment the movie";
+		if(type==Const.NEWS_SHARE_MOVIE) return "shared the movie with";
+		if(type==Const.NEWS_ADD_GROUP) return "joined the group";
+		return "";
 	}
 }
