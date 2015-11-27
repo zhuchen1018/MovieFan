@@ -10,7 +10,7 @@ public class NewsEntity extends TextBase
 {
 	String title = null;
 	
-	byte newsType;
+	int newsType;
 	
 	String movie_id = null;
 	String movie_poster_url = null;
@@ -33,7 +33,7 @@ public class NewsEntity extends TextBase
 	 * @param body
 	 * @param type
 	 */
-	public NewsEntity(String username,long id, String body, byte type) 
+	public NewsEntity(String username,long id, String body, int type) 
 	{ 
 		super(username, id, body);
 		newsType = type;
@@ -46,7 +46,7 @@ public class NewsEntity extends TextBase
 	 * @param newsMovieReview 
 	 * @param String
 	 */
-	public NewsEntity(String username, long id, String t, String body, String mid, String url, byte type) 
+	public NewsEntity(String username, long id, String t, String body, String mid, String url, int type) 
 	{ 
 		super(username, id, body);
 		title = t;
@@ -63,7 +63,7 @@ public class NewsEntity extends TextBase
 	 * @param body
 	 * @param type
 	 */
-	public NewsEntity(String username, long id,  ArrayList<String>receivers, byte type) 
+	public NewsEntity(String username, long id,  ArrayList<String>receivers, int type) 
 	{ 
 		super(username, id, null);
 		newsType = type;
@@ -76,7 +76,7 @@ public class NewsEntity extends TextBase
 	 * @param body
 	 * @param type
 	 */
-	public NewsEntity(String username, long id,  String mid, String url, ArrayList<String>friends, byte type) 
+	public NewsEntity(String username, long id,  String mid, String url, ArrayList<String>friends, int type) 
 	{ 
 		super(username, id, null);
 		newsType = type;
@@ -95,7 +95,7 @@ public class NewsEntity extends TextBase
 	 * @param url
 	 * @param newsLikeMovie
 	 */
-	public NewsEntity(String username, long id, String mid, String url, byte type) 
+	public NewsEntity(String username, long id, String mid, String url, int type) 
 	{
 		super(username, id, null);
 		newsType = type;
@@ -109,7 +109,7 @@ public class NewsEntity extends TextBase
 	
 	/*GET FUNCTIONS*/
 
-	public byte getNewsType() 
+	public int getNewsType() 
 	{
 		return newsType;
 	}

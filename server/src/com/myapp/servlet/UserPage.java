@@ -7,9 +7,12 @@ import java.net.URLDecoder;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.regex.Pattern;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +29,10 @@ import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.MD5Encryptor;
 import com.myapp.utils.ServletCommon;
 import com.myapp.utils.ServletConst;
+import com.myapp.view.NewsListView;
+import com.myapp.view.NewsObjectView;
+
+import oracle.sql.DATE;
 
 public class UserPage extends HttpServlet 
 {
@@ -62,17 +69,17 @@ public class UserPage extends HttpServlet
 		{
 			handleArticlePost(request, response);
 		}
-		
+
 	}
 
 	private void handleArticlePost(HttpServletRequest request, HttpServletResponse response) 
 	{
-		
+
 	}
 
 	private void handleCommentPost(HttpServletRequest request, HttpServletResponse response) 
 	{
-		
+
 	}
 
 	private void handleTweetPost(HttpServletRequest request, HttpServletResponse response) throws IOException
@@ -97,7 +104,7 @@ public class UserPage extends HttpServlet
 		db.sync();
 
 		showTweetWindow(username, response);
-		showAllRelatedNews(username, response);
+		showAllRelatedNews(username, request, response);
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -138,11 +145,11 @@ public class UserPage extends HttpServlet
 		if(ServletCommon.isMyPage(target_name, request))
 		{
 			showTweetWindow(username, response);
-			showAllRelatedNews(username, response);
+			showAllRelatedNews(username, request, response);
 		}
 		else
 		{
-			showNews(target_name, response);
+			showNews(target_name, request, response);
 		}
 	}
 
@@ -156,40 +163,105 @@ public class UserPage extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null || username.isEmpty())
 		{
+			ServletCommon.PrintErrorPage(ServletConst.LOGIN_FIRST_INFO,  response);
 			return;
 		}
 
 		initDB();
 
+		NewsListView newsListView = new NewsListView();
+
 		//twitter
-		String tweet = "hello world";
-		db.addNewsTwitter(username, tweet);
-		
+		String text = "hello world";
+		String url = null; 
+		String title = null; 
+		String movieId = null; 
+		ArrayList<String>ToList = null;
+		int type = Const.NEWS_TWITTER; 
+		long releaseTime = (new Date()).getTime(); 
+		int likeNums = 2; 
+		NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		newsListView.addNews(newsViewObj);
+		db.addNewsTwitter(username, text);
+
 		//movie review
-		String  title = "This is title";
-		String  review_body = "this is the review body";
-		String  receive_movie_id = "843";
-		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		db.addNewsMovieReview(username, title, review_body, receive_movie_id, url);
+		text = "this is the moviee review body";
+		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
+		title = "This is title";
+		movieId = "843";
+		ToList = null;
+		type = Const.NEWS_MOVIE_REVIEW; 
+		newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		newsListView.addNews(newsViewObj);
+		db.addNewsMovieReview(username, title, text, movieId, url);
 
 		//make friends
+		text = null;
+		url = null;
+		title = null;
+		movieId = null;
 		String  receiver = "jason123";
+		ToList = new ArrayList<String>();
+		ToList.add(receiver);
+		type = Const.NEWS_MAKE_FRIENDS; 
+		newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		newsListView.addNews(newsViewObj);
 		db.addNewsMakeFriends(username, receiver); 
-		
+
 		//add group
+		text = null;
+		url = null;
+		title = null;
+		movieId = null;
 		String  groupid = "123";
+		ToList = new ArrayList<String>();	
+		ToList.add(groupid);
+		type = Const.NEWS_ADD_GROUP; 
+		newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		newsListView.addNews(newsViewObj);
 		db.addNewsAddGroup(username, groupid); 
-		
+
 		//share movies
-		String  movie_id = "843";
-		ArrayList<String>friend_list = new ArrayList<String>();
-		friend_list.add("jason1");
-		friend_list.add("jason2");
-		friend_list.add("jason3");
-		db.addNewsShareMovies(username, movie_id, url, friend_list); 
-		
-		//like movie 
-		db.addNewsLikeMovie(username, movie_id, url); 
+		text = null;
+		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
+		title = null;
+		movieId = "843";
+		ToList = new ArrayList<String>();
+		ToList.add("jason1");
+		ToList.add("jason2");
+		ToList.add("jason3");
+		type = Const.NEWS_SHARE_MOVIE; 
+		newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		newsListView.addNews(newsViewObj);
+		db.addNewsShareMovies(username, movieId, url, ToList); 
+
+		//like movies
+		text = null;
+		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
+		title = null;
+		movieId = "843";
+		ToList = null;
+		type = Const.NEWS_LIKE_MOVIE; 
+		newsViewObj = new NewsObjectView(username, text, url, title, movieId, ToList, type, releaseTime, likeNums);
+		newsListView.addNews(newsViewObj);
+		db.addNewsLikeMovie(username, movieId, url); 
+
+
+		//send it to jsp
+		request.setAttribute("NewsListView", null); 
+		request.setAttribute("NewsListView", newsListView); 
+
+		PrintWriter out;
+		try 
+		{
+			out = response.getWriter();
+			out.println("<P>" + "\n" + "</P>");
+			out.println("<a href=\"/user_page" + "?" + "user=" + username + "\" class=\"button\">My Page</a>");
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -199,7 +271,7 @@ public class UserPage extends HttpServlet
 	 * @param username
 	 * @param response
 	 */
-	private void showNews(String username, HttpServletResponse response) 
+	private void showNews(String username, HttpServletRequest request, HttpServletResponse response) 
 	{
 		response.setContentType("text/html");
 		PrintWriter out;
@@ -209,6 +281,7 @@ public class UserPage extends HttpServlet
 
 			initDB();
 
+			/*
 			ArrayList<Long>newsId = db.getUserNews(username); 
 			if(newsId == null)
 			{
@@ -231,10 +304,19 @@ public class UserPage extends HttpServlet
 					out.println("<P>" + "body: " + t.getBody() + "</P>");
 				}
 			}
+			 */
+			RequestDispatcher rd= request.getRequestDispatcher ("/jsp/NewsList.jsp");
+			rd.forward(request, response);
 		}
-		catch (IOException e) 
+		catch(IOException e)
 		{
 			e.printStackTrace();
+			ServletCommon.redirect404(response);
+		} 
+		catch (ServletException e) 
+		{
+			e.printStackTrace();
+			ServletCommon.redirect404(response);
 		}
 	}
 
@@ -244,11 +326,12 @@ public class UserPage extends HttpServlet
 	 * @param username
 	 * @param response
 	 */
-	private void showAllRelatedNews(String username, HttpServletResponse response) 
+	private void showAllRelatedNews(String username, HttpServletRequest request, HttpServletResponse response) 
 	{
 		initDB();
+		//TODO:
 		ArrayList<String>friends = db.getFriends(username);
-		showNews(username, response);
+		showNews(username, request, response);
 	}
 
 	private void showTweetWindow(String username, HttpServletResponse response) throws IOException 

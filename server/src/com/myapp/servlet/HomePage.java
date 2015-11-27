@@ -81,6 +81,8 @@ public class HomePage  extends HttpServlet
 			out.println("<P>" + "\n" + "</P>");
 			out.println("<a href=\"/user_page" + "?" + "user=" + ServletCommon.getSessionUsername(request) 
 				+ "\" class=\"button\">My Page</a>");
+
+			out.println("<a href=\"/test_news \" class=\"button\">Test News Here</a>");
 		}
 
 		out.println("<a href=\"/search_movie\" class=\"button\">SearchMovie</a>");

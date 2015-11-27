@@ -23,10 +23,10 @@ public class Const
 	/**
 	 * User news type
 	 */
-	public final static byte NEWS_TWITTER = 1; 
-	public final static byte NEWS_MOVIE_REVIEW = 2; 
-	public final static byte NEWS_MAKE_FRIENDS = 3; 
-	public final static byte NEWS_ADD_GROUP = 4; 
-	public final static byte NEWS_SHARE_MOVIE = 5; 
-	public final static byte NEWS_LIKE_MOVIE = 6; 
+	public final static int NEWS_TWITTER = 1; 
+	public final static int NEWS_MOVIE_REVIEW = 2; 
+	public final static int NEWS_MAKE_FRIENDS = 3; 
+	public final static int NEWS_ADD_GROUP = 4; 
+	public final static int NEWS_SHARE_MOVIE = 5; 
+	public final static int NEWS_LIKE_MOVIE = 6; 
 }
