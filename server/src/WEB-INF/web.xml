@@ -114,6 +114,16 @@
      <url-pattern>/search_group_result</url-pattern>
    </servlet-mapping>  
    
+    <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/search_google</url-pattern>
+   </servlet-mapping>  
+   
+   <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/search_google_result</url-pattern>
+   </servlet-mapping>  
+   
    <servlet>
      <servlet-name>group</servlet-name>
      <servlet-class>com.myapp.servlet.GroupServlet</servlet-class> 

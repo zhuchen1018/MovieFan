@@ -1,6 +1,10 @@
 package com.myapp.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Hashtable;
 
 import javax.servlet.RequestDispatcher;
@@ -9,9 +13,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import com.myapp.SQL.SQLDBMovieQuery;
 import com.myapp.utils.Const;
 import com.myapp.utils.ServletCommon;
+import com.myapp.view.GoogleListView;
+import com.myapp.view.GoogleObjectView;
 import com.myapp.utils.Const;
 
 public class Search extends HttpServlet 
@@ -46,6 +56,63 @@ public class Search extends HttpServlet
 		else if(url.equals(Const.SEARCH_GROUP_RES))
 		{
 			handleSearchGroupPost(request, response);
+		}
+		else if(url.equals(Const.SEARCH_GOOGLE_RES))
+		{
+			handleSearchGooglePost(request, response);
+		}
+	}
+
+	private void handleSearchGooglePost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String search = request.getParameter("search_google"); 
+		if(search == null || search.isEmpty())
+		{
+			ServletCommon.redirect404(response);
+			return;
+		}
+		String google = "http://www.google.com/search?q=";
+		String charset = "UTF-8";
+		String userAgent = "cis455"; 
+		try 
+		{
+			GoogleListView glv = new GoogleListView();
+			Elements links = Jsoup.connect(google + URLEncoder.encode(search, charset)).userAgent(userAgent).get().select("li.g>h3>a");
+			System.out.println("google links size: " + links.size());
+			for (Element link : links) 
+			{
+				String title = link.text();
+				//Google returns URLs in format "http://www.google.com/url?q=<url>&sa=U&ei=<someKey>".
+				String url = link.absUrl("href"); 
+				url = URLDecoder.decode(url.substring(url.indexOf('=') + 1, url.indexOf('&')), "UTF-8");
+				if (!url.startsWith("http")) 
+				{
+					continue; 
+				}
+				GoogleObjectView gov = new GoogleObjectView(title, url);
+				glv.addResult(gov);
+			}
+			request.setAttribute("GoogleListView", null); 
+			request.setAttribute("GoogleListView", glv); 
+
+			RequestDispatcher rd= request.getRequestDispatcher ("/jsp/GoogleList.jsp");
+			try 
+			{
+				rd.forward(request, response);
+			} 
+			catch (IOException | ServletException e) 
+			{
+				e.printStackTrace();
+				ServletCommon.redirect404(response);
+			}
+		} 
+		catch (UnsupportedEncodingException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
 		}
 	}
 
@@ -172,10 +239,20 @@ public class Search extends HttpServlet
 		{
 			handleSearchGroupGet(request, response);
 		}
+		else if(url.equals(Const.SEARCH_GOOGLE))
+		{
+			handleSearchGoogleGet(request, response);
+		}
 		else
 		{
 			ServletCommon.redirect404(response);
 		}
+	}
+
+	private void handleSearchGoogleGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String location = "/htmls/SearchGooglePage.html";
+		ServletCommon.sendRedirect(response, location);
 	}
 
 	private void handleSearchGroupGet(HttpServletRequest request, HttpServletResponse response) 
