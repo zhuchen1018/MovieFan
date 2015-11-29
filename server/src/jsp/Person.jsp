@@ -21,7 +21,10 @@
  <td><span class="caption"><%=name%></span></td> &nbsp;
 </div>
 <%}else{ %>
-<td><%=name%> </td> &nbsp; <img src="/images/not-found.png" alt="Profile" style="width:80px;height:80px;">
+<div class="item">
+ <img src="/images/not-found.png" alt="Profile" style="width:80px;height:80px;">
+ <td><span class="caption"><%=name%></span></td> &nbsp;
+ </div>
 <%} %>
 </body>
 </html>

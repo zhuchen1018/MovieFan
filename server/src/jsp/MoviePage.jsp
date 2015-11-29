@@ -51,7 +51,11 @@
     <br>
     <div id="content"><h4>OverView </h4><td><%=overview%></td></div> <br>
 </div>
-
+<br>
+<br>
+<br>
+<br>
+<br>
     <h4>director:</h4><br>
     <%request.getSession().setAttribute("person",director);%>
     <jsp:include page="Person.jsp"/>
