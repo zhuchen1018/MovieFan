@@ -17,11 +17,11 @@ import javax.servlet.http.HttpSession;
 
 
 import com.myapp.utils.Const;
+import com.myapp.utils.ServletCommon;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.NewsEntity;
 import com.myapp.storage.entity.UserEntity;
-import com.myapp.utils.ServletCommon;
 import com.myapp.utils.Const;
 import com.myapp.view.FriendListView;
 import com.myapp.view.FriendObjectView;
@@ -58,6 +58,7 @@ public class UserPage extends HttpServlet
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String url = request.getServletPath();
+		/*
 		if(url.equals(Const.USER_TWEET_URL))
 		{
 			handleTweetPost(request, response);
@@ -70,7 +71,7 @@ public class UserPage extends HttpServlet
 		{
 			handleArticlePost(request, response);
 		}
-
+		*/
 	}
 
 	private void handleArticlePost(HttpServletRequest request, HttpServletResponse response) 
@@ -104,14 +105,23 @@ public class UserPage extends HttpServlet
 		db.addNewsTwitter(username, info); 
 		db.sync();
 
-		showTweetWindow(username, response);
-		showAllRelatedNews(username, request, response);
+		//showTweetWindow(username, response);
+		//showAllRelatedNews(username, request, response);
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 	{
+		if(!ServletCommon.hasLoginSession(request))
+		{
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			return;
+		}
 		String url = request.getServletPath();
-		if(url.equals(Const.TEST_USER_NEWS_URL))
+		if(url.equals(Const.USER_PAGE_URL))
+		{
+			handleUserPageGet(request, response);
+		}
+		else if(url.equals(Const.TEST_USER_NEWS_URL))
 		{
 			handleTestNewsGet(request, response);
 			return;
@@ -125,10 +135,6 @@ public class UserPage extends HttpServlet
 		{
 			handleTestGroupsGet(request, response);
 			return;
-		}
-		else if(url.equals(Const.USER_PAGE_URL))
-		{
-			handleUserPageGet(request, response);
 		}
 	}
 
@@ -198,19 +204,8 @@ public class UserPage extends HttpServlet
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", flv); 
 
-		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/GroupList.jsp");
-		try 
-		{
-			rd.forward(request, response);
-		} 
-		catch (ServletException e1) 
-		{
-			e1.printStackTrace();
-		} 
-		catch (IOException e1) 
-		{
-			e1.printStackTrace();
-		}	
+		String location  = "/jsp/GroupList.jsp";
+		ServletCommon.sendRedirect(response, location);
 	}
 
 	/**
@@ -236,77 +231,20 @@ public class UserPage extends HttpServlet
 		}
 
 		initDB();
+
 		UserEntity user = db.getUserEntity(targetName);
 		if(user == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
 			return;
 		}
-
-		//is my page
-		if(ServletCommon.isMyPage(targetName, request))
-		{
-			String username = ServletCommon.getSessionUsername(request);
-			showTweetWindow(username, response);
-			showAllRelatedNews(username, request, response);
-			showFriendList(username, request, response);
-			showGroupList(username, request, response);
-		}
-		else
-		{
-			showNews(targetName, request, response);
-			showFriendList(targetName, request, response);
-			showGroupList(targetName, request, response);
-		}
-	}
-
-	/**
-	 * 
-	 * @param username
-	 * @param request
-	 * @param response
-	 */
-	private void showGroupList(String username, HttpServletRequest request, HttpServletResponse response) 
-	{
-		try 
-		{
-			initDB();
-			GroupListView flv = new GroupListView(); 
-			ArrayList<Long>groups = db.getUserGroup(username);
-			if(groups == null)
-			{
-				System.out.println("showGroupList friends is null");
-				return;
-			}
-			for(long gid: groups)
-			{
-				GroupEntity groupEntity = db.getGroupEntity(gid);
-				if(groupEntity == null) continue;
-				String url = groupEntity.getHeadUrl();
-				String gname = db.getGroupName(gid);
-				GroupObjectView gov = new GroupObjectView(url, gname);
-				flv.addGroupObject(gov);
-			}
-
-			//send it to jsp
-			request.setAttribute("GroupListView", null); 
-			request.setAttribute("GroupListView", flv); 
-
-			RequestDispatcher rd= request.getRequestDispatcher ("/jsp/GroupList.jsp");
-			try 
-			{
-				rd.forward(request, response);
-			} 
-			catch (ServletException e1) 
-			{
-				e1.printStackTrace();
-			} 
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-			ServletCommon.redirect404(response);
-		} 
+		
+		db.sendMyNews(targetName, request, response);
+		db.sendFriendList(targetName, request, response);
+		db.sendGroupList(targetName, request, response);
+	
+		String location = "UserPage.jsp";
+		ServletCommon.sendRedirect(response, location);
 	}
 
 	/**
@@ -534,58 +472,7 @@ public class UserPage extends HttpServlet
 		} 
 	}
 
-	/**
-	 * display a user's all news
-	 * TODO:
-	 * 
-	 * @param username
-	 * @param response
-	 */
-	private void showNews(String username, HttpServletRequest request, HttpServletResponse response) 
-	{
-		try 
-		{
-			initDB();
-			NewsListView newsListView = new NewsListView();
-
-			ArrayList<Long>newids = db.getUserNews(username);
-			for(long id: newids)
-			{
-				NewsEntity newsEntity = db.getNewsEntityByIds(id);
-				if(newsEntity == null) continue;
-				int type = newsEntity.getNewsType();
-				String text = newsEntity.getBody(); 
-				String url = newsEntity.getMoviePosterUrl() ;
-				String title = newsEntity.getTitle(); 
-				String movieId = newsEntity.getMovidId(); 
-				String movieName = newsEntity.getMovieName(); 
-				long releaseTime = newsEntity.getReleaseTime(); 
-				int likeNums = newsEntity.getLikeNums(); 
-				ArrayList<String>ToList = newsEntity.getReceivers();
-				NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
-				newsListView.addNews(newsViewObj);
-			}
-
-			//send it to jsp
-			request.setAttribute("NewsListView", null); 
-			request.setAttribute("NewsListView", newsListView); 
-
-			RequestDispatcher rd= request.getRequestDispatcher ("/jsp/NewsList.jsp");
-			try 
-			{
-				rd.forward(request, response);
-			} 
-			catch (ServletException e1) 
-			{
-				e1.printStackTrace();
-			} 
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-			ServletCommon.redirect404(response);
-		} 
-	}
+	
 
 	/**
 	 * TODO:
@@ -598,7 +485,7 @@ public class UserPage extends HttpServlet
 		initDB();
 		//TODO:
 		ArrayList<String>friends = db.getFriends(username);
-		showNews(username, request, response);
+		db.sendAllNews(username, request, response);
 	}
 
 	private void showTweetWindow(String username, HttpServletResponse response)

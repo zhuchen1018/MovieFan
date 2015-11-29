@@ -2,13 +2,20 @@ package com.myapp.utils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.myapp.storage.entity.UserEntity;
+import com.myapp.view.FriendListView;
+import com.myapp.view.FriendObjectView;
 
 public class ServletCommon 
 {
@@ -202,4 +209,6 @@ public class ServletCommon
 	{
 		sendRedirect(response, "/htmls/500.html");
 	}
+
+	
 }
