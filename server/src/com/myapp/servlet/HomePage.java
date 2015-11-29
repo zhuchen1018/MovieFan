@@ -112,13 +112,17 @@ public class HomePage  extends HttpServlet
 			out.println("<a href=\"/search_movie\" class=\"button\">Search Movie</a>");
 
 			out.println("<P>" + "\n" + "</P>");
+			out.println("<a href=\"/search_group\" class=\"button\">Search Group</a>");
+
+			out.println("<P>" + "\n" + "</P>");
 			out.println("<a href=\"/hometest\" class=\"button\">Facebook login</a>");	
 
 			out.println("<P>" + "\n" + "</P>");
-			out.println("<a href=\"/search_google\" class=\"button\">Google it</a>");
+			out.println("<a href=\"/search_google\" class=\"button\">Google it</a>"); 
 
 			out.println("<P>" + "\n" + "</P>");
 			out.println("<a href=\"/voice_search\" class=\"button\">Voice Search</a>");
+
 		} 
 		catch (IOException e) 
 		{

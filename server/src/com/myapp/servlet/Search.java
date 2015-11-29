@@ -22,6 +22,8 @@ import com.myapp.utils.Const;
 import com.myapp.utils.ServletCommon;
 import com.myapp.view.GoogleListView;
 import com.myapp.view.GoogleObjectView;
+import com.myapp.view.GroupListView;
+import com.myapp.view.GroupObjectView;
 import com.myapp.utils.Const;
 
 public class Search extends HttpServlet 
@@ -157,6 +159,31 @@ public class Search extends HttpServlet
 
 	private void handleSearchGroupPost(HttpServletRequest request, HttpServletResponse response) 
 	{
+		String search = request.getParameter("search_group"); 
+		if(search == null || search.isEmpty())
+		{
+			ServletCommon.redirect404(response);
+			return;
+		}
+		GroupListView glv = new GroupListView();
+		
+		//test
+		String url = "http://andreakihlstedt.com/wpsys/wp-content/uploads/2014/04/Say-Hello1.jpg";
+		String name1 = "group1";
+
+		GroupObjectView gov = new GroupObjectView(url, name1);
+		glv.addGroupObject(gov);
+
+		//test
+		url = "http://andreakihlstedt.com/wpsys/wp-content/uploads/2014/04/Say-Hello1.jpg";
+		String name2 = "group2";
+		
+		GroupObjectView gov2 = new GroupObjectView(url, name2);
+		glv.addGroupObject(gov2);
+		
+		request.setAttribute("GroupListView", null); 
+		request.setAttribute("GroupListView", glv); 
+
 		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/GroupList.jsp");
 		try 
 		{
