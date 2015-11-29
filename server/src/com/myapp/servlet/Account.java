@@ -252,7 +252,7 @@ public class Account extends HttpServlet
 	private void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String location = "/htmls/RegisterPage.html";
-		ServletCommon.sendRedirect(response, location);
+		ServletCommon.sendRedirect(request, response, location);
 	}
 
 	private void handleLogoff(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -280,7 +280,7 @@ public class Account extends HttpServlet
 	public void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
 		String location = "/htmls/LoginPage.html";
-		ServletCommon.sendRedirect(response, location);
+		ServletCommon.sendRedirect(request, response, location);
 	}
 
 	private boolean checkNameLegal(String name, HttpServletRequest request, HttpServletResponse response)

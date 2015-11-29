@@ -73,7 +73,7 @@ public class HomePage  extends HttpServlet
 		if(!isLogin)
 		{
 			String location = "/jsp/Login.jsp";
-			ServletCommon.sendRedirect(response, location);
+			ServletCommon.sendRedirect(request, response, location);
 		}
 		else
 		{
@@ -89,7 +89,7 @@ public class HomePage  extends HttpServlet
 			print("groups: " + request.getAttribute("GroupListView"));
 
 			String location = "/jsp/home.jsp";
-			ServletCommon.sendRedirect(response, location);
+			ServletCommon.sendRedirect(request, response, location);
 		}
 	}
 
@@ -147,17 +147,6 @@ public class HomePage  extends HttpServlet
 		{
 			e.printStackTrace();
 		}
-		/*
-		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/homeTest.jsp");
-		try 
-		{
-			rd.forward(request, response);
-		} 
-		catch (ServletException | IOException e) 
-		{
-			e.printStackTrace();
-		}
-		*/
 	}
 	private static void print(String a)
 	{
