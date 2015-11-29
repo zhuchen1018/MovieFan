@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+.rating-box { 
+	background: url("/images/bkg_rating.png") repeat-x; 
+	font-size: 0; 
+	height: 13px; 
+	line-height: 0; 
+	overflow: hidden; 
+	text-indent: -999em; 
+	width: 70px; } 
+.rating-box .rating { 
+	background: url("/images/bkg_rating.png") repeat-x; 
+	background-position: 0 100%; 
+	float: left; 
+	height: 13px; 
+	} 
+div.item {
+    vertical-align: top;
+    display: inline-block;
+    text-align: center;
+    width: 120px;
+}
+img {
+    width: 100px;
+    height: 100px;
+    background-color: grey;
+}
+.caption {
+    display: block;
+}
+
+#container {width: 100%;}
+#photo {float: left; width: 20%;}
+#content {float: right; width: 80%;}
