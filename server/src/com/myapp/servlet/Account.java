@@ -162,14 +162,9 @@ public class Account extends HttpServlet
 
 		ServletCommon.addSession(request, response, name);
 
-		response.setContentType("text/html");
-		out.println("<HTML><HEAD><TITLE>Login</TITLE></HEAD><BODY>");
-		String res = "Login successed!"; 
-		out.println("<P>" + res + "</P>");
-		out.println("<P>" + "\n" + "</P>");
-
-		ServletCommon.gotoHome(response);
-		out.println("</BODY></HTML>");		
+		//redirect to Home
+		String location = "/jsp/home.jsp";
+		ServletCommon.sendRedirect(response, location);	
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException 

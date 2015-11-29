@@ -2,6 +2,7 @@ package com.myapp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Hashtable;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -61,6 +62,29 @@ public class HomePage  extends HttpServlet
 		}
 	}
 
+	private void handleHomeGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		boolean isLogin = ServletCommon.hasLoginSession(request);
+		if(!isLogin)
+		{
+			String location = "/jsp/Login.jsp";
+			ServletCommon.sendRedirect(response, location);
+		}
+		else
+		{
+
+			String location = "/jsp/home.jsp";
+			ServletCommon.sendRedirect(response, location);
+			/*
+			String username = ServletCommon.getSessionUsername(request);
+			showTweetWindow(username, response);
+			showAllRelatedNews(username, request, response);
+			showFriendList(username, request, response);
+			showGroupList(username, request, response);
+			*/
+		}
+	}
+
 	private void handleHomeTestGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/homeTest.jsp");
@@ -74,7 +98,7 @@ public class HomePage  extends HttpServlet
 		}
 	}
 
-	private void handleHomeGet(HttpServletRequest request, HttpServletResponse response) 
+	private void handleHomeGetTest (HttpServletRequest request, HttpServletResponse response) 
 	{
 		response.setContentType("text/html");
 		PrintWriter out;
@@ -107,7 +131,7 @@ public class HomePage  extends HttpServlet
 				out.println("<P>" + "\n" + "</P>");
 				out.println("<a href=\"/create_group \" class=\"button\">Test Creater Group </a>");
 			}
-			
+
 			out.println("<P>" + "\n" + "</P>");
 			out.println("<a href=\"/search_movie\" class=\"button\">Search Movie</a>");
 
