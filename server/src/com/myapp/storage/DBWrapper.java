@@ -335,7 +335,7 @@ public class DBWrapper
 		{
 			return user.getNews();
 		}
-		return null;
+		return null; 
 	}
 
 	public ArrayList<NewsEntity> getNewsEntityByIds(ArrayList<Long> ids)
@@ -600,7 +600,11 @@ public class DBWrapper
 		ArrayList<Long>allnews = new ArrayList<Long>(); 
 
 		//my
-		allnews.addAll(getUserNews(username));
+		ArrayList<Long>mynews = getUserNews(username);
+		if(mynews != null)
+		{
+			allnews.addAll(mynews);
+		}
 		print("my news size: " + allnews.size());
 
 		//friends
@@ -609,7 +613,11 @@ public class DBWrapper
 		{
 			for(String fname: friends)
 			{
-				allnews.addAll(getUserNews(fname));
+				ArrayList<Long>fn = getUserNews(fname);
+				if(fn!= null)
+				{
+					allnews.addAll(fn);
+				}
 			}
 		}
 		
