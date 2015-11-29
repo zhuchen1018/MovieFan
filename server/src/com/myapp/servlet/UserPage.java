@@ -199,6 +199,8 @@ public class UserPage extends HttpServlet
 			GroupObjectView gov = new GroupObjectView(url, gname);
 			flv.addGroupObject(gov);
 		}
+		
+		db.sync();
 
 		//send it to jsp
 		request.setAttribute("GroupListView", null); 
@@ -290,6 +292,8 @@ public class UserPage extends HttpServlet
 		//send it to jsp
 		request.setAttribute("FriendListView", null); 
 		request.setAttribute("FriendListView", flv); 
+		
+		db.sync();
 
 		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/FriendList.jsp");
 		try {
@@ -403,6 +407,8 @@ public class UserPage extends HttpServlet
 		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
 		db.addNewsLikeMovie(username, movieId, url); 
+
+		db.sync();
 
 
 		//send it to jsp

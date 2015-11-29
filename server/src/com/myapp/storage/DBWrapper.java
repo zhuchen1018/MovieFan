@@ -456,6 +456,7 @@ public class DBWrapper
 		{
 			user.addFriend(friendname);
 		}
+		userEA.putEntity(user);
 	}
 
 	public ArrayList<String> getUserFriends(String username) 
@@ -488,6 +489,11 @@ public class DBWrapper
 		return null;
 	}
 
+	/**
+	 * user add group
+	 * @param username
+	 * @param id
+	 */
 	public void userAddGroup(String username, Long id) 
 	{
 		UserEntity user = getUserEntity(username);
