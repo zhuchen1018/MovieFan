@@ -29,6 +29,7 @@ public class Const
 
 	/*URL*/
 	public final static String HOME_URL = "/home"; 
+	public static final String HOME_TEST_URL = "/hometest";
 
 	//Account
 	public static final String REGISTER_URL = "/register";
@@ -83,5 +84,6 @@ public class Const
 	public final static int MOVIE_LENGTH_60_90=2;
 	public final static int MOVIE_LENGTH_90_120=3;
 	public final static int MOVIE_LENGTH_120_MORE=4;
+
 
 }

@@ -2,10 +2,14 @@ package com.myapp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.myapp.storage.DBWrapper;
+import com.myapp.utils.Const;
 import com.myapp.utils.ServletCommon;
 
 
@@ -22,13 +26,13 @@ public class HomePage  extends HttpServlet
 	private static final long serialVersionUID = 8696988485281625971L;
 	private DBWrapper db; 
 
-	public HomePage () throws IOException
+	public HomePage () 
 	{
 	}
 
-	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
+	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 	{
-		
+
 	}
 
 	public void initDB()
@@ -44,47 +48,66 @@ public class HomePage  extends HttpServlet
 		}
 	}
 
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException 
+	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-			
-		out.println("<P>" + "\n" + "</P>");
-		out.println("<a href=\"/register\" class=\"button\">Register</a>");
-			
-
-		if(!ServletCommon.hasLoginSession(request))
+		String url = request.getServletPath();
+		if(url.equals(Const.HOME_URL))
 		{
-			out.println("<P>" + "\n" + "</P>");
-			out.println("<a href=\"/login\" class=\"button\">Login</a>");
+			handleHomeGet(request, response);
 		}
-		else
+		else if(url.equals(Const.HOME_TEST_URL))
 		{
-			out.println("<P>" + "\n" + "</P>");
-			out.println("<a href=\"/logoff\" class=\"button\">Logoff</a>");
-
-			out.println("<P>" + "\n" + "</P>");
-			out.println("<a href=\"/user_page" + "?" + "user=" + ServletCommon.getSessionUsername(request) 
-				+ "\" class=\"button\">My Page</a>");
-
-			out.println("<a href=\"/test_news \" class=\"button\">Test News Here</a>");
-			out.println("<a href=\"/test_friends \" class=\"button\">Test Friends Here</a>");
-			out.println("<a href=\"/create_group \" class=\"button\">Test Creater Group </a>");
+			handleHomeTestGet(request, response);
 		}
+	}
 
-		out.println("<a href=\"/search_movie\" class=\"button\">SearchMovie</a>");
-		/*
-				
-		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/home.jsp");
+	private void handleHomeTestGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/homeTest.jsp");
 		try 
 		{
 			rd.forward(request, response);
 		} 
-		catch (ServletException e) 
+		catch (ServletException | IOException e) 
 		{
 			e.printStackTrace();
 		}
-		*/
+	}
+
+	private void handleHomeGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		response.setContentType("text/html");
+		PrintWriter out;
+		try 
+		{
+			out = response.getWriter();
+			out.println("<P>" + "\n" + "</P>");
+			out.println("<a href=\"/register\" class=\"button\">Register</a>");
+
+			if(!ServletCommon.hasLoginSession(request))
+			{
+				out.println("<P>" + "\n" + "</P>");
+				out.println("<a href=\"/login\" class=\"button\">Login</a>");
+			}
+			else
+			{
+				out.println("<P>" + "\n" + "</P>");
+				out.println("<a href=\"/logoff\" class=\"button\">Logoff</a>");
+
+				out.println("<P>" + "\n" + "</P>");
+				out.println("<a href=\"/user_page" + "?" + "user=" + ServletCommon.getSessionUsername(request) 
+				+ "\" class=\"button\">My Page</a>");
+
+				out.println("<a href=\"/test_news \" class=\"button\">Test News Here</a>");
+				out.println("<a href=\"/test_friends \" class=\"button\">Test Friends Here</a>");
+				out.println("<a href=\"/create_group \" class=\"button\">Test Creater Group </a>");
+			}
+			out.println("<a href=\"/search_movie\" class=\"button\">SearchMovie</a>");
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 }
 

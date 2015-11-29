@@ -497,5 +497,15 @@ public class DBWrapper
 			userEA.leaveGroup(username, id);
 			groupEA.removeMember(id, username);
 		}		
+	}
+
+	public boolean hasFBUser(String fbid) 
+	{
+		return userEA.hasFBUser(fbid);
+	}
+
+	public String getUserFBId(String name) 
+	{
+		return userEA.getUserFBId(name);
 	}		
 }

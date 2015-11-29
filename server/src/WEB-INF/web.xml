@@ -35,6 +35,16 @@
      <servlet-name>user_page</servlet-name>
      <url-pattern>/test_friends</url-pattern>
    </servlet-mapping>  
+   
+   <servlet>
+     <servlet-name>fblogin</servlet-name>
+     <servlet-class>com.myapp.servlet.FBLogin.LoginServlet</servlet-class> 
+   </servlet>
+    
+   <servlet-mapping>
+     <servlet-name>fblogin</servlet-name>
+     <url-pattern>/fb_login</url-pattern>
+   </servlet-mapping>  
  
       
     <servlet>
@@ -71,6 +81,11 @@
    <servlet-mapping>
      <servlet-name>home</servlet-name>
      <url-pattern>/home</url-pattern>
+   </servlet-mapping>  
+   
+    <servlet-mapping>
+     <servlet-name>home</servlet-name>
+     <url-pattern>/hometest</url-pattern>
    </servlet-mapping>  
 
   <servlet>

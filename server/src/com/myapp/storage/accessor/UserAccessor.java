@@ -14,13 +14,18 @@ import java.util.Date;
 
 public class UserAccessor
 {
-	private PrimaryIndex<String, UserEntity> users;
+	private PrimaryIndex<String, UserEntity> userByName;
 
 	//static final Logger logger = Logger.getLogger(DBWrapper.class);	
 
 	public UserAccessor(EntityStore store)
 	{
-		users = store.getPrimaryIndex(String.class, UserEntity.class);
+		userByName = store.getPrimaryIndex(String.class, UserEntity.class);
+	}
+
+	private UserEntity getEntityByFBId(String fbid) 
+	{
+		return null;
 	}
 
 	public void add(String name, String password)
@@ -32,27 +37,27 @@ public class UserAccessor
 
 	public boolean hasUser(String name)
 	{
-		return users.contains(name);
+		return userByName.contains(name);
 	}
 
 	public boolean del(String name)
 	{
-		return users.delete(name);
+		return userByName.delete(name);
 	}
 
 	public PrimaryIndex<String, UserEntity> getPrimaryIndex() 
 	{
-		return users;
+		return userByName;
 	}
 
 	public UserEntity getEntity(String name)
 	{
-		return users.get(name);
+		return userByName.get(name);
 	}
 
 	public void putEntity(UserEntity user)
 	{
-		users.put(user);
+		userByName.put(user);
 	}
 
 	public boolean checkPassword(String name, String password) 
@@ -99,17 +104,16 @@ public class UserAccessor
 		}	
 	}
 
-	/*
-	public void addTweet(String username, Long tid) 
+	public boolean hasFBUser(String fbid) 
 	{
-		UserEntity user = getEntity(username);
-		if(user == null)
-		{
-			return;
-		}
-		user.addTweet(tid);
-		putEntity(user);
+		UserEntity user = getEntityByFBId(fbid);
+		return user != null;
 	}
-	 */
+
+	public String getUserFBId(String name) 
+	{
+		return null;
+	}
+
 }
 

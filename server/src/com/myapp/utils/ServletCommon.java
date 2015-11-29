@@ -47,7 +47,7 @@ public class ServletCommon
 		}
 		return false;
 	}
-	
+
 	public static String getSessionUsername(HttpServletRequest request )
 	{
 		HttpSession session = request.getSession(false);
@@ -57,7 +57,7 @@ public class ServletCommon
 		}
 		return (String) session.getAttribute("username");
 	}
-	
+
 	public static boolean hasLoginSession(HttpServletRequest request)
 	{
 		String name = getSessionUsername(request);
@@ -67,7 +67,7 @@ public class ServletCommon
 		}
 		return true;
 	}
-	
+
 	public static boolean isMyPage(String username, HttpServletRequest request)
 	{
 		String name = getSessionUsername(request);
@@ -122,17 +122,24 @@ public class ServletCommon
 		 */
 	}
 
-	public static void gotoHome(HttpServletResponse res) throws IOException
+	public static void gotoHome(HttpServletResponse res) 
 	{
 		ShowLink(Const.HOME_URL, "Go to Home", res);
 	}
 
-	public static void ShowLink(String link, String name,  HttpServletResponse res) throws IOException 
+	public static void ShowLink(String link, String name,  HttpServletResponse res) 
 	{
-		PrintWriter out = res.getWriter();
-		out.println("<P>" + "\n" + "</P>");
-		out.println("<a href= \"" + link +  "\" class=\"button\">" + name + "</a>");
-		out.println("<P>" + "\n" + "</P>");
+		PrintWriter out;
+		try {
+			out = res.getWriter();
+
+			out.println("<P>" + "\n" + "</P>");
+			out.println("<a href= \"" + link +  "\" class=\"button\">" + name + "</a>");
+			out.println("<P>" + "\n" + "</P>");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*
@@ -144,7 +151,7 @@ public class ServletCommon
 		}
 		return db;
 	}
-	*/
+	 */
 
 	/**
 	 * eg:field1=value1&field2=value2&field3=value3...
@@ -185,12 +192,12 @@ public class ServletCommon
 			e.printStackTrace();
 		}	
 	}
-	
+
 	public static void redirect404(HttpServletResponse response)
 	{
 		sendRedirect(response, "/htmls/404.html");
 	}
-	
+
 	public static void redirect500(HttpServletResponse response)
 	{
 		sendRedirect(response, "/htmls/500.html");
