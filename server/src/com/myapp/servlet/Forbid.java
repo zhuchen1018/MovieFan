@@ -15,7 +15,7 @@ import com.myapp.utils.ServletCommon;
 
 public class Forbid extends HttpServlet 
 {
-	public void service(HttpServletRequest req, HttpServletResponse res)
+	public void doGet(HttpServletRequest req, HttpServletResponse res)
 	{
 		ServletCommon.redirect404(req, res);
 	}
