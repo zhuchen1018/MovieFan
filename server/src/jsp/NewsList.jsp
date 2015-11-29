@@ -15,7 +15,7 @@
 <%
 
 if(nlv==null)
-	System.out.println("null la!!!!!!!!!");
+	return;
 for(int i=0;i<nlv.getNewsNumber();++i){%>
  <% NewsObjectView nov = nlv.getNextItem();
  	int type = nov.getType();
