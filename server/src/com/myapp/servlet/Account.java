@@ -92,32 +92,17 @@ public class Account extends HttpServlet
 
 		/*: DB add new user*/
 		db.addUser(name, MD5Encryptor.crypt(password));
+		db.sync();
 
 		/*auto login*/
 		ServletCommon.addSession(request, response, name);
+		
 
-		/*
-		 * result page:
-		 */
-		response.setContentType("text/html");
-		PrintWriter out;
-		try 
-		{
-			out = response.getWriter();
-			out.println("<HTML><HEAD><TITLE>Register </TITLE></HEAD><BODY>");
-			String res = "Register successed!";
-			out.println("<P>" + res + "</P>");
-			out.println("<P>" + "\n" + "</P>");
-
-			ServletCommon.gotoHome(response);
-			out.println("</BODY></HTML>");		
-		} 
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		db.sync();
+		//redirect to Home
+		//String location = "/jsp/home.jsp";
+		//ServletCommon.sendRedirect(response, location);	
+	
+		handleHomeTestGet(request, response);
 	}
 
 	private void handleSettingPost(HttpServletRequest request, HttpServletResponse response) 
@@ -163,8 +148,78 @@ public class Account extends HttpServlet
 		ServletCommon.addSession(request, response, name);
 
 		//redirect to Home
-		String location = "/jsp/home.jsp";
-		ServletCommon.sendRedirect(response, location);	
+		//String location = "/jsp/home.jsp";
+		//ServletCommon.sendRedirect(response, location);	
+	
+		//for test
+		handleHomeTestGet(request, response);
+	}
+	
+	private void handleHomeTestGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		response.setContentType("text/html");
+		PrintWriter out;
+		try 
+		{
+			out = response.getWriter();
+			out.println("<P>" + "\n" + "</P>");
+			out.println("<a href=\"/register\" class=\"button\">Register</a>");
+
+			if(!ServletCommon.hasLoginSession(request))
+			{
+				out.println("<P>" + "\n" + "</P>");
+				out.println("<a href=\"/login\" class=\"button\">Login</a>");
+			}
+			else
+			{
+				out.println("<P>" + "\n" + "</P>");
+				out.println("<a href=\"/logoff\" class=\"button\">Logoff</a>");
+
+				out.println("<P>" + "\n" + "</P>");
+				out.println("<a href=\"/user_page" + "?" + "user=" + ServletCommon.getSessionUsername(request) 
+				+ "\" class=\"button\">My Page</a>");
+
+				out.println("<P>" + "\n" + "</P>");
+				out.println("<a href=\"/test_news \" class=\"button\">Test News Here</a>");
+
+				out.println("<P>" + "\n" + "</P>");
+				out.println("<a href=\"/test_friends \" class=\"button\">Test Friends Here</a>");
+
+				out.println("<P>" + "\n" + "</P>");
+				out.println("<a href=\"/create_group \" class=\"button\">Test Creater Group </a>");
+			}
+
+			out.println("<P>" + "\n" + "</P>");
+			out.println("<a href=\"/search_movie\" class=\"button\">Search Movie</a>");
+
+			out.println("<P>" + "\n" + "</P>");
+			out.println("<a href=\"/search_group\" class=\"button\">Search Group</a>");
+
+			out.println("<P>" + "\n" + "</P>");
+			out.println("<a href=\"/hometest\" class=\"button\">Facebook login</a>");	
+
+			out.println("<P>" + "\n" + "</P>");
+			out.println("<a href=\"/search_google\" class=\"button\">Google it</a>"); 
+
+			out.println("<P>" + "\n" + "</P>");
+			out.println("<a href=\"/voice_search\" class=\"button\">Voice Search</a>");
+
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+		/*
+		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/homeTest.jsp");
+		try 
+		{
+			rd.forward(request, response);
+		} 
+		catch (ServletException | IOException e) 
+		{
+			e.printStackTrace();
+		}
+		*/
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -197,7 +252,7 @@ public class Account extends HttpServlet
 	private void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String location = "/htmls/RegisterPage.html";
-		ServletCommon.sendRedirect(response, location);
+		ServletCommon.sendRedirect(request, response, location);
 	}
 
 	private void handleLogoff(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -225,7 +280,7 @@ public class Account extends HttpServlet
 	public void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
 		String location = "/htmls/LoginPage.html";
-		ServletCommon.sendRedirect(response, location);
+		ServletCommon.sendRedirect(request, response, location);
 	}
 
 	private boolean checkNameLegal(String name, HttpServletRequest request, HttpServletResponse response)

@@ -2,13 +2,20 @@ package com.myapp.utils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import com.myapp.storage.entity.UserEntity;
+import com.myapp.view.FriendListView;
+import com.myapp.view.FriendObjectView;
 
 public class ServletCommon 
 {
@@ -181,25 +188,31 @@ public class ServletCommon
 		return kv;
 	}
 
-	public static void sendRedirect(HttpServletResponse response, String location) 
+	public static void sendRedirect(HttpServletRequest request, HttpServletResponse response, String location) 
 	{
-		try 
-		{
-			response.sendRedirect(location);
+		RequestDispatcher rd= request.getRequestDispatcher (location);
+		try {
+			rd.forward(request, response);
 		} 
-		catch (IOException e) 
+		catch (ServletException e1) 
 		{
-			e.printStackTrace();
+			e1.printStackTrace();
+		} 
+		catch (IOException e1) 
+		{
+			e1.printStackTrace();
 		}	
 	}
 
-	public static void redirect404(HttpServletResponse response)
+	public static void redirect404(HttpServletRequest request,HttpServletResponse response)
 	{
-		sendRedirect(response, "/htmls/404.html");
+		sendRedirect(request, response, "/htmls/404.html");
 	}
 
-	public static void redirect500(HttpServletResponse response)
+	public static void redirect500(HttpServletRequest request, HttpServletResponse response)
 	{
-		sendRedirect(response, "/htmls/500.html");
+		sendRedirect(request, response, "/htmls/500.html");
 	}
+
+	
 }

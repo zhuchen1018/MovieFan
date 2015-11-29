@@ -116,6 +116,10 @@ public class NewsObjectView {
 		return formatter.format(releaseTime);
 	}
 	
+	public long getReleaseTimeLong(){
+		return releaseTime;
+	}
+		
 	public String getNote(){
 		if(type==Const.NEWS_TWITTER) return "published a twitt";
 		if(type==Const.NEWS_MAKE_FRIENDS) return "make friend with";

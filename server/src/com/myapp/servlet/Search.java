@@ -70,7 +70,7 @@ public class Search extends HttpServlet
 		String search = request.getParameter("search_google"); 
 		if(search == null || search.isEmpty())
 		{
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 			return;
 		}
 		String google = "http://www.google.com/search?q=";
@@ -105,7 +105,7 @@ public class Search extends HttpServlet
 			catch (IOException | ServletException e) 
 			{
 				e.printStackTrace();
-				ServletCommon.redirect404(response);
+				ServletCommon.redirect404(request, response);
 			}
 		} 
 		catch (UnsupportedEncodingException e) 
@@ -139,7 +139,7 @@ public class Search extends HttpServlet
 		{
 			System.out.println(ex.getMessage());
 			ex.printStackTrace();
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 			return;
 		}
 		request.setAttribute("MovieListView", null); 
@@ -153,7 +153,7 @@ public class Search extends HttpServlet
 		catch (IOException | ServletException e) 
 		{
 			e.printStackTrace();
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 		}
 	}
 
@@ -162,7 +162,7 @@ public class Search extends HttpServlet
 		String search = request.getParameter("search_group"); 
 		if(search == null || search.isEmpty())
 		{
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 			return;
 		}
 		GroupListView glv = new GroupListView();
@@ -192,7 +192,7 @@ public class Search extends HttpServlet
 		catch (IOException | ServletException e) 
 		{
 			e.printStackTrace();
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 		}
 	}
 
@@ -206,7 +206,7 @@ public class Search extends HttpServlet
 		catch (IOException | ServletException e) 
 		{
 			e.printStackTrace();
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 		}
 	}
 
@@ -220,7 +220,7 @@ public class Search extends HttpServlet
 		String key = request.getParameter("search_movie");
 		if(key == null || key.isEmpty())
 		{
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 			return;
 		}
 		SQLDBMovieQuery sql=null;
@@ -232,7 +232,7 @@ public class Search extends HttpServlet
 		{
 			System.out.println(ex.getMessage());
 			ex.printStackTrace();
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 			return;
 		}
 
@@ -247,7 +247,7 @@ public class Search extends HttpServlet
 		catch (IOException | ServletException e) 
 		{
 			e.printStackTrace();
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 		}
 	}
 
@@ -276,32 +276,32 @@ public class Search extends HttpServlet
 		}
 		else
 		{
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 		}
 	}
 
 	private void handleVoiceSearchGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String location = "/htmls/speech/speech_sample.html";
-		ServletCommon.sendRedirect(response, location);	
+		ServletCommon.sendRedirect(request, response, location);	
 	}
 
 	private void handleSearchGoogleGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String location = "/htmls/SearchGooglePage.html";
-		ServletCommon.sendRedirect(response, location);
+		ServletCommon.sendRedirect(request, response, location);
 	}
 
 	private void handleSearchGroupGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String location = "/htmls/SearchGroupPage.html";
-		ServletCommon.sendRedirect(response, location);
+		ServletCommon.sendRedirect(request, response, location);
 	}
 
 	private void handleSearchUserGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String location = "/htmls/SearchUserPage.html";
-		ServletCommon.sendRedirect(response, location);
+		ServletCommon.sendRedirect(request, response, location);
 	}
 
 	private void handleSearchMovieGet(HttpServletRequest request, HttpServletResponse response) 
@@ -324,7 +324,7 @@ public class Search extends HttpServlet
 				{
 					System.out.println(ex.getMessage());
 					ex.printStackTrace();
-					ServletCommon.redirect404(response);
+					ServletCommon.redirect404(request, response);
 					return;
 				}
 
@@ -339,19 +339,19 @@ public class Search extends HttpServlet
 				catch (IOException | ServletException e) 
 				{
 					e.printStackTrace();
-					ServletCommon.redirect404(response);
+					ServletCommon.redirect404(request, response);
 				}
 			}
 			else
 			{
-				ServletCommon.redirect404(response);
+				ServletCommon.redirect404(request, response);
 				return;
 			}
 		}
 		else
 		{
 			String location = "/htmls/SearchMoviePage.html";
-			ServletCommon.sendRedirect(response, location);
+			ServletCommon.sendRedirect(request, response, location);
 		}
 	}
 }

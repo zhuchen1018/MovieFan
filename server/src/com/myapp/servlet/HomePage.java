@@ -62,43 +62,38 @@ public class HomePage  extends HttpServlet
 		}
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
 	private void handleHomeGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		boolean isLogin = ServletCommon.hasLoginSession(request);
 		if(!isLogin)
 		{
 			String location = "/jsp/Login.jsp";
-			ServletCommon.sendRedirect(response, location);
+			ServletCommon.sendRedirect(request, response, location);
 		}
 		else
 		{
+			initDB();
+
+			String username = ServletCommon.getSessionUsername(request);
+			db.sendAllNews(username, request, response);
+			db.sendFriendList(username, request, response);
+			db.sendGroupList(username, request, response);
+			
+			print("news: " + request.getAttribute("NewsListView"));
+			print("friends: " + request.getAttribute("FriendListView"));
+			print("groups: " + request.getAttribute("GroupListView"));
 
 			String location = "/jsp/home.jsp";
-			ServletCommon.sendRedirect(response, location);
-			/*
-			String username = ServletCommon.getSessionUsername(request);
-			showTweetWindow(username, response);
-			showAllRelatedNews(username, request, response);
-			showFriendList(username, request, response);
-			showGroupList(username, request, response);
-			*/
+			ServletCommon.sendRedirect(request, response, location);
 		}
 	}
 
 	private void handleHomeTestGet(HttpServletRequest request, HttpServletResponse response) 
-	{
-		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/homeTest.jsp");
-		try 
-		{
-			rd.forward(request, response);
-		} 
-		catch (ServletException | IOException e) 
-		{
-			e.printStackTrace();
-		}
-	}
-
-	private void handleHomeGetTest (HttpServletRequest request, HttpServletResponse response) 
 	{
 		response.setContentType("text/html");
 		PrintWriter out;
@@ -152,6 +147,10 @@ public class HomePage  extends HttpServlet
 		{
 			e.printStackTrace();
 		}
+	}
+	private static void print(String a)
+	{
+		System.out.println(a);
 	}
 }
 

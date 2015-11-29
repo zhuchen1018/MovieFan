@@ -14,9 +14,21 @@ import com.myapp.storage.entity.UserEntity;
 import com.sleepycat.je.Environment;
 import com.sleepycat.persist.EntityStore;
 import com.myapp.utils.Const;
+import com.myapp.utils.ServletCommon;
+import com.myapp.view.FriendListView;
+import com.myapp.view.FriendObjectView;
+import com.myapp.view.GroupListView;
+import com.myapp.view.GroupObjectView;
+import com.myapp.view.NewsListView;
+import com.myapp.view.NewsObjectView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 //import org.apache.log4j.Logger;
 
@@ -33,11 +45,11 @@ public class DBWrapper
 	private GroupAccessor groupEA;
 	private NewsAccessor newsEA;
 	private IdGeneratorAccessor idEA;
-	
+
 	private boolean is_close;
-	
+
 	//static final Logger logger = Logger.getLogger(DBWrapper.class);	
-	
+
 	public DBWrapper() throws IOException
 	{
 		setup();
@@ -69,12 +81,12 @@ public class DBWrapper
 		sc.setReadOnly(false);
 		sc.setTransactional(true);
 		store = new EntityStore(env, Const.DB_STORE_NAME, sc);
-		
+
 		userEA = new UserAccessor(store);
 		groupEA = new GroupAccessor(store);
 		newsEA = new NewsAccessor(store);
 		idEA = new IdGeneratorAccessor(store);
-		
+
 		//logger.info("db setup!!");
 	}
 
@@ -84,14 +96,14 @@ public class DBWrapper
 	{
 		return store_table.get(name);
 	}
-	*/
+	 */
 
 	// Return a handle to the environment
 	public Environment getEnv() 
 	{
 		return env;
 	}
-	
+
 	public void sync()
 	{
 		store.sync();
@@ -119,7 +131,7 @@ public class DBWrapper
 				}
 			}
 		}
-		*/
+		 */
 		if (store != null) 
 		{
 			try 
@@ -133,7 +145,7 @@ public class DBWrapper
 				System.exit(-1);
 			}
 		}
-		
+
 		if (env != null) 
 		{
 			try 
@@ -185,7 +197,7 @@ public class DBWrapper
 		}
 		return file;
 	}
-	*/
+	 */
 
 	/**
 	 ******************* Accessor funcs****************************
@@ -214,7 +226,7 @@ public class DBWrapper
 			//TODO: error log
 		}
 	}
-	*/
+	 */
 
 	public void addUser(String name, String password) 
 	{
@@ -227,8 +239,8 @@ public class DBWrapper
 		UserAccessor ua = getUserAccessor();
 		return ua.getEntity(name); 
 	}
-	
-	
+
+
 	public boolean hasUser(String name) 
 	{
 		UserAccessor ua;
@@ -241,7 +253,7 @@ public class DBWrapper
 		UserAccessor ua;
 		ua = getUserAccessor();
 		return ua.checkPassword(name, password);
-		
+
 	}
 
 	public boolean userLogin(String name) throws IOException 
@@ -255,7 +267,7 @@ public class DBWrapper
 	{
 		return is_close;
 	}
-	
+
 	public List<GroupEntity>  getAllGroups() 
 	{
 		return  groupEA.getAllEntities(); 
@@ -265,7 +277,7 @@ public class DBWrapper
 	{
 		return groupEA.add(idEA.getNextGroupId(), name, creator);
 	}
-	
+
 	public GroupEntity getGroupEntity(Long id)
 	{
 		return groupEA.getEntity(id);
@@ -285,7 +297,7 @@ public class DBWrapper
 		}
 		return g.getCreator();
 	}
-	
+
 	public static void print(String s)
 	{
 		System.out.println(s);
@@ -310,7 +322,7 @@ public class DBWrapper
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get a user's all news 
 	 * @param limit
@@ -325,12 +337,12 @@ public class DBWrapper
 		}
 		return null;
 	}
-		
+
 	public ArrayList<NewsEntity> getNewsEntityByIds(ArrayList<Long> ids)
 	{
 		return newsEA.getNewsEntityByIds(ids);
 	}
-	
+
 	public NewsEntity getNewsEntityByIds(long id)
 	{
 		return newsEA.getNewsEntityById(id);
@@ -340,16 +352,16 @@ public class DBWrapper
 	{
 		//update news store
 		newsEA.addNews(news_obj);
-		
+
 		//update user store
 		user.addNews(news_obj.getId());
 		userEA.putEntity(user);	
-	
+
 		store.sync();
 	}
 
 	/*All kinds of add news functions*/
-	
+
 	public void addNewsTwitter(String username, String tweet) 
 	{
 		UserEntity user = getUserEntity(username);
@@ -424,7 +436,7 @@ public class DBWrapper
 		}
 		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), movie_id, url, Const.NEWS_LIKE_MOVIE);
 		storeNews(news_obj, user);
-		
+
 	}
 
 	public ArrayList<String> getFriends(String username) 
@@ -508,4 +520,141 @@ public class DBWrapper
 	{
 		return userEA.getUserFBId(name);
 	}		
+
+	/**
+	 * Show Friend list
+	 * @param username
+	 * @param request
+	 * @param response
+	 */
+	public void sendFriendList(String username, HttpServletRequest request, HttpServletResponse response) 
+	{
+		FriendListView flv = new FriendListView(); 
+		ArrayList<String>friends = getUserFriends(username);
+		if(friends != null)
+		{
+			for(String fname: friends)
+			{
+				UserEntity friend = getUserEntity(fname);
+				if(friend == null) continue;
+				String url = friend.getHeadUrl();
+				FriendObjectView fov = new FriendObjectView(url, fname);
+				flv.addFriendObject(fov);
+			}
+		}
+		//send it to jsp
+		request.setAttribute("FriendListView", null); 
+		request.setAttribute("FriendListView", flv); 
+	}
+
+	/**
+	 * display a user's all news
+	 * use in user page
+	 * @param username
+	 * @param response
+	 */
+	public void sendMyNews(String username, HttpServletRequest request, HttpServletResponse response) 
+	{
+		NewsListView newsListView = new NewsListView();
+
+		ArrayList<Long>newids = getUserNews(username);
+		for(long id: newids)
+		{
+			NewsEntity newsEntity = getNewsEntityByIds(id);
+			if(newsEntity == null) continue;
+			int type = newsEntity.getNewsType();
+			String text = newsEntity.getBody(); 
+			String url = newsEntity.getMoviePosterUrl() ;
+			String title = newsEntity.getTitle(); 
+			String movieId = newsEntity.getMovidId(); 
+			String movieName = newsEntity.getMovieName(); 
+			long releaseTime = newsEntity.getReleaseTime(); 
+			int likeNums = newsEntity.getLikeNums(); 
+			ArrayList<String>ToList = newsEntity.getReceivers();
+			NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
+			newsListView.addNews(newsViewObj);
+		}
+
+		//send it to jsp
+		request.setAttribute("NewsListView", null); 
+		request.setAttribute("NewsListView", newsListView); 
+	}
+
+	/**
+	 * display a user and his/her all related 
+	 * use in home page
+	 * @param username
+	 * @param response
+	 */
+	public void sendAllNews(String username, HttpServletRequest request, HttpServletResponse response) 
+	{
+		NewsListView newsListView = new NewsListView();
+	
+		//all
+		ArrayList<Long>allnews = new ArrayList<Long>(); 
+
+		//my
+		allnews.addAll(getUserNews(username));
+		print("my news size: " + allnews.size());
+
+		//friends
+		ArrayList<String>friends = getUserFriends(username);
+		if(friends != null)
+		{
+			for(String fname: friends)
+			{
+				allnews.addAll(getUserNews(fname));
+			}
+		}
+		
+		print("all news size: " + allnews.size());
+		
+		for(long id: allnews)
+		{
+			NewsEntity newsEntity = getNewsEntityByIds(id);
+			if(newsEntity == null) continue;
+			int type = newsEntity.getNewsType();
+			String text = newsEntity.getBody(); 
+			String url = newsEntity.getMoviePosterUrl() ;
+			String title = newsEntity.getTitle(); 
+			String movieId = newsEntity.getMovidId(); 
+			String movieName = newsEntity.getMovieName(); 
+			long releaseTime = newsEntity.getReleaseTime(); 
+			int likeNums = newsEntity.getLikeNums(); 
+			ArrayList<String>ToList = newsEntity.getReceivers();
+			NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
+			newsListView.addNews(newsViewObj);
+		}
+
+		//send it to jsp
+		request.setAttribute("NewsListView", null); 
+		request.setAttribute("NewsListView", newsListView); 
+	}
+
+	/**
+	 * 
+	 * @param username
+	 * @param request
+	 * @param response
+	 */
+	public void sendGroupList(String username, HttpServletRequest request, HttpServletResponse response) 
+	{
+		GroupListView flv = new GroupListView(); 
+		ArrayList<Long>groups = getUserGroup(username);
+		if(groups != null)
+		{
+			for(long gid: groups)
+			{
+				GroupEntity groupEntity = getGroupEntity(gid);
+				if(groupEntity == null) continue;
+				String url = groupEntity.getHeadUrl();
+				String gname = getGroupName(gid);
+				GroupObjectView gov = new GroupObjectView(url, gname);
+				flv.addGroupObject(gov);
+			}
+		}
+		//send it to jsp
+		request.setAttribute("GroupListView", null); 
+		request.setAttribute("GroupListView", flv); 
+	}
 }
