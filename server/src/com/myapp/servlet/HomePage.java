@@ -124,6 +124,9 @@ public class HomePage  extends HttpServlet
 				out.println("<a href=\"/test_friends \" class=\"button\">Test Friends Here</a>");
 
 				out.println("<P>" + "\n" + "</P>");
+				out.println("<a href=\"/test_groups \" class=\"button\">Test Groups Here</a>");
+
+				out.println("<P>" + "\n" + "</P>");
 				out.println("<a href=\"/create_group \" class=\"button\">Test Creater Group </a>");
 			}
 
