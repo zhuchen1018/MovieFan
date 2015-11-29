@@ -139,6 +139,11 @@
      <url-pattern>/search_google_result</url-pattern>
    </servlet-mapping>  
    
+    <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/voice_search</url-pattern>
+   </servlet-mapping> 
+   
    <servlet>
      <servlet-name>group</servlet-name>
      <servlet-class>com.myapp.servlet.GroupServlet</servlet-class> 

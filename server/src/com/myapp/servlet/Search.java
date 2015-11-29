@@ -243,10 +243,20 @@ public class Search extends HttpServlet
 		{
 			handleSearchGoogleGet(request, response);
 		}
+		else if(url.equals(Const.VOICE_SEARCH))
+		{
+			handleVoiceSearchGet(request, response);
+		}
 		else
 		{
 			ServletCommon.redirect404(response);
 		}
+	}
+
+	private void handleVoiceSearchGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String location = "/htmls/speech/speech_sample.html";
+		ServletCommon.sendRedirect(response, location);	
 	}
 
 	private void handleSearchGoogleGet(HttpServletRequest request, HttpServletResponse response) 

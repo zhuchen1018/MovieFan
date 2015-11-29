@@ -67,7 +67,8 @@ public class Const
 
 	public static final String SEARCH_GOOGLE = "/search_google";
 	public static final String SEARCH_GOOGLE_RES = "/search_google_result";
-	
+
+	public static final String VOICE_SEARCH = "/voice_search";
 
 	/**
 	 * User news type
@@ -84,6 +85,7 @@ public class Const
 	public final static int MOVIE_LENGTH_60_90=2;
 	public final static int MOVIE_LENGTH_90_120=3;
 	public final static int MOVIE_LENGTH_120_MORE=4;
+
 
 
 }

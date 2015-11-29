@@ -14,13 +14,15 @@ public class FBConnection
 	public static final String FB_APP_ID = "1574620219446066";
 	public static final String FB_APP_SECRET = "f931763466c1354b0b490132c0a87829";
 	public static final String REDIRECT_URI = "http://localhost:8080/fb_login";
-	
+
+	/*
 	String imdb_sample = "https://www.facebook.com/dialog/oauth?client_id=" + "127059960673829"
 			+ "&redirect_uri=https%3A%2F%2Fsecure.imdb.com%2Foauth%2Ffacebook"
 			+ "&scope=email%2C"
 			+ "user_about_me%2C"
 			+ "user_birthday%2C"
 			+ "publish_actions&state=4030";
+	*/
 
 	static String accessToken = "";
 
