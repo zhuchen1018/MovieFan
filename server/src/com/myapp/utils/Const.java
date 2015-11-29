@@ -39,7 +39,7 @@ public class Const
 	
 	//User
 	public static final String USER_PAGE_URL = "/UserPage";
-	//public static final String USER_TWEET_URL = "/tweet";
+	public static final String USER_TWEET_URL = "/tweet";
 
 	public static final String USER_COMMENT_URL = "/comment";
 	public static final String USER_ARTICLE_URL = "/article";

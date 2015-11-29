@@ -273,7 +273,7 @@ public class DBWrapper
 		return  groupEA.getAllEntities(); 
 	}
 
-	public GroupEntity storeGroup(String name, String creator)
+	public GroupEntity createNewGroup(String name, String creator)
 	{
 		return groupEA.add(idEA.getNextGroupId(), name, creator);
 	}
@@ -505,7 +505,7 @@ public class DBWrapper
 			addNewsAddGroup(username, String.valueOf(id)); 
 		}	
 	}
-
+	
 	public void userLeaveGroup(String username, Long id) 
 	{
 		UserEntity user = getUserEntity(username);

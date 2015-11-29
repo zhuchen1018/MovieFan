@@ -58,11 +58,11 @@ public class UserPage extends HttpServlet
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String url = request.getServletPath();
-		/*
 		if(url.equals(Const.USER_TWEET_URL))
 		{
 			handleTweetPost(request, response);
 		}
+		/*
 		else if(url.equals(Const.USER_COMMENT_URL))
 		{
 			handleCommentPost(request, response);
@@ -104,9 +104,6 @@ public class UserPage extends HttpServlet
 		initDB();
 		db.addNewsTwitter(username, info); 
 		db.sync();
-
-		//showTweetWindow(username, response);
-		//showAllRelatedNews(username, request, response);
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -153,13 +150,26 @@ public class UserPage extends HttpServlet
 		}
 
 		initDB();
+
 		GroupListView flv = new GroupListView(); 
 		ArrayList<Long>groups = db.getUserGroup(username);
 		if(groups == null)
 		{
-			System.out.println("showGroupList friends is null");
-			return;
+			//new group
+			String gname1 = "group name 1";
+			String gname2 = "group name 2";
+			String gname3 = "group name 3";
+			GroupEntity g1 = db.createNewGroup(gname1, "creator 1");
+			GroupEntity g2 = db.createNewGroup(gname2, "creator 2");
+			GroupEntity g3 = db.createNewGroup(gname3, "creator 3");
+
+			//add group
+			db.userAddGroup(username, g1.getId());
+			db.userAddGroup(username, g2.getId());
+			db.userAddGroup(username, g3.getId());
+			groups = db.getUserGroup(username);
 		}
+		db.sync();
 
 		for(long gid: groups)
 		{
@@ -171,43 +181,9 @@ public class UserPage extends HttpServlet
 			flv.addGroupObject(gov);
 		}
 
-		//new group
-		String gname1 = "group name 1";
-		String gname2 = "group name 2";
-		String gname3 = "group name 3";
-		GroupEntity g1 = db.storeGroup(gname1, "creator 1");
-
-		GroupEntity g2 = db.storeGroup(gname2, "creator 2");
-		GroupEntity g3 = db.storeGroup(gname3, "creator 3");
-
-		//add group
-		db.userAddGroup(username, g1.getId());
-		db.userAddGroup(username, g2.getId());
-		db.userAddGroup(username, g3.getId());
-
-		ArrayList<Long>groupids = db.getUserGroup(username);
-		if(groupids == null)
-		{
-			System.out.println("db.getUserGroup null");
-			return;
-		}
-		for(Long gid: groupids)
-		{
-			GroupEntity groupEntity = db.getGroupEntity(gid);
-			String url = groupEntity.getHeadUrl();
-			String gname = db.getGroupName(gid);
-			GroupObjectView gov = new GroupObjectView(url, gname);
-			flv.addGroupObject(gov);
-		}
-		
-		db.sync();
-
 		//send it to jsp
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", flv); 
-
-		String location  = "/jsp/GroupList.jsp";
-		ServletCommon.sendRedirect(request, response, location);
 	}
 
 	/**

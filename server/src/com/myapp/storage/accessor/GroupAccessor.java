@@ -89,6 +89,7 @@ public class GroupAccessor
 	public GroupEntity add(long id, String name, String creator) 
 	{
 		GroupEntity g = new GroupEntity(id, name,  creator);
+		g.addMember(creator);
 		putEntity(g);
 		return g;
 	}

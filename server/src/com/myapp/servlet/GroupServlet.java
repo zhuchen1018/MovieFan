@@ -85,7 +85,7 @@ public class GroupServlet extends HttpServlet
 			return;
 		}
 
-		db.storeGroup(name,  creator);
+		db.createNewGroup(name,  creator);
 		db.sync();
 
 		/*
