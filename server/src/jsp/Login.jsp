@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=US-ASCII"
     pageEncoding="US-ASCII"%>
+<%@page import="com.myapp.servlet.FBLogin.FBConnection"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 <meta charset="UTF-8">
-
+<%
+	FBConnection fbConnection = new FBConnection();
+%>
 <title>Login</title>
 <style>
 body {
@@ -15,6 +18,8 @@ body {
 }
 
 .logo {
+	position:absolute;
+	left: 42%;
     width: 213px;
     height: 36px;
     background: url('http://i.imgur.com/fd8Lcso.png') no-repeat;
@@ -22,13 +27,14 @@ body {
 }
 
 .login-block {
+	position: absolute;
+	top: 200px;
+	left: 14%;
     width: 320px;
     padding: 20px;
     background: #fff;
     border-radius: 5px;
     border-top: 5px solid #ff656c;
-    margin-top: 100px;
-    margin-left: 200px;
     display: inline-block
 }
 
@@ -100,14 +106,14 @@ body {
 
 
 .signup-block {
+	position: absolute;
+	top: 200px;
+	left: 60%;
     width: 320px;
     padding: 20px;
     background: #fff;
     border-radius: 5px;
     border-top: 5px solid #ff656c;
-    margin-right: 50px;
-    margin-top: 100px;
-    margin-left: 300px;
     display: inline-block
 }
 
@@ -183,7 +189,7 @@ body {
 </head>
 
 <body>
-<form action= "/login" method="post">
+<form action= "/login" method="post" style="width: 1px; height: 1px;">
 <div class="logo"></div>
 <div class="login-block">
     <h1>Login</h1>
@@ -193,7 +199,14 @@ body {
 </div>
 </form>
 
-<form action= "/register" method="post">
+<div
+		style="height: 360px; width: 610px;">
+		<a href="<%=fbConnection.getFBAuthUrl()%>"> <img
+			style="margin-top: 435px; margin-left:230px;" src="/images/fbLoginButton.png" />
+		</a>
+</div>
+
+<form action= "/register" method="post" style="width: 1px; height: 1px;">
 <div class="signup-block">
     <h1>Sign Up</h1>
     <input type="text" value="" placeholder="Username" id="username" name="USERNAME" />
@@ -201,7 +214,6 @@ body {
     <button>Sign Up</button>
 </div>
 </form>
-
 </body>
 
 </html>
