@@ -24,26 +24,32 @@ for(int i=0;i<nlv.getNewsNumber();++i){%>
 		case Const.NEWS_TWITTER:
 			request.getSession().setAttribute("nt", nov); %>
 			<jsp:include page="NewsTweet.jsp"/><%
+			request.getSession().setAttribute("nt", null);
 			break;
 		case Const.NEWS_MAKE_FRIENDS:
 			request.getSession().setAttribute("nmf", nov); %>
 			<jsp:include page="NewsMakeFriend.jsp"/><%
+			request.getSession().setAttribute("nmf", null);
 			break;
 		case Const.NEWS_LIKE_MOVIE:
 			request.getSession().setAttribute("nlm", nov); %>
 			<jsp:include page="NewsLikeMovie.jsp"/><%
+			request.getSession().setAttribute("nlm", null);
 			break;
 		case Const.NEWS_SHARE_MOVIE:
 			request.getSession().setAttribute("nsm", nov); %>
 			<jsp:include page="NewsShareMovie.jsp"/><%
+			request.getSession().setAttribute("nsm", null);
 			break;
 		case Const.NEWS_MOVIE_REVIEW:
 			request.getSession().setAttribute("nmr", nov); %>
 			<jsp:include page="NewsMovieReview.jsp"/><%
+			request.getSession().setAttribute("nmr", null);
 			break;
 		case Const.NEWS_ADD_GROUP:
 			request.getSession().setAttribute("nag", nov); %>
 			<jsp:include page="NewsAddGroup.jsp"/><%
+			request.getSession().setAttribute("nag", null);
 			break;
 		}
 	}
