@@ -205,7 +205,7 @@ public class UserPage extends HttpServlet
 		request.setAttribute("GroupListView", flv); 
 
 		String location  = "/jsp/GroupList.jsp";
-		ServletCommon.sendRedirect(response, location);
+		ServletCommon.sendRedirect(request, response, location);
 	}
 
 	/**
@@ -218,7 +218,7 @@ public class UserPage extends HttpServlet
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
 		if(query == null || query.get("user") == null)
 		{
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 			return;
 		}
 
@@ -226,7 +226,7 @@ public class UserPage extends HttpServlet
 		if(targetName == null || targetName.isEmpty())
 		{
 			System.out.println("doGet UserPage: targetName is null");
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 			return;
 		}
 
@@ -244,7 +244,7 @@ public class UserPage extends HttpServlet
 		db.sendGroupList(targetName, request, response);
 	
 		String location = "UserPage.jsp";
-		ServletCommon.sendRedirect(response, location);
+		ServletCommon.sendRedirect(request, response, location);
 	}
 
 	/**
@@ -468,7 +468,7 @@ public class UserPage extends HttpServlet
 		catch(IOException e)
 		{
 			e.printStackTrace();
-			ServletCommon.redirect404(response);
+			ServletCommon.redirect404(request, response);
 		} 
 	}
 
