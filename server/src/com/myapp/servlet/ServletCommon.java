@@ -257,6 +257,41 @@ public class ServletCommon
 		forwardRequestDispatch(request, response, location);
 	}
 
+	public static void RedirectToUserPage(HttpServletRequest request, HttpServletResponse response, String targetName, boolean isMyPage) 
+	{
+		DBWrapper db = null; 
+		try 
+		{
+			db = new DBWrapper();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+			return;
+		}
+		
+		NewsListView nlv = db.loadMyNews(targetName);
+		request.setAttribute("NewsListView", null); 
+		request.setAttribute("NewsListView", nlv); 
+
+		FriendListView flv = db.loadFriendList(targetName); 
+		request.setAttribute("FriendListView", null); 
+		request.setAttribute("FriendListView", flv); 
+
+		GroupListView glv = db.loadGroupList(targetName);
+		request.setAttribute("GroupListView", null); 
+		request.setAttribute("GroupListView", glv); 
+		
+		request.setAttribute("isMyPage", isMyPage);
+
+		print("news size: " + nlv.getNewsNumber());
+		print("friends size: " + flv.getFriendCount());
+		print("groups size: " + glv.getGroupCount()); 
+	
+		String location = "/jsp/UserPage.jsp";
+		forwardRequestDispatch(request, response, location);
+	}
+
 	private static void print(String a)
 	{
 		System.out.println(a);

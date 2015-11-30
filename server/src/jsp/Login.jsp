@@ -19,10 +19,10 @@ body {
 
 .logo {
 	position:absolute;
-	left: 42%;
-    width: 213px;
-    height: 36px;
-    background: url('http://i.imgur.com/fd8Lcso.png') no-repeat;
+	left: 40%;
+    width: 339px;
+    height: 248px;
+    background: url("/images/movieFanL.png") no-repeat;
     margin: 30px auto;
 }
 

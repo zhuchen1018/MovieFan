@@ -193,17 +193,25 @@ public class UserPage extends HttpServlet
 	 */
 	private void handleUserPageGet(HttpServletRequest request, HttpServletResponse response) 
 	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			System.out.println("handleUserPageGet username is null"); 
+			ServletCommon.redirect404(request, response);
+		}
+
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
 		if(query == null || query.get("user") == null)
 		{
+			System.out.println("handleUserPageGet query is null"); 
 			ServletCommon.redirect404(request, response);
 			return;
 		}
 
-		String targetName = query.get("user");
+		String targetName = query.get("user").trim().toLowerCase();
 		if(targetName == null || targetName.isEmpty())
 		{
-			System.out.println("doGet UserPage: targetName is null");
+			System.out.println("handleUserPageGet targetName is null"); 
 			ServletCommon.redirect404(request, response);
 			return;
 		}
@@ -216,16 +224,9 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
 			return;
 		}
-	
-		/*
-		db.sendMyNews(targetName, request, response);
-		db.loadFriendList(targetName, request, response);
-		db.loadGroupList(targetName, request, response);
-	
-		String location = "UserPage.jsp";
-
-		ServletCommon.forwardRequestDispatch(request, response, location);
-		*/
+		
+		boolean isMyPage = username.equals(targetName);	
+		ServletCommon.RedirectToUserPage(request, response, targetName, isMyPage);
 	}
 
 	/**
