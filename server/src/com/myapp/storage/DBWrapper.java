@@ -554,7 +554,7 @@ public class DBWrapper
 	 * @param username
 	 * @param response
 	 */
-	public NewsListView loadMyNews(String username, HttpServletRequest request, HttpServletResponse response) 
+	public NewsListView loadMyNews(String username) 
 	{
 		NewsListView nlv = new NewsListView();
 
