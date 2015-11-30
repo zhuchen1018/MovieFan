@@ -100,7 +100,7 @@ public class LoginServlet extends HttpServlet {
 		db.createUser(name, MD5Encryptor.crypt(name));
 
 		/*auto login*/
-		ServletCommon.addSession(request, response, name);
+		ServletCommon.addLoginSession(request, response, name);
 
 		/*
 		 * result page:

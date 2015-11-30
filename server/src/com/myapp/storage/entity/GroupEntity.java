@@ -71,11 +71,19 @@ public class GroupEntity
 
 	public void addMember(String username) 
 	{
-		members.add(username);
+		if(!members.contains(username))
+		{
+			members.add(username);
+		}
 	}
 
 	public void removeMember(String username) 
 	{
 		members.remove(username);
+	}
+
+	public boolean hasMemeber(String username) 
+	{
+		return members.contains(username);
 	}
 }

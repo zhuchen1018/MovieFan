@@ -33,12 +33,12 @@ public class ServletCommon
 			out.println("<P>" + "Sorry:"+ "</P>");
 			out.println("<P>" + info + "</P>");
 
-			gotoHome(response);
+			showHomeLink(response);
 
 			out.println("</BODY></HTML>");		
 		} 
-		catch (IOException e) {
-			// TODO Auto-generated catch block
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 	}
@@ -84,7 +84,7 @@ public class ServletCommon
 		return name != null && name.equals(username);
 	}
 
-	public static void addSession(HttpServletRequest request, HttpServletResponse response, String username) 
+	public static void addLoginSession(HttpServletRequest request, HttpServletResponse response, String username) 
 	{
 		HttpSession session = request.getSession();
 		session.setAttribute("username", username); 
@@ -132,7 +132,7 @@ public class ServletCommon
 		 */
 	}
 
-	public static void gotoHome(HttpServletResponse res) 
+	public static void showHomeLink(HttpServletResponse res) 
 	{
 		ShowLink(Const.HOME_URL, "Go to Home", res);
 	}
@@ -295,6 +295,13 @@ public class ServletCommon
 	private static void print(String a)
 	{
 		System.out.println(a);
+	}
+
+	public static void addLoginCookies(String name, HttpServletResponse res) 
+	{
+		Cookie cookie = new Cookie("usename", name); 
+		cookie.setMaxAge(24 * 60 * 60);  // 24 hours. 
+		res.addCookie(cookie);
 	}
 	
 }

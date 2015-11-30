@@ -100,7 +100,7 @@ public class GroupServlet extends HttpServlet
 			out.println("<P>" + res + "</P>");
 			out.println("<P>" + "\n" + "</P>");
 
-			ServletCommon.gotoHome(response);
+			ServletCommon.showHomeLink(response);
 			out.println("</BODY></HTML>");		
 		} 
 		catch (IOException e) 

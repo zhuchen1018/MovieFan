@@ -71,7 +71,7 @@ public class UserPage extends HttpServlet
 		{
 			handleArticlePost(request, response);
 		}
-		*/
+		 */
 	}
 
 	private void handleArticlePost(HttpServletRequest request, HttpServletResponse response) 
@@ -114,6 +114,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 		String url = request.getServletPath();
+		System.out.println("UserPage servlet doGet url: " + url);
 		if(url.equals(Const.USER_PAGE_URL))
 		{
 			handleUserPageGet(request, response);
@@ -153,37 +154,23 @@ public class UserPage extends HttpServlet
 
 		GroupListView flv = new GroupListView(); 
 		ArrayList<Long>groups = db.getUserGroup(username);
-		if(groups == null)
-		{
-			//new group
-			String gname1 = "group name 1";
-			String gname2 = "group name 2";
-			String gname3 = "group name 3";
-			GroupEntity g1 = db.createNewGroup(gname1, "creator 1");
-			GroupEntity g2 = db.createNewGroup(gname2, "creator 2");
-			GroupEntity g3 = db.createNewGroup(gname3, "creator 3");
 
-			//add group
-			db.userAddGroup(username, g1.getId());
-			db.userAddGroup(username, g2.getId());
-			db.userAddGroup(username, g3.getId());
-			groups = db.getUserGroup(username);
-		}
+		//new group
+		String gname1 = "group name 1";
+		String gname2 = "group name 2";
+		String gname3 = "group name 3";
+		GroupEntity g1 = db.createNewGroup(gname1, "creator 1");
+		GroupEntity g2 = db.createNewGroup(gname2, "creator 2");
+		GroupEntity g3 = db.createNewGroup(gname3, "creator 3");
+
+		//add group
+		db.userAddGroup(username, g1.getId());
+		db.userAddGroup(username, g2.getId());
+		db.userAddGroup(username, g3.getId());
+
 		db.sync();
 
-		for(long gid: groups)
-		{
-			GroupEntity groupEntity = db.getGroupEntity(gid);
-			if(groupEntity == null) continue;
-			String url = groupEntity.getHeadUrl();
-			String gname = db.getGroupName(gid);
-			GroupObjectView gov = new GroupObjectView(url, gname);
-			flv.addGroupObject(gov);
-		}
-
-		//send it to jsp
-		request.setAttribute("GroupListView", null); 
-		request.setAttribute("GroupListView", flv); 
+		ServletCommon.RedirectToHome(request, response);
 	}
 
 	/**
@@ -224,7 +211,7 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
 			return;
 		}
-		
+
 		boolean isMyPage = username.equals(targetName);	
 		ServletCommon.RedirectToUserPage(request, response, targetName, isMyPage);
 	}
@@ -249,7 +236,7 @@ public class UserPage extends HttpServlet
 
 		String friend = "a_friend";
 		db.createUser(friend, MD5Encryptor.crypt(friend));
-		
+
 		db.userAddFriend(username, friend);
 		db.userAddNewsMakeFriends(username, friend);
 		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
@@ -273,15 +260,10 @@ public class UserPage extends HttpServlet
 		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
 		FriendObjectView fov3 = new FriendObjectView(url, friend);
 		flv.addFriendObject(fov3);
-		
+
 		db.sync();
-	
-		//send it to jsp
-		request.setAttribute("FriendListView", null); 
-		request.setAttribute("FriendListView", flv); 
-	
-		String location = "/jsp/home.jsp";
-		ServletCommon.forwardRequestDispatch(request, response, location);
+
+		ServletCommon.RedirectToHome(request, response);
 	}
 
 	/**
@@ -385,24 +367,7 @@ public class UserPage extends HttpServlet
 
 		db.sync();
 
-
-		//send it to jsp
-		request.setAttribute("NewsListView", null); 
-		request.setAttribute("NewsListView", newsListView); 
-
-		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/NewsList.jsp");
-		try 
-		{
-			rd.forward(request, response);
-		} 
-		catch (ServletException e1) 
-		{
-			e1.printStackTrace();
-		} 
-		catch (IOException e1) 
-		{
-			e1.printStackTrace();
-		}
+		ServletCommon.RedirectToHome(request, response);
 	}
 
 	/**
@@ -453,7 +418,7 @@ public class UserPage extends HttpServlet
 		} 
 	}
 
-	
+
 	private void showTweetWindow(String username, HttpServletResponse response)
 	{
 		response.setContentType("text/html");

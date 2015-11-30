@@ -3,7 +3,7 @@ package com.myapp.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -94,14 +94,9 @@ public class Account extends HttpServlet
 		db.sync();
 
 		/*auto login*/
-		ServletCommon.addSession(request, response, name);
-		
+		ServletCommon.addLoginSession(request, response, name);
 
-		//redirect to Home
-		//String location = "/jsp/home.jsp";
-		//ServletCommon.sendRedirect(response, location);	
-	
-		handleHomeTestGet(request, response);
+		ServletCommon.RedirectToHome(request, response);	
 	}
 
 	private void handleSettingPost(HttpServletRequest request, HttpServletResponse response) 
@@ -144,8 +139,10 @@ public class Account extends HttpServlet
 			return;
 		}
 
-		ServletCommon.addSession(request, response, name);
-	
+		ServletCommon.addLoginSession(request, response, name);
+
+		//ServletCommon.addLoginCookies(name, response);
+			
 		ServletCommon.RedirectToHome(request, response);	
 	}
 	
@@ -267,7 +264,7 @@ public class Account extends HttpServlet
 		out.println("<P>" + res + "</P>");
 		out.println("<P>" + "\n" + "</P>");
 
-		ServletCommon.gotoHome(response);
+		ServletCommon.showHomeLink(response);
 		out.println("</BODY></HTML>");		
 	}
 
