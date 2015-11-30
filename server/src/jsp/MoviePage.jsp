@@ -11,8 +11,8 @@
 <body>
 <%@ page import="com.myapp.view.*" %>
 <%MoviePageView mpv = (MoviePageView) request.getAttribute("MoviePageView"); 
-    String overview, name, ratingStar, releaseYear, poster, homePage;
-    double rating;
+    String overview, name, releaseYear, poster, homePage;
+    double rating, ratingStar;
     int runTime, votes;
     ArrayList<String> trailers;
     PersonListView casts;
@@ -21,7 +21,7 @@
     overview = mpv.getOverview();
     rating = mpv.getRating();
     name = mpv.getName();
-    ratingStar = rating*10 + "%";
+    ratingStar = (rating * 60)/10;
     releaseYear = mpv.getReleaseDate().substring(0, 4);
     poster = mpv.getPoster();
     homePage = mpv.getHomepage();
@@ -44,18 +44,24 @@
     <div id="content"><%=name%> (<%=releaseYear%>) </div><br>
     <div id="content">Runtime: <%=runTime%> (mins)</div><br>
     <div id="content">Rating: <%=rating%> (<%=votes %> votes)</div>
-    <div class="rating-box"> 
+    
+    <div class="rating"> 
+		<div class="stars">
+			<div class="stars-in" style = "width : <%=ratingStar%>px" >	</div>
+		</div>
+	</div>
+<%--     <div class="rating-box"> 
         <div style="width:<%=ratingStar%>" class="rating"></div> 
         </div>
-    </td>
+    </td> --%>
     <br>
     <div id="content"><h4>OverView </h4><td><%=overview%></td></div> <br>
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
+<br><br>
     <h4>director:</h4><br>
     <%request.getSession().setAttribute("person",director);%>
     <jsp:include page="Person.jsp"/>
