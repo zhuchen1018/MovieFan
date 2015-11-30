@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.utils.Const;
-import com.myapp.utils.ServletCommon;
 
 public class GroupServlet extends HttpServlet 
 {

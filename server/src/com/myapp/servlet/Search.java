@@ -19,7 +19,6 @@ import org.jsoup.select.Elements;
 
 import com.myapp.SQL.SQLDBMovieQuery;
 import com.myapp.utils.Const;
-import com.myapp.utils.ServletCommon;
 import com.myapp.view.GoogleListView;
 import com.myapp.view.GoogleObjectView;
 import com.myapp.view.GroupListView;
@@ -283,25 +282,25 @@ public class Search extends HttpServlet
 	private void handleVoiceSearchGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String location = "/htmls/speech/speech_sample.html";
-		ServletCommon.sendRedirect(request, response, location);	
+		ServletCommon.forwardRequestDispatch(request, response, location);	
 	}
 
 	private void handleSearchGoogleGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String location = "/htmls/SearchGooglePage.html";
-		ServletCommon.sendRedirect(request, response, location);
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private void handleSearchGroupGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String location = "/htmls/SearchGroupPage.html";
-		ServletCommon.sendRedirect(request, response, location);
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private void handleSearchUserGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String location = "/htmls/SearchUserPage.html";
-		ServletCommon.sendRedirect(request, response, location);
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private void handleSearchMovieGet(HttpServletRequest request, HttpServletResponse response) 
@@ -351,7 +350,7 @@ public class Search extends HttpServlet
 		else
 		{
 			String location = "/htmls/SearchMoviePage.html";
-			ServletCommon.sendRedirect(request, response, location);
+			ServletCommon.forwardRequestDispatch(request, response, location);
 		}
 	}
 }

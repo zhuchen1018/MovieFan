@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 
 import com.myapp.utils.Const;
-import com.myapp.utils.ServletCommon;
+import com.myapp.utils.MD5Encryptor;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.NewsEntity;
@@ -216,13 +216,16 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
 			return;
 		}
-		
+	
+		/*
 		db.sendMyNews(targetName, request, response);
-		db.sendFriendList(targetName, request, response);
-		db.sendGroupList(targetName, request, response);
+		db.loadFriendList(targetName, request, response);
+		db.loadGroupList(targetName, request, response);
 	
 		String location = "UserPage.jsp";
-		ServletCommon.sendRedirect(request, response, location);
+
+		ServletCommon.forwardRequestDispatch(request, response, location);
+		*/
 	}
 
 	/**
@@ -244,6 +247,8 @@ public class UserPage extends HttpServlet
 		FriendListView flv = new FriendListView(); 
 
 		String friend = "a_friend";
+		db.createUser(friend, MD5Encryptor.crypt(friend));
+		
 		db.userAddFriend(username, friend);
 		db.userAddNewsMakeFriends(username, friend);
 		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
@@ -252,6 +257,7 @@ public class UserPage extends HttpServlet
 
 
 		friend = "b_friend";
+		db.createUser(friend, MD5Encryptor.crypt(friend));
 		db.userAddFriend(username, friend); 
 		db.userAddNewsMakeFriends(username, friend);
 		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
@@ -259,30 +265,22 @@ public class UserPage extends HttpServlet
 		flv.addFriendObject(fov2);
 
 		friend = "c_friend";
+		db.createUser(friend, MD5Encryptor.crypt(friend));
+
 		db.userAddFriend(username, friend); 
 		db.userAddNewsMakeFriends(username, friend);
 		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
 		FriendObjectView fov3 = new FriendObjectView(url, friend);
 		flv.addFriendObject(fov3);
-
+		
+		db.sync();
+	
 		//send it to jsp
 		request.setAttribute("FriendListView", null); 
 		request.setAttribute("FriendListView", flv); 
-		
-		db.sync();
-
-		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/FriendList.jsp");
-		try {
-			rd.forward(request, response);
-		} catch (ServletException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} 
-		catch (IOException e1) 
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}	
+	
+		String location = "/jsp/home.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	/**
@@ -455,21 +453,6 @@ public class UserPage extends HttpServlet
 	}
 
 	
-
-	/**
-	 * TODO:
-	 * should also show my friends' news
-	 * @param username
-	 * @param response
-	 */
-	private void showAllRelatedNews(String username, HttpServletRequest request, HttpServletResponse response) 
-	{
-		initDB();
-		//TODO:
-		ArrayList<String>friends = db.getFriends(username);
-		db.sendAllNews(username, request, response);
-	}
-
 	private void showTweetWindow(String username, HttpServletResponse response)
 	{
 		response.setContentType("text/html");

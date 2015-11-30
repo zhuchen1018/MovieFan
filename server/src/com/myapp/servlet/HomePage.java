@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.myapp.storage.DBWrapper;
 import com.myapp.utils.Const;
-import com.myapp.utils.ServletCommon;
+import com.myapp.view.FriendListView;
+import com.myapp.view.GroupListView;
+import com.myapp.view.NewsListView;
 
 
 /**
@@ -73,23 +75,11 @@ public class HomePage  extends HttpServlet
 		if(!isLogin)
 		{
 			String location = "/jsp/Login.jsp";
-			ServletCommon.sendRedirect(request, response, location);
+			ServletCommon.forwardRequestDispatch(request, response, location);
 		}
 		else
 		{
-			initDB();
-
-			String username = ServletCommon.getSessionUsername(request);
-			db.sendAllNews(username, request, response);
-			db.sendFriendList(username, request, response);
-			db.sendGroupList(username, request, response);
-			
-			print("news: " + request.getAttribute("NewsListView"));
-			print("friends: " + request.getAttribute("FriendListView"));
-			print("groups: " + request.getAttribute("GroupListView"));
-
-			String location = "/jsp/home.jsp";
-			ServletCommon.sendRedirect(request, response, location);
+			ServletCommon.RedirectToHome(request, response);
 		}
 	}
 

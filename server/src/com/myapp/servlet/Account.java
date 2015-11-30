@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.myapp.storage.DBWrapper;
 import com.myapp.utils.MD5Encryptor;
-import com.myapp.utils.ServletCommon;
 import com.myapp.utils.Const;
 
 
@@ -91,7 +90,7 @@ public class Account extends HttpServlet
 		}
 
 		/*: DB add new user*/
-		db.addUser(name, MD5Encryptor.crypt(password));
+		db.createUser(name, MD5Encryptor.crypt(password));
 		db.sync();
 
 		/*auto login*/
@@ -146,13 +145,8 @@ public class Account extends HttpServlet
 		}
 
 		ServletCommon.addSession(request, response, name);
-
-		//redirect to Home
-		//String location = "/jsp/home.jsp";
-		//ServletCommon.sendRedirect(response, location);	
 	
-		//for test
-		handleHomeTestGet(request, response);
+		ServletCommon.RedirectToHome(request, response);	
 	}
 	
 	private void handleHomeTestGet(HttpServletRequest request, HttpServletResponse response) 
@@ -252,7 +246,7 @@ public class Account extends HttpServlet
 	private void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String location = "/htmls/RegisterPage.html";
-		ServletCommon.sendRedirect(request, response, location);
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private void handleLogoff(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -279,8 +273,8 @@ public class Account extends HttpServlet
 
 	public void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
-		String location = "/htmls/LoginPage.html";
-		ServletCommon.sendRedirect(request, response, location);
+		String location = "/jsp/Login.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private boolean checkNameLegal(String name, HttpServletRequest request, HttpServletResponse response)

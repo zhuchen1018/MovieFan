@@ -59,7 +59,7 @@ public class TestDB extends TestCase
 		String password = "jason123";
 	
 		//register
-		db.addUser(name, password);
+		db.createUser(name, password);
 		assertTrue(db.hasUser(name));	
 
 		//login checkpassword

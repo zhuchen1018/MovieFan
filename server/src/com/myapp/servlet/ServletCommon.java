@@ -1,4 +1,4 @@
-package com.myapp.utils;
+package com.myapp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,9 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.myapp.storage.entity.UserEntity;
+import com.myapp.storage.DBWrapper;
+import com.myapp.utils.Const;
 import com.myapp.view.FriendListView;
 import com.myapp.view.FriendObjectView;
+import com.myapp.view.GroupListView;
+import com.myapp.view.NewsListView;
 
 public class ServletCommon 
 {
@@ -188,7 +191,7 @@ public class ServletCommon
 		return kv;
 	}
 
-	public static void sendRedirect(HttpServletRequest request, HttpServletResponse response, String location) 
+	public static void forwardRequestDispatch(HttpServletRequest request, HttpServletResponse response, String location) 
 	{
 		RequestDispatcher rd= request.getRequestDispatcher (location);
 		try {
@@ -206,13 +209,57 @@ public class ServletCommon
 
 	public static void redirect404(HttpServletRequest request,HttpServletResponse response)
 	{
-		sendRedirect(request, response, "/htmls/404.html");
+		forwardRequestDispatch(request, response, "/htmls/404.html");
 	}
 
 	public static void redirect500(HttpServletRequest request, HttpServletResponse response)
 	{
-		sendRedirect(request, response, "/htmls/500.html");
+		forwardRequestDispatch(request, response, "/htmls/500.html");
 	}
 
+	public static void RedirectToHome(HttpServletRequest request, HttpServletResponse response) 
+	{
+		DBWrapper db = null; 
+		try 
+		{
+			db = new DBWrapper();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+			return;
+		}
+
+		String username = getSessionUsername(request);
+		if(username == null)
+		{
+			PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			return;
+		}
+
+		NewsListView nlv = db.loadAllNews(username);
+		request.setAttribute("NewsListView", null); 
+		request.setAttribute("NewsListView", nlv); 
+
+		FriendListView flv = db.loadFriendList(username); 
+		request.setAttribute("FriendListView", null); 
+		request.setAttribute("FriendListView", flv); 
+
+		GroupListView glv = db.loadGroupList(username);
+		request.setAttribute("GroupListView", null); 
+		request.setAttribute("GroupListView", glv); 
+
+		print("news size: " + nlv.getNewsNumber());
+		print("friends size: " + flv.getFriendCount());
+		print("groups size: " + glv.getGroupCount()); 
+
+		String location = "/jsp/home.jsp";
+		forwardRequestDispatch(request, response, location);
+	}
+
+	private static void print(String a)
+	{
+		System.out.println(a);
+	}
 	
 }

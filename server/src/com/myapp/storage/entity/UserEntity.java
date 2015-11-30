@@ -114,6 +114,10 @@ public class UserEntity
 
 	public void addFriend(String friendname) 
 	{
+		if(friends.contains(friendname))
+		{
+			return;
+		}
 		friends.add(friendname);
 	}
 
