@@ -48,6 +48,8 @@ public class Const
 	public static final String TEST_FRIENDS_URL = "/test_friends";
 	public static final String TEST_GROUPS_URL = "/test_groups";
 
+	public static final String FOLLOW_USER_URL = "/follow_user";
+
 	//Group
 	public static final String CREATE_GROUP_URL = "/create_group";
 	public static final String JOIN_GROUP_URL = "/join_group";
@@ -85,6 +87,7 @@ public class Const
 	public final static int MOVIE_LENGTH_60_90=2;
 	public final static int MOVIE_LENGTH_90_120=3;
 	public final static int MOVIE_LENGTH_120_MORE=4;
+
 
 
 

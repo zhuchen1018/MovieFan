@@ -120,8 +120,6 @@ public class Account extends HttpServlet
 		if(!db.hasUser(name))
 		{
 			ServletCommon.PrintErrorPage("Sorry, this username has not been registered!",  response);
-			ServletCommon.ShowLink("/register", "register", response); 
-			ServletCommon.ShowLink("/login", "Login", response); 
 			return;
 		}
 

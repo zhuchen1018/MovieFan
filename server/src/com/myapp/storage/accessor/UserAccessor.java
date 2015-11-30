@@ -84,12 +84,12 @@ public class UserAccessor
 		return true;
 	}
 
-	public void addGroup(String username, Long id) 
+	public void joinGroup(String username, Long id) 
 	{
 		UserEntity user = getEntity(username);
 		if(user != null)
 		{
-			user.addGroup(id);
+			user.joinGroup(id);
 			putEntity(user);
 		}	
 	}

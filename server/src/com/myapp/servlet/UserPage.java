@@ -1,34 +1,15 @@
 package com.myapp.servlet;
 
-
 import java.io.IOException;
-import java.io.PrintWriter;
-
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.Hashtable;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-
 import com.myapp.utils.Const;
-import com.myapp.utils.MD5Encryptor;
 import com.myapp.storage.DBWrapper;
-import com.myapp.storage.entity.GroupEntity;
-import com.myapp.storage.entity.NewsEntity;
 import com.myapp.storage.entity.UserEntity;
-import com.myapp.utils.Const;
-import com.myapp.view.FriendListView;
-import com.myapp.view.FriendObjectView;
-import com.myapp.view.GroupListView;
-import com.myapp.view.GroupObjectView;
-import com.myapp.view.NewsListView;
-import com.myapp.view.NewsObjectView;
+
 
 
 public class UserPage extends HttpServlet 
@@ -38,7 +19,7 @@ public class UserPage extends HttpServlet
 	 */
 	private static final long serialVersionUID = -6232737047776432110L;
 	private DBWrapper db; 
-	public UserPage() throws IOException
+	public UserPage() 
 	{
 	}
 
@@ -119,58 +100,50 @@ public class UserPage extends HttpServlet
 		{
 			handleUserPageGet(request, response);
 		}
-		else if(url.equals(Const.TEST_USER_NEWS_URL))
+		else if(url.equals(Const.FOLLOW_USER_URL))
 		{
-			handleTestNewsGet(request, response);
-			return;
-		}
-		else if(url.equals(Const.TEST_FRIENDS_URL))
-		{
-			handleTestFriendsGet(request, response);
-			return;
-		}
-		else if(url.equals(Const.TEST_GROUPS_URL))
-		{
-			handleTestGroupsGet(request, response);
-			return;
+			handleFollowUser(request, response);
 		}
 	}
 
-	/**
-	 * 
-	 * @param request
-	 * @param response
-	 */
-	private void handleTestGroupsGet(HttpServletRequest request, HttpServletResponse response) 
+	private void handleFollowUser(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String username = ServletCommon.getSessionUsername(request);
-		if(username == null || username.isEmpty())
+		if(username == null)
 		{
+			System.out.println("handleFollowUser username is null"); 
 			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			return;
+		}
+
+		//url:     /follow_user?user=jason
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		if(query == null || query.get("user") == null)
+		{
+			System.out.println("handleFollowUser query user is null"); 
+			ServletCommon.redirect404(request, response);
+			return;
+		}
+
+		String targetName = query.get("user").trim().toLowerCase();
+		if(targetName == null || targetName.isEmpty())
+		{
+			System.out.println("handleFollowUser targetName is null"); 
+			ServletCommon.redirect404(request, response);
 			return;
 		}
 
 		initDB();
 
-		GroupListView flv = new GroupListView(); 
-		ArrayList<Long>groups = db.getUserGroup(username);
-
-		//new group
-		String gname1 = "group name 1";
-		String gname2 = "group name 2";
-		String gname3 = "group name 3";
-		GroupEntity g1 = db.createNewGroup(gname1, "creator 1");
-		GroupEntity g2 = db.createNewGroup(gname2, "creator 2");
-		GroupEntity g3 = db.createNewGroup(gname3, "creator 3");
-
-		//add group
-		db.userAddGroup(username, g1.getId());
-		db.userAddGroup(username, g2.getId());
-		db.userAddGroup(username, g3.getId());
-
+		UserEntity user = db.getUserEntity(targetName);
+		if(user == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			return;
+		}
+		
+		db.userAddFriend(username, targetName);
 		db.sync();
-
-		ServletCommon.RedirectToHome(request, response);
 	}
 
 	/**
@@ -212,213 +185,11 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		boolean isMyPage = username.equals(targetName);	
-		ServletCommon.RedirectToUserPage(request, response, targetName, isMyPage);
+		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
 
-	/**
-	 * Test friends
-	 * @param request
-	 * @param response
-	 */
-	private void handleTestFriendsGet(HttpServletRequest request, HttpServletResponse response) 
-	{
-		String username = ServletCommon.getSessionUsername(request);
-		if(username == null || username.isEmpty())
-		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
-			return;
-		}
-
-		initDB();
-
-		FriendListView flv = new FriendListView(); 
-
-		String friend = "a_friend";
-		db.createUser(friend, MD5Encryptor.crypt(friend));
-
-		db.userAddFriend(username, friend);
-		db.userAddNewsMakeFriends(username, friend);
-		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		FriendObjectView fov = new FriendObjectView(url, friend);
-		flv.addFriendObject(fov);
-
-
-		friend = "b_friend";
-		db.createUser(friend, MD5Encryptor.crypt(friend));
-		db.userAddFriend(username, friend); 
-		db.userAddNewsMakeFriends(username, friend);
-		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		FriendObjectView fov2 = new FriendObjectView(url, friend);
-		flv.addFriendObject(fov2);
-
-		friend = "c_friend";
-		db.createUser(friend, MD5Encryptor.crypt(friend));
-
-		db.userAddFriend(username, friend); 
-		db.userAddNewsMakeFriends(username, friend);
-		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		FriendObjectView fov3 = new FriendObjectView(url, friend);
-		flv.addFriendObject(fov3);
-
-		db.sync();
-
-		ServletCommon.RedirectToHome(request, response);
-	}
-
-	/**
-	 * test news list
-	 * @param request
-	 * @param response
-	 */
-	private void handleTestNewsGet(HttpServletRequest request, HttpServletResponse response) 
-	{
-		String username = ServletCommon.getSessionUsername(request);
-		if(username == null || username.isEmpty())
-		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
-			return;
-		}
-
-		initDB();
-
-		NewsListView newsListView = new NewsListView();
-
-		//twitter
-		String text = "hello world";
-		String url = null; 
-		String title = null; 
-		String movieId = null; 
-		String movieName = null; 
-		ArrayList<String>ToList = null;
-		int type = Const.NEWS_TWITTER; 
-		long releaseTime = (new Date()).getTime(); 
-		int likeNums = 2; 
-		NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
-		newsListView.addNews(newsViewObj);
-		db.addNewsTwitter(username, text);
-
-		//movie review
-		text = "this is the moviee review body";
-		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		title = "This is title";
-		movieId = "843";
-		movieName = "this is movie name"; 
-		ToList = null;
-		type = Const.NEWS_MOVIE_REVIEW; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
-		newsListView.addNews(newsViewObj);
-		db.addNewsMovieReview(username, title, text, movieId, movieName, url);
-
-		//make friends
-		text = null;
-		url = null;
-		title = null;
-		movieId = null;
-		movieName = null; 
-		String  receiver = "jason123";
-		ToList = new ArrayList<String>();
-		ToList.add(receiver);
-		type = Const.NEWS_MAKE_FRIENDS; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
-		newsListView.addNews(newsViewObj);
-		db.userAddNewsMakeFriends(username, receiver); 
-
-		//add group
-		text = null;
-		url = null;
-		title = null;
-		movieId = null;
-		movieName = null; 
-		String  groupid = "123";
-		ToList = new ArrayList<String>();	
-		ToList.add(groupid);
-		type = Const.NEWS_ADD_GROUP; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
-		newsListView.addNews(newsViewObj);
-		db.addNewsAddGroup(username, groupid); 
-
-		//share movies
-		text = null;
-		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		title = null;
-		movieId = "843";
-		movieName = "This is a moviename"; 
-		ToList = new ArrayList<String>();
-		ToList.add("jason1");
-		ToList.add("jason2");
-		ToList.add("jason3");
-		type = Const.NEWS_SHARE_MOVIE; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
-		newsListView.addNews(newsViewObj);
-		db.addNewsShareMovies(username, movieId, movieName, url, ToList); 
-
-		//like movies
-		text = null;
-		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		title = null;
-		movieId = "843";
-		movieName = null; 
-		ToList = null;
-		type = Const.NEWS_LIKE_MOVIE; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
-		newsListView.addNews(newsViewObj);
-		db.addNewsLikeMovie(username, movieId, url); 
-
-		db.sync();
-
-		ServletCommon.RedirectToHome(request, response);
-	}
-
-	/**
-	 * Show Friend list
-	 * @param username
-	 * @param request
-	 * @param response
-	 */
-	private void showFriendList(String username, HttpServletRequest request, HttpServletResponse response) 
-	{
-		try 
-		{
-			initDB();
-			FriendListView flv = new FriendListView(); 
-			ArrayList<String>friends = db.getUserFriends(username);
-			if(friends == null)
-			{
-				System.out.println("showFriendList friends is null");
-				return;
-			}
-			for(String fname: friends)
-			{
-				UserEntity friend = db.getUserEntity(fname);
-				if(friend == null) continue;
-				String url = friend.getHeadUrl();
-				FriendObjectView fov = new FriendObjectView(url, fname);
-				flv.addFriendObject(fov);
-			}
-
-			//send it to jsp
-			request.setAttribute("FriendListView", null); 
-			request.setAttribute("FriendListView", flv); 
-
-			RequestDispatcher rd= request.getRequestDispatcher ("/jsp/NewsList.jsp");
-			try 
-			{
-				rd.forward(request, response);
-			} 
-			catch (ServletException e1) 
-			{
-				e1.printStackTrace();
-			} 
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-			ServletCommon.redirect404(request, response);
-		} 
-	}
-
-
+	
+	/*
 	private void showTweetWindow(String username, HttpServletResponse response)
 	{
 		response.setContentType("text/html");
@@ -437,5 +208,6 @@ public class UserPage extends HttpServlet
 			e.printStackTrace();
 		}
 	}
+	*/
 }
 

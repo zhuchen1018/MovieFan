@@ -57,11 +57,7 @@ public class HomePage  extends HttpServlet
 		if(url.equals(Const.HOME_URL))
 		{
 			handleHomeGet(request, response);
-		}
-		else if(url.equals(Const.HOME_TEST_URL))
-		{
-			handleHomeTestGet(request, response);
-		}
+		}	
 	}
 
 	/**
@@ -83,64 +79,7 @@ public class HomePage  extends HttpServlet
 		}
 	}
 
-	private void handleHomeTestGet(HttpServletRequest request, HttpServletResponse response) 
-	{
-		response.setContentType("text/html");
-		PrintWriter out;
-		try 
-		{
-			out = response.getWriter();
-			out.println("<P>" + "\n" + "</P>");
-			out.println("<a href=\"/register\" class=\"button\">Register</a>");
-
-			if(!ServletCommon.hasLoginSession(request))
-			{
-				out.println("<P>" + "\n" + "</P>");
-				out.println("<a href=\"/login\" class=\"button\">Login</a>");
-			}
-			else
-			{
-				out.println("<P>" + "\n" + "</P>");
-				out.println("<a href=\"/logoff\" class=\"button\">Logoff</a>");
-
-				out.println("<P>" + "\n" + "</P>");
-				out.println("<a href=\"/user_page" + "?" + "user=" + ServletCommon.getSessionUsername(request) 
-				+ "\" class=\"button\">My Page</a>");
-
-				out.println("<P>" + "\n" + "</P>");
-				out.println("<a href=\"/test_news \" class=\"button\">Test News Here</a>");
-
-				out.println("<P>" + "\n" + "</P>");
-				out.println("<a href=\"/test_friends \" class=\"button\">Test Friends Here</a>");
-
-				out.println("<P>" + "\n" + "</P>");
-				out.println("<a href=\"/test_groups \" class=\"button\">Test Groups Here</a>");
-
-				out.println("<P>" + "\n" + "</P>");
-				out.println("<a href=\"/create_group \" class=\"button\">Test Creater Group </a>");
-			}
-
-			out.println("<P>" + "\n" + "</P>");
-			out.println("<a href=\"/search_movie\" class=\"button\">Search Movie</a>");
-
-			out.println("<P>" + "\n" + "</P>");
-			out.println("<a href=\"/search_group\" class=\"button\">Search Group</a>");
-
-			out.println("<P>" + "\n" + "</P>");
-			out.println("<a href=\"/hometest\" class=\"button\">Facebook login</a>");	
-
-			out.println("<P>" + "\n" + "</P>");
-			out.println("<a href=\"/search_google\" class=\"button\">Google it</a>"); 
-
-			out.println("<P>" + "\n" + "</P>");
-			out.println("<a href=\"/voice_search\" class=\"button\">Voice Search</a>");
-
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
-	}
+	
 	private static void print(String a)
 	{
 		System.out.println(a);

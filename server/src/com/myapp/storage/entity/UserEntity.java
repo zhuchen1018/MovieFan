@@ -22,14 +22,20 @@ public class UserEntity
 	//news' id
 	private ArrayList<Long>news= new ArrayList<Long>(); 
 
+	//like movie' id
+	private ArrayList<String>likeMovies = new ArrayList<String>(); 
+
 	//friends username 
 	private ArrayList<String>friends = new ArrayList<String>(); 
 
 	//comment's id
 	private ArrayList<Long>comments = new ArrayList<Long>(); 
 
-	//group 's id
-	private ArrayList<Long>groups = new ArrayList<Long>(); 
+	//join group 's id
+	private ArrayList<Long>joinGroups = new ArrayList<Long>(); 
+
+	//create group 's id
+	private ArrayList<Long>createGroups = new ArrayList<Long>(); 
 	
 	public UserEntity()
 	{
@@ -64,9 +70,9 @@ public class UserEntity
 		return login_time;
 	}
 
-	public ArrayList<Long> getGroups() 
+	public ArrayList<Long> getJoinGroups() 
 	{
-		return groups;
+		return joinGroups;
 	}
 	
 	public ArrayList<String> getFriends() 
@@ -121,16 +127,31 @@ public class UserEntity
 		friends.add(friendname);
 	}
 
-	public void addGroup(Long id) 
+	public void joinGroup(Long id) 
 	{
-		if(!groups.contains(id))
+		if(!joinGroups.contains(id))
 		{
-			groups.add(id);
+			joinGroups.add(id);
 		}
 	}
 
 	public void leaveGroup(Long id) 
 	{
-		groups.remove(id);
+		joinGroups.remove(id);
+	}
+
+	public boolean isMyFriend(String targetName) 
+	{
+		return friends.contains(targetName);
+	}
+
+	public boolean isLikeMovie(String movie_id) 
+	{
+		return likeMovies.contains(movie_id); 
+	}
+
+	public boolean canCreateGroup() 
+	{
+		return createGroups.size() < 3;
 	}
 }

@@ -24,11 +24,14 @@ import com.myapp.view.NewsObjectView;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-//import org.apache.log4j.Logger;
 
+/**
+ * NoSQL part using Berkeley DB
+ * store data of User, Group
+ * @author Wingszero
+ *
+ */
 public class DBWrapper 
 {
 	private Environment env;
@@ -397,12 +400,12 @@ public class DBWrapper
 		storeNews(news_obj, user);
 	}
 
-	public void addNewsAddGroup(String username, String groupid) 
+	public void addNewsJoinGroup(String username, String groupid) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
 		{
-			print("addNewsAddGroup: user is null " + username);
+			print("addNewsJoinGroup: user is null " + username);
 			return;
 		}
 		ArrayList<String>receivers = new ArrayList<String>();
@@ -471,7 +474,7 @@ public class DBWrapper
 		UserEntity user = getUserEntity(username);
 		if(user != null)
 		{
-			return user.getGroups();
+			return user.getJoinGroups();
 		}
 		return null;
 	}
@@ -487,19 +490,19 @@ public class DBWrapper
 	}
 
 	/**
-	 * user add group
+	 * user join group
 	 * @param username
 	 * @param id
 	 */
-	public void userAddGroup(String username, Long id) 
+	public void userJoinGroup(String username, Long id) 
 	{
 		UserEntity user = getUserEntity(username);
 		GroupEntity gobj = getGroupEntity(id);
 		if(user != null && gobj != null)
 		{
-			userEA.addGroup(username, id);
+			userEA.joinGroup(username, id);
 			groupEA.addMember(id, username);
-			addNewsAddGroup(username, String.valueOf(id)); 
+			addNewsJoinGroup(username, String.valueOf(id)); 
 		}	
 	}
 	
@@ -658,5 +661,35 @@ public class DBWrapper
 			}
 		}
 		return glv;
+	}
+
+	public boolean isMyFriend(String username, String targetName) 
+	{
+		UserEntity user  = getUserEntity(username);
+		if(user != null)
+		{
+			return user.isMyFriend(targetName);
+		}
+		return false;
+	}
+
+	public Object isUserLikeMovie(String username, String movie_id) 
+	{
+		UserEntity user  = getUserEntity(username);
+		if(user != null)
+		{
+			return user.isLikeMovie(movie_id);
+		}
+		return null;
+	}
+
+	public boolean canCreateGroup(String username) 
+	{
+		UserEntity user  = getUserEntity(username);
+		if(user != null)
+		{
+			return user.canCreateGroup();
+		}
+		return false;
 	}
 }

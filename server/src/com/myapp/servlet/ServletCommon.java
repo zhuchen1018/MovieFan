@@ -257,7 +257,8 @@ public class ServletCommon
 		forwardRequestDispatch(request, response, location);
 	}
 
-	public static void RedirectToUserPage(HttpServletRequest request, HttpServletResponse response, String targetName, boolean isMyPage) 
+	public static void RedirectToUserPage(HttpServletRequest request, HttpServletResponse response, 
+			String username, String targetName) 
 	{
 		DBWrapper db = null; 
 		try 
@@ -281,8 +282,12 @@ public class ServletCommon
 		GroupListView glv = db.loadGroupList(targetName);
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
-		
+	
+		boolean isMyPage = username.equals(targetName);
 		request.setAttribute("isMyPage", isMyPage);
+
+		boolean isMyFriend = db.isMyFriend(username, targetName); 
+		request.setAttribute("isMyFriend", isMyFriend);
 
 		print("news size: " + nlv.getNewsNumber());
 		print("friends size: " + flv.getFriendCount());

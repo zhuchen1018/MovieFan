@@ -18,6 +18,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.myapp.SQL.SQLDBMovieQuery;
+import com.myapp.storage.DBWrapper;
 import com.myapp.utils.Const;
 import com.myapp.view.GoogleListView;
 import com.myapp.view.GoogleObjectView;
@@ -31,6 +32,20 @@ public class Search extends HttpServlet
 	 * 
 	 */
 	private static final long serialVersionUID = -2835467381465359391L;
+	private DBWrapper db; 
+
+	public void initDB()
+	{
+		if(db != null) return;
+		try 
+		{
+			db = new DBWrapper();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+	}
 
 	public void init()
 	{
@@ -165,7 +180,7 @@ public class Search extends HttpServlet
 			return;
 		}
 		GroupListView glv = new GroupListView();
-		
+
 		//test
 		String url = "http://andreakihlstedt.com/wpsys/wp-content/uploads/2014/04/Say-Hello1.jpg";
 		String name1 = "group1";
@@ -176,10 +191,10 @@ public class Search extends HttpServlet
 		//test
 		url = "http://andreakihlstedt.com/wpsys/wp-content/uploads/2014/04/Say-Hello1.jpg";
 		String name2 = "group2";
-		
+
 		GroupObjectView gov2 = new GroupObjectView(url, name2);
 		glv.addGroupObject(gov2);
-		
+
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
 
@@ -252,6 +267,13 @@ public class Search extends HttpServlet
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
 	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			return;
+		}
+
 		String url = request.getServletPath();
 		if(url.equals(Const.SEARCH_MOVIE))
 		{
@@ -305,13 +327,13 @@ public class Search extends HttpServlet
 
 	private void handleSearchMovieGet(HttpServletRequest request, HttpServletResponse response) 
 	{
+		initDB();
+
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
 		//search movie by movie_id: from click movie ref 
 		if(query != null && !query.isEmpty())
 		{
 			String movie_id = query.get("movie_id");
-			System.out.println("jason query.get " + movie_id);
-
 			if(movie_id != null && !movie_id.isEmpty())
 			{
 				SQLDBMovieQuery sql=null;
@@ -321,25 +343,19 @@ public class Search extends HttpServlet
 				}
 				catch(Exception ex)
 				{
-					System.out.println(ex.getMessage());
 					ex.printStackTrace();
 					ServletCommon.redirect404(request, response);
 					return;
 				}
 
+				String username = ServletCommon.getSessionUsername(request);
 				request.setAttribute("MoviePageView", null); 
 				request.setAttribute("MoviePageView", sql.getMovieHomepage());
 
-				RequestDispatcher rd= request.getRequestDispatcher ("/jsp/MoviePage.jsp");
-				try 
-				{
-					rd.forward(request, response);
-				} 
-				catch (IOException | ServletException e) 
-				{
-					e.printStackTrace();
-					ServletCommon.redirect404(request, response);
-				}
+				request.setAttribute("LikedMovie", db.isUserLikeMovie(username, movie_id));
+
+				String location = "/jsp/MoviePage.jsp";
+				ServletCommon.forwardRequestDispatch(request, response, location);
 			}
 			else
 			{

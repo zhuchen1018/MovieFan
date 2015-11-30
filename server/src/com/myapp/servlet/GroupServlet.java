@@ -64,7 +64,7 @@ public class GroupServlet extends HttpServlet
 
 	private void handleCreateGroupPost(HttpServletRequest request, HttpServletResponse response) 
 	{
-		String creator = (String) request.getSession().getAttribute("username");
+		String creator = ServletCommon.getSessionUsername(request);
 		if(creator == null)
 		{
 			ServletCommon.PrintErrorPage("Cannot find username in the session. " + request.getSession().getId(), response); 
@@ -77,13 +77,9 @@ public class GroupServlet extends HttpServlet
 			ServletCommon.PrintErrorPage("Please enter a group name.",  response);
 			return;
 		}
-
-		if(db.hasGroupByName(name))
-		{
-			ServletCommon.PrintErrorPage("Sorry, this group name has been registered.",  response);
-			return;
-		}
-
+		
+		boolean canCreateGroup = db.canCreateGroup(creator);
+	
 		db.createNewGroup(name,  creator);
 		db.sync();
 
@@ -164,7 +160,7 @@ public class GroupServlet extends HttpServlet
 		}
 
 		Long gid = Long.parseLong(group);
-		db.userAddGroup(username, gid);
+		db.userJoinGroup(username, gid);
 		db.sync();
 	}
 
