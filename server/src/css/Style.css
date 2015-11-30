@@ -93,3 +93,10 @@ body {
  width: 21%;
  float: left;
 }
+
+div.scroll {
+    background-color: #00FFFF;
+    width: 100px;
+    height: 100px;
+    overflow: scroll;
+}

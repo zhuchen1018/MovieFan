@@ -4,26 +4,6 @@
 <html>
 <head>
 <link rel = "stylesheet" type ="text/css" href = "../css/Style.css">
-<style>
-
-
-/* #footer { 
- width: 900px;
- clear: both;
- color: #333;
- border: 1px solid #ccc;
- background-color:#F3F2ED;
- margin: 0px 0px 10px 0px;
- padding: 1%;
-}
- */
-div.scroll {
-    background-color: #00FFFF;
-    width: 100px;
-    height: 100px;
-    overflow: scroll;
-}
-</style>
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>MovieFans.com</title>
 <link rel="shortcut icon" href="/images/1.png">
