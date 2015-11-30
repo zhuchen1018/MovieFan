@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.myapp.servlet.ServletCommon;
 import com.myapp.storage.DBWrapper;
 import com.myapp.utils.MD5Encryptor;
-import com.myapp.utils.ServletCommon;
 
 public class LoginServlet extends HttpServlet {
 
@@ -97,7 +97,7 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		/*: DB add new user*/
-		db.addUser(name, MD5Encryptor.crypt(name));
+		db.createUser(name, MD5Encryptor.crypt(name));
 
 		/*auto login*/
 		ServletCommon.addSession(request, response, name);

@@ -14,7 +14,6 @@ import com.myapp.storage.entity.UserEntity;
 import com.sleepycat.je.Environment;
 import com.sleepycat.persist.EntityStore;
 import com.myapp.utils.Const;
-import com.myapp.utils.ServletCommon;
 import com.myapp.view.FriendListView;
 import com.myapp.view.FriendObjectView;
 import com.myapp.view.GroupListView;
@@ -25,8 +24,6 @@ import com.myapp.view.NewsObjectView;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -228,7 +225,7 @@ public class DBWrapper
 	}
 	 */
 
-	public void addUser(String name, String password) 
+	public void createUser(String name, String password) 
 	{
 		UserAccessor ua = getUserAccessor();
 		ua.add(name, password);
@@ -455,8 +452,8 @@ public class DBWrapper
 		if(user != null)
 		{
 			user.addFriend(friendname);
+			userEA.putEntity(user);
 		}
-		userEA.putEntity(user);
 	}
 
 	public ArrayList<String> getUserFriends(String username) 
@@ -533,7 +530,7 @@ public class DBWrapper
 	 * @param request
 	 * @param response
 	 */
-	public void sendFriendList(String username, HttpServletRequest request, HttpServletResponse response) 
+	public FriendListView loadFriendList(String username) 
 	{
 		FriendListView flv = new FriendListView(); 
 		ArrayList<String>friends = getUserFriends(username);
@@ -548,9 +545,7 @@ public class DBWrapper
 				flv.addFriendObject(fov);
 			}
 		}
-		//send it to jsp
-		request.setAttribute("FriendListView", null); 
-		request.setAttribute("FriendListView", flv); 
+		return flv;
 	}
 
 	/**
@@ -559,9 +554,9 @@ public class DBWrapper
 	 * @param username
 	 * @param response
 	 */
-	public void sendMyNews(String username, HttpServletRequest request, HttpServletResponse response) 
+	public NewsListView loadMyNews(String username, HttpServletRequest request, HttpServletResponse response) 
 	{
-		NewsListView newsListView = new NewsListView();
+		NewsListView nlv = new NewsListView();
 
 		ArrayList<Long>newids = getUserNews(username);
 		for(long id: newids)
@@ -578,12 +573,9 @@ public class DBWrapper
 			int likeNums = newsEntity.getLikeNums(); 
 			ArrayList<String>ToList = newsEntity.getReceivers();
 			NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
-			newsListView.addNews(newsViewObj);
+			nlv.addNews(newsViewObj);
 		}
-
-		//send it to jsp
-		request.setAttribute("NewsListView", null); 
-		request.setAttribute("NewsListView", newsListView); 
+		return nlv;
 	}
 
 	/**
@@ -592,9 +584,9 @@ public class DBWrapper
 	 * @param username
 	 * @param response
 	 */
-	public void sendAllNews(String username, HttpServletRequest request, HttpServletResponse response) 
+	public NewsListView loadAllNews(String username) 
 	{
-		NewsListView newsListView = new NewsListView();
+		NewsListView nlv = new NewsListView();
 	
 		//all
 		ArrayList<Long>allnews = new ArrayList<Long>(); 
@@ -637,12 +629,10 @@ public class DBWrapper
 			int likeNums = newsEntity.getLikeNums(); 
 			ArrayList<String>ToList = newsEntity.getReceivers();
 			NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
-			newsListView.addNews(newsViewObj);
+			nlv.addNews(newsViewObj);
 		}
+		return nlv;
 
-		//send it to jsp
-		request.setAttribute("NewsListView", null); 
-		request.setAttribute("NewsListView", newsListView); 
 	}
 
 	/**
@@ -651,9 +641,9 @@ public class DBWrapper
 	 * @param request
 	 * @param response
 	 */
-	public void sendGroupList(String username, HttpServletRequest request, HttpServletResponse response) 
+	public GroupListView loadGroupList(String username)
 	{
-		GroupListView flv = new GroupListView(); 
+		GroupListView glv = new GroupListView(); 
 		ArrayList<Long>groups = getUserGroup(username);
 		if(groups != null)
 		{
@@ -664,11 +654,9 @@ public class DBWrapper
 				String url = groupEntity.getHeadUrl();
 				String gname = getGroupName(gid);
 				GroupObjectView gov = new GroupObjectView(url, gname);
-				flv.addGroupObject(gov);
+				glv.addGroupObject(gov);
 			}
 		}
-		//send it to jsp
-		request.setAttribute("GroupListView", null); 
-		request.setAttribute("GroupListView", flv); 
+		return glv;
 	}
 }
