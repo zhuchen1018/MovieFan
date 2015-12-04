@@ -480,6 +480,16 @@ public class DBWrapper
 		}
 	}
 
+	public void userRemoveFriend(String username, String targetName) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			user.removeFriend(targetName);
+			userEA.putEntity(user);
+		}
+	}	
+
 	public ArrayList<String> getUserFriends(String username) 
 	{
 		UserEntity user = getUserEntity(username);
@@ -759,5 +769,7 @@ public class DBWrapper
 			g.addHeadUrl(url);
 			groupEA.putEntity(g);
 		}
-	}		
+	}
+
+	
 }

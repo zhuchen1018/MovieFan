@@ -32,6 +32,16 @@
      <url-pattern>/tweet_home</url-pattern>
    </servlet-mapping>  
    
+    <servlet-mapping>
+     <servlet-name>user_page</servlet-name>
+     <url-pattern>/follow</url-pattern>
+   </servlet-mapping>  
+   
+     <servlet-mapping>
+     <servlet-name>user_page</servlet-name>
+     <url-pattern>/unfollow</url-pattern>
+   </servlet-mapping>  
+   
     <servlet>
      <servlet-name>test</servlet-name>
      <servlet-class>com.myapp.servlet.TestServlet</servlet-class> 

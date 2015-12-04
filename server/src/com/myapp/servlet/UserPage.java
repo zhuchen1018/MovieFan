@@ -43,9 +43,13 @@ public class UserPage extends HttpServlet
 		{
 			handleTweetPost(request, response, true);
 		}
-		else if(url.equals(Const.USER_TWEET_URL))
+		else if(url.equals(Const.FOLLOW_USER_URL))
 		{
-			handleTweetPost(request, response, false);
+			handleFollowUserPost(request, response);
+		}
+		else if(url.equals(Const.UNFOLLOW_USER_URL))
+		{
+			handleUnFollowUserPost(request, response);
 		}
 		/*
 		else if(url.equals(Const.USER_COMMENT_URL))
@@ -58,6 +62,47 @@ public class UserPage extends HttpServlet
 		}
 		 */
 	}
+
+	private void handleUnFollowUserPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			System.out.println("handleFollowUser username is null"); 
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			return;
+		}
+
+		//url:     /follow_user?user=jason
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		if(query == null || query.get("user") == null)
+		{
+			System.out.println("handleFollowUser query user is null"); 
+			ServletCommon.redirect404(request, response);
+			return;
+		}
+
+		String targetName = query.get("user").trim().toLowerCase();
+		if(targetName == null || targetName.isEmpty())
+		{
+			System.out.println("handleFollowUser targetName is null"); 
+			ServletCommon.redirect404(request, response);
+			return;
+		}
+
+		initDB();
+
+		UserEntity user = db.getUserEntity(targetName);
+		if(user == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			return;
+		}
+		
+		db.userRemoveFriend(username, targetName);
+		db.sync();	
+	}
+
 
 	private void handleArticlePost(HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -113,13 +158,10 @@ public class UserPage extends HttpServlet
 		{
 			handleUserPageGet(request, response);
 		}
-		else if(url.equals(Const.FOLLOW_USER_URL))
-		{
-			handleFollowUser(request, response);
-		}
+		
 	}
 
-	private void handleFollowUser(HttpServletRequest request, HttpServletResponse response) 
+	private void handleFollowUserPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)

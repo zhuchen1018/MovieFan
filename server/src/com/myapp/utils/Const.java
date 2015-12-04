@@ -54,7 +54,8 @@ public class Const
 	public static final String TEST_FRIENDS_URL = "/test_friends";
 	public static final String TEST_GROUPS_URL = "/test_groups";
 
-	public static final String FOLLOW_USER_URL = "/follow_user";
+	public static final String FOLLOW_USER_URL = "/follow";
+	public static final String UNFOLLOW_USER_URL = "/unfollow";
 
 	//Group
 	public static final String CREATE_GROUP_URL = "/create_group";
@@ -107,6 +108,7 @@ public class Const
 
 	//for @username
 	public final static Pattern AT_PATTERN = Pattern.compile("@\\w+");
+
 
 
 	/**
