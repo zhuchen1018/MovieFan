@@ -4,6 +4,8 @@ import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.UserEntity;
+
+import java.util.ArrayList;
 import java.util.Date;
 
 /*
@@ -113,6 +115,20 @@ public class UserAccessor
 	public String getUserFBId(String name) 
 	{
 		return null;
+	}
+
+	public ArrayList<UserEntity> searchSimilarUserName(String tarname) 
+	{
+		tarname = tarname.toLowerCase();
+		ArrayList<UserEntity>result = new ArrayList<UserEntity>();
+		for(String name: userByName.keys())
+		{
+			if(name.toLowerCase().contains(tarname))
+			{
+				result.add(userByName.get(name));
+			}
+		}
+		return result;
 	}
 
 }

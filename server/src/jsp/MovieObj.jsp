@@ -19,7 +19,7 @@
       int movieLength = mov.getLength();
       String movieID = mov.getMovieId();
       String width = rating*10 + "%";    
-      String directURL = "/search_movie?movie_id=";
+      String directURL = "/moviepage?movie_id=";
       directURL = directURL.concat(movieID);
 %>
       

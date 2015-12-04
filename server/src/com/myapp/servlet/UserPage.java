@@ -156,6 +156,7 @@ public class UserPage extends HttpServlet
 		}
 		String url = request.getServletPath();
 		System.out.println("UserPage servlet doGet url: " + url);
+
 		if(url.equals(Const.USER_PAGE_URL))
 		{
 			handleUserPageGet(request, response);

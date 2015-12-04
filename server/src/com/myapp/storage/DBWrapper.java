@@ -21,6 +21,8 @@ import com.myapp.view.GroupListView;
 import com.myapp.view.GroupObjectView;
 import com.myapp.view.NewsListView;
 import com.myapp.view.NewsObjectView;
+import com.myapp.view.UserListView;
+import com.myapp.view.UserObjectView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -771,5 +773,23 @@ public class DBWrapper
 		}
 	}
 
-	
+	public boolean hasGroup(Long gid) 
+	{
+		GroupEntity g = getGroupEntity(gid);
+		return g != null;
+	}
+
+	public UserListView loadSearchUserByName(String tarname) 
+	{
+		ArrayList<UserEntity>userList = userEA.searchSimilarUserName(tarname);
+
+		UserListView ulv = new UserListView(); 
+		for(UserEntity user: userList)
+		{
+			String url = user.getHeadUrl();
+			UserObjectView uov = new UserObjectView(url, user.getName());
+			ulv.add(uov);
+		}
+		return ulv;
+	}	
 }
