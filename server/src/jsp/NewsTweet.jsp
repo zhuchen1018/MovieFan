@@ -26,7 +26,8 @@
     <p>
     	<sub><%=tweetTime %></sub>
     </p>
-    <br>
-    <p class="paragraph"><em><%=tweetContent %></em></p>
+    <p class="paragraph">
+    	<%=tweetContent %>
+    </p>
 </body>
 </html>

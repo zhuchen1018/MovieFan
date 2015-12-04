@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel = "stylesheet" type ="text/css" href = "../css/News.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
@@ -16,13 +17,26 @@
 	String note = nov.getNote();
 	String MovieComment = nov.getText();
 	String movieid = nov.getMovieId();
+	String movieName = nov.getMovieName();
+	String movieUrl = nov.getUrl();
 %>
-      
-    <h3><%=userName%> </h3> &nbsp; <h4><%=note%></h4> <h4><%=movieid%></h4><br> 
-    <td>MovieComment</td><br>  
-    <h4><%=time %></h4><br><br>
-    <br>
-
+    
+    <p>
+    	<img src="/images/not-found.png" class="user"></img>
+    	<b class="name"><%=userName%></b>
+    	&nbsp;
+    	<b class="note"><%=note%></b>
+    </p>
+    <p>
+    	<sub><%=time %></sub>
+    </p>
+    <a class="link" href=<%=movieid%>><%=movieName%></a><br>
+    <p>
+    	<img src=<%=movieUrl%> class="movie"></img>
+    </p>
+    <p class="paragraph">
+    	<%=MovieComment%>
+    </p>
 
 </body>
 </html>
