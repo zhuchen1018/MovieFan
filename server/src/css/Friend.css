@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+
+img.friend{
+	float: left;
+	width: 50px;
+	height: 50px;
+	margin: 0px 0px 0px 0px;
+}
+
+b.name{
+	font-size: 30;
+	color: #222222;
+	text-align: left;
+	font: bold;
+}
