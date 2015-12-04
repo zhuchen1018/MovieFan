@@ -124,6 +124,21 @@
      <servlet-name>moviepage</servlet-name>
      <url-pattern>/moviepage</url-pattern>
    </servlet-mapping>  
+   
+    <servlet-mapping>
+     <servlet-name>moviepage</servlet-name>
+     <url-pattern>/likemovie</url-pattern>
+   </servlet-mapping>  
+   
+     <servlet-mapping>
+     <servlet-name>moviepage</servlet-name>
+     <url-pattern>/sharemovie</url-pattern>
+   </servlet-mapping> 
+   
+     <servlet-mapping>
+     <servlet-name>moviepage</servlet-name>
+     <url-pattern>/moviereview</url-pattern>
+   </servlet-mapping> 
 
   <servlet>
      <servlet-name>search</servlet-name>
