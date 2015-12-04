@@ -749,5 +749,15 @@ public class DBWrapper
 			user.addHeadUrl(url);
 			userEA.putEntity(user);
 		}	
+	}
+
+	public void addGroupHeadUrl(Long id, String url) 
+	{
+		GroupEntity g = getGroupEntity(id);
+		if(g != null)
+		{
+			g.addHeadUrl(url);
+			groupEA.putEntity(g);
+		}
 	}		
 }

@@ -305,9 +305,15 @@ public class TestServlet extends HttpServlet
 		String gname1 = "group name 1";
 		String gname2 = "group name 2";
 		String gname3 = "group name 3";
+		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
 		GroupEntity g1 = db.createNewGroup(gname1, "creator 1");
+		db.addGroupHeadUrl(g1.getId(), url);
+
 		GroupEntity g2 = db.createNewGroup(gname2, "creator 2");
+		db.addGroupHeadUrl(g2.getId(), url);
+
 		GroupEntity g3 = db.createNewGroup(gname3, "creator 3");
+		db.addGroupHeadUrl(g3.getId(), url);
 
 		//add group
 		db.userJoinGroup(username, g1.getId());

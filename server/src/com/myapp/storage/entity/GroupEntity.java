@@ -86,4 +86,9 @@ public class GroupEntity
 	{
 		return members.contains(username);
 	}
+
+	public void addHeadUrl(String url) 
+	{
+		head_url = url;
+	}
 }
