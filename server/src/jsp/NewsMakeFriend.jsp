@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel = "stylesheet" type ="text/css" href = "../css/News.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
@@ -18,9 +19,16 @@
 	String friendurl = "userpage?user="+friend;
 %>
       
-    <p style="font-size:150%;"><b><%=userName%> </b> &nbsp; <%=note%></p> <a style="font-size:150%;" href=<%=friendurl %>><%=friend %></a><br>   
-    <p><sub><%=time %></sub></p><br>
-    <br>
+	<p>
+    	<img src="/images/not-found.png" class="user"></img>
+    	<b class="name"><%=userName%></b>
+    	&nbsp;
+    	<b class="note"><%=note%></b>
+    	<a class="link" href=<%=friendurl %>><%=friend %></a><br>
+    </p>
+    <p>
+    	<sub><%=time %></sub>
+    </p>
 
 
 </body>

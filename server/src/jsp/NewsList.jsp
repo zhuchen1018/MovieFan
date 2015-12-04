@@ -7,7 +7,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<h1>News</h1><br>
 <body>
 
 <%@ page import="com.myapp.view.*" %>
@@ -25,32 +24,32 @@ for(int i=0;i<nlv.getNewsNumber();++i){
 		switch(type){
 		case Const.NEWS_TWITTER:
 			request.getSession().setAttribute("nt", nov); %>
-			<div class=BasicNews><jsp:include page="NewsTweet.jsp"/></div><%
+			<div class="Tweet"><jsp:include page="NewsTweet.jsp"/></div><%
 			request.getSession().setAttribute("nt", null);
 			break;
 		case Const.NEWS_MAKE_FRIENDS:
 			request.getSession().setAttribute("nmf", nov); %>
-			<div class=BasicNews><jsp:include page="NewsMakeFriend.jsp"/></div><%
+			<div class="MakeFriend"><jsp:include page="NewsMakeFriend.jsp"/></div><%
 			request.getSession().setAttribute("nmf", null);
 			break;
 		case Const.NEWS_LIKE_MOVIE:
 			request.getSession().setAttribute("nlm", nov); %>
-			<div class=BasicNews><jsp:include page="NewsLikeMovie.jsp"/></div><%
+			<div class="LikeMovie"><jsp:include page="NewsLikeMovie.jsp"/></div><%
 			request.getSession().setAttribute("nlm", null);
 			break;
 		case Const.NEWS_SHARE_MOVIE:
 			request.getSession().setAttribute("nsm", nov); %>
-			<div class=BasicNews><jsp:include page="NewsShareMovie.jsp"/></div><%
+			<div class="ShareMovie"><jsp:include page="NewsShareMovie.jsp"/></div><%
 			request.getSession().setAttribute("nsm", null);
 			break;
 		case Const.NEWS_MOVIE_REVIEW:
 			request.getSession().setAttribute("nmr", nov); %>
-			<div class=BasicNews><jsp:include page="NewsMovieReview.jsp"/></div><%
+			<div class="MovieReview"><jsp:include page="NewsMovieReview.jsp"/></div><%
 			request.getSession().setAttribute("nmr", null);
 			break;
 		case Const.NEWS_ADD_GROUP:
 			request.getSession().setAttribute("nag", nov); %>
-			<div class=BasicNews><jsp:include page="NewsAddGroup.jsp"/></div><%
+			<div class="AddGroup"><jsp:include page="NewsAddGroup.jsp"/></div><%
 			request.getSession().setAttribute("nag", null);
 			break;
 		}

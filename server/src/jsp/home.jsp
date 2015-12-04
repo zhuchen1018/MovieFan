@@ -12,14 +12,7 @@
 <body>
 
 <!-- Begin Wrapper -->
-<div id="wrapper">
-  <!-- Begin Header -->
-  <div id="header"><h1><a href="http://www.free-css.com/free-css-layouts.php">Free CSS Layouts</a></h1></div>
-  <!-- End Header -->
-  <!-- Begin Navigation -->
-  <div id="navigation"> Navigation Here </div>
-  <!-- End Navigation -->
-  <!-- Begin Left Column -->
+<div width=100% height=100%>
   <div id="BasicDiv" class = "GroupList"> <jsp:include page="GroupList.jsp"/> </div>
   <!-- End Left Column -->
   <!-- Begin Left Middle Column -->

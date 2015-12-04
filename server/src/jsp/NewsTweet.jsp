@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel = "stylesheet" type ="text/css" href = "../css/News.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
@@ -15,9 +16,17 @@
 	String tweetTime = nov.getReleaseTime();
 	String note = nov.getNote();
 %>      
-    <p style="font-size:150%;"><b><%=userName%></b> &nbsp; <%=note%></p> <p><sub><%=tweetTime %></sub></p><br>
-    <p style="font-size:150%;"><em><%=tweetContent %></em></p>
+
+	<p>
+    	<img src="/images/not-found.png" class="user"></img>
+    	<b class="name"><%=userName%></b>
+    	&nbsp;
+    	<b class="note"><%=note%></b>
+    </p>
+    <p>
+    	<sub><%=tweetTime %></sub>
+    </p>
     <br>
-    <br>
+    <p class="paragraph"><em><%=tweetContent %></em></p>
 </body>
 </html>
