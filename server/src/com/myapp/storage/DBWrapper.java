@@ -9,6 +9,7 @@ import com.sleepycat.je.EnvironmentFailureException;
 import com.sleepycat.persist.StoreConfig;
 import com.myapp.storage.accessor.*;
 import com.myapp.storage.entity.GroupEntity;
+import com.myapp.storage.entity.HashTagEntity;
 import com.myapp.storage.entity.NewsEntity;
 import com.myapp.storage.entity.UserEntity;
 import com.sleepycat.je.Environment;
@@ -22,7 +23,9 @@ import com.myapp.view.NewsListView;
 import com.myapp.view.NewsObjectView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.regex.Matcher;
 
 
 
@@ -39,12 +42,13 @@ public class DBWrapper
 	private EntityStore store;
 
 	/*
-	 * Accessors to db
+	 * Entity Accessors to db
 	 */
 	private UserAccessor userEA;
 	private GroupAccessor groupEA;
 	private NewsAccessor newsEA;
 	private IdGeneratorAccessor idEA;
+	private HashTagAccessor hashtagEA;
 
 	private boolean is_close;
 
@@ -86,6 +90,7 @@ public class DBWrapper
 		groupEA = new GroupAccessor(store);
 		newsEA = new NewsAccessor(store);
 		idEA = new IdGeneratorAccessor(store);
+		hashtagEA = new HashTagAccessor(store);
 
 		//logger.info("db setup!!");
 	}
@@ -372,6 +377,21 @@ public class DBWrapper
 		}
 		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), tweet, Const.NEWS_TWITTER);
 		storeNews(news_obj, user);
+		storeHashTag(news_obj);
+	}
+
+	/**
+	 * extract hashtag from news
+	 * @param news_obj
+	 */
+	private void storeHashTag(NewsEntity news_obj) 
+	{
+		String body = news_obj.getBody();
+		HashSet<String>tags = Const.extractHashTag(body);
+		for(String tag: tags)
+		{
+			hashtagEA.addHashTag(tag, news_obj.getId());
+		}
 	}
 
 	public void addNewsMovieReview(String username, String title, String body, String movie_id, String movie_name, String movie_url) 
@@ -384,6 +404,7 @@ public class DBWrapper
 		}
 		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), title, body, movie_id, movie_name, movie_url, Const.NEWS_MOVIE_REVIEW);
 		storeNews(news_obj, user);
+		storeHashTag(news_obj);
 	}
 
 	public void userAddNewsMakeFriends(String username, String receiver) 
@@ -691,5 +712,22 @@ public class DBWrapper
 			return user.canCreateGroup();
 		}
 		return false;
+	}
+
+	public HashTagEntity getHashTagEntity(String tag) 
+	{
+		if(tag == null) return null;
+		tag = "#".concat(tag.trim().toLowerCase());
+		System.out.println("getHashTagEntity: " + tag);
+		return hashtagEA.getHashTags(tag);
+	}
+
+	public void RemoveHashTagNews(String tag, long id) 
+	{
+		HashTagEntity entity = hashtagEA.getHashTags(tag);
+		if(entity == null) return;
+		
+		entity.removeNews(id);
+		hashtagEA.put(entity);
 	}
 }

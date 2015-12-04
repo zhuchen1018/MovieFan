@@ -180,6 +180,17 @@
      <servlet-name>forbid</servlet-name>
      <servlet-class>com.myapp.servlet.Forbid</servlet-class> 
    </servlet>
+   
+    <servlet>
+     <servlet-name>hashtag</servlet-name>
+     <servlet-class>com.myapp.servlet.HashTagPage</servlet-class> 
+   </servlet>
+   
+    <servlet-mapping>
+     <servlet-name>hashtag</servlet-name>
+     <url-pattern>/hashtag</url-pattern>
+   </servlet-mapping>  
+   
     
    
    <error-page>

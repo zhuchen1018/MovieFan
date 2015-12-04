@@ -1,5 +1,10 @@
 package com.myapp.utils;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Const 
 {
 	public final static String ROOT = "./database/"; 
@@ -71,6 +76,8 @@ public class Const
 	public static final String SEARCH_GOOGLE_RES = "/search_google_result";
 
 	public static final String VOICE_SEARCH = "/voice_search";
+	
+	public static final String HASHTAG_URL = "/hashtag";
 
 	/**
 	 * User news type
@@ -90,5 +97,45 @@ public class Const
 
 
 
+	/**
+	 * regex
+	 */
+	
+	//for hashtag: #word
+	public final static Pattern HASHTAG_PATTERN = Pattern.compile("#\\w+");
 
+	//for @username
+	public final static Pattern AT_PATTERN = Pattern.compile("@\\w+");
+
+
+	/**
+	 *  match all hashtag: ignoecaese, no duplicates
+	 * @param text
+	 * @return
+	 */
+	public static HashSet<String> extractHashTag(String text) 
+	{
+        Matcher matcher = Const.HASHTAG_PATTERN.matcher(text);
+        HashSet<String>result = new HashSet<String>();
+        while(matcher.find()) 
+        {
+        	//remove #
+        	String tag = text.substring(matcher.start() + 1, matcher.end());
+        	result.add(tag.toLowerCase());
+        }
+		return result;
+	}
+	
+	public static HashSet<String> extractAtUser(String text) 
+	{
+        Matcher matcher = Const.AT_PATTERN.matcher(text);
+        HashSet<String>result = new HashSet<String>();
+        while(matcher.find()) 
+        {
+        	//remove @ 
+        	String tag = text.substring(matcher.start() + 1, matcher.end());
+        	result.add(tag.toLowerCase());
+        }
+		return result;
+	}
 }
