@@ -37,7 +37,7 @@
   <div id="rightmiddle" class = "scroll"> remain for recommendation </div>
   <!-- End Right Middle Column -->
   <!-- Begin Right Column -->
-  <div id="rightcolumn" class = "scroll"> <jsp:include page="GroupList.jsp"/> </div>
+  <div id="rightcolumn" class = "scroll"> <jsp:include page="FriendList.jsp"/> </div>
   <!-- End Right Column -->
  </div>
 <!-- End Wrapper -->
