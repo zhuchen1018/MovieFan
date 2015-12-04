@@ -121,11 +121,11 @@ public class NewsObjectView {
 	}
 		
 	public String getNote(){
-		if(type==Const.NEWS_TWITTER) return "published a twitt";
-		if(type==Const.NEWS_MAKE_FRIENDS) return "make friend with";
-		if(type==Const.NEWS_LIKE_MOVIE) return "likes the movie";
-		if(type==Const.NEWS_MOVIE_REVIEW) return "comment the movie";
-		if(type==Const.NEWS_SHARE_MOVIE) return "shared the movied";
+		if(type==Const.NEWS_TWITTER) return "published a tweet";
+		if(type==Const.NEWS_MAKE_FRIENDS) return "made friend with";
+		if(type==Const.NEWS_LIKE_MOVIE) return "liked the movie";
+		if(type==Const.NEWS_MOVIE_REVIEW) return "commented on movie";
+		if(type==Const.NEWS_SHARE_MOVIE) return "shared the movie";
 		if(type==Const.NEWS_ADD_GROUP) return "joined the group";
 		return "";
 	}
