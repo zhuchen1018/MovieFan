@@ -56,6 +56,9 @@ public class Const
 
 	public static final String FOLLOW_USER_URL = "/follow";
 	public static final String UNFOLLOW_USER_URL = "/unfollow";
+	
+	//Movie
+	public static final String MOVIE_PAGE_URL = "/moviepage";
 
 	//Group
 	public static final String CREATE_GROUP_URL = "/create_group";
@@ -64,7 +67,7 @@ public class Const
 	
 
 	//Search
-	public static final String SEARCH_MOVIE = "/search_movie";
+	//public static final String SEARCH_MOVIE = "/search_movie";
 	public static final String SEARCH_MOVIE_RES_ADVANCED = "/search_movie_result_advanced";
 	public static final String SEARCH_MOVIE_RES = "/search_movie_result";
 
@@ -108,6 +111,7 @@ public class Const
 
 	//for @username
 	public final static Pattern AT_PATTERN = Pattern.compile("@\\w+");
+
 
 
 

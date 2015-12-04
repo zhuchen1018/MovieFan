@@ -101,6 +101,8 @@ public class UserPage extends HttpServlet
 		
 		db.userRemoveFriend(username, targetName);
 		db.sync();	
+
+		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
 
 
@@ -154,11 +156,11 @@ public class UserPage extends HttpServlet
 		}
 		String url = request.getServletPath();
 		System.out.println("UserPage servlet doGet url: " + url);
+
 		if(url.equals(Const.USER_PAGE_URL))
 		{
 			handleUserPageGet(request, response);
-		}
-		
+		}	
 	}
 
 	private void handleFollowUserPost(HttpServletRequest request, HttpServletResponse response) 
@@ -199,6 +201,8 @@ public class UserPage extends HttpServlet
 		
 		db.userAddFriend(username, targetName);
 		db.sync();
+		
+		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
 
 	/**

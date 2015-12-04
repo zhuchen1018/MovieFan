@@ -24,9 +24,9 @@
   <!-- End Left Column -->
   <!-- Begin Left Middle Column -->
   <div id="leftmiddle" class = "scroll"> 
-	<form action="/tweet" method="POST">
+	<form action="/tweet_home" method="POST">
 		<div align="center">
-			<textarea cols="40" rows="5" name="StatusInput" placeholder="Share Something"></textarea>
+			<textarea cols="40" rows="5" name="TWEET" placeholder="Share Something"></textarea>
 			<INPUT TYPE=SUBMIT VALUE="submit">
 		</div>
   	</form>

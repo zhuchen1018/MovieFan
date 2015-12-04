@@ -18,10 +18,11 @@
 	<% for(int i=0;i<friendlist.size();i++){
 			String po = friendlist.get(i).getImageUrl();
 			String name = friendlist.get(i).getName();
+			String nameurl = "userpage?user="+name;
 	        if(po!=null&&!po.equals("null")){ %>
-			<img src=<%=po%> alt="Poster" style="width:145px;height:126px;"> &nbsp; <td><%=name %></td><br>
+			<img src=<%=po%> alt="Poster" style="width:145px;height:126px;"> &nbsp; <a style="font-size:150%;" href=<%=nameurl %>><%=name %></a><br>
 		 <% } else { %>
-			<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"> &nbsp; <td><%=name %></td><br>
+			<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"> &nbsp; <a style="font-size:150%;" href=<%=nameurl %>><%=name %></a><br>
 		 <%}
 	}%>
      <br>

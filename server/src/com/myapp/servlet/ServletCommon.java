@@ -309,5 +309,11 @@ public class ServletCommon
 		cookie.setMaxAge(24 * 60 * 60);  // 24 hours. 
 		res.addCookie(cookie);
 	}
+
+	public static void RedirectToGroupPage(HttpServletRequest request, HttpServletResponse response, 
+			String username, Long gid) 
+	{
+		
+	}
 	
 }

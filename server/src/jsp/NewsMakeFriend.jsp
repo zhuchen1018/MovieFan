@@ -15,10 +15,11 @@
 	String time = nov.getReleaseTime();
 	String note = nov.getNote();
 	String friend = nov.getToList().get(0);
+	String friendurl = "userpage?user="+friend;
 %>
       
-    <h3><%=userName%> </h3> &nbsp; <h4><%=note%></h4> <h4><%=friend%></h4><br>   
-    <h4><%=time %></h4><br><br>
+    <p style="font-size:150%;"><b><%=userName%> </b> &nbsp; <%=note%></p> <a style="font-size:150%;" href=<%=friendurl %>><%=friend %></a><br>   
+    <p><sub><%=time %></sub></p><br>
     <br>
 
 

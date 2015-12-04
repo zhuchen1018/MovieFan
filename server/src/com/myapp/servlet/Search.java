@@ -24,6 +24,7 @@ import com.myapp.view.GoogleListView;
 import com.myapp.view.GoogleObjectView;
 import com.myapp.view.GroupListView;
 import com.myapp.view.GroupObjectView;
+import com.myapp.view.UserListView;
 import com.myapp.utils.Const;
 
 public class Search extends HttpServlet 
@@ -56,7 +57,6 @@ public class Search extends HttpServlet
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String url = request.getServletPath();
-		System.out.println("doPost: " + url);
 		if(url.equals(Const.SEARCH_MOVIE_RES))
 		{
 			handleSearchMoviePost(request, response);
@@ -65,7 +65,7 @@ public class Search extends HttpServlet
 		{
 			handleSearchMovieAdvancedPost(request, response);
 		}
-		else if(url.equals(Const.SEARCH_USER_RES))
+		else if(url.equals(Const.SEARCH_USER))
 		{
 			handleSearchUserPost(request, response);
 		}
@@ -212,16 +212,21 @@ public class Search extends HttpServlet
 
 	private void handleSearchUserPost(HttpServletRequest request, HttpServletResponse response) 
 	{
-		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/UserList.jsp");
-		try 
+		String tarname = request.getParameter("USER");
+		if(tarname == null || tarname.isEmpty())
 		{
-			rd.forward(request, response);
-		} 
-		catch (IOException | ServletException e) 
-		{
-			e.printStackTrace();
-			ServletCommon.redirect404(request, response);
+			ServletCommon.PrintErrorPage("Please input search user name",  response);
+			return;
 		}
+		
+		initDB();
+
+		UserListView ulv = db.loadSearchUserByName(tarname); 
+		request.setAttribute("UserListView", null); 
+		request.setAttribute("UserListView", ulv); 
+
+		String location = "/jsp/UserList.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	/**
@@ -275,11 +280,7 @@ public class Search extends HttpServlet
 		}
 
 		String url = request.getServletPath();
-		if(url.equals(Const.SEARCH_MOVIE))
-		{
-			handleSearchMovieGet(request, response);
-		}
-		else if(url.equals(Const.SEARCH_USER))
+		if(url.equals(Const.SEARCH_USER))
 		{
 			handleSearchUserGet(request, response);
 		}
@@ -323,51 +324,6 @@ public class Search extends HttpServlet
 	{
 		String location = "/htmls/SearchUserPage.html";
 		ServletCommon.forwardRequestDispatch(request, response, location);
-	}
-
-	private void handleSearchMovieGet(HttpServletRequest request, HttpServletResponse response) 
-	{
-		initDB();
-
-		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
-		//search movie by movie_id: from click movie ref 
-		if(query != null && !query.isEmpty())
-		{
-			String movie_id = query.get("movie_id");
-			if(movie_id != null && !movie_id.isEmpty())
-			{
-				SQLDBMovieQuery sql=null;
-				try
-				{
-					sql = new SQLDBMovieQuery(movie_id,Const.ID_SEARCH);
-				}
-				catch(Exception ex)
-				{
-					ex.printStackTrace();
-					ServletCommon.redirect404(request, response);
-					return;
-				}
-
-				String username = ServletCommon.getSessionUsername(request);
-				request.setAttribute("MoviePageView", null); 
-				request.setAttribute("MoviePageView", sql.getMovieHomepage());
-
-				request.setAttribute("LikedMovie", db.isUserLikeMovie(username, movie_id));
-
-				String location = "/jsp/MoviePage.jsp";
-				ServletCommon.forwardRequestDispatch(request, response, location);
-			}
-			else
-			{
-				ServletCommon.redirect404(request, response);
-				return;
-			}
-		}
-		else
-		{
-			String location = "/htmls/SearchMoviePage.html";
-			ServletCommon.forwardRequestDispatch(request, response, location);
-		}
-	}
+	}	
 }
 
