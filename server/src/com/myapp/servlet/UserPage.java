@@ -39,9 +39,13 @@ public class UserPage extends HttpServlet
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String url = request.getServletPath();
-		if(url.equals(Const.USER_TWEET_URL))
+		if(url.equals(Const.USER_TWEET_HOME_URL))
 		{
-			handleTweetPost(request, response);
+			handleTweetPost(request, response, true);
+		}
+		else if(url.equals(Const.USER_TWEET_URL))
+		{
+			handleTweetPost(request, response, false);
 		}
 		/*
 		else if(url.equals(Const.USER_COMMENT_URL))
@@ -65,7 +69,7 @@ public class UserPage extends HttpServlet
 
 	}
 
-	private void handleTweetPost(HttpServletRequest request, HttpServletResponse response) throws IOException
+	private void handleTweetPost(HttpServletRequest request, HttpServletResponse response, boolean fromHome) throws IOException
 	{
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");
@@ -85,6 +89,15 @@ public class UserPage extends HttpServlet
 		initDB();
 		db.addNewsTwitter(username, info); 
 		db.sync();
+		
+		if(fromHome)
+		{
+			ServletCommon.RedirectToHome(request, response);
+		}
+		else
+		{
+			ServletCommon.RedirectToUserPage(request, response, username, username);
+		}
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
