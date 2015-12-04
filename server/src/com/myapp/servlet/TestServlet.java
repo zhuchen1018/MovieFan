@@ -254,37 +254,35 @@ public class TestServlet extends HttpServlet
 
 		initDB();
 
-		FriendListView flv = new FriendListView(); 
 
 		String friend = "a_friend";
+		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
 		db.createUser(friend, MD5Encryptor.crypt(friend));
+		db.userAddHeadUrl(friend, url);
 
 		db.userAddFriend(username, friend);
 		db.userAddNewsMakeFriends(username, friend);
-		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		FriendObjectView fov = new FriendObjectView(url, friend);
-		flv.addFriendObject(fov);
-
+		db.userAddFans(friend, username);
+	
 
 		friend = "b_friend";
 		db.createUser(friend, MD5Encryptor.crypt(friend));
+		db.userAddHeadUrl(friend, url);
+
 		db.userAddFriend(username, friend); 
 		db.userAddNewsMakeFriends(username, friend);
-		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		FriendObjectView fov2 = new FriendObjectView(url, friend);
-		flv.addFriendObject(fov2);
+		db.userAddFans(friend, username);
+		
 
 		friend = "c_friend";
 		db.createUser(friend, MD5Encryptor.crypt(friend));
+		db.userAddHeadUrl(friend, url);
 
 		db.userAddFriend(username, friend); 
 		db.userAddNewsMakeFriends(username, friend);
-		url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		FriendObjectView fov3 = new FriendObjectView(url, friend);
-		flv.addFriendObject(fov3);
+		db.userAddFans(friend, username);
 
 		db.sync();
-
 		ServletCommon.RedirectToHome(request, response);
 	}
 	/**

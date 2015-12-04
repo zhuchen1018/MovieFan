@@ -28,6 +28,9 @@ public class UserEntity
 	//friends username 
 	private ArrayList<String>friends = new ArrayList<String>(); 
 
+	//fans username 
+	private ArrayList<String>fans = new ArrayList<String>(); 
+
 	//comment's id
 	private ArrayList<Long>comments = new ArrayList<Long>(); 
 
@@ -126,6 +129,11 @@ public class UserEntity
 		}
 		friends.add(friendname);
 	}
+	
+	public void removeFriend(String friendname) 
+	{
+		friends.remove(friendname);
+	}
 
 	public void joinGroup(Long id) 
 	{
@@ -153,5 +161,15 @@ public class UserEntity
 	public boolean canCreateGroup() 
 	{
 		return createGroups.size() < 3;
+	}
+
+	public void addFans(String username) 
+	{
+		fans.add(username);
+	}
+
+	public void addHeadUrl(String url) 
+	{
+		head_url = url;
 	}
 }

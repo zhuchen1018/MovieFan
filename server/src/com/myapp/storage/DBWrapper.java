@@ -730,4 +730,24 @@ public class DBWrapper
 		entity.removeNews(id);
 		hashtagEA.put(entity);
 	}
+
+	public void userAddFans(String friend, String username) 
+	{
+		UserEntity user = getUserEntity(friend);
+		if(user != null)
+		{
+			user.addFans(username);
+			userEA.putEntity(user);
+		}
+	}
+
+	public void userAddHeadUrl(String friend, String url) 
+	{
+		UserEntity user = getUserEntity(friend);
+		if(user != null)
+		{
+			user.addHeadUrl(url);
+			userEA.putEntity(user);
+		}	
+	}		
 }
