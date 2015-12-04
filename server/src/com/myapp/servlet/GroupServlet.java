@@ -135,9 +135,18 @@ public class GroupServlet extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  response);
 			return;
 		}
+
 		Long gid = Long.parseLong(group);
+		if(!db.hasGroup(gid))
+		{
+			ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  response);
+			return;
+		}
+
 		db.userLeaveGroup(username, gid);
 		db.sync();
+		
+		ServletCommon.RedirectToGroupPage(request, response, username, gid);
 	}
 
 	private void handleJoinGroupPost(HttpServletRequest request, HttpServletResponse response) 
