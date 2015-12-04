@@ -284,10 +284,11 @@ public class ServletCommon
 		request.setAttribute("GroupListView", glv); 
 	
 		boolean isMyPage = username.equals(targetName);
-		request.setAttribute("isMyPage", isMyPage);
-
+		request.setAttribute("isMyPage", new Boolean(isMyPage));
+	
+	
 		boolean isMyFriend = db.isMyFriend(username, targetName); 
-		request.setAttribute("isMyFriend", isMyFriend);
+		request.setAttribute("isMyFriend", new Boolean(isMyFriend));
 
 		print("news size: " + nlv.getNewsNumber());
 		print("friends size: " + flv.getFriendCount());

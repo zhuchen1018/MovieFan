@@ -23,7 +23,13 @@
    
     <servlet-mapping>
      <servlet-name>user_page</servlet-name>
-     <url-pattern>/tweet</url-pattern>
+     <url-pattern>/tweet_user</url-pattern>
+   </servlet-mapping>  
+   
+    
+    <servlet-mapping>
+     <servlet-name>user_page</servlet-name>
+     <url-pattern>/tweet_home</url-pattern>
    </servlet-mapping>  
    
     <servlet>
