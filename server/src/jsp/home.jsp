@@ -10,6 +10,15 @@
 </head>
 <%@ page import="java.util.Date" %>
 <body>
+
+<form action="/tweet" method="POST">
+		<div align="center">
+			<textarea cols="40" rows="5" name="StatusInput" placeholder="Share Something"></textarea>
+			<INPUT TYPE=SUBMIT VALUE="submit">
+		</div>
+</form>
+
+
 <!-- Begin Wrapper -->
 <div id="wrapper">
   <!-- Begin Header -->
@@ -32,6 +41,8 @@
   <!-- End Right Column -->
  </div>
 <!-- End Wrapper -->
+
+
 </body>
 </html>
 
