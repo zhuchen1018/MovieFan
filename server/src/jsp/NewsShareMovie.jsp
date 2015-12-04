@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel = "stylesheet" type ="text/css" href = "../css/News.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
@@ -14,18 +15,28 @@
 	String userName = nov.getUsername();
 	String time = nov.getReleaseTime();
 	String note = nov.getNote();
-	String MovieComment = nov.getText();
 	String movieid = nov.getMovieId();
+	String movieName = nov.getMovieName();
+	String movieUrl = nov.getUrl();
+	String moviePage="moviepage?movie_id="+movieid;
 	ArrayList<String> ToList = nov.getToList();
 %>
       
-    <h3><%=userName%> </h3> &nbsp; <h4><%=note%></h4> <h4><%=movieid%></h4> <td>to</td><br> 
+      
+    <p>
+    	<img src="/images/not-found.png" class="user"></img>
+    	<b class="name"><%=userName%></b>
+    	&nbsp;
+    	<b class="note"><%=note%></b>
+    	<b style="float:right";>To Friends</b>
+    </p>
+    <p>
+    	<sub><%=time %></sub>
+    </p>
+    <a class="link" href=<%=moviePage%>><%=movieName%></a><br>
+    <p>
+    	<a href=<%=moviePage%>><img src=<%=movieUrl%> class="movie"></img></a>
+    </p>
     
-    <%for(int i=0;i<ToList.size();i++) {%>
-    <td><%=ToList.get(i)%></td><br>  
-    <br>
-<% 
-}
-%>
 </body>
 </html>

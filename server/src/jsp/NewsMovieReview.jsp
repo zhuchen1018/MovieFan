@@ -19,6 +19,7 @@
 	String movieid = nov.getMovieId();
 	String movieName = nov.getMovieName();
 	String movieUrl = nov.getUrl();
+	String moviePage="moviepage?movie_id="+movieid;
 %>
     
     <p>
@@ -30,9 +31,10 @@
     <p>
     	<sub><%=time %></sub>
     </p>
-    <a class="link" href=<%=movieid%>><%=movieName%></a><br>
+    
+    <a class="link" href=<%=moviePage%>><%=movieName%></a><br>
     <p>
-    	<img src=<%=movieUrl%> class="movie"></img>
+    	<a href=<%=moviePage%>><img src=<%=movieUrl%> class="movie"></img></a>
     </p>
     <p class="paragraph">
     	<%=MovieComment%>

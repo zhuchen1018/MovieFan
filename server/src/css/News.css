@@ -32,7 +32,7 @@ div.MakeFriend{
 
 div.MovieReview{
 	width: 400px;
-	height: 450px;
+	height: 480px;
 	overflow: scroll;
 	background-color: #FFFFFF;
 	border: 1px solid #555555;
@@ -42,7 +42,7 @@ div.MovieReview{
 
 div.ShareMovie{
 	width: 400px;
-	height: 150px;
+	height: 400px;
 	overflow: scroll;
 	background-color: #FFFFFF;
 	border: 1px solid #555555;
