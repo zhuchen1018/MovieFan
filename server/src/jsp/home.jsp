@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel = "stylesheet" type ="text/css" href = "../css/Style.css">
+<link rel = "stylesheet" type ="text/css" href = "../css/Homepage.css">
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>MovieFans.com</title>
 <link rel="shortcut icon" href="/images/1.png">
@@ -20,10 +20,10 @@
   <div id="navigation"> Navigation Here </div>
   <!-- End Navigation -->
   <!-- Begin Left Column -->
-  <div id="leftcolumn" class = "scroll"> <jsp:include page="GroupList.jsp"/> </div>
+  <div id="BasicDiv" class = "GroupList"> <jsp:include page="GroupList.jsp"/> </div>
   <!-- End Left Column -->
   <!-- Begin Left Middle Column -->
-  <div id="leftmiddle" class = "scroll"> 
+  <div id="BasicDiv" class = "NewsList"> 
 	<form action="/tweet_home" method="POST">
 		<div align="center">
 			<textarea cols="40" rows="5" name="TWEET" placeholder="Share Something"></textarea>
@@ -34,10 +34,10 @@
   </div>
   <!-- End Left Middle Column -->
   <!-- Begin Right Middle Column -->
-  <div id="rightmiddle" class = "scroll"> remain for recommendation </div>
+  <div id="BasicDiv" class = "RecommendationList"> remain for recommendation </div>
   <!-- End Right Middle Column -->
   <!-- Begin Right Column -->
-  <div id="rightcolumn" class = "scroll"> <jsp:include page="FriendList.jsp"/> </div>
+  <div id="BasicDiv" class = "FriendList"> <jsp:include page="FriendList.jsp"/> </div>
   <!-- End Right Column -->
  </div>
 <!-- End Wrapper -->
