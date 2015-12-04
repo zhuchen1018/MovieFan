@@ -18,8 +18,8 @@
 	String friendurl = "userpage?user="+friend;
 %>
       
-    <h3><%=userName%> </h3> &nbsp; <h4><%=note%></h4> <a href=<%=friendurl %>><%=friend %></a><br>   
-    <h4><%=time %></h4><br><br>
+    <p style="font-size:150%;"><b><%=userName%> </b> &nbsp; <%=note%></p> <a style="font-size:150%;" href=<%=friendurl %>><%=friend %></a><br>   
+    <p><sub><%=time %></sub></p><br>
     <br>
 
 
