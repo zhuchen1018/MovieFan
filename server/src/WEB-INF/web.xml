@@ -18,7 +18,7 @@
     
    <servlet-mapping>
      <servlet-name>user_page</servlet-name>
-     <url-pattern>/user_page</url-pattern>
+     <url-pattern>/userpage</url-pattern>
    </servlet-mapping>  
    
     <servlet-mapping>
