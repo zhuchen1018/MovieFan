@@ -22,8 +22,8 @@
 			String nameurl = "userpage?user="+name;
 	        if(po!=null&&!po.equals("null")){ %>
 	        <p>
-   			 	<a href=<%=nameurl%><img src=<%=po%> class="friend"></img></a>
-    			<a href=<%=nameurl%><b class="name"><%=name%></b></a>
+   			 	<a href=<%=nameurl%>><img src=<%=po%> class="friend"></img></a>
+    			<a href=<%=nameurl%>><b class="name"><%=name%></b></a>
     		</p>
 		<% } 
 		 	else { %>
