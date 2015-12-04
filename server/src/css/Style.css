@@ -45,7 +45,7 @@ img {
  margin: 0px 0px 0px 20px;
  padding: 1%;
  height: 600px;
- width: 21%;
+ width: 10%;
  float: left;
 }
 #leftmiddle { 
@@ -54,7 +54,7 @@ img {
  background:#CCC8B3;
  padding: 1%;
  height: 600px;
- width: 21%;
+ width: 42%;
  float: left;
 }
 #rightmiddle { 
@@ -63,7 +63,7 @@ img {
  background:#F6F0E0;
  padding: 1%;
  height: 600px;
- width: 21%;
+ width: 20%;
  float: left;
 }
 #rightcolumn { 
@@ -72,7 +72,7 @@ img {
  background:#CCC8B3;
  padding: 1%;
  height: 600px;
- width: 21%;
+ width: 14%;
  float: left;
 }
 

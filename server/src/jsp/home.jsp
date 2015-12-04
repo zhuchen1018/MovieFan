@@ -11,14 +11,6 @@
 <%@ page import="java.util.Date" %>
 <body>
 
-<form action="/tweet" method="POST">
-		<div align="center">
-			<textarea cols="40" rows="5" name="StatusInput" placeholder="Share Something"></textarea>
-			<INPUT TYPE=SUBMIT VALUE="submit">
-		</div>
-</form>
-
-
 <!-- Begin Wrapper -->
 <div id="wrapper">
   <!-- Begin Header -->
@@ -28,16 +20,24 @@
   <div id="navigation"> Navigation Here </div>
   <!-- End Navigation -->
   <!-- Begin Left Column -->
-  <div id="leftcolumn" class = "scroll"> <jsp:include page="NewsList.jsp"/> </div>
+  <div id="leftcolumn" class = "scroll"> <jsp:include page="GroupList.jsp"/> </div>
   <!-- End Left Column -->
   <!-- Begin Left Middle Column -->
-  <div id="leftmiddle" class = "scroll"> <jsp:include page="NewsList.jsp"/>  </div>
+  <div id="leftmiddle" class = "scroll"> 
+	<form action="/tweet" method="POST">
+		<div align="center">
+			<textarea cols="40" rows="5" name="StatusInput" placeholder="Share Something"></textarea>
+			<INPUT TYPE=SUBMIT VALUE="submit">
+		</div>
+  	</form>
+  <jsp:include page="NewsList.jsp"/>
+  </div>
   <!-- End Left Middle Column -->
   <!-- Begin Right Middle Column -->
-  <div id="rightmiddle" class = "scroll"> <jsp:include page="NewsList.jsp"/> </div>
+  <div id="rightmiddle" class = "scroll"> remain for recommendation </div>
   <!-- End Right Middle Column -->
   <!-- Begin Right Column -->
-  <div id="rightcolumn" class = "scroll"> Right Column </div>
+  <div id="rightcolumn" class = "scroll"> <jsp:include page="GroupList.jsp"/> </div>
   <!-- End Right Column -->
  </div>
 <!-- End Wrapper -->
