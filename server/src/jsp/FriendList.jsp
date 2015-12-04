@@ -18,7 +18,7 @@
 	<% for(int i=0;i<friendlist.size();i++){
 			String po = friendlist.get(i).getImageUrl();
 			String name = friendlist.get(i).getName();
-	        if(!po.equals("null")){ %>
+	        if(po!=null&&!po.equals("null")){ %>
 			<img src=<%=po%> alt="Poster" style="width:145px;height:126px;"> &nbsp; <td><%=name %></td><br>
 		 <% } else { %>
 			<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"> &nbsp; <td><%=name %></td><br>
