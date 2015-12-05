@@ -150,6 +150,11 @@
      <servlet-class>com.myapp.servlet.Search</servlet-class> 
      <load-on-startup>0</load-on-startup>
    </servlet>
+   
+    <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/search_movie</url-pattern>
+   </servlet-mapping>
        
    <servlet-mapping>
      <servlet-name>search</servlet-name>

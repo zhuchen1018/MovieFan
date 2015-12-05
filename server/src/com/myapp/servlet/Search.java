@@ -209,7 +209,7 @@ public class Search extends HttpServlet
 			ServletCommon.redirect404(request, response);
 		}
 	}
-	
+
 	private void handleSearchUserPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String tarname = request.getParameter("USER");
@@ -218,7 +218,7 @@ public class Search extends HttpServlet
 			ServletCommon.PrintErrorPage("Please input search user name",  response);
 			return;
 		}
-		
+
 		initDB();
 
 		UserListView ulv = db.loadSearchUserByName(tarname); 
@@ -284,6 +284,10 @@ public class Search extends HttpServlet
 		{
 			handleSearchUserGet(request, response);
 		}
+		else if(url.equals(Const.SEARCH_MOVIE))
+		{
+			handleSearchMovieGet(request, response);
+		}
 		else if(url.equals(Const.SEARCH_GROUP))
 		{
 			handleSearchGroupGet(request, response);
@@ -300,6 +304,12 @@ public class Search extends HttpServlet
 		{
 			ServletCommon.redirect404(request, response);
 		}
+	}
+
+	private void handleSearchMovieGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String location = "/htmls/SearchMoviePage.html";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private void handleVoiceSearchGet(HttpServletRequest request, HttpServletResponse response) 
