@@ -23,6 +23,7 @@ import com.myapp.view.NewsListView;
 import com.myapp.view.NewsObjectView;
 import com.myapp.view.UserListView;
 import com.myapp.view.UserObjectView;
+import com.myapp.view.UserSettingView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -538,7 +539,7 @@ public class DBWrapper
 			addNewsJoinGroup(username, gobj.getName()); 
 		}	
 	}
-	
+
 	public void userLeaveGroup(String username, Long id) 
 	{
 		UserEntity user = getUserEntity(username);
@@ -623,7 +624,7 @@ public class DBWrapper
 	public NewsListView loadAllNews(String username) 
 	{
 		NewsListView nlv = new NewsListView();
-	
+
 		//all
 		ArrayList<Long>allnews = new ArrayList<Long>(); 
 
@@ -648,9 +649,9 @@ public class DBWrapper
 				}
 			}
 		}
-		
+
 		print("all news size: " + allnews.size());
-		
+
 		for(long id: allnews)
 		{
 			NewsEntity newsEntity = getNewsEntityByIds(id);
@@ -738,7 +739,7 @@ public class DBWrapper
 	{
 		HashTagEntity entity = hashtagEA.getHashTags(tag);
 		if(entity == null) return;
-		
+
 		entity.removeNews(id);
 		hashtagEA.put(entity);
 	}
@@ -792,7 +793,7 @@ public class DBWrapper
 		}
 		return ulv;
 	}
-	
+
 	public void userLikeMovie(String username, String movieId) 
 	{
 		UserEntity user = getUserEntity(username);
@@ -811,5 +812,28 @@ public class DBWrapper
 			user.unlikeMovie(movieId);
 			userEA.putEntity(user);
 		}	
+	}
+
+	public void upUserSettings(String username, String head_url, String profile_url, String description, Integer[] genres) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			user.upSettings(username, head_url, profile_url, description, genres);
+			userEA.putEntity(user);
+		}		
+	}
+
+	public UserSettingView loadUserSettingView(String username) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			String head_url = user.getHeadUrl(); 
+			String profile_url = user.getProfileUrl(); 
+			String description = user.getDescription();
+			return new UserSettingView(head_url, profile_url, null, description);
+		}		
+		return null;
 	}	
 }

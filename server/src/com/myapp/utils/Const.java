@@ -1,6 +1,7 @@
 package com.myapp.utils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -109,7 +110,8 @@ public class Const
 	/**
 	 * movie genre
 	 */
-	
+
+	/*
 	public final static int GENRE_ACTION 			= 1;
 	public final static int GENRE_ADVENTURE = 2;
 	public final static int GENRE_HORROR 		= 3;
@@ -126,8 +128,30 @@ public class Const
 	public final static int GENRE_CHILDREN 	= 14;
 	public final static int GENRE_SCIFI 				= 15;
 	public final static int GENRE_MUSICAL 		= 16;
+	*/
 
-
+	public static HashMap<String,Integer> GENRE_MAP;
+	static {
+		GENRE_MAP = new HashMap<String,Integer>();
+		GENRE_MAP.put("Adventure", 0);
+		GENRE_MAP.put("Animation", 1);
+		GENRE_MAP.put("Children", 2);
+		GENRE_MAP.put("Comedy", 3);
+		GENRE_MAP.put("Fantasy", 4);
+		GENRE_MAP.put("Romance", 5);
+		GENRE_MAP.put("Drama", 6);
+		GENRE_MAP.put("Action", 7);
+		GENRE_MAP.put("Crime", 8);
+		GENRE_MAP.put("Thriller", 9);
+		GENRE_MAP.put("Horror", 10);
+		GENRE_MAP.put("Mystery", 11);
+		GENRE_MAP.put("Sci-Fi", 12);
+		GENRE_MAP.put("Documentary", 14);
+		GENRE_MAP.put("War", 15);
+		GENRE_MAP.put("Musical", 16);
+	}
+	
+	
 	/**
 	 * regex
 	 */

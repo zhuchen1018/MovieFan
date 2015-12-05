@@ -4,7 +4,7 @@ public class UserSettingView
 {
 	private String head_url;
 	private String profile_url;
-	private String[] genres;
+	private Integer[] genres;
 	private String description; 
 	
 	public UserSettingView()
@@ -12,7 +12,7 @@ public class UserSettingView
 		
 	}
 	
-	public UserSettingView(String head_url,String profile_url, String[] genres, String description)
+	public UserSettingView(String head_url,String profile_url, Integer[] genres, String description)
 	{
 		this.head_url = head_url;
 		this.profile_url = profile_url;
@@ -30,7 +30,7 @@ public class UserSettingView
 		return profile_url;
 	}
 	
-	public String[] getGenres()
+	public Integer[] getGenres()
 	{
 		return genres;
 	}

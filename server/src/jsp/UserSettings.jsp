@@ -16,7 +16,7 @@
 	String description = usv.getDescription();
 %>
 
-<form action= "/usersetting" method="post">
+<form action= "/usersettings" method="post">
 
 <h3>Your Avatar</h3>
 <input type="text" name="HEAD_URL" value="" placeholder=<%=headURL %>/>
@@ -26,7 +26,6 @@
 
 <h3>Your Personal Description</h3>
 <textarea cols="40" rows="5" name="DESC" placeholder = <%=description%>></textarea>
-<INPUT TYPE=SUBMIT VALUE="submit">
 
 <h3>Genres You Like</h3>
 <input type="checkbox" name="GENRES" value="Action" />Action &nbsp;
