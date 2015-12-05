@@ -35,7 +35,7 @@
     liked= (Boolean) request.getAttribute("isLiked");
     shared= (Boolean) request.getAttribute("isShared");
     %>
-    
+<h1><%=name%> (<%=releaseYear%>) </h1><br>    
 <div id="container">
     <%if(!poster.equals("null")){ %>
 		<div id="photo"><a href = "/jsp/MoviePage.jsp"><img src=<%=poster%> alt="Poster" 
@@ -45,9 +45,8 @@
 		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:300px;">
 	<%} %> 
     <td> 
-    <div id="content"><%=name%> (<%=releaseYear%>) </div><br>
-    <div id="content">Runtime: <%=runTime%> (mins)</div><br>
-    <div id="content">Rating: <%=rating%> (<%=votes %> votes)</div>    
+    <div id="content"><h3>Runtime: <%=runTime%> (mins)</h3></div><br>
+    <div id="content"><h3>Rating: <%=rating%> (<%=votes %> votes)<h3></div>    
 	    <div class="rating"> 
 			<div class="stars">
 				<div class="stars-in" style = "width : <%=ratingStar%>px" >	</div>
@@ -80,19 +79,11 @@
 	</div>
 	
 	<div id="content"> 	
-		<%if(!shared){ %>
-			<form action=<%="/sharemovie" + "?" + request.getQueryString()%> method="POST">
+ 		<form action=<%="/sharemovie" + "?" + request.getQueryString()%> method="POST">
 				<button class="myButton" type="submit" name="ShareThisMovie">
 				    Share
 				</button>
-			</form>
-		<%
-		}
-		else { %>
-			<button class="myButton" type="submit" name="HadShared">
-			    Shared
-			</button>
-		<% } %>  
+		</form>
 	</div>
 	
 	<div id="content">
@@ -134,7 +125,6 @@
 		
     <td> <a href=<%=homePage %>>HomePage</a></td><br>
     </div>
- 
  
 </div>    
     
