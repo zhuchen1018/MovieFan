@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+
+div{
+	overflow: scroll;
+}
+
+/*
+basic div structure
+*/
+#BasicDiv{
+	margin: 0 auto;
+	border: 1px solid #ccc;
+	padding: 1%;
+	margin: 5px 5px 5px 5px;
+}
+
+/*
+specific div layout
+*/
+div.GroupList{
+	width: 10%;
+	height: 600px;
+	background: #000000;
+	float: left;
+}
+
+div.NewsList{
+	width: 42%;
+	height: 600px;
+	background: #FFFFFF;
+	float: left;
+}
+
+div.RecommendationList{
+	width: 20%;
+	height: 600px;
+	background: #88BB88;
+	float: left;
+}
+
+div.FriendList{
+	width:14%;
+	height: 600px;
+	background: #BBBB88;
+	float: left;
+}
