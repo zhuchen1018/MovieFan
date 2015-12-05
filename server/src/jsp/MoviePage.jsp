@@ -10,7 +10,8 @@
 </head>
 <body>
 <%@ page import="com.myapp.view.*" %>
-<%MoviePageView mpv = (MoviePageView) request.getAttribute("MoviePageView"); 
+<%
+MoviePageView mpv = (MoviePageView) request.getAttribute("MoviePageView"); 
     String overview, name, releaseYear, poster, homePage;
     double rating, ratingStar;
     int runTime, votes;
@@ -33,7 +34,7 @@
     director = mpv.getDirector();
     casts = mpv.getCast();
     liked= (Boolean) request.getAttribute("isLiked");
-    shared= (Boolean) request.getAttribute("isShared");
+
     %>
 <h1><%=name%> (<%=releaseYear%>) </h1><br>    
 <div id="container">
@@ -44,9 +45,8 @@
 	} else { %>
 		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:300px;">
 	<%} %> 
-    <td> 
     <div id="content"><h3>Runtime: <%=runTime%> (mins)</h3></div><br>
-    <div id="content"><h3>Rating: <%=rating%> (<%=votes %> votes)<h3></div>    
+    <div id="content"><h3>Rating: <%=rating%> (<%=votes %> votes)</h3></div>    
 	    <div class="rating"> 
 			<div class="stars">
 				<div class="stars-in" style = "width : <%=ratingStar%>px" >	</div>
@@ -54,12 +54,15 @@
 		</div>	
     <br><br>
     <br><br>   
-    <div id="content"><h4>OverView </h4><td><%=overview%></td></div> <br>
+    <div id ="content"><h4>OverView </h4><td><%=overview%></td></div> <br>
+    <div id = "content">
+    <% if (!homePage.equals("null")) {%>
+    <h4><a href=<%=homePage %> >HomePage</a></h4>
     <% 
-      liked = false;
-	  shared = false;
-	 %> 
-	 
+    }
+    %>   
+    </div>
+
 	<div id="content"> 
 	    <% if(!liked){ %>
 			<form action=<%="/likemovie" + "?" + request.getQueryString()%> method="POST">
@@ -90,7 +93,7 @@
 	<form action="/moviereview" method="POST">
 		<div align="left">
 			<textarea cols="40" rows="5" name="Review" placeholder=""></textarea>
-			<INPUT TYPE=SUBMIT VALUE="write review">
+			<INPUT TYPE=SUBMIT VALUE="submit review">
 		</div>
 	</form>
 	</div>
@@ -122,9 +125,7 @@
 	}
 	%>
 	<br>
-		
-    <td> <a href=<%=homePage %>>HomePage</a></td><br>
-    </div>
+	</div>
  
 </div>    
     
