@@ -82,6 +82,7 @@ public class NewsEntity extends TextBase
 		super(username, id, null);
 		newsType = type;
 		movie_id = mid;
+		movie_name = mname;
 		movie_poster_url = url;
 		comments = new ArrayList<Long>();
 		receiver = friends;
