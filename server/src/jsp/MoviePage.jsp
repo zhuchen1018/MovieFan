@@ -17,6 +17,8 @@
     ArrayList<String> trailers;
     PersonListView casts;
     PersonObjectView director;
+    Boolean liked;
+    Boolean shared;
     
     overview = mpv.getOverview();
     rating = mpv.getRating();
@@ -30,8 +32,10 @@
     trailers = mpv.getYoutube_trailer();
     director = mpv.getDirector();
     casts = mpv.getCast();
+    liked= (Boolean) request.getAttribute("isLiked");
+    shared= (Boolean) request.getAttribute("isShared");
+    %>
     
-%>
 <div id="container">
     <%if(!poster.equals("null")){ %>
 		<div id="photo"><a href = "/jsp/MoviePage.jsp"><img src=<%=poster%> alt="Poster" 
@@ -43,28 +47,69 @@
     <td> 
     <div id="content"><%=name%> (<%=releaseYear%>) </div><br>
     <div id="content">Runtime: <%=runTime%> (mins)</div><br>
-    <div id="content">Rating: <%=rating%> (<%=votes %> votes)</div>
-    
-    <div class="rating"> 
-		<div class="stars">
-			<div class="stars-in" style = "width : <%=ratingStar%>px" >	</div>
-		</div>
-	</div>
-<%--     <div class="rating-box"> 
-        <div style="width:<%=ratingStar%>" class="rating"></div> 
-        </div>
-    </td> --%>
-    <br>
+    <div id="content">Rating: <%=rating%> (<%=votes %> votes)</div>    
+	    <div class="rating"> 
+			<div class="stars">
+				<div class="stars-in" style = "width : <%=ratingStar%>px" >	</div>
+			</div>
+		</div>	
+    <br><br>
+    <br><br>   
     <div id="content"><h4>OverView </h4><td><%=overview%></td></div> <br>
-</div>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
-<br><br>
-    <h4>director:</h4><br>
-    <%request.getSession().setAttribute("person",director);%>
-    <jsp:include page="Person.jsp"/>
+    <% 
+      liked = false;
+	  shared = false;
+	 %> 
+	 
+	<div id="content"> 
+	    <% if(!liked){ %>
+			<form action=<%="/likemovie" + "?" + request.getQueryString()%> method="POST">
+				<button class="myButton" type="submit" name="LikeThisMovie">
+				    Like
+				</button>
+			</form>
+		<%
+		}
+		else { %>
+			<form action=<%="/unlikemovie" + "?" + request.getQueryString()%> method="POST">
+			<button class="myButton" type="submit" name="UnlikeThisMovie">
+			    Unlike
+			</button>
+			</form>
+		<% } %> 
+	</div>
+	
+	<div id="content"> 	
+		<%if(!shared){ %>
+			<form action=<%="/sharemovie" + "?" + request.getQueryString()%> method="POST">
+				<button class="myButton" type="submit" name="ShareThisMovie">
+				    Share
+				</button>
+			</form>
+		<%
+		}
+		else { %>
+			<button class="myButton" type="submit" name="HadShared">
+			    Shared
+			</button>
+		<% } %>  
+	</div>
+	
+	<div id="content">
+	<form action="/moviereview" method="POST">
+		<div align="left">
+			<textarea cols="40" rows="5" name="Review" placeholder=""></textarea>
+			<INPUT TYPE=SUBMIT VALUE="write review">
+		</div>
+	</form>
+	</div>
+
+	<div id="content">
+	    <h4>director:</h4><br>
+	    <%request.getSession().setAttribute("person",director);%>
+	    <jsp:include page="Person.jsp"/>
+
+	
     <h4>cast:</h4><br>
     <%for(int i=0;i<casts.getPersonNumber();++i){
 		request.getSession().setAttribute("person",casts.getPersons().get(i));%>
@@ -87,9 +132,10 @@
 	%>
 	<br>
 		
-    <td> <a href=<%=homePage%>>HomePage</a></td><br>
+    <td> <a href=<%=homePage %>>HomePage</a></td><br>
+    </div>
     
-    
+</div>    
     
 </body>
 </html>
