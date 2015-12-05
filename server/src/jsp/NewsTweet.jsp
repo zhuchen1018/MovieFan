@@ -14,13 +14,10 @@
 	String tweetContent = nov.getText();
 	String tweetTime = nov.getReleaseTime();
 	String note = nov.getNote();
-
-%>
-      
-    <h3><%=userName%> </h3> &nbsp; <h4><%=note%></h4><br>   
-    <h4><%=tweetTime %></h4><br><br>
-    <td><%=tweetContent %></td>
+%>      
+    <p style="font-size:150%;"><b><%=userName%></b> &nbsp; <%=note%></p> <p><sub><%=tweetTime %></sub></p><br>
+    <p style="font-size:150%;"><em><%=tweetContent %></em></p>
     <br>
-
+    <br>
 </body>
 </html>

@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+
+div.BasicNews{
+	width: 400px;
+	height: 450px;
+	overflow: scroll;
+	background-color: #AAAAAA;
+	border: 1px solid #ccc;
+	padding: 1%;
+	margin: 5px 5px 5px 5px;
+}
+
+p.title{
+	font-size: 30;
+	color: #FF5555;
+	text-align: center;
+}
+
+p.paragraph{
+	font-size: 20;
+	color: #BBBBBB;
+	text-align: left;
+}
