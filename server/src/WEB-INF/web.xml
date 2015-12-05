@@ -21,6 +21,11 @@
      <url-pattern>/userpage</url-pattern>
    </servlet-mapping>  
    
+     <servlet-mapping>
+     <servlet-name>user_page</servlet-name>
+     <url-pattern>/usersettings</url-pattern>
+   </servlet-mapping>  
+   
     <servlet-mapping>
      <servlet-name>user_page</servlet-name>
      <url-pattern>/tweet_user</url-pattern>

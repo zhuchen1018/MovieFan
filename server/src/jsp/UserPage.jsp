@@ -8,6 +8,19 @@
 <title>MovieFans.com</title>
 <link rel="shortcut icon" href="/images/1.png">
 
+<style>
+#container {
+    position:relative;
+}
+
+#profile {
+    position: absolute;
+    top: 50px;
+    bottom: 0px;
+}
+</style>
+
+
 </head>
 <%@ page import="java.util.*" %>
 <%@ page import="java.lang.*" %>
@@ -20,8 +33,20 @@
 curUser+=request.getQueryString();
 %>
 
-<img src="http://climate.nasa.gov/assets/intro_image.jpg" alt="Mountain View" style="width:800px;height:228px;">
+<%@ page import="com.myapp.view.*" %>
+<% UserSettingView usv = (UserSettingView)request.getAttribute("UserSettingView");
+	String headURL = usv.getHeadUrl();
+	String profileURL = usv.getProfileUrl();
+	String description = usv.getDescription();
+%>
 
+
+<div id="container">
+    <img src=<%=profileURL %> style="width:152px;height:114px;" id="profile" border="5" bordercolor="#A9A9A9"/>
+    <img src=<%=headURL %> style="width:800px;height:228px;" id="avatar" />
+</div>
+<br>
+<p><em><%=description%></em></p>
 
 <%if(!myPageFlag) {%>
 	<%if(!myfriendFlag){ %>
@@ -48,7 +73,7 @@ curUser+=request.getQueryString();
   	<% if(myPageFlag) {%>
 	<form action="/tweet_user" method="POST">
 		<div align="center">
-			<textarea cols="40" rows="5" name="TWEET" placeholder="Share Something"></textarea>
+			<textarea cols="65" rows="5" name="TWEET" placeholder="Share Something"></textarea>
 			<INPUT TYPE=SUBMIT VALUE="submit">
 		</div>
   	</form>

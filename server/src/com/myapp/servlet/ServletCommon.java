@@ -19,6 +19,7 @@ import com.myapp.view.FriendListView;
 import com.myapp.view.FriendObjectView;
 import com.myapp.view.GroupListView;
 import com.myapp.view.NewsListView;
+import com.myapp.view.UserSettingView;
 
 public class ServletCommon 
 {
@@ -282,7 +283,11 @@ public class ServletCommon
 		GroupListView glv = db.loadGroupList(targetName);
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
-	
+		
+		UserSettingView usv = db.loadUserSettingView(targetName);
+		request.setAttribute("UserSettingView", null); 
+		request.setAttribute("UserSettingView", usv); 
+		
 		boolean isMyPage = username.equals(targetName);
 		request.setAttribute("isMyPage", new Boolean(isMyPage));
 	

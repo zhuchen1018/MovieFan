@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel = "stylesheet" type ="text/css" href = "../css/Friend.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
@@ -20,10 +21,17 @@
 			String name = friendlist.get(i).getName();
 			String nameurl = "userpage?user="+name;
 	        if(po!=null&&!po.equals("null")){ %>
-			<img src=<%=po%> alt="Poster" style="width:145px;height:126px;"> &nbsp; <a style="font-size:150%;" href=<%=nameurl %>><%=name %></a><br>
-		 <% } else { %>
-			<img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"> &nbsp; <a style="font-size:150%;" href=<%=nameurl %>><%=name %></a><br>
-		 <%}
+	        <p>
+   			 	<a href=<%=nameurl%>><img src=<%=po%> class="friend"></img></a>
+    			<a href=<%=nameurl%>><b class="friendName"><%=name%></b></a>
+    		</p>
+		<% } 
+		 	else { %>
+		 	<p>
+   			 	<a href=<%=nameurl%><img src="/images/not-found.png" class="friend"></img></a>
+    			<a href=<%=nameurl%><b class="friendName"><%=name%></b></a>
+    		</p>
+		<%}
 	}%>
      <br>
 

@@ -1,12 +1,14 @@
 package com.myapp.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.myapp.utils.Const;
+import com.myapp.view.UserSettingView;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.UserEntity;
 
@@ -55,6 +57,10 @@ public class UserPage extends HttpServlet
 		{
 			handleUnFollowUserPost(request, response);
 		}
+		else if(url.equals(Const.USER_SETTINGS_URL))
+		{
+			handleUserSettingsPost(request, response);
+		}
 		/*
 		else if(url.equals(Const.USER_COMMENT_URL))
 		{
@@ -102,7 +108,7 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
 			return;
 		}
-		
+
 		db.userRemoveFriend(username, targetName);
 		db.sync();	
 
@@ -140,7 +146,7 @@ public class UserPage extends HttpServlet
 		initDB();
 		db.addNewsTwitter(username, info); 
 		db.sync();
-		
+
 		if(fromHome)
 		{
 			ServletCommon.RedirectToHome(request, response);
@@ -173,8 +179,72 @@ public class UserPage extends HttpServlet
 
 	private void handleUserSettingsGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			System.out.println("handleFollowUser username is null"); 
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			return;
+		}
+
+		initDB();
+
+		UserEntity user = db.getUserEntity(username);
+		if(user == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			return;
+		}
+
+		String head_url = user.getHeadUrl();
+		String profile_url = user.getProfileUrl();
+		Integer[] genres = user.getLikeGenres();
+		String description = user.getDescription();
+
+		UserSettingView usv =  new UserSettingView(head_url,profile_url, genres, description);
+		request.setAttribute("UserSettingView", usv);
+
+		String location = "/jsp/UserSettings.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
+
+	private void handleUserSettingsPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			System.out.println("handleFollowUser username is null"); 
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			return;
+		}
+
+		initDB();
+
+		UserEntity user = db.getUserEntity(username);
+		if(user == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			return;
+		}
+
+		String head_url = request.getParameter("HEAD_URL");
+		String profile_url = request.getParameter("PROFILE_URL");
+		String description = request.getParameter("DESC");
+		String[] genres = request.getParameterValues("GENRES");
+		Integer[] genres_integer = null; 
+		if(genres != null)
+		{
+			genres_integer = new Integer[genres.length];
+			for(int i = 0; i < genres_integer.length; ++i)
+			{
+				genres_integer[i] = Const.GENRE_MAP.get(genres[i]);
+			}
+		}
+		db.upUserSettings(username, head_url, profile_url, description, genres_integer);
+		db.sync();
+
+		ServletCommon.RedirectToUserPage(request, response, username, username);
+	} 
 
 	private void handleFollowUserPost(HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -211,10 +281,12 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
 			return;
 		}
-		
+
 		db.userAddFriend(username, targetName);
+		db.userAddNewsMakeFriends(username, targetName);
+		db.userAddFans(targetName, username);
 		db.sync();
-		
+
 		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
 
@@ -260,7 +332,7 @@ public class UserPage extends HttpServlet
 		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
 
-	
+
 	/*
 	private void showTweetWindow(String username, HttpServletResponse response)
 	{
@@ -280,6 +352,6 @@ public class UserPage extends HttpServlet
 			e.printStackTrace();
 		}
 	}
-	*/
+	 */
 }
 

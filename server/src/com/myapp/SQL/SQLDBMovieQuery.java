@@ -21,33 +21,16 @@ public class SQLDBMovieQuery {
 	private MoviePageView homepage;
 	private PersonObjectView director;
 	private PersonListView personList;
-	private HashMap<String,Integer> map;
+	private static HashMap<String,Integer> map;
 	private ArrayList<String> names;
-	
-	private void setMovieGenreId(){
-		map=new HashMap<String,Integer>();
-		map.put("Adventure", 0);
-		map.put("Animation", 1);
-		map.put("Children", 2);
-		map.put("Comedy", 3);
-		map.put("Fantasy", 4);
-		map.put("Romance", 5);
-		map.put("Drama", 6);
-		map.put("Action", 7);
-		map.put("Crime", 8);
-		map.put("Thriller", 9);
-		map.put("Horror", 10);
-		map.put("Mystery", 11);
-		map.put("Sci-Fi", 12);
-		map.put("Documentary", 14);
-		map.put("War", 15);
-		map.put("Musical", 16);
+		
+	static {
+		map = Const.GENRE_MAP; 
 	}
-	
+
 	public SQLDBMovieQuery(String value,int searchMode) throws Exception{
 		conn=SQLDBWrapper.getConnection();
 		if(conn==null) throw new Exception("connection not created!");
-		setMovieGenreId();
 		if(searchMode==Const.ID_SEARCH){ 
 			this.movieId=value;
 			if(!searchMovieByMovieId()){
@@ -66,7 +49,6 @@ public class SQLDBMovieQuery {
 	public SQLDBMovieQuery(String orderBy,String genre,int length) throws Exception{
 		conn=SQLDBWrapper.getConnection();
 		if(conn==null) throw new Exception("connection not created!");
-		setMovieGenreId();
 		this.orderBy=orderBy;
 		this.genre=genre;
 		this.length=length;

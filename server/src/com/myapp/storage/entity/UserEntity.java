@@ -1,6 +1,7 @@
 package com.myapp.storage.entity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import com.sleepycat.persist.model.Entity;
@@ -16,6 +17,9 @@ public class UserEntity
 	private String password;
 	//jpeg
 	private String head_url;
+
+	//jpeg
+	private String profile_url;
 
 	private long login_time; 
 
@@ -39,6 +43,12 @@ public class UserEntity
 
 	//create group 's id
 	private ArrayList<Long>createGroups = new ArrayList<Long>(); 
+
+	//description
+	private String description;
+
+	//like genres
+	private ArrayList<Integer>likeGenres = new ArrayList<Integer>(); 
 	
 	public UserEntity()
 	{
@@ -186,6 +196,36 @@ public class UserEntity
 		if(isLikeMovie(movieId))
 		{
 			likeMovies.remove(movieId);
+		}
+	}
+
+	public String getProfileUrl() 
+	{
+		return profile_url;
+	}
+
+	public Integer[] getLikeGenres() 
+	{
+		return likeGenres.toArray(new Integer[likeGenres.size()]);
+	}
+
+	public String getDescription() 
+	{
+		return description;
+	}
+
+	public void upSettings(String username, String head_url, String profile_url, String description, Integer[] genres) 
+	{
+		this.head_url = head_url;
+		this.profile_url = profile_url;
+		this.description = description;
+		if(genres == null)
+		{
+			this.likeGenres = new ArrayList<Integer>();
+		}
+		else
+		{
+			this.likeGenres = new ArrayList<Integer>(Arrays.asList(genres));
 		}
 	}
 }

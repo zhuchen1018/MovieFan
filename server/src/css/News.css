@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 
 div.AddGroup{
-	width: 400px;
+	width: 450px;
 	height: 150px;
 	overflow: scroll;
 	background-color: #FFFFFF;
@@ -11,7 +11,7 @@ div.AddGroup{
 }
 
 div.LikeMovie{
-	width: 400px;
+	width: 450px;
 	height: 150px;
 	overflow: scroll;
 	background-color: #FFFFFF;
@@ -21,7 +21,7 @@ div.LikeMovie{
 }
 
 div.MakeFriend{
-	width: 400px;
+	width: 450px;
 	height: 150px;
 	overflow: scroll;
 	background-color: #FFFFFF;
@@ -31,7 +31,7 @@ div.MakeFriend{
 }
 
 div.MovieReview{
-	width: 400px;
+	width: 450px;
 	height: 480px;
 	overflow: scroll;
 	background-color: #FFFFFF;
@@ -41,8 +41,8 @@ div.MovieReview{
 }
 
 div.ShareMovie{
-	width: 400px;
-	height: 400px;
+	width: 450px;
+	height: 430px;
 	overflow: scroll;
 	background-color: #FFFFFF;
 	border: 1px solid #555555;
@@ -51,7 +51,7 @@ div.ShareMovie{
 }
 
 div.Tweet{
-	width: 400px;
+	width: 450px;
 	height: 250px;
 	overflow: scroll;
 	background-color: #FFFFFF;
