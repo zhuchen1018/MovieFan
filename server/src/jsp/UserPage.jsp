@@ -33,11 +33,20 @@
 curUser+=request.getQueryString();
 %>
 
-<div id="container">
-    <img src="../images/1.ico" style="width:152px;height:114px;" id="profile" border="5" bordercolor="#A9A9A9"/>
-    <img src="http://climate.nasa.gov/assets/intro_image.jpg" style="width:800px;height:228px;" id="avatar" />
-</div>
+<%@ page import="com.myapp.view.*" %>
+<% UserSettingView usv = (UserSettingView)request.getAttribute("UserSettingView");
+	String headURL = usv.getHeadUrl();
+	String profileURL = usv.getProfileUrl();
+	String description = usv.getDescription();
+%>
 
+
+<div id="container">
+    <img src=<%=profileURL %> style="width:152px;height:114px;" id="profile" border="5" bordercolor="#A9A9A9"/>
+    <img src=<%=headURL %> style="width:800px;height:228px;" id="avatar" />
+</div>
+<br>
+<p><em><%=description%></em></p>
 
 <%if(!myPageFlag) {%>
 	<%if(!myfriendFlag){ %>
