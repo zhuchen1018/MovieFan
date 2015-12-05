@@ -32,7 +32,7 @@ div.MakeFriend{
 
 div.MovieReview{
 	width: 400px;
-	height: 150px;
+	height: 450px;
 	overflow: scroll;
 	background-color: #FFFFFF;
 	border: 1px solid #555555;
@@ -91,7 +91,7 @@ a.link{
 p.paragraph{
 	font-size: 20;
 	color: #BBBBBB;
-	text-align: left;
+	max-width: 350px;
 }
 
 img.user{
@@ -102,6 +102,6 @@ img.user{
 }
 
 img.movie{
-	width: 250px;
-	height: 200px;
+	width: 350px;
+	height: 300px;
 }

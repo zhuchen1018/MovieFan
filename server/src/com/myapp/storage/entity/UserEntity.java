@@ -172,4 +172,20 @@ public class UserEntity
 	{
 		head_url = url;
 	}
+
+	public void likeMovie(String movieId) 
+	{
+		if(!isLikeMovie(movieId))
+		{
+			likeMovies.add(movieId);
+		}
+	}
+	
+	public void unlikeMovie(String movieId) 
+	{
+		if(isLikeMovie(movieId))
+		{
+			likeMovies.remove(movieId);
+		}
+	}
 }
