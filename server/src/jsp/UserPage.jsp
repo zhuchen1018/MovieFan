@@ -8,6 +8,19 @@
 <title>MovieFans.com</title>
 <link rel="shortcut icon" href="/images/1.png">
 
+<style>
+#container {
+    position:relative;
+}
+
+#profile {
+    position: absolute;
+    top: 50px;
+    bottom: 0px;
+}
+</style>
+
+
 </head>
 <%@ page import="java.util.*" %>
 <%@ page import="java.lang.*" %>
@@ -20,7 +33,10 @@
 curUser+=request.getQueryString();
 %>
 
-<img src="http://climate.nasa.gov/assets/intro_image.jpg" alt="Mountain View" style="width:800px;height:228px;">
+<div id="container">
+    <img src="../images/1.ico" style="width:152px;height:114px;" id="profile" border="5" bordercolor="#A9A9A9"/>
+    <img src="http://climate.nasa.gov/assets/intro_image.jpg" style="width:800px;height:228px;" id="avatar" />
+</div>
 
 
 <%if(!myPageFlag) {%>
@@ -48,7 +64,7 @@ curUser+=request.getQueryString();
   	<% if(myPageFlag) {%>
 	<form action="/tweet_user" method="POST">
 		<div align="center">
-			<textarea cols="40" rows="5" name="TWEET" placeholder="Share Something"></textarea>
+			<textarea cols="65" rows="5" name="TWEET" placeholder="Share Something"></textarea>
 			<INPUT TYPE=SUBMIT VALUE="submit">
 		</div>
   	</form>
