@@ -43,6 +43,10 @@ public class UserPage extends HttpServlet
 		{
 			handleTweetPost(request, response, true);
 		}
+		else if(url.equals(Const.USER_TWEET_URL))
+		{
+			handleTweetPost(request, response, false);
+		}
 		else if(url.equals(Const.FOLLOW_USER_URL))
 		{
 			handleFollowUserPost(request, response);
@@ -161,6 +165,15 @@ public class UserPage extends HttpServlet
 		{
 			handleUserPageGet(request, response);
 		}	
+		else if(url.equals(Const.USER_SETTINGS_URL))
+		{
+			handleUserSettingsGet(request, response);
+		}	
+	}
+
+	private void handleUserSettingsGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		
 	}
 
 	private void handleFollowUserPost(HttpServletRequest request, HttpServletResponse response) 
