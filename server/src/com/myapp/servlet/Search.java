@@ -284,7 +284,6 @@ public class Search extends HttpServlet
 		{
 			handleSearchUserGet(request, response);
 		}
-
 		else if(url.equals(Const.SEARCH_MOVIE))
 		{
 			handleSearchMovieGet(request, response);
