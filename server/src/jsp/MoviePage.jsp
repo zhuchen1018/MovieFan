@@ -19,7 +19,6 @@ MoviePageView mpv = (MoviePageView) request.getAttribute("MoviePageView");
     PersonListView casts;
     PersonObjectView director;
     Boolean liked;
-    Boolean shared;
     
     overview = mpv.getOverview();
     rating = mpv.getRating();
@@ -90,7 +89,7 @@ MoviePageView mpv = (MoviePageView) request.getAttribute("MoviePageView");
 	</div>
 	
 	<div id="content">
-	<form action="/moviereview" method="POST">
+	<form action=<%="/moviereview"  + "?" + request.getQueryString()%> method="POST">
 		<div align="left">
 			<textarea cols="40" rows="5" name="Review" placeholder=""></textarea>
 			<INPUT TYPE=SUBMIT VALUE="submit review">
