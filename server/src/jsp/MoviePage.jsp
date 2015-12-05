@@ -18,7 +18,6 @@
     PersonListView casts;
     PersonObjectView director;
     Boolean liked;
-    Boolean shared;
     
     overview = mpv.getOverview();
     rating = mpv.getRating();
@@ -33,7 +32,6 @@
     director = mpv.getDirector();
     casts = mpv.getCast();
     liked= (Boolean) request.getAttribute("isLiked");
-    shared= (Boolean) request.getAttribute("isShared");
     %>
 <h1><%=name%> (<%=releaseYear%>) </h1><br>    
 <div id="container">
@@ -55,12 +53,8 @@
     <br><br>
     <br><br>   
     <div id="content"><h4>OverView </h4><td><%=overview%></td></div> <br>
-    <% 
-      liked = false;
-	  shared = false;
-	 %> 
-	 
-	<div id="content"> 
+   	
+    <div id="content"> 
 	    <% if(!liked){ %>
 			<form action=<%="/likemovie" + "?" + request.getQueryString()%> method="POST">
 				<button class="myButton" type="submit" name="LikeThisMovie">
@@ -87,7 +81,7 @@
 	</div>
 	
 	<div id="content">
-	<form action="/moviereview" method="POST">
+ 	<form action=<%="/moviereview" + "?" + request.getQueryString()%> method="POST">
 		<div align="left">
 			<textarea cols="40" rows="5" name="Review" placeholder=""></textarea>
 			<INPUT TYPE=SUBMIT VALUE="write review">
