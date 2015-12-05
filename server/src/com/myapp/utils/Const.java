@@ -59,6 +59,10 @@ public class Const
 	
 	//Movie
 	public static final String MOVIE_PAGE_URL = "/moviepage";
+	public static final String MOVIE_SHARE_URL = "/sharemovie"; 
+	public static final String MOVIE_LIKE_URL = "/likemovie"; 
+	public static final String MOVIE_REVIEW_URL = "/moviereview";
+	public static final String MOVIE_UNLIKE_URL = "/unlikemovie";
 
 	//Group
 	public static final String CREATE_GROUP_URL = "/create_group";
@@ -111,6 +115,7 @@ public class Const
 
 	//for @username
 	public final static Pattern AT_PATTERN = Pattern.compile("@\\w+");
+
 
 
 

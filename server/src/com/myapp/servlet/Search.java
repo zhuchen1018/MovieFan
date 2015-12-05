@@ -209,7 +209,7 @@ public class Search extends HttpServlet
 			ServletCommon.redirect404(request, response);
 		}
 	}
-
+	
 	private void handleSearchUserPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String tarname = request.getParameter("USER");

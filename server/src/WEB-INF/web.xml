@@ -130,6 +130,11 @@
      <url-pattern>/likemovie</url-pattern>
    </servlet-mapping>  
    
+    <servlet-mapping>
+     <servlet-name>moviepage</servlet-name>
+     <url-pattern>/unlikemovie</url-pattern>
+   </servlet-mapping>  
+   
      <servlet-mapping>
      <servlet-name>moviepage</servlet-name>
      <url-pattern>/sharemovie</url-pattern>
