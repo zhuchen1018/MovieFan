@@ -12,6 +12,7 @@
 <%@ page import="java.lang.*" %>
 
 <body>
+<img src="http://images.akamai.steamusercontent.com/ugc/25087975291817161/4B01A1274CA990A3577CC37E1DAA72F88DE353F8/" alt="Mountain View" style="width:304px;height:228px;">
 
 <%Boolean myPageFlag = (Boolean)request.getAttribute("isMyPage");%>
 <%Boolean myfriendFlag = (Boolean)request.getAttribute("isMyFriend");%> 
