@@ -44,6 +44,7 @@ public class Const
 	
 	//User
 	public static final String USER_PAGE_URL = "/userpage";
+	public static final String USER_SETTINGS_URL = "/usersettings";
 	public static final String USER_TWEET_HOME_URL = "/tweet_home";
 	public static final String USER_TWEET_URL = "/tweet_user";
 
@@ -105,6 +106,27 @@ public class Const
 	public final static int MOVIE_LENGTH_120_MORE=4;
 
 
+	/**
+	 * movie genre
+	 */
+	
+	public final static int GENRE_ACTION 			= 1;
+	public final static int GENRE_ADVENTURE = 2;
+	public final static int GENRE_HORROR 		= 3;
+	public final static int GENRE_ROMANCE 	= 4;
+	public final static int GENRE_WAR 				= 5;
+	public final static int GENRE_DOCUMENTARY = 6;
+	public final static int GENRE_DRAMA 			= 7;
+	public final static int GENRE_THRILLER 		= 8;
+	public final static int GENRE_CRIME 			= 9;
+	public final static int GENRE_MYSTERY 		= 10; 
+	public final static int GENRE_ANIMAITON 	= 11; 
+	public final static int GENRE_FANTASY 		= 12;
+	public final static int GENRE_COMEDY  		= 13;
+	public final static int GENRE_CHILDREN 	= 14;
+	public final static int GENRE_SCIFI 				= 15;
+	public final static int GENRE_MUSICAL 		= 16;
+
 
 	/**
 	 * regex
@@ -115,6 +137,7 @@ public class Const
 
 	//for @username
 	public final static Pattern AT_PATTERN = Pattern.compile("@\\w+");
+
 
 
 
