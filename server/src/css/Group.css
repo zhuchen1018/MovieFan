@@ -1,13 +1,13 @@
 @CHARSET "UTF-8";
 
-img.friend{
+img.group{
 	float: left;
 	width: 30px;
 	height: 30px;
 	margin: 0px 0px 0px 0px;
 }
 
-b.friendName{
+b.groupName{
 	font-size: 40;
 	color: #222222;
 	text-align: left;

@@ -12,14 +12,14 @@
 <body>
 
 <!-- Begin Wrapper -->
-<div width=100% height=100%>
+<div width=100% height=100% id="Outer">
   <div id="BasicDiv" class = "GroupList"> <jsp:include page="GroupList.jsp"/> </div>
   <!-- End Left Column -->
   <!-- Begin Left Middle Column -->
   <div id="BasicDiv" class = "NewsList"> 
 	<form action="/tweet_home" method="POST">
 		<div align="center">
-			<textarea cols="40" rows="5" name="TWEET" placeholder="Share Something"></textarea>
+			<textarea cols="64" rows="5" name="TWEET" placeholder="Share Something"></textarea>
 			<INPUT TYPE=SUBMIT VALUE="submit">
 		</div>
   	</form>
