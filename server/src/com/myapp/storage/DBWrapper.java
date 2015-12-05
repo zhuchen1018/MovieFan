@@ -423,7 +423,7 @@ public class DBWrapper
 		storeNews(news_obj, user);
 	}
 
-	public void addNewsJoinGroup(String username, String groupid) 
+	public void addNewsJoinGroup(String username, String groupname) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
@@ -432,7 +432,7 @@ public class DBWrapper
 			return;
 		}
 		ArrayList<String>receivers = new ArrayList<String>();
-		receivers.add(groupid);
+		receivers.add(groupname);
 		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), receivers, Const.NEWS_ADD_GROUP);
 		storeNews(news_obj, user);
 	}
@@ -535,7 +535,7 @@ public class DBWrapper
 		{
 			userEA.joinGroup(username, id);
 			groupEA.addMember(id, username);
-			addNewsJoinGroup(username, String.valueOf(id)); 
+			addNewsJoinGroup(username, gobj.getName()); 
 		}	
 	}
 	
@@ -706,14 +706,14 @@ public class DBWrapper
 		return false;
 	}
 
-	public Object isUserLikeMovie(String username, String movie_id) 
+	public boolean isUserLikeMovie(String username, String movie_id) 
 	{
 		UserEntity user  = getUserEntity(username);
 		if(user != null)
 		{
 			return user.isLikeMovie(movie_id);
 		}
-		return null;
+		return false;
 	}
 
 	public boolean canCreateGroup(String username) 
@@ -791,5 +791,25 @@ public class DBWrapper
 			ulv.add(uov);
 		}
 		return ulv;
+	}
+	
+	public void userLikeMovie(String username, String movieId) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			user.likeMovie(movieId);
+			userEA.putEntity(user);
+		}	
+	}	
+
+	public void userUnlikeMovie(String username, String movieId) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			user.unlikeMovie(movieId);
+			userEA.putEntity(user);
+		}	
 	}	
 }

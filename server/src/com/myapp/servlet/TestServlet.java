@@ -200,8 +200,9 @@ public class TestServlet extends HttpServlet
 		movieId = null;
 		movieName = null; 
 		String  groupid = "123";
+		String gname = "groupname 1";
 		ToList = new ArrayList<String>();	
-		ToList.add(groupid);
+		ToList.add(gname);
 		type = Const.NEWS_ADD_GROUP; 
 		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
