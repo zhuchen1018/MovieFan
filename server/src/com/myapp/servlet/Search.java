@@ -166,19 +166,13 @@ public class Search extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING, response);
 			return;
 		}
-		
-		GroupListView glv = new GroupListView();
-		ArrayList<GroupEntity>glist = db.loadSearchGroupList(search);
-		for(GroupEntity gobj: glist)
-		{
-			GroupObjectView gov = new GroupObjectView(gobj.getId(), gobj.getHeadUrl(), gobj.getName());
-			glv.addGroupObject(gov);
-		}
+	
+		initDB();
 
+		GroupListView glv =  db.loadSearchGroupList(search);
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
 		
-
 		String location = "/jsp/GroupList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}

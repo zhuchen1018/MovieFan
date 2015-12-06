@@ -864,9 +864,16 @@ public class DBWrapper
 		return null;
 	}
 
-	public ArrayList<GroupEntity> loadSearchGroupList(String name) 
+	public GroupListView loadSearchGroupList(String name) 
 	{
-		return groupEA.getSearchGroup(name);
+		GroupListView glv = new GroupListView();
+		ArrayList<GroupEntity>glist = groupEA.getSearchGroup(name);
+		for(GroupEntity gobj: glist)
+		{
+			GroupObjectView gov = new GroupObjectView(gobj.getId(), gobj.getHeadUrl(), gobj.getName());
+			glv.addGroupObject(gov);
+		}
+		return glv;
 	}
 
 	public NewsListView loadSearchHashTag(String search) 
