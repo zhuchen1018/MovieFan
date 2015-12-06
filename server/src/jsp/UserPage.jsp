@@ -4,6 +4,7 @@
 <html>
 <head>
 <link rel = "stylesheet" type ="text/css" href = "../css/Homepage.css">
+<link rel = "stylesheet" type ="text/css" href = "../css/Homepage.css">
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>MovieFans.com</title>
 <link rel="shortcut icon" href="/images/1.png">
@@ -26,6 +27,9 @@
 <%@ page import="java.lang.*" %>
 
 <body>
+<jsp:include page="NavigationBar.jsp"/>
+
+
 
 <%Boolean myPageFlag = (Boolean)request.getAttribute("isMyPage");%>
 <%Boolean myfriendFlag = (Boolean)request.getAttribute("isMyFriend");%> 
@@ -42,11 +46,23 @@ curUser+=request.getQueryString();
 
 
 <div id="container">
-    <img src=<%=profileURL %> style="width:152px;height:114px;" id="profile" border="5" bordercolor="#A9A9A9"/>
-    <img src=<%=headURL %> style="width:800px;height:228px;" id="avatar" />
+	<%if(profileURL==null) {%>
+		<img src="../images/noprofile.jpg" style="width:152px;height:114px;" id="profile" border="5" bordercolor="#A9A9A9"/>
+	<%}else{ %>
+		<img src=<%=profileURL %> style="width:152px;height:114px;" id="profile" border="5" bordercolor="#A9A9A9"/>
+    <%} %>
+   	<%if(headURL==null) {%>
+   		<img src="../images/nobackground.jpg" style="width:800px;height:228px;" id="avatar" />
+    <%}else{ %>
+    	<img src=<%=headURL %> style="width:800px;height:228px;" id="avatar" />
+	<%} %>
 </div>
 <br>
-<p><em><%=description%></em></p>
+<%if(description!=null){ %>
+	<p><em><%=description%></em></p>
+<%}else{ %>
+	<p><em>No Description Available</em></p>
+<%} %>
 
 <%if(!myPageFlag) {%>
 	<%if(!myfriendFlag){ %>
