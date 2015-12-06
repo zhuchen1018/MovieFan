@@ -16,7 +16,10 @@ public class MoviePageView{
 	private ArrayList<String> alternate_title;
 	private PersonObjectView director;
 	private PersonListView list;
-	
+
+	//for caching
+	private Long accessTime;	
+
 	public MoviePageView(){
 	}
 	

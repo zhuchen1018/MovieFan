@@ -19,6 +19,8 @@ import com.myapp.view.FriendListView;
 import com.myapp.view.FriendObjectView;
 import com.myapp.view.GroupListView;
 import com.myapp.view.GroupPageView;
+import com.myapp.view.MoviePageView;
+import com.myapp.view.MoviePageViewCache;
 import com.myapp.view.NewsListView;
 import com.myapp.view.UserSettingView;
 
@@ -340,5 +342,36 @@ public class ServletCommon
 		forwardRequestDispatch(request, response, location);
 		
 		db.close();
+	}
+
+	public static void RedirectToMoviePage(HttpServletRequest request, HttpServletResponse response, String username,
+			String movie_id) 
+	{
+		MoviePageView mpv = null;
+		if(movie_id != null) 
+		{
+			mpv = MoviePageViewCache.get(movie_id);	
+		}
+		if(mpv == null)
+		{
+			ServletCommon.redirect404(request, response);
+			return;
+		}	
+			
+		DBWrapper db = null; 
+		try 
+		{
+			db = new DBWrapper();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+			return;
+		}
+
+		request.setAttribute("MoviePageView", mpv); 
+		request.setAttribute("isLiked", new Boolean(db.isUserLikeMovie(username, movie_id)));
+		String location = "/jsp/MoviePage.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}	
 }

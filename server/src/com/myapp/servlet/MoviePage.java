@@ -5,11 +5,10 @@ import java.util.Hashtable;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import com.myapp.SQL.SQLDBMovieQuery;
 import com.myapp.storage.DBWrapper;
 import com.myapp.utils.Const;
 import com.myapp.view.MoviePageView;
+import com.myapp.view.MoviePageViewCache;
 
 public class MoviePage extends HttpServlet 
 {
@@ -44,7 +43,7 @@ public class MoviePage extends HttpServlet
 		String url = request.getServletPath();
 		if(url.equals(Const.MOVIE_PAGE_URL))
 		{
-			handleMoviePageGet(request, response);
+			handleMoviePageGet(request, response, username);
 		}
 		else
 		{
@@ -64,19 +63,19 @@ public class MoviePage extends HttpServlet
 		String url = request.getServletPath();
 		if(url.equals(Const.MOVIE_LIKE_URL))
 		{
-			handleLikeMoviePost(request, response);
+			handleLikeMoviePost(request, response, username);
 		}
 		else if(url.equals(Const.MOVIE_UNLIKE_URL))
 		{
-			handleUnlikeMoviePost(request, response);
+			handleUnlikeMoviePost(request, response, username);
 		}
 		else if(url.equals(Const.MOVIE_SHARE_URL))
 		{
-			handleShareMoviePost(request, response);
+			handleShareMoviePost(request, response, username);
 		}
 		else if(url.equals(Const.MOVIE_REVIEW_URL))
 		{
-			handleReviewMoviePost(request, response);
+			handleReviewMoviePost(request, response, username);
 		}
 		else 
 		{
@@ -84,72 +83,41 @@ public class MoviePage extends HttpServlet
 		}
 	}
 
-	private void handleUnlikeMoviePost(HttpServletRequest request, HttpServletResponse response) 
+	/**
+	 * UNLIKE MOVIE
+	 * @param request
+	 * @param response
+	 * @param username
+	 */
+	private void handleUnlikeMoviePost(HttpServletRequest request, HttpServletResponse response, String username) 
 	{
-		HttpSession session = request.getSession(false);
-		String username = (String) session.getAttribute("username");
-		if(username == null || username.isEmpty())
-		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
-			return;
-		}		
-
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
-		//search movie by movie_id: from click movie ref 
-		if(query == null ||query.isEmpty())
+		String movie_id = null;
+		if(query != null) 
 		{
-			ServletCommon.redirect404(request, response);
-			return;
+			movie_id = query.get("movie_id");
 		}
-
-		MoviePageView mpv = null;
-		String movie_id = query.get("movie_id");
-		if(movie_id != null && !movie_id.isEmpty())
-		{
-			SQLDBMovieQuery sql=null;
-			try
-			{
-				sql = new SQLDBMovieQuery(movie_id,Const.ID_SEARCH);
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
-				ServletCommon.redirect404(request, response);
-				return;
-			}
-			mpv = sql.getMovieHomepage();
-			if(mpv == null)
-			{
-				ServletCommon.redirect404(request, response);
-				return;
-			}
-			request.setAttribute("MoviePageView", mpv); 
-		}
-		else
+		if(movie_id == null)
 		{
 			ServletCommon.redirect404(request, response);
 			return;
 		}
 
 		initDB();
-		db.userUnlikeMovie(username, mpv.getMovieId()); 
+		db.userUnlikeMovie(username, movie_id); 
 		db.sync();
-		request.setAttribute("isLiked", new Boolean(false)); 
 
-		String location = "/jsp/MoviePage.jsp";
-		ServletCommon.forwardRequestDispatch(request, response, location);
+		ServletCommon.RedirectToMoviePage(request, response, username, movie_id);
 	}
 
-	private void handleReviewMoviePost(HttpServletRequest request, HttpServletResponse response) 
+	/**
+	 * REVIEW
+	 * @param request
+	 * @param response
+	 * @param username
+	 */
+	private void handleReviewMoviePost(HttpServletRequest request, HttpServletResponse response, String username) 
 	{
-		HttpSession session = request.getSession(false);
-		String username = (String) session.getAttribute("username");
-		if(username == null || username.isEmpty())
-		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
-			return;
-		}	
-
 		String title = "";
 		String body = request.getParameter("Review"); 
 		if(title == null || body == null)
@@ -159,207 +127,106 @@ public class MoviePage extends HttpServlet
 		}	
 
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
-		//search movie by movie_id: from click movie ref 
-		if(query == null ||query.isEmpty())
+		String movie_id = null;
+		if(query != null) 
+		{
+			movie_id = query.get("movie_id");
+		}
+		if(movie_id == null)
 		{
 			ServletCommon.redirect404(request, response);
 			return;
 		}
 
-		MoviePageView mpv = null;
-		String movie_id = query.get("movie_id");
-		if(movie_id != null && !movie_id.isEmpty())
-		{
-			SQLDBMovieQuery sql=null;
-			try
-			{
-				sql = new SQLDBMovieQuery(movie_id,Const.ID_SEARCH);
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
-				ServletCommon.redirect404(request, response);
-				return;
-			}
-			mpv = sql.getMovieHomepage();
-			if(mpv == null)
-			{
-				ServletCommon.redirect404(request, response);
-				return;
-			}
-			request.setAttribute("MoviePageView", mpv); 
-			request.setAttribute("isLiked", db.isUserLikeMovie(username, movie_id));
-		}
-		else
+		MoviePageView mpv = MoviePageViewCache.get(movie_id);	
+		if(mpv == null)
 		{
 			ServletCommon.redirect404(request, response);
 			return;
 		}
-
 		initDB();
-
 		db.addNewsMovieReview(username, title, body, mpv.getMovieId(), mpv.getName(), mpv.getPoster()); 
 		db.sync();
-
-		String location = "/jsp/MoviePage.jsp";
-		ServletCommon.forwardRequestDispatch(request, response, location);
+		
+		ServletCommon.RedirectToMoviePage(request, response, username, movie_id);
 	}
 
-	private void handleShareMoviePost(HttpServletRequest request, HttpServletResponse response) 
+	/**
+	 * SHARE MOVIE
+	 * @param request
+	 * @param response
+	 * @param username
+	 */
+	private void handleShareMoviePost(HttpServletRequest request, HttpServletResponse response, String username) 
 	{
-		HttpSession session = request.getSession(false);
-		String username = (String) session.getAttribute("username");
-		if(username == null || username.isEmpty())
-		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
-			return;
-		}		
-
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
-		//search movie by movie_id: from click movie ref 
-		if(query == null ||query.isEmpty())
+		String movie_id = null;
+		if(query != null) 
+		{
+			movie_id = query.get("movie_id");
+		}
+		if(movie_id == null)
 		{
 			ServletCommon.redirect404(request, response);
 			return;
 		}
-
-		MoviePageView mpv = null;
-		String movie_id = query.get("movie_id");
-		if(movie_id != null && !movie_id.isEmpty())
-		{
-			SQLDBMovieQuery sql=null;
-			try
-			{
-				sql = new SQLDBMovieQuery(movie_id,Const.ID_SEARCH);
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
-				ServletCommon.redirect404(request, response);
-				return;
-			}
-			mpv = sql.getMovieHomepage();
-			if(mpv == null)
-			{
-				ServletCommon.redirect404(request, response);
-				return;
-			}
-			request.setAttribute("MoviePageView", mpv); 
-		}
-		else
+		MoviePageView mpv = MoviePageViewCache.get(movie_id);	
+		if(mpv == null)
 		{
 			ServletCommon.redirect404(request, response);
 			return;
 		}
-
 		initDB();
 		db.addNewsShareMovies(username, movie_id, mpv.getName(), mpv.getPoster(), db.getFriends(username)); 
 		db.sync();
-
-		request.setAttribute("isLiked", new Boolean(db.isUserLikeMovie(username, movie_id)));
-
-		String location = "/jsp/MoviePage.jsp";
-		ServletCommon.forwardRequestDispatch(request, response, location);
+		
+		ServletCommon.RedirectToMoviePage(request, response, username, movie_id);
 	}
 
-	private void handleLikeMoviePost(HttpServletRequest request, HttpServletResponse response) 
+	/**
+	 * LIKE MOVIE
+	 * @param request
+	 * @param response
+	 * @param username
+	 */
+	private void handleLikeMoviePost(HttpServletRequest request, HttpServletResponse response, String username) 
 	{
-		HttpSession session = request.getSession(false);
-		String username = (String) session.getAttribute("username");
-		if(username == null || username.isEmpty())
-		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
-			return;
-		}		
-
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
-		//search movie by movie_id: from click movie ref 
-		if(query == null ||query.isEmpty())
+		String movie_id = null;
+		if(query != null && !query.isEmpty())
 		{
-			ServletCommon.redirect404(request, response);
-			return;
+			movie_id = query.get("movie_id");
 		}
-
-		MoviePageView mpv = null;
-		String movie_id = query.get("movie_id");
-		if(movie_id != null && !movie_id.isEmpty())
-		{
-			SQLDBMovieQuery sql=null;
-			try
-			{
-				sql = new SQLDBMovieQuery(movie_id,Const.ID_SEARCH);
-			}
-			catch(Exception ex)
-			{
-				ex.printStackTrace();
-				ServletCommon.redirect404(request, response);
-				return;
-			}
-			mpv = sql.getMovieHomepage();
-			if(mpv == null)
-			{
-				ServletCommon.redirect404(request, response);
-				return;
-			}
-			request.setAttribute("MoviePageView", mpv); 
-		}
-		else
+		if(movie_id == null)
 		{
 			ServletCommon.redirect404(request, response);
 			return;
 		}
 
 		initDB();
-		db.userLikeMovie(username, mpv.getMovieId()); 
+		db.userLikeMovie(username, movie_id); 
 		db.sync();
-		request.setAttribute("isLiked", new Boolean(true)); 
-
-		String location = "/jsp/MoviePage.jsp";
-		ServletCommon.forwardRequestDispatch(request, response, location);
+			
+		ServletCommon.RedirectToMoviePage(request, response, username, movie_id);
 	}
 
-	private void handleMoviePageGet(HttpServletRequest request, HttpServletResponse response) 
+	/**
+	 * GET MOVIEPAGE
+	 * @param request
+	 * @param response
+	 * @param username
+	 */
+	private void handleMoviePageGet(HttpServletRequest request, HttpServletResponse response, String username) 
 	{
-		initDB();
-
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
-		//search movie by movie_id: from click movie ref 
 		if(query != null && !query.isEmpty())
 		{
 			String movie_id = query.get("movie_id");
-			if(movie_id != null && !movie_id.isEmpty())
-			{
-				SQLDBMovieQuery sql=null;
-				try
-				{
-					sql = new SQLDBMovieQuery(movie_id,Const.ID_SEARCH);
-				}
-				catch(Exception ex)
-				{
-					ex.printStackTrace();
-					ServletCommon.redirect404(request, response);
-					return;
-				}
-
-				request.setAttribute("MoviePageView", null); 
-				request.setAttribute("MoviePageView", sql.getMovieHomepage());
-
-				String username = ServletCommon.getSessionUsername(request);
-				request.setAttribute("isLiked", new Boolean(db.isUserLikeMovie(username, movie_id)));
-
-				String location = "/jsp/MoviePage.jsp";
-				ServletCommon.forwardRequestDispatch(request, response, location);
-			}
-			else
-			{
-				ServletCommon.redirect404(request, response);
-				return;
-			}
+			ServletCommon.RedirectToMoviePage(request, response, username, movie_id);
 		}
 		else
 		{
-			String location = "/htmls/SearchMoviePage.html";
-			ServletCommon.forwardRequestDispatch(request, response, location);
+			ServletCommon.redirect404(request, response);
 		}
 	}
 }

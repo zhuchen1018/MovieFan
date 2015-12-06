@@ -170,6 +170,8 @@ public class Const
 
 	public static final int MAX_TWEET_LENGTH = 200;
 
+	public static final int MOVIEPAGEVIEW_CACHE_SIZE = 10000;
+
 
 
 
