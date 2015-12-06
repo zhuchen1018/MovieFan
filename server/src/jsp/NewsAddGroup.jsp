@@ -25,6 +25,7 @@
     	<b class="note"><%=note%></b>
     	<a class="link" href=<%=groupurl%>><%=group %></a><br>
     </p>
+    <br>
     <p>
     	<sub><%=time %></sub>
     </p>

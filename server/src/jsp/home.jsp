@@ -4,12 +4,15 @@
 <html>
 <head>
 <link rel = "stylesheet" type ="text/css" href = "../css/Homepage.css">
+<link rel = "stylesheet" type ="text/css" href = "../css/Search.css">
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>MovieFans.com</title>
 <link rel="shortcut icon" href="/images/1.png">
 </head>
 <%@ page import="java.util.Date" %>
 <body>
+
+<jsp:include page="NavigationBar.jsp"/>
 
 <!-- Begin Wrapper -->
 <div width=100% height=100% id="Outer">

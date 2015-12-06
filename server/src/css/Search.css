@@ -15,6 +15,7 @@
     float: left;
     list-style-type: none;
     position: relative;
+    z-index: 999;
 }
 
 .nav li a {

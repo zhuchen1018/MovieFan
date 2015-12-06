@@ -30,6 +30,7 @@
     	<b class="note"><%=note%></b>
     	<b style="float:right";>To Friends</b>
     </p>
+    <br>
     <p>
     	<sub><%=time %></sub>
     </p>
