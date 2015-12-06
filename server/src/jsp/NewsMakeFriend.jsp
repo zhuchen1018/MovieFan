@@ -26,6 +26,7 @@
     	<b class="note"><%=note%></b>
     	<a class="link" href=<%=friendurl %>><%=friend %></a><br>
     </p>
+    <br>
     <p>
     	<sub><%=time %></sub>
     </p>

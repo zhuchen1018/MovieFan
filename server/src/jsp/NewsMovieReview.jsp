@@ -28,6 +28,7 @@
     	&nbsp;
     	<b class="note"><%=note%></b>
     </p>
+    <br>
     <p>
     	<sub><%=time %></sub>
     </p>

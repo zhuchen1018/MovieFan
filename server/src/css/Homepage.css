@@ -12,7 +12,7 @@ div{
 basic div structure
 */
 #BasicDiv{
-	margin: 2px auto;
+	margin: 1px auto;
 	border: 1px solid #ccc;
 	padding: 1%;
 	margin: 5px 5px 5px 5px;
@@ -31,28 +31,28 @@ specific div layout
 */
 div.GroupList{
 	width: 10%;
-	height: 600px;
+	height: 700px;
 	background: #DDDDDD;
 	float: left;
 }
 
 div.NewsList{
 	width: 40%;
-	height: 600px;
+	height: 700px;
 	background: #DDDDDD;
 	float: left;
 }
 
 div.RecommendationList{
 	width: 20%;
-	height: 600px;
+	height: 700px;
 	background: #DDDDDD;
 	float: left;
 }
 
 div.FriendList{
 	width:14%;
-	height: 600px;
+	height: 700px;
 	background: #DDDDDD;
 	float: left;
 }

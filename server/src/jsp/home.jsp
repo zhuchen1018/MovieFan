@@ -4,12 +4,36 @@
 <html>
 <head>
 <link rel = "stylesheet" type ="text/css" href = "../css/Homepage.css">
+<link rel = "stylesheet" type ="text/css" href = "../css/Search.css">
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>MovieFans.com</title>
 <link rel="shortcut icon" href="/images/1.png">
 </head>
 <%@ page import="java.util.Date" %>
 <body>
+
+<ul class="nav">
+    <li>
+        <a href="#">Home</a>
+    </li>
+    <li>
+        <a href="#">My Page</a>
+    </li>
+    <li id="search">    
+      <form action= "/search_movie_result" method="post">
+         <input type="text" name="search_movie" value="" id="search_text" placeholder="Search"/>
+         <input type="submit" id="search_button"> 
+      </form>
+    <li id="options">
+        <a href="#">Options</a>
+        <ul class="subnav">
+            <li><a href="#">Settings</a></li>
+            <li><a href="#">Application</a></li>
+            <li><a href="#">Board</a></li>
+            <li><a href="#">Options</a></li>
+        </ul>
+    </li>
+</ul>
 
 <!-- Begin Wrapper -->
 <div width=100% height=100% id="Outer">
