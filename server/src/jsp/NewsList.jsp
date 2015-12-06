@@ -53,7 +53,9 @@ for(int i=0;i<nlv.getNewsNumber();++i){
 			request.getSession().setAttribute("nag", null);
 			break;
 		}
-	}
+	}%>
+	<br>
+	<%
 } 
 %>
 

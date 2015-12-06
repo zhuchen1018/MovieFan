@@ -9,14 +9,18 @@
 <link rel="shortcut icon" href="/images/1.png">
 </head>
 <%@ page import="java.util.Date" %>
+<%@ page import="com.myapp.servlet.*" %>
 <body>
-
+<%
+	String username=ServletCommon.getSessionUsername(request);
+	String myUrl="/userpage?user="+username;
+%>
 <ul class="nav">
     <li>
-        <a href="#">Home</a>
+        <a href="/">Home</a>
     </li>
     <li>
-        <a href="#">My Page</a>
+        <a href=<%=myUrl%>>My Page</a>
     </li>
     <li id="search">    
       <form action= "/search_movie_result" method="post">
