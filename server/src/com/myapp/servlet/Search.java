@@ -26,6 +26,7 @@ import com.myapp.view.GoogleListView;
 import com.myapp.view.GoogleObjectView;
 import com.myapp.view.GroupListView;
 import com.myapp.view.GroupObjectView;
+import com.myapp.view.NewsListView;
 import com.myapp.view.UserListView;
 import com.myapp.utils.Const;
 
@@ -75,10 +76,41 @@ public class Search extends HttpServlet
 		{
 			handleSearchGroupPost(request, response);
 		}
+		else if(url.equals(Const.SEARCH_HASHTAG_RES))
+		{
+			handleSearchHashTagPost(request, response);
+		}
+		/*
 		else if(url.equals(Const.SEARCH_GOOGLE_RES))
 		{
 			handleSearchGooglePost(request, response);
 		}
+		*/
+	}
+
+	/**
+	 * search the news containing some HashTag
+	 * @param request
+	 * @param response
+	 */
+	private void handleSearchHashTagPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String search = request.getParameter("search_hashtag"); 
+		if(search == null || search.isEmpty())
+		{
+			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING, response);
+			return;
+		}
+		
+		initDB();
+		
+		NewsListView nlv = db.loadSearchHashTag(search);
+		request.setAttribute("NewsListView", null); 
+		request.setAttribute("NewsListView", nlv); 
+		ServletCommon.retrieveGoogleResult(search, request, response);
+
+		String location = "/jsp/NewsList.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private void handleSearchGooglePost(HttpServletRequest request, HttpServletResponse response) 
@@ -86,7 +118,7 @@ public class Search extends HttpServlet
 		String search = request.getParameter("search_google"); 
 		if(search == null || search.isEmpty())
 		{
-			ServletCommon.redirect404(request, response);
+			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING, response);
 			return;
 		}
 		ServletCommon.retrieveGoogleResult(search, request, response);
@@ -131,7 +163,7 @@ public class Search extends HttpServlet
 		String search = request.getParameter("search_group"); 
 		if(search == null || search.isEmpty())
 		{
-			ServletCommon.redirect404(request, response);
+			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING, response);
 			return;
 		}
 		
@@ -180,7 +212,7 @@ public class Search extends HttpServlet
 		String key = request.getParameter("search_movie");
 		if(key == null || key.isEmpty())
 		{
-			ServletCommon.redirect404(request, response);
+			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING, response);
 			return;
 		}
 		SQLDBMovieQuery sql=null;

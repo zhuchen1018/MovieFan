@@ -447,7 +447,7 @@ public class DBWrapper
 		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), receivers, Const.NEWS_ADD_GROUP);
 		storeNews(news_obj, user);
 	}
-	
+
 	public void addNewsCreateGroup(String username, String groupname) 
 	{
 		UserEntity user = getUserEntity(username);
@@ -682,16 +682,7 @@ public class DBWrapper
 		{
 			NewsEntity newsEntity = getNewsEntityByIds(id);
 			if(newsEntity == null) continue;
-			int type = newsEntity.getNewsType();
-			String text = newsEntity.getBody(); 
-			String url = newsEntity.getMoviePosterUrl() ;
-			String title = newsEntity.getTitle(); 
-			String movieId = newsEntity.getMovidId(); 
-			String movieName = newsEntity.getMovieName(); 
-			long releaseTime = newsEntity.getReleaseTime(); 
-			int likeNums = newsEntity.getLikeNums(); 
-			ArrayList<String>ToList = newsEntity.getReceivers();
-			NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
+			NewsObjectView newsViewObj = new NewsObjectView(newsEntity);
 			nlv.addNews(newsViewObj);
 		}
 		return nlv;
@@ -876,5 +867,22 @@ public class DBWrapper
 	public ArrayList<GroupEntity> loadSearchGroupList(String name) 
 	{
 		return groupEA.getSearchGroup(name);
+	}
+
+	public NewsListView loadSearchHashTag(String search) 
+	{
+		ArrayList<HashTagEntity>taglist = hashtagEA.searchHashTag(search);
+		NewsListView nlv = new NewsListView(); 
+
+		for(HashTagEntity tag: taglist)
+		{
+			for(Long newsid: tag.getNews())
+			{
+				NewsEntity news = newsEA.getNewsEntityById(newsid);
+				NewsObjectView newsViewObj = new NewsObjectView(news);
+				nlv.addNews(newsViewObj);
+			}
+		}
+		return nlv;
 	}
 }

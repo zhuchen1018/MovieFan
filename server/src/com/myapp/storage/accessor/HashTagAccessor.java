@@ -35,6 +35,19 @@ public class HashTagAccessor
 		entity.addNews(id);
 		tags.put(entity);
 	}
+	
+	public ArrayList<HashTagEntity> searchHashTag(String tag) 
+	{
+		ArrayList<HashTagEntity>result = new ArrayList<HashTagEntity>();
+		for(String key: tags.keys())
+		{
+			if(key.contains(tag))
+			{
+				result.add(tags.get(key));
+			}
+		}
+		return result;
+	}
 
 	public void put(HashTagEntity entity) 
 	{

@@ -3,6 +3,7 @@ import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.myapp.storage.entity.NewsEntity;
 import com.myapp.utils.Const;
 
 public class NewsObjectView {
@@ -16,7 +17,7 @@ public class NewsObjectView {
 	private int type;
 	private long releaseTime;
 	private int likeNums;	
-	
+
 	public NewsObjectView(String username, String text, String url, String title, String movieId,String movieName, 
 			ArrayList<String>ToList, int type, long releaseTime, int likeNums)
 	{
@@ -32,6 +33,23 @@ public class NewsObjectView {
 		this.likeNums = likeNums;
 	}
 
+	public NewsObjectView(NewsEntity newsEntity)
+	{
+		if(newsEntity == null)
+		{
+			return;
+		}
+		type = newsEntity.getNewsType();
+		text = newsEntity.getBody(); 
+		url = newsEntity.getMoviePosterUrl() ;
+		title = newsEntity.getTitle(); 
+		movieId = newsEntity.getMovidId(); 
+		movieName = newsEntity.getMovieName(); 
+		releaseTime = newsEntity.getReleaseTime(); 
+		likeNums = newsEntity.getLikeNums(); 
+		ToList = newsEntity.getReceivers();
+	}
+
 	public NewsObjectView(){
 		text=null;
 		username=null;
@@ -42,84 +60,84 @@ public class NewsObjectView {
 		releaseTime=-1;
 		type=-1;
 	}
-	
+
 	public void setText(String text){
 		this.text=text;
 	}
-	
+
 	public void setUsername(String username){
 		this.username=username;
 	}
-	
+
 	public void setUrl(String url){
 		this.url=url;
 	}
-	
+
 	public void setTitle(String title){
 		this.title=title;
 	}
-	
+
 	public void setMovieId(String movieId){
 		this.movieId=movieId;
 	}
-	
+
 	public void setMovieName(String movieName){
 		this.movieName=movieName;
 	}
-	
+
 	public void setToList(ArrayList<String> ToList){
 		this.ToList=ToList;
 	}
-	
+
 	public void setType(int type){
 		this.type=type;
 	}
-	
+
 	public void setReleaseTime(long releaseTime){
 		this.releaseTime=releaseTime;
 	}
-	
+
 	public String getText(){
 		return text;
 	}
-	
+
 	public String getUsername(){
 		return username;
 	}
-	
+
 	public String getUrl(){
 		return url;
 	}
-	
+
 	public String getTitle(){
 		return title;
 	}
-	
+
 	public String getMovieId(){
 		return movieId;
 	}
-	
+
 	public String getMovieName(){
 		return movieName;
 	}
-	
+
 	public ArrayList<String> getToList(){
 		return ToList;
 	}
-	
+
 	public int getType(){
 		return type;
 	}
-	
+
 	public String getReleaseTime(){
 		Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return formatter.format(releaseTime);
 	}
-	
+
 	public long getReleaseTimeLong(){
 		return releaseTime;
 	}
-		
+
 	public String getNote(){
 		if(type==Const.NEWS_TWITTER) return "published a tweet";
 		if(type==Const.NEWS_MAKE_FRIENDS) return "made friend with";

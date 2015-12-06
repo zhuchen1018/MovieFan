@@ -89,10 +89,12 @@ public class Const
 
 	public static final String SEARCH_GOOGLE = "/search_google";
 	public static final String SEARCH_GOOGLE_RES = "/search_google_result";
+	
 
 	public static final String VOICE_SEARCH = "/voice_search";
 	
 	public static final String HASHTAG_URL = "/hashtag";
+	public static final String SEARCH_HASHTAG_RES = "/search_hashtag_result";
 
 	/**
 	 * User news type
@@ -137,6 +139,8 @@ public class Const
 
 	public static HashMap<String,Integer> GENRE_MAP;
 
+	public static String PLEASE_ENTER_SOMETHING = "Please enter something....";
+
 	static {
 		GENRE_MAP = new HashMap<String,Integer>();
 		GENRE_MAP.put("Adventure", 0);
@@ -171,6 +175,7 @@ public class Const
 	public static final int MAX_TWEET_LENGTH = 200;
 
 	public static final int MOVIEPAGEVIEW_CACHE_SIZE = 10000;
+
 
 
 
