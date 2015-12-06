@@ -201,6 +201,11 @@
      <url-pattern>/search_google_result</url-pattern>
    </servlet-mapping>  
    
+   <servlet-mapping>
+     <servlet-name>search</servlet-name>
+     <url-pattern>/search_hashtag_result</url-pattern>
+   </servlet-mapping>  
+   
     <servlet-mapping>
      <servlet-name>search</servlet-name>
      <url-pattern>/voice_search</url-pattern>
