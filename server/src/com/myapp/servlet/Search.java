@@ -227,6 +227,7 @@ public class Search extends HttpServlet
 		{
 			handleSearchGroupGet(request, response);
 		}
+		/*
 		else if(url.equals(Const.SEARCH_GOOGLE))
 		{
 			handleSearchGoogleGet(request, response);
@@ -235,6 +236,7 @@ public class Search extends HttpServlet
 		{
 			handleVoiceSearchGet(request, response);
 		}
+		*/
 		else
 		{
 			ServletCommon.redirect404(request, response);
@@ -243,10 +245,12 @@ public class Search extends HttpServlet
 
 	private void handleSearchMovieGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		String location = "/htmls/SearchMoviePage.html";
+		//String location = "/htmls/SearchMoviePage.html";
+		String location = "/jsp/SearchMoviePage.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
+	/*
 	private void handleVoiceSearchGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String location = "/htmls/speech/speech_sample.html";
@@ -258,16 +262,17 @@ public class Search extends HttpServlet
 		String location = "/htmls/SearchGooglePage.html";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
+	*/
 
 	private void handleSearchGroupGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		String location = "/htmls/SearchGroupPage.html";
+		String location = "/jsp/SearchGroupPage.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private void handleSearchUserGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		String location = "/htmls/SearchUserPage.html";
+		String location = "/jsp/SearchUserPage.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}	
 }
