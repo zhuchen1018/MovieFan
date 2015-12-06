@@ -89,49 +89,9 @@ public class Search extends HttpServlet
 			ServletCommon.redirect404(request, response);
 			return;
 		}
-		String google = "http://www.google.com/search?q=";
-		String charset = "UTF-8";
-		String userAgent = "cis455"; 
-		try 
-		{
-			GoogleListView glv = new GoogleListView();
-			Elements links = Jsoup.connect(google + URLEncoder.encode(search, charset)).userAgent(userAgent).get().select("li.g>h3>a");
-			System.out.println("google links size: " + links.size());
-			for (Element link : links) 
-			{
-				String title = link.text();
-				//Google returns URLs in format "http://www.google.com/url?q=<url>&sa=U&ei=<someKey>".
-				String url = link.absUrl("href"); 
-				url = URLDecoder.decode(url.substring(url.indexOf('=') + 1, url.indexOf('&')), "UTF-8");
-				if (!url.startsWith("http")) 
-				{
-					continue; 
-				}
-				GoogleObjectView gov = new GoogleObjectView(title, url);
-				glv.addResult(gov);
-			}
-			request.setAttribute("GoogleListView", null); 
-			request.setAttribute("GoogleListView", glv); 
-
-			RequestDispatcher rd= request.getRequestDispatcher ("/jsp/GoogleList.jsp");
-			try 
-			{
-				rd.forward(request, response);
-			} 
-			catch (IOException | ServletException e) 
-			{
-				e.printStackTrace();
-				ServletCommon.redirect404(request, response);
-			}
-		} 
-		catch (UnsupportedEncodingException e) 
-		{
-			e.printStackTrace();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+		ServletCommon.retrieveGoogleResult(search, request, response);
+		String location = "/jsp/GoogleList.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private void handleSearchMovieAdvancedPost(HttpServletRequest request, HttpServletResponse response) 
@@ -161,16 +121,9 @@ public class Search extends HttpServlet
 		request.setAttribute("MovieListView", null); 
 		request.setAttribute("MovieListView", sql.getMovieObject());
 
-		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/MovieList.jsp");
-		try 
-		{
-			rd.forward(request, response);
-		} 
-		catch (IOException | ServletException e) 
-		{
-			e.printStackTrace();
-			ServletCommon.redirect404(request, response);
-		}
+		
+		String location = "/jsp/MovieList.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);	
 	}
 
 	private void handleSearchGroupPost(HttpServletRequest request, HttpServletResponse response) 
@@ -192,6 +145,7 @@ public class Search extends HttpServlet
 
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
+		
 
 		String location = "/jsp/GroupList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
@@ -244,17 +198,11 @@ public class Search extends HttpServlet
 
 		request.setAttribute("MovieListView", null); 
 		request.setAttribute("MovieListView", sql.getMovieObject());
+		
+		ServletCommon.retrieveGoogleResult(key, request, response);
 
-		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/MovieList.jsp");
-		try 
-		{
-			rd.forward(request, response);
-		} 
-		catch (IOException | ServletException e) 
-		{
-			e.printStackTrace();
-			ServletCommon.redirect404(request, response);
-		}
+		String location = "/jsp/MovieList.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
