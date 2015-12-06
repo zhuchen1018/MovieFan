@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<link rel = "stylesheet" type ="text/css" href = "Rating.css">
+<link rel = "stylesheet" type ="text/css" href = "../css/MovieObj.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Movie Object</title>
 </head>
@@ -23,19 +23,22 @@
       directURL = directURL.concat(movieID);
 %>
       
-	<a href = <%=directURL %>><td><%=mov.getName()%></td></a> &nbsp; <td>(<%=votes%> votes) &nbsp; Release Date: <%=releaseDate %> &nbsp; Runtime: <%=movieLength %></td><br>	
-    <td>Overview: <%=mov.getOverview()%> </td><br>   
-    <td>Rating: <%=rating%> 
-      <div class="rating-box"> 
-        <div style="width:<%=width%>" class="rating"></div> 
-      </div>
-    </td><br>
-    <%if(!po.equals("null")){ %>
-		<a href = <%=directURL %>><img src=<%=po%> alt="Poster" style="width:200px;height:160px;"></a><br>
+    <%if(po!=null&&!po.equals("null")){ %>
+		<a href = <%=directURL %>><img src=<%=po%> alt="Poster"></a><br>
 	<% } else { %>
-		<a href = <%=directURL %>><img src="/images/not-found.png" alt="Poster" style="width:145px;height:126px;"></a><br>
+		<a href = <%=directURL %>><img src="/images/not-found.png" alt="Poster"></a><br>
 	<%}%>
-     <br>
+	<a class="link" href = <%=directURL %>><b class="name"><%=mov.getName()%></b></a>
+	<br>
+	<b class="rating">Rating: <%=rating%> </b>
+	<b class="vote">(<%=votes%> votes)<b>
+	<br>
+	<b class="releaseDate">Release Date: <%=releaseDate %>
+	<br>
+	<b class="runtime">Runtime: <%=movieLength %></td>	
+    <br><br>
+    <b class="overview">Overview: </b>
+    <div class="overview"><p class="paragraph"><%=mov.getOverview()%></p> </div>
 
 </body>
 </html>

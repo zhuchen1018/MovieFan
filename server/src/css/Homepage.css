@@ -6,6 +6,7 @@ body{
 
 div{
 	overflow: scroll;
+	margin: auto;
 }
 
 /*
