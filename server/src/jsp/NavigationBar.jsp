@@ -20,24 +20,29 @@
         <a href="/">Home</a>
     </li>
     <li>
-        <a href=<%=myUrl%>>My Page</a>
+         <a href=<%=myUrl%>>My Page</a>
     </li>
     <li id="search">    
       <form action= "/search_movie_result" method="post">
-         <input type="text" name="search_movie" value="" id="search_text" placeholder="Search"/>
-         <input type="submit" id="search_button"> 
+         <input type="text" name="search_movie" value="" id="search_text" placeholder="Find Movies"/>
+         <input type="submit" id="search_button" value = "Search"> 
       </form>
     <li id="options">
         <a href="#">Options</a>
         <ul class="subnav">
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Application</a></li>
-            <li><a href="#">Board</a></li>
-            <li><a href="#">Options</a></li>
+            <li><a href="#">Movie</a></li>
+            <li><a href="#">User</a></li>
+            <li><a href="#">Group</a></li> 			
         </ul>
     </li>
+    <li>
+    <a href="/usersettings">Setting</a>
+    </li> 
+    <li>
+    <a href="/logoff">Logout</a>
+    </li>   
+    
 </ul>
-
 
 </body>
 </html>
