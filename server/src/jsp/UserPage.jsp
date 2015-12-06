@@ -4,7 +4,6 @@
 <html>
 <head>
 <link rel = "stylesheet" type ="text/css" href = "../css/Homepage.css">
-<link rel = "stylesheet" type ="text/css" href = "../css/Homepage.css">
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>MovieFans.com</title>
 <link rel="shortcut icon" href="/images/1.png">
@@ -46,12 +45,12 @@ curUser+=request.getQueryString();
 
 
 <div id="container">
-	<%if(profileURL==null) {%>
+	<%if(profileURL==null||profileURL.isEmpty()) {%>
 		<img src="../images/noprofile.jpg" style="width:152px;height:114px;" id="profile" border="5" bordercolor="#A9A9A9"/>
 	<%}else{ %>
 		<img src=<%=profileURL %> style="width:152px;height:114px;" id="profile" border="5" bordercolor="#A9A9A9"/>
     <%} %>
-   	<%if(headURL==null) {%>
+   	<%if(headURL==null||headURL.isEmpty()) {%>
    		<img src="../images/nobackground.jpg" style="width:800px;height:228px;" id="avatar" />
     <%}else{ %>
     	<img src=<%=headURL %> style="width:800px;height:228px;" id="avatar" />
