@@ -24,6 +24,7 @@
          <input type="text" name="search_movie" value="" id="search_text" placeholder="Search"/>
          <input type="submit" id="search_button"> 
       </form>
+    </li>
     <li id="options">
         <a href="#">Options</a>
         <ul class="subnav">
