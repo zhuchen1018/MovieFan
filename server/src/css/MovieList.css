@@ -1,0 +1,15 @@
+@CHARSET "UTF-8";
+
+div.movieList{
+	width: 1000px;
+	height: auto;
+	overflow: scroll;
+	float: left;
+}
+
+div.googleList{
+	width: 430px;
+	height: auto;
+	float: right;
+	background-color: #AAAAAA;
+}
