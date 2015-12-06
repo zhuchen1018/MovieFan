@@ -40,4 +40,9 @@ public class IdGeneratorAccessor
 	{
 		return getNextId(Const.GROUP_ID_TYPE); 
 	}
+	
+	public long getNextEventId() 
+	{
+		return getNextId(Const.EVENT_ID_TYPE); 
+	}
 }

@@ -6,27 +6,24 @@ import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.PrimaryKey;
 
 @Entity
-public class GroupEntity 
+public class EventEntity 
 {
 	@PrimaryKey
 	private Long id;
-	private String name;
-	private String head_url;
+	private String body;
+	//username
 	private String creator;
-	private ArrayList<String> keywords = new ArrayList<String>();
+	//username
 	private ArrayList<String> members = new ArrayList<String>();
-	private ArrayList<Long> news = new ArrayList<Long>();
 	
-	public GroupEntity()
+	public EventEntity()
 	{
 	}
 	
-	public GroupEntity(Long id, String name, String creator)
+	public EventEntity(Long id, String creator, String body)
 	{
 		this.id = id;
-		this.name = name;
 		this.creator = creator;
-		this.keywords = new ArrayList<String>();
 		this.members = new ArrayList<String>();
 	}
 
@@ -36,43 +33,20 @@ public class GroupEntity
 		return id;
 	}
 
-	public String getName()
-	{
-		return name;
-	}
-	
 	public String getCreator()
 	{
 		return creator;
 	}
-
-	public ArrayList<String> getMembers()
-	{
-		return members;
-	}
 	
 	/*set funcs*/
-	public void addKeyword(String word)
-	{
-		keywords.add(word);
-	}
-	
-	public void delKeyword(String word)
-	{
-		if(keywords.contains(word))
-		{
-			keywords.remove(word);
-		}
-	}
-	
 	private static void print(String s)
 	{
 		System.out.println(s);
 	}
 
-	public String getHeadUrl() 
+	public ArrayList<String>getMembers() 
 	{
-		return head_url;
+		return members;
 	}
 
 	public void addMember(String username) 
@@ -91,10 +65,5 @@ public class GroupEntity
 	public boolean hasMember(String username) 
 	{
 		return members.contains(username);
-	}
-
-	public void addHeadUrl(String url) 
-	{
-		head_url = url;
-	}
+	}	
 }

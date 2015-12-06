@@ -2,6 +2,7 @@ package com.myapp.view;
 import java.util.*;
 
 public class GroupObjectView {
+	private Long id;
 	private String imageUrl;
 	private String name;
 	
@@ -9,7 +10,8 @@ public class GroupObjectView {
 		
 	}
 	
-	public GroupObjectView(String imageUrl,String name){
+	public GroupObjectView(Long id, String imageUrl,String name){
+		this.id = id;
 		this.imageUrl=imageUrl;
 		this.name=name;
 	}
@@ -28,6 +30,10 @@ public class GroupObjectView {
 	
 	public String getName(){
 		return name;
+	}
+	
+	public Long getId(){
+		return id;
 	}
 	
 }

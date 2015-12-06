@@ -47,7 +47,6 @@ public class GroupServlet extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
 			return;
 		}
-
 		if(url.equals(Const.JOIN_GROUP_URL))
 		{
 			handleJoinGroupPost(request, response);
@@ -60,65 +59,19 @@ public class GroupServlet extends HttpServlet
 		{
 			handleCreateGroupPost(request, response);
 		}
-	}
-
-	private void handleCreateGroupPost(HttpServletRequest request, HttpServletResponse response) 
-	{
-		String creator = ServletCommon.getSessionUsername(request);
-		if(creator == null)
+		else if(url.equals(Const.JOIN_EVENT_URL))
 		{
-			ServletCommon.PrintErrorPage("Cannot find username in the session. " + request.getSession().getId(), response); 
-			return;
+			handleJoinEventPost(request, response);
 		}
-
-		String name = request.getParameter("NewGroupName");
-		if(name == null)
+		else if(url.equals(Const.LEAVE_EVENT_URL))
 		{
-			ServletCommon.PrintErrorPage("Please enter a group name.",  response);
-			return;
+			handleLeaveEventPost(request, response);
 		}
-		
-		boolean canCreateGroup = db.canCreateGroup(creator);
-	
-		db.createNewGroup(name,  creator);
-		db.sync();
-
-		/*
-		 * result page:
-		 */
-		response.setContentType("text/html");
-		PrintWriter out;
-		try 
+		else if(url.equals(Const.CREATE_EVENT_URL))
 		{
-			out = response.getWriter();
-			out.println("<HTML><HEAD><TITLE>Create Group</TITLE></HEAD><BODY>");
-			String res = "Create successed!";
-			out.println("<P>" + res + "</P>");
-			out.println("<P>" + "\n" + "</P>");
-
-			ServletCommon.showHomeLink(response);
-			out.println("</BODY></HTML>");		
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
+			handleCreateEventPost(request, response);
 		}
 	}
-
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-	{
-		String url = request.getServletPath();
-		if(!ServletCommon.hasLoginSession(request))
-		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
-			return;
-		}
-		if(url.equals(Const.CREATE_GROUP_URL))
-		{
-			handleCreateGroupGet(request, response);
-		}
-	}
-
 
 	private void handleLeaveGroupPost(HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -146,12 +99,11 @@ public class GroupServlet extends HttpServlet
 		db.userLeaveGroup(username, gid);
 		db.sync();
 		
-		ServletCommon.RedirectToGroupPage(request, response, username, gid);
+		ServletCommon.RedirectToHome(request, response);
 	}
 
 	private void handleJoinGroupPost(HttpServletRequest request, HttpServletResponse response) 
 	{
-		initDB();
 
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
@@ -168,9 +120,111 @@ public class GroupServlet extends HttpServlet
 			return;
 		}
 
+		initDB();
 		Long gid = Long.parseLong(group);
 		db.userJoinGroup(username, gid);
 		db.sync();
+		
+		ServletCommon.RedirectToGroupPage(request, response, username, gid);
+	}
+
+	private void handleCreateEventPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		
+	}
+
+	private void handleLeaveEventPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		
+	}
+
+	private void handleJoinEventPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		
+	}
+
+	private void handleCreateGroupPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String creator = ServletCommon.getSessionUsername(request);
+		if(creator == null)
+		{
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO + request.getSession().getId(), response); 
+			return;
+		}
+
+		String name = request.getParameter("NewGroupName");
+		if(name == null)
+		{
+			ServletCommon.PrintErrorPage("Please enter a group name.",  response);
+			return;
+		}
+		
+		boolean canCreateGroup = db.canCreateGroup(creator);
+		if(canCreateGroup)
+		{
+			GroupEntity gobj = db.createNewGroup(name,  creator);
+			if(gobj != null)
+			{
+				db.sync();
+				ServletCommon.RedirectToGroupPage(request, response, creator, gobj.getId());
+			}
+			else
+			{
+				ServletCommon.redirect500(request, response);
+			}
+		}
+		else
+		{
+			ServletCommon.PrintErrorPage("You create too much groups! Maximum: 3",  response);
+			return;
+		}	
+	}
+
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+	{
+		String url = request.getServletPath();
+		if(!ServletCommon.hasLoginSession(request))
+		{
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			return;
+		}
+		if(url.equals(Const.CREATE_GROUP_URL))
+		{
+			handleCreateGroupGet(request, response);
+		}
+		else if(url.equals(Const.GROUP_PAGE_URL))
+		{
+			handleGroupPageGet(request, response);
+		}
+	}
+
+
+	private void handleGroupPageGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  response);
+			return;
+		}
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		String group = query.get("group");
+		if(group == null)
+		{
+			ServletCommon.redirect404(request, response);
+			return;
+		}
+
+		try
+		{
+			Long gid = Long.parseLong(group);
+			ServletCommon.RedirectToGroupPage(request, response, username, gid);
+		}
+		catch(NumberFormatException e)
+		{
+			e.printStackTrace();
+			ServletCommon.redirect404(request, response);
+		}
 	}
 
 	private void handleCreateGroupGet(HttpServletRequest request, HttpServletResponse response) 
@@ -200,7 +254,7 @@ public class GroupServlet extends HttpServlet
 		{
 			e.printStackTrace();
 		}
-	}
+	}	
 }
 
 

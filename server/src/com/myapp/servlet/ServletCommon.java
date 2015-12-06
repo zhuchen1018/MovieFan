@@ -18,6 +18,7 @@ import com.myapp.utils.Const;
 import com.myapp.view.FriendListView;
 import com.myapp.view.FriendObjectView;
 import com.myapp.view.GroupListView;
+import com.myapp.view.GroupPageView;
 import com.myapp.view.NewsListView;
 import com.myapp.view.UserSettingView;
 
@@ -250,12 +251,10 @@ public class ServletCommon
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
 
-		print("news size: " + nlv.getNewsNumber());
-		print("friends size: " + flv.getFriendCount());
-		print("groups size: " + glv.getGroupCount()); 
-
 		String location = "/jsp/home.jsp";
 		forwardRequestDispatch(request, response, location);
+		
+		db.close();
 	}
 
 	public static void RedirectToUserPage(HttpServletRequest request, HttpServletResponse response, 
@@ -295,12 +294,11 @@ public class ServletCommon
 		boolean isMyFriend = db.isMyFriend(username, targetName); 
 		request.setAttribute("isMyFriend", new Boolean(isMyFriend));
 
-		print("news size: " + nlv.getNewsNumber());
-		print("friends size: " + flv.getFriendCount());
-		print("groups size: " + glv.getGroupCount()); 
-	
+		
 		String location = "/jsp/UserPage.jsp";
 		forwardRequestDispatch(request, response, location);
+		
+		db.close();
 	}
 
 	private static void print(String a)
@@ -318,7 +316,29 @@ public class ServletCommon
 	public static void RedirectToGroupPage(HttpServletRequest request, HttpServletResponse response, 
 			String username, Long gid) 
 	{
-		
-	}
+		DBWrapper db = null; 
+		try 
+		{
+			db = new DBWrapper();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+			return;
+		}
+
+		GroupPageView gpv = db.loadGroupPageView(gid, username);
+		if(gpv == null)
+		{
+			ServletCommon.redirect404(request, response);
+			return;
+		}
+		request.setAttribute("GroupPageView", null); 
+		request.setAttribute("GroupPageView", gpv); 
 	
+		String location = "/jsp/GroupPage.jsp";
+		forwardRequestDispatch(request, response, location);
+		
+		db.close();
+	}	
 }

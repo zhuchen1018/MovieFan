@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.servlet.RequestDispatcher;
@@ -19,6 +20,7 @@ import org.jsoup.select.Elements;
 
 import com.myapp.SQL.SQLDBMovieQuery;
 import com.myapp.storage.DBWrapper;
+import com.myapp.storage.entity.GroupEntity;
 import com.myapp.utils.Const;
 import com.myapp.view.GoogleListView;
 import com.myapp.view.GoogleObjectView;
@@ -179,35 +181,20 @@ public class Search extends HttpServlet
 			ServletCommon.redirect404(request, response);
 			return;
 		}
+		
 		GroupListView glv = new GroupListView();
-
-		//test
-		String url = "http://andreakihlstedt.com/wpsys/wp-content/uploads/2014/04/Say-Hello1.jpg";
-		String name1 = "group1";
-
-		GroupObjectView gov = new GroupObjectView(url, name1);
-		glv.addGroupObject(gov);
-
-		//test
-		url = "http://andreakihlstedt.com/wpsys/wp-content/uploads/2014/04/Say-Hello1.jpg";
-		String name2 = "group2";
-
-		GroupObjectView gov2 = new GroupObjectView(url, name2);
-		glv.addGroupObject(gov2);
+		ArrayList<GroupEntity>glist = db.loadSearchGroupList(search);
+		for(GroupEntity gobj: glist)
+		{
+			GroupObjectView gov = new GroupObjectView(gobj.getId(), gobj.getHeadUrl(), gobj.getName());
+			glv.addGroupObject(gov);
+		}
 
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
 
-		RequestDispatcher rd= request.getRequestDispatcher ("/jsp/GroupList.jsp");
-		try 
-		{
-			rd.forward(request, response);
-		} 
-		catch (IOException | ServletException e) 
-		{
-			e.printStackTrace();
-			ServletCommon.redirect404(request, response);
-		}
+		String location = "/jsp/GroupList.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private void handleSearchUserPost(HttpServletRequest request, HttpServletResponse response) 

@@ -113,4 +113,19 @@ public class GroupAccessor
 		}
 		putEntity(g);
 	}
+
+	public ArrayList<GroupEntity> getSearchGroup(String name) 
+	{
+		ArrayList<GroupEntity>res = new ArrayList<GroupEntity>();
+		for(Long gid: groupsById.keys())
+		{
+			GroupEntity gobj = groupsById.get(gid);
+			String gname = gobj.getName().toLowerCase();
+			if(gname.contains(name))
+			{
+				res.add(gobj);
+			}
+		}
+		return res;
+	}
 }

@@ -19,6 +19,7 @@ import com.myapp.view.FriendListView;
 import com.myapp.view.FriendObjectView;
 import com.myapp.view.GroupListView;
 import com.myapp.view.GroupObjectView;
+import com.myapp.view.GroupPageView;
 import com.myapp.view.NewsListView;
 import com.myapp.view.NewsObjectView;
 import com.myapp.view.UserListView;
@@ -281,9 +282,18 @@ public class DBWrapper
 		return  groupEA.getAllEntities(); 
 	}
 
-	public GroupEntity createNewGroup(String name, String creator)
+	public GroupEntity createNewGroup(String gname, String username)
 	{
-		return groupEA.add(idEA.getNextGroupId(), name, creator);
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			GroupEntity gobj  = groupEA.add(idEA.getNextGroupId(), gname, username);
+			user.addCreateGroup(gobj.getId());
+			userEA.putEntity(user);
+			addNewsCreateGroup(username, gobj.getName()); 
+			return gobj;
+		}		
+		return null;
 	}
 
 	public GroupEntity getGroupEntity(Long id)
@@ -437,6 +447,20 @@ public class DBWrapper
 		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), receivers, Const.NEWS_ADD_GROUP);
 		storeNews(news_obj, user);
 	}
+	
+	public void addNewsCreateGroup(String username, String groupname) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user == null)
+		{
+			print("addNewsCreateGroup: user is null " + username);
+			return;
+		}
+		ArrayList<String>receivers = new ArrayList<String>();
+		receivers.add(groupname);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), receivers, Const.NEWS_CREATE_GROUP);
+		storeNews(news_obj, user);
+	}
 
 	public void addNewsShareMovies(String username, String movie_id, String movie_name, String url, ArrayList<String> friend_list) 
 	{
@@ -534,7 +558,9 @@ public class DBWrapper
 		GroupEntity gobj = getGroupEntity(id);
 		if(user != null && gobj != null)
 		{
-			userEA.joinGroup(username, id);
+			user.joinGroup(id);
+			userEA.putEntity(user);
+
 			groupEA.addMember(id, username);
 			addNewsJoinGroup(username, gobj.getName()); 
 		}	
@@ -690,7 +716,7 @@ public class DBWrapper
 				if(groupEntity == null) continue;
 				String url = groupEntity.getHeadUrl();
 				String gname = getGroupName(gid);
-				GroupObjectView gov = new GroupObjectView(url, gname);
+				GroupObjectView gov = new GroupObjectView(groupEntity.getId(), url, gname);
 				glv.addGroupObject(gov);
 			}
 		}
@@ -730,8 +756,7 @@ public class DBWrapper
 	public HashTagEntity getHashTagEntity(String tag) 
 	{
 		if(tag == null) return null;
-		tag = "#".concat(tag.trim().toLowerCase());
-		System.out.println("getHashTagEntity: " + tag);
+		tag = tag.trim().toLowerCase();
 		return hashtagEA.getHashTags(tag);
 	}
 
@@ -835,5 +860,21 @@ public class DBWrapper
 			return new UserSettingView(head_url, profile_url, null, description);
 		}		
 		return null;
-	}	
+	}
+
+	public GroupPageView loadGroupPageView(Long gid, String username) 
+	{
+		GroupEntity gobj = groupEA.getEntity(gid);
+		if(gobj != null) 
+		{
+			boolean inGroup = gobj.hasMember(username);
+			return new GroupPageView(gid, gobj.getName(), gobj.getCreator(), gobj.getMembers(), inGroup); 
+		}
+		return null;
+	}
+
+	public ArrayList<GroupEntity> loadSearchGroupList(String name) 
+	{
+		return groupEA.getSearchGroup(name);
+	}
 }

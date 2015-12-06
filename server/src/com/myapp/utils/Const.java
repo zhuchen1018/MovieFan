@@ -20,6 +20,7 @@ public class Const
 	public final static String COMMENT_ID_TYPE = "COMMENT_ID_TYPE"; 
 	public final static String NEWS_ID_TYPE = "NEWS_ID_TYPE"; 
 	public final static String GROUP_ID_TYPE = "GROUP_ID_TYPE"; 
+	public final static String EVENT_ID_TYPE = "EVENT_ID_TYPE"; 
 	
 	
 	public static final int ORDERBY_RATING=0,ORDERBY_TIME=1,ORDERBY_VOTES=2;//orderby
@@ -67,10 +68,13 @@ public class Const
 	public static final String MOVIE_UNLIKE_URL = "/unlikemovie";
 
 	//Group
-	public static final String CREATE_GROUP_URL = "/create_group";
-	public static final String JOIN_GROUP_URL = "/join_group";
-	public static final String LEAVE_GROUP_URL = "/leave_group";
-	
+	public static final String GROUP_PAGE_URL = "/grouppage";
+	public static final String CREATE_GROUP_URL = "/group/create_group";
+	public static final String JOIN_GROUP_URL = "/group/join_group";
+	public static final String LEAVE_GROUP_URL = "/group/leave_group";
+	public static final String JOIN_EVENT_URL = "/group/join_event";
+	public static final String LEAVE_EVENT_URL = "/group/leave_event";
+	public static final String CREATE_EVENT_URL = "/group/create_event";
 
 	//Search
 	public static final String SEARCH_MOVIE = "/search_movie";
@@ -99,6 +103,7 @@ public class Const
 	public final static int NEWS_ADD_GROUP = 4; 
 	public final static int NEWS_SHARE_MOVIE = 5; 
 	public final static int NEWS_LIKE_MOVIE = 6; 
+	public final static int NEWS_CREATE_GROUP = 7; 
 	
 	public final static int MOVIE_LENGTH_0_30=0;
 	public final static int MOVIE_LENGTH_30_60=1;
@@ -131,6 +136,7 @@ public class Const
 	*/
 
 	public static HashMap<String,Integer> GENRE_MAP;
+
 	static {
 		GENRE_MAP = new HashMap<String,Integer>();
 		GENRE_MAP.put("Adventure", 0);
@@ -161,6 +167,8 @@ public class Const
 
 	//for @username
 	public final static Pattern AT_PATTERN = Pattern.compile("@\\w+");
+
+	public static final int MAX_TWEET_LENGTH = 200;
 
 
 

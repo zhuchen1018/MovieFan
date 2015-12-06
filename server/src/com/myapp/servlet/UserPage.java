@@ -137,9 +137,15 @@ public class UserPage extends HttpServlet
 		}	
 
 		String info = request.getParameter("TWEET"); 
-		if(info == null)
+		if(info == null || info.trim().isEmpty())
 		{
 			ServletCommon.PrintErrorPage("Please say something.",  response);
+			return;
+		}
+		
+		if(info.length() > Const.MAX_TWEET_LENGTH)
+		{
+			ServletCommon.PrintErrorPage("Your tweet is too long....",  response);
 			return;
 		}
 
@@ -165,7 +171,6 @@ public class UserPage extends HttpServlet
 			return;
 		}
 		String url = request.getServletPath();
-		System.out.println("UserPage servlet doGet url: " + url);
 
 		if(url.equals(Const.USER_PAGE_URL))
 		{
@@ -175,6 +180,10 @@ public class UserPage extends HttpServlet
 		{
 			handleUserSettingsGet(request, response);
 		}	
+		else
+		{
+			ServletCommon.redirect404(request, response);
+		}
 	}
 
 	private void handleUserSettingsGet(HttpServletRequest request, HttpServletResponse response) 

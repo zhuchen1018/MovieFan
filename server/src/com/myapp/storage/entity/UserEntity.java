@@ -228,4 +228,10 @@ public class UserEntity
 			this.likeGenres = new ArrayList<Integer>(Arrays.asList(genres));
 		}
 	}
+
+	public void addCreateGroup(Long id) 
+	{
+		createGroups.add(id);
+		joinGroups.add(id);
+	}
 }

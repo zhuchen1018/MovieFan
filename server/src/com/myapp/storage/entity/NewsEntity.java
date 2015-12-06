@@ -110,7 +110,6 @@ public class NewsEntity extends TextBase
 
 	
 	/*GET FUNCTIONS*/
-
 	public int getNewsType() 
 	{
 		return newsType;

@@ -103,7 +103,7 @@ public class HashTagPage extends HttpServlet
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", nlv); 
 
-		String location = "NewsList.jsp";
+		String location = "/jsp/NewsList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);	
 	}	
 }

@@ -18,9 +18,10 @@
 %>
       
 	<% for(int i=0;i<grouplist.size();i++){
-			String po = grouplist.get(i).getImageUrl();
-			String name = grouplist.get(i).getName();
-			String nameurl = "grouppage?group="+name;
+			GroupObjectView gov = grouplist.get(i);
+			String po = gov.getImageUrl();
+			String name = gov.getName();
+			String nameurl = "grouppage?group="+ gov.getId();
 			if(po!=null&&!po.equals("null")){ %>
 	        <p>
    			 	<a href=<%=nameurl%>><img src=<%=po%> class="group"></img></a>
