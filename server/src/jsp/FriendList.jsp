@@ -14,8 +14,7 @@
 
 <% FriendListView flv = (FriendListView) request.getAttribute("FriendListView");
 	  ArrayList<FriendObjectView> friendlist = flv.getFriendList();
-%>
-      
+%>  
 	<% for(int i=0;i<friendlist.size();i++){
 			String po = friendlist.get(i).getImageUrl();
 			String name = friendlist.get(i).getName();
@@ -24,13 +23,13 @@
 	        <div class="friend">
 	        <h1>
    			 	<a href=<%=nameurl%>><img src=<%=po%> class="friend"></img></a>
-    			<a href=<%=nameurl%>><b class="friendName"><%=name%></b></a>
+    			<a href=<%=nameurl%>><b class="friendName"><font size="3"><%=name%></font></b></a>
     		</h1>
 		<% } 
 		 	else { %>
 		 	<h1>
    			 	<a href=<%=nameurl%>><img src="/images/not-found.png" class="friend"></img> </a>
-    			<a href=<%=nameurl%>><b class="friendName"><%=name%></b></a>
+    			<a href=<%=nameurl%>><b class="friendName"><font size="3"><%=name%></font></b></a>
     		</h1>
     		</div>
 		<%}
