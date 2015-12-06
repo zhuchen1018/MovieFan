@@ -75,31 +75,9 @@ public class HashTagPage extends HttpServlet
 			return;
 		}
 
-		ArrayList<Long>news = hashtags.getNews();
-		NewsListView nlv = new NewsListView(); 
-		for(long id: news)
-		{
-			NewsEntity newsEntity = db.getNewsEntityByIds(id);
-			if(newsEntity == null) 
-			{
-				db.RemoveHashTagNews(tag, id);
-				continue;
-			}
-			
-			//TODO: redundant memory copy...
-			int type = newsEntity.getNewsType();
-			String text = newsEntity.getBody(); 
-			String url = newsEntity.getMoviePosterUrl() ;
-			String title = newsEntity.getTitle(); 
-			String movieId = newsEntity.getMovidId(); 
-			String movieName = newsEntity.getMovieName(); 
-			long releaseTime = newsEntity.getReleaseTime(); 
-			int likeNums = newsEntity.getLikeNums(); 
-			ArrayList<String>ToList = newsEntity.getReceivers();
-			NewsObjectView newsViewObj = new NewsObjectView(newsEntity.getCreator(), 
-					text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
-			nlv.addNews(newsViewObj);
-		}
+		initDB();
+		
+		NewsListView nlv = db.loadSearchHashTag(tag);
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", nlv); 
 
