@@ -4,6 +4,7 @@
 <html>
 <head>
 <link rel = "stylesheet" type ="text/css" href = "../css/MovieObj.css">
+<link rel = "stylesheet" type ="text/css" href = "../css/MovieList.css">
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>Moviepage</title>
 <link rel="shortcut icon" href="/images/1.png">
@@ -15,6 +16,7 @@
 
 <jsp:include page="NavigationBar.jsp"/>
 
+<div class="movieList">
 <%
 for(int i=0;i<mlv.getMovieNumber();++i){%>
  <% MovieObjectView mov = mlv.getMovies().get(i);
@@ -27,7 +29,11 @@ for(int i=0;i<mlv.getMovieNumber();++i){%>
 <%
 } 
 %>
+</div>
 
+<div class="googleList">
+	<jsp:include page="GoogleList.jsp"/>
+</div>
  
 </body>
 </html>
