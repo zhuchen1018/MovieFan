@@ -23,16 +23,14 @@
 			String name = gov.getName();
 			String nameurl = "grouppage?group="+ gov.getId();
 			if(po!=null&&!po.equals("null")){ %>
-	        <p>
-   			 	<a href=<%=nameurl%>><img src=<%=po%> class="group"></img></a>
-    			<a href=<%=nameurl%>><b class="groupName"><%=name%></b></a>
-    		</p>
+   			<h2> <a href=<%=nameurl%>><img src=<%=po%> class="group"></img></a></h2>
+    			<h3><a href=<%=nameurl%>><b class="groupName"><%=name%></b></a></h3>
+	
 		<% } 
-		 	else { %>
-		 	<p>
-   			 	<a href=<%=nameurl%>><img src="/images/not-found.png" class="group"></img></a>
-    			<a href=<%=nameurl%>><b class="groupName"><%=name%></b></a>
-    		</p>
+		 	else { %>		 
+   			<h2><a href=<%=nameurl%>><img src="/images/not-found.png" class="group"></img></a></h2>
+    		<h3><a href=<%=nameurl%>><b class="groupName"><%=name%></b></a> </h3>	
+			
 		<%}
 	}%>
      <br>

@@ -34,7 +34,7 @@
   <div id="BasicDiv" class = "RecommendationList"> remain for recommendation </div>
   <!-- End Right Middle Column -->
   <!-- Begin Right Column -->
-  <div class = "FriendList"> <jsp:include page="FriendList.jsp"/> </div>
+  <div id="BasicDiv" class = "FriendList"> <jsp:include page="FriendList.jsp"/> </div>
   <!-- End Right Column -->
  </div>
 <!-- End Wrapper -->
