@@ -7,7 +7,7 @@ div.AddGroup{
 	background-color: #FFFFFF;
 	border: 1px solid #555555;
 	padding: 1%;
-	margin: 0px 5px 5px 5px;
+	margin: auto;
 }
 
 div.LikeMovie{
@@ -17,7 +17,7 @@ div.LikeMovie{
 	background-color: #FFFFFF;
 	border: 1px solid #555555;
 	padding: 1%;
-	margin: 0px 5px 5px 5px;
+	margin: auto;
 }
 
 div.MakeFriend{
@@ -27,7 +27,7 @@ div.MakeFriend{
 	background-color: #FFFFFF;
 	border: 1px solid #555555;
 	padding: 1%;
-	margin: 0px 5px 5px 5px;
+	margin: auto;
 }
 
 div.MovieReview{
@@ -37,7 +37,7 @@ div.MovieReview{
 	background-color: #FFFFFF;
 	border: 1px solid #555555;
 	padding: 1%;
-	margin: 0px 5px 5px 5px;
+	margin: auto;
 }
 
 div.ShareMovie{
@@ -47,7 +47,7 @@ div.ShareMovie{
 	background-color: #FFFFFF;
 	border: 1px solid #555555;
 	padding: 1%;
-	margin: 0px 5px 5px 5px;
+	margin: auto;
 }
 
 div.Tweet{
@@ -57,7 +57,7 @@ div.Tweet{
 	background-color: #FFFFFF;
 	border: 1px solid #555555;
 	padding: 1%;
-	margin: 0px 5px 5px 5px;
+	margin: auto;
 }
 
 b.title{

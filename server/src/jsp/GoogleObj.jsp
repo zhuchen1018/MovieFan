@@ -17,7 +17,7 @@
       String directURL = url; 
 %>
       
-	<a href = <%=directURL %>><td><%=title%></td></a> &nbsp; </td><br>	 
+	<a style="font-color: #FFFFFF;" href = <%=directURL %>><td><%=title%></td></a> &nbsp; </td><br>	 
 
 </body>
 </html>

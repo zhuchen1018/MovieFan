@@ -45,7 +45,7 @@ public class MoviePageViewCache
 		return mpv;
 	}
 
-	public static void put(String key, MoviePageView mpv)
+	public synchronized static void put(String key, MoviePageView mpv)
 	{
 		cache.put(key, mpv);
 	}

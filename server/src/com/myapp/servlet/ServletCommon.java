@@ -2,6 +2,8 @@ package com.myapp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
@@ -13,10 +15,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import com.myapp.storage.DBWrapper;
 import com.myapp.utils.Const;
 import com.myapp.view.FriendListView;
 import com.myapp.view.FriendObjectView;
+import com.myapp.view.GoogleListView;
+import com.myapp.view.GoogleObjectView;
 import com.myapp.view.GroupListView;
 import com.myapp.view.GroupPageView;
 import com.myapp.view.MoviePageView;
@@ -114,8 +122,11 @@ public class ServletCommon
 
 	public static void delSession(HttpServletRequest request, HttpServletResponse response)
 	{
-		HttpSession session = request.getSession();
-		session.invalidate();
+		HttpSession session = request.getSession(false);
+		if(session != null)
+		{
+			session.invalidate();
+		}
 
 		/*
 		Cookie c; 
@@ -373,5 +384,37 @@ public class ServletCommon
 		request.setAttribute("isLiked", new Boolean(db.isUserLikeMovie(username, movie_id)));
 		String location = "/jsp/MoviePage.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
+	}
+
+	public static void retrieveGoogleResult(String search, HttpServletRequest request, HttpServletResponse response) 
+	{
+		String google = "http://www.google.com/search?q=";
+		String charset = "UTF-8";
+		String userAgent = "cis550"; 
+		try 
+		{
+			GoogleListView glv = new GoogleListView();
+			Elements links = Jsoup.connect(google + URLEncoder.encode(search, charset)).userAgent(userAgent).get().select("li.g>h3>a");
+			System.out.println("google links size: " + links.size());
+			for (Element link : links) 
+			{
+				String title = link.text();
+				//Google returns URLs in format "http://www.google.com/url?q=<url>&sa=U&ei=<someKey>".
+				String url = link.absUrl("href"); 
+				url = URLDecoder.decode(url.substring(url.indexOf('=') + 1, url.indexOf('&')), "UTF-8");
+				if (!url.startsWith("http")) 
+				{
+					continue; 
+				}
+				GoogleObjectView gov = new GoogleObjectView(title, url);
+				glv.addResult(gov);
+			}
+			request.setAttribute("GoogleListView", null); 
+			request.setAttribute("GoogleListView", glv); 
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}	
 }

@@ -1,0 +1,82 @@
+@CHARSET "UTF-8";
+
+div.movieObj{
+	width: 450px;
+	height: 320px;
+	overflow: scroll;
+	background-color: #555555;
+	border: 1px solid #555555;
+	padding: 1%;
+	margin: 5px 5px 5px 5px;
+	display: inline-block;
+}
+
+div.overview{
+	width: 200px;
+	height: 210px;
+	overflow: scroll;
+	float: left;
+}
+
+p.paragraph{
+	font-size: 20;
+	color: #BBBBBB;
+	max-width: 350px;
+}
+
+img{
+	float: left;
+	width: 240px;
+	height: 320px;
+}
+
+a.link{
+	font-size: 30;
+	color: #FF3333;
+	text-align: right;
+	float :left;
+	font: bold;
+}
+
+b.vote{
+	font-size: 30;
+	color: #FFFF88;
+	text-align: left;
+	float: center;
+}
+
+b.runtime{
+	font-size: 30;
+	color: #FFFFFF;
+	text-align: left;
+	float: center;
+}
+
+b.releaseDate{
+	font-size: 30;
+	color: #8888DD;
+	text-align: left;
+	float: center;
+}
+
+b.overview{
+	font-size: 40;
+	color: #888888;
+	text-align: left;
+	float: center;
+}
+
+
+b.rating{
+	font-size: 30;
+	color: #FF8888;
+	text-align: left;
+	float: left;
+}
+
+b.name{
+	font-size: 30;
+	color: #FFFFFF;
+	text-align: left;
+	font: bold;
+}
