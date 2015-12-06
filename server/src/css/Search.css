@@ -46,31 +46,31 @@
     border: 0 none;
     height: 52px;
     margin-right: 0;
-    color: white;
+    color: black;
     outline: none;
-    background: #1f7f5c;
+    background: white;
     float: left;
     box-sizing: border-box;
     transition: all 0.15s;
 }
 ::-webkit-input-placeholder { /* WebKit browsers */
-    color: white;
+    color: black;
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: white;
+    color: black;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: white;
+    color: black;
 }
 :-ms-input-placeholder { /* Internet Explorer 10+ */
-    color: white;
+    color: black;
 }
 #search_text:focus {
-    background: rgb(64, 151, 119);
+    background: white;
 }
 #search_button {
     border: 0 none;
-    background: #1f7f5c url(search.png) center no-repeat;
+    background: gray;
     width: 60px;
     float: left;
     padding: 0;
@@ -109,3 +109,51 @@
     top: 100%;
     opacity: 1;
 }
+
+/* Style The Dropdown Button */
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+
+

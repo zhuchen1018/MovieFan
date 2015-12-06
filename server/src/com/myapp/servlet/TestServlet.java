@@ -307,25 +307,18 @@ public class TestServlet extends HttpServlet
 		String gname2 = "group name 2";
 		String gname3 = "group name 3";
 		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		GroupEntity g1 = db.createNewGroup(gname1, "creator 1");
+		GroupEntity g1 = db.createNewGroup(gname1, username);
 		db.addGroupHeadUrl(g1.getId(), url);
 
-		GroupEntity g2 = db.createNewGroup(gname2, "creator 2");
+		GroupEntity g2 = db.createNewGroup(gname2, username); 
 		db.addGroupHeadUrl(g2.getId(), url);
 
-		GroupEntity g3 = db.createNewGroup(gname3, "creator 3");
+		GroupEntity g3 = db.createNewGroup(gname3, username); 
 		db.addGroupHeadUrl(g3.getId(), url);
-
-		//add group
-		db.userJoinGroup(username, g1.getId());
-		db.userJoinGroup(username, g2.getId());
-		db.userJoinGroup(username, g3.getId());
-
+	
 		db.sync();
-
 		ServletCommon.RedirectToHome(request, response);
 	}
-
 }
 
 

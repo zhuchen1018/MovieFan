@@ -122,8 +122,11 @@ public class ServletCommon
 
 	public static void delSession(HttpServletRequest request, HttpServletResponse response)
 	{
-		HttpSession session = request.getSession();
-		session.invalidate();
+		HttpSession session = request.getSession(false);
+		if(session != null)
+		{
+			session.invalidate();
+		}
 
 		/*
 		Cookie c; 

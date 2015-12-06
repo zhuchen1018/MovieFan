@@ -246,24 +246,12 @@ public class Account extends HttpServlet
 
 	private void handleLogoff(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-
-		if(!ServletCommon.isSessionValid(request))
+		if(ServletCommon.hasLoginSession(request))
 		{
-			ServletCommon.PrintErrorPage("You are not logined now", response);
-			return;
+			ServletCommon.delSession(request, response);
 		}
 
-		ServletCommon.delSession(request, response);
-
-		out.println("<HTML><HEAD><TITLE>Log off</TITLE></HEAD><BODY>");
-		String res = "Logoff successed!"; 
-		out.println("<P>" + res + "</P>");
-		out.println("<P>" + "\n" + "</P>");
-
-		ServletCommon.showHomeLink(response);
-		out.println("</BODY></HTML>");		
+		ServletCommon.RedirectToHome(request, response);
 	}
 
 	public void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException
