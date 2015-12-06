@@ -21,16 +21,16 @@
 			String name = friendlist.get(i).getName();
 			String nameurl = "userpage?user="+name;
 	        if(po!=null&&!po.equals("null")){ %>
-	        <p>
+	        <h1>
    			 	<a href=<%=nameurl%>><img src=<%=po%> class="friend"></img></a>
     			<a href=<%=nameurl%>><b class="friendName"><%=name%></b></a>
-    		</p>
+    		</h1>
 		<% } 
 		 	else { %>
-		 	<p>
-   			 	<a href=<%=nameurl%><img src="/images/not-found.png" class="friend"></img></a>
-    			<a href=<%=nameurl%><b class="friendName"><%=name%></b></a>
-    		</p>
+		 	<h1>
+   			 	<a href=<%=nameurl%>><img src="/images/not-found.png" class="friend"></img> </a>
+    			<a href=<%=nameurl%>><b class="friendName"><%=name%></b></a>
+    		</h1>
 		<%}
 	}%>
      <br>

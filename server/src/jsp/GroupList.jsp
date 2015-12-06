@@ -30,8 +30,8 @@
 		<% } 
 		 	else { %>
 		 	<p>
-   			 	<a href=<%=nameurl%><img src="/images/not-found.png" class="group"></img></a>
-    			<a href=<%=nameurl%><b class="groupName"><%=name%></b></a>
+   			 	<a href=<%=nameurl%>><img src="/images/not-found.png" class="group"></img></a>
+    			<a href=<%=nameurl%>><b class="groupName"><%=name%></b></a>
     		</p>
 		<%}
 	}%>

@@ -10,6 +10,7 @@
 </head>
 <body>
 <%@ page import="com.myapp.view.*" %>
+<jsp:include page="NavigationBar.jsp"/>
 <%
 MoviePageView mpv = (MoviePageView) request.getAttribute("MoviePageView"); 
     String overview, name, releaseYear, poster, homePage;

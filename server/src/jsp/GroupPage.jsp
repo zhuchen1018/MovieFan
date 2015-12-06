@@ -10,6 +10,7 @@
 </head>
 <body>
 <%@ page import="com.myapp.view.*" %>
+<jsp:include page="NavigationBar.jsp"/>
 <%
 GroupPageView gpv = (GroupPageView) request.getAttribute("GroupPageView"); 
     Long gid = gpv.getId();
