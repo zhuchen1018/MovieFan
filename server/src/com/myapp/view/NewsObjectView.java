@@ -40,6 +40,7 @@ public class NewsObjectView {
 		{
 			return;
 		}
+		username = newsEntity.getCreator();
 		type = newsEntity.getNewsType();
 		text = newsEntity.getBody(); 
 		url = newsEntity.getMoviePosterUrl() ;
@@ -138,8 +139,7 @@ public class NewsObjectView {
 	{
 		//Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		//return formatter.format(releaseTime);
-		PrettyTime p = new PrettyTime();
-		return p.format(new Date(releaseTime));
+		return Const.PRETTY_TIME.format(new Date(releaseTime));
 	}
 
 	public long getReleaseTimeLong(){

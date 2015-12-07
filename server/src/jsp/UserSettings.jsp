@@ -5,7 +5,7 @@
 <head>
 <link rel = "stylesheet" type ="text/css" href = "../css/Usersetting.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>MovieFans</title>
 </head>
 <body>
 
@@ -24,16 +24,16 @@
 
 <form action= "/usersettings" method="post">
 <br><br>
-<h1 id="text_title">Your Avatar</h1>
+<h1 id="text_title">Avatar URL:</h1>
 <input class="depth" size="100" type="text" name="HEAD_URL" value="" placeholder=<%=headURL %>>
 <br><br>
-<h1 id="text_title">Your Profile</h1>
+<h1 id="text_title">Profile URL:</h1>
 <input class="depth" size="100"type="text" name="PROFILE_URL" value="" placeholder=<%=profileURL %>>
 <br><br>
-<h1 id="text_title">Your Personal Description</h1>
+<h1 id="text_title">Personal Description:</h1>
 <textarea class="depth" cols="80" rows="20" name="DESC" placeholder = <%=description%>></textarea>
 <br><br>
-<h1 id="text_title">Genres You Like</h1>
+<h1 id="text_title">Movie Genres You Like:</h1>
 <div align="center">
 	<input type="checkbox" name="GENRES" value="Action" /><b id="text_genre">Action</b> &nbsp;
 	<input type="checkbox" name="GENRES" value="Adventure" /><b id="text_genre">Adventure</b> &nbsp;

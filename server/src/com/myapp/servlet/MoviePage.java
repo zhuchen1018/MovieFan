@@ -36,7 +36,7 @@ public class MoviePage extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  null, response);
 			return;
 		}
 
@@ -56,7 +56,7 @@ public class MoviePage extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  null, response);
 			return;
 		}
 
@@ -122,7 +122,7 @@ public class MoviePage extends HttpServlet
 		String body = request.getParameter("Review"); 
 		if(title == null || body == null)
 		{
-			ServletCommon.PrintErrorPage("Title and review should not be empty.",  response);
+			ServletCommon.PrintErrorPage("Title and review should not be empty.",  null, response);
 			return;
 		}	
 

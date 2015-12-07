@@ -13,6 +13,8 @@ public class UserEntity
 {
 	@PrimaryKey
 	private String name;
+	
+	private String facebookId;
 
 	private String password;
 	//jpeg
@@ -29,10 +31,10 @@ public class UserEntity
 	//like movie' id
 	private ArrayList<String>likeMovies = new ArrayList<String>(); 
 
-	//friends username 
+	//friends username: following 
 	private ArrayList<String>friends = new ArrayList<String>(); 
 
-	//fans username 
+	//fans username: followers 
 	private ArrayList<String>fans = new ArrayList<String>(); 
 
 	//comment's id
@@ -43,6 +45,10 @@ public class UserEntity
 
 	//create group 's id
 	private ArrayList<Long>createGroups = new ArrayList<Long>(); 
+
+	//contain private message: 
+	//user follow you, user tag you
+	//private ArrayList<Long>mailbox= new ArrayList<Long>(); 
 
 	//description
 	private String description;
@@ -60,6 +66,14 @@ public class UserEntity
 		name = n;
 		password = p;
 		login_time = time;
+	}
+
+	public UserEntity(String name, String password, String fbid, long time) 
+	{
+		this.name = name;
+		this.password = password;
+		this.facebookId = fbid;
+		this.login_time = time;
 	}
 
 	/*get funcs*/
@@ -191,6 +205,11 @@ public class UserEntity
 		}
 	}
 	
+	public ArrayList<String> getLikeMovies()
+	{
+		return likeMovies;
+	}
+	
 	public void unlikeMovie(String movieId) 
 	{
 		if(isLikeMovie(movieId))
@@ -214,11 +233,20 @@ public class UserEntity
 		return description;
 	}
 
-	public void upSettings(String username, String head_url, String profile_url, String description, Integer[] genres) 
+	public void upSettings(String head_url, String profile_url, String description, Integer[] genres) 
 	{
-		this.head_url = head_url;
-		this.profile_url = profile_url;
-		this.description = description;
+		if(head_url != null && !head_url.isEmpty())
+		{
+			this.head_url = head_url;
+		}
+		if(profile_url != null && !profile_url.isEmpty())
+		{
+			this.profile_url = profile_url;
+		}
+		if(description != null && !description.isEmpty())
+		{
+			this.description = description;
+		}
 		if(genres == null)
 		{
 			this.likeGenres = new ArrayList<Integer>();
@@ -233,5 +261,40 @@ public class UserEntity
 	{
 		createGroups.add(id);
 		joinGroups.add(id);
+	}
+	
+	public void addNewMail(Long mailId)
+	{
+		//mailbox.add(mailId);
+	}
+	
+	public int getFansNum()
+	{
+		return fans.size();
+	}
+	
+	public int getFollowingNum()
+	{
+		return friends.size();
+	}
+	
+	public int getNewsNum()
+	{
+		return news.size();
+	}
+
+	public ArrayList<String> getFollowings() 
+	{
+		return friends;
+	}
+	
+	public ArrayList<String> getFans() 
+	{
+		return fans;
+	}
+
+	public String getFacebookId() 
+	{
+		return facebookId;
 	}
 }

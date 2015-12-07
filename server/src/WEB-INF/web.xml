@@ -25,12 +25,7 @@
      <servlet-name>user_page</servlet-name>
      <url-pattern>/mailbox</url-pattern>
    </servlet-mapping>  
-   
-     <servlet-mapping>
-     <servlet-name>user_page</servlet-name>
-     <url-pattern>/usersettings</url-pattern>
-   </servlet-mapping>  
-   
+     
     <servlet-mapping>
      <servlet-name>user_page</servlet-name>
      <url-pattern>/tweet_user</url-pattern>
@@ -51,6 +46,23 @@
      <servlet-name>user_page</servlet-name>
      <url-pattern>/unfollow</url-pattern>
    </servlet-mapping>  
+   
+    <servlet-mapping>
+     <servlet-name>user_page</servlet-name>
+     <url-pattern>/userfans</url-pattern>
+   </servlet-mapping>  
+   
+    <servlet-mapping>
+     <servlet-name>user_page</servlet-name>
+     <url-pattern>/userfollowings</url-pattern>
+   </servlet-mapping>  
+   
+     <servlet-mapping>
+     <servlet-name>user_page</servlet-name>
+     <url-pattern>/usernews</url-pattern>
+   </servlet-mapping>  
+ 
+ 
    
     <servlet>
      <servlet-name>test</servlet-name>
@@ -112,7 +124,7 @@
 
   <servlet-mapping>
      <servlet-name>account</servlet-name>
-     <url-pattern>/setting</url-pattern>
+     <url-pattern>/usersettings</url-pattern>
    </servlet-mapping>  
 
     <servlet>

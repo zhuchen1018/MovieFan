@@ -44,7 +44,7 @@ public class GroupServlet extends HttpServlet
 
 		if(!ServletCommon.hasLoginSession(request))
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 		if(url.equals(Const.JOIN_GROUP_URL))
@@ -78,21 +78,21 @@ public class GroupServlet extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  request, response);
 			return;
 		}
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
 		String group = query.get("group");
 		if(group == null)
 		{
-			ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  request, response);
 			return;
 		}
 
 		Long gid = Long.parseLong(group);
 		if(!db.hasGroup(gid))
 		{
-			ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  request, response);
 			return;
 		}
 
@@ -108,7 +108,7 @@ public class GroupServlet extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  request, response);
 			return;
 		}
 
@@ -116,7 +116,7 @@ public class GroupServlet extends HttpServlet
 		String group = query.get("group");
 		if(group == null)
 		{
-			ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  request, response);
 			return;
 		}
 
@@ -148,14 +148,14 @@ public class GroupServlet extends HttpServlet
 		String creator = ServletCommon.getSessionUsername(request);
 		if(creator == null)
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO + request.getSession().getId(), response); 
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO + request.getSession().getId(), request, response); 
 			return;
 		}
 
 		String name = request.getParameter("NewGroupName");
 		if(name == null)
 		{
-			ServletCommon.PrintErrorPage("Please enter a group name.",  response);
+			ServletCommon.PrintErrorPage("Please enter a group name.",  request, response);
 			return;
 		}
 		
@@ -175,7 +175,7 @@ public class GroupServlet extends HttpServlet
 		}
 		else
 		{
-			ServletCommon.PrintErrorPage("You create too much groups! Maximum: 3",  response);
+			ServletCommon.PrintErrorPage("You create too much groups! Maximum: 3",  request, response);
 			return;
 		}	
 	}
@@ -185,7 +185,7 @@ public class GroupServlet extends HttpServlet
 		String url = request.getServletPath();
 		if(!ServletCommon.hasLoginSession(request))
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 		if(url.equals(Const.CREATE_GROUP_URL))
@@ -204,7 +204,7 @@ public class GroupServlet extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  request, response);
 			return;
 		}
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
@@ -232,7 +232,7 @@ public class GroupServlet extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  request, response);
 			return;
 		}
 

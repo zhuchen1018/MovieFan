@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.myapp.utils.Const;
+import com.myapp.view.UserListView;
 import com.myapp.view.UserSettingView;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.UserEntity;
@@ -57,10 +58,6 @@ public class UserPage extends HttpServlet
 		{
 			handleUnFollowUserPost(request, response);
 		}
-		else if(url.equals(Const.USER_SETTINGS_URL))
-		{
-			handleUserSettingsPost(request, response);
-		}
 		/*
 		else if(url.equals(Const.USER_COMMENT_URL))
 		{
@@ -78,8 +75,7 @@ public class UserPage extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			System.out.println("handleFollowUser username is null"); 
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.redirectToLoginPage(request, response);
 			return;
 		}
 
@@ -87,16 +83,14 @@ public class UserPage extends HttpServlet
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
 		if(query == null || query.get("user") == null)
 		{
-			System.out.println("handleFollowUser query user is null"); 
-			ServletCommon.redirect404(request, response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
 
 		String targetName = query.get("user").trim().toLowerCase();
 		if(targetName == null || targetName.isEmpty())
 		{
-			System.out.println("handleFollowUser targetName is null"); 
-			ServletCommon.redirect404(request, response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
 
@@ -105,7 +99,7 @@ public class UserPage extends HttpServlet
 		UserEntity user = db.getUserEntity(targetName);
 		if(user == null)
 		{
-			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
 			return;
 		}
 
@@ -118,6 +112,7 @@ public class UserPage extends HttpServlet
 
 	private void handleArticlePost(HttpServletRequest request, HttpServletResponse response) 
 	{
+
 
 	}
 
@@ -132,20 +127,20 @@ public class UserPage extends HttpServlet
 		String username = (String) session.getAttribute("username");
 		if(username == null || username.isEmpty())
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.redirectToLoginPage(request, response);
 			return;
 		}	
 
 		String info = request.getParameter("TWEET"); 
 		if(info == null || info.trim().isEmpty())
 		{
-			ServletCommon.PrintErrorPage("Please say something.",  response);
+			ServletCommon.PrintErrorPage("Please say something.",  request, response);
 			return;
 		}
-		
+
 		if(info.length() > Const.MAX_TWEET_LENGTH)
 		{
-			ServletCommon.PrintErrorPage("Your tweet is too long....",  response);
+			ServletCommon.PrintErrorPage("Your tweet is too long....",  request, response);
 			return;
 		}
 
@@ -167,7 +162,7 @@ public class UserPage extends HttpServlet
 	{
 		if(!ServletCommon.hasLoginSession(request))
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.redirectToLoginPage(request, response);
 			return;
 		}
 		String url = request.getServletPath();
@@ -176,14 +171,21 @@ public class UserPage extends HttpServlet
 		{
 			handleUserPageGet(request, response);
 		}	
-		else if(url.equals(Const.USER_SETTINGS_URL))
-		{
-			handleUserSettingsGet(request, response);
-		}	
-		
 		else if(url.equals(Const.USER_MAILBOX_URL))
 		{
 			handleMailBoxGet(request, response);
+		}	
+		else if(url.equals(Const.USER_FOLLOWING_URL))
+		{
+			handleFollowingGet(request, response);
+		}	
+		else if(url.equals(Const.USER_FANS_URL))
+		{
+			handleUserFansGet(request, response);
+		}	
+		else if(url.equals(Const.USER_NEWS_URL))
+		{
+			handleUserNewsGet(request, response);
 		}	
 		else
 		{
@@ -191,88 +193,93 @@ public class UserPage extends HttpServlet
 		}
 	}
 
-	private void handleMailBoxGet(HttpServletRequest request, HttpServletResponse response) 
-	{
-		//TODO:
-		ServletCommon.PrintErrorPage("handleMailBoxGet is developing......",  response);
-	}
-
-	private void handleUserSettingsGet(HttpServletRequest request, HttpServletResponse response) 
+	private void handleUserNewsGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			System.out.println("handleFollowUser username is null"); 
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.redirectToLoginPage(request, response);
 			return;
 		}
-
-		initDB();
-
-		UserEntity user = db.getUserEntity(username);
-		if(user == null)
+		//url:     /follow_user?user=jason
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		if(query == null || query.get("user") == null)
 		{
-			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
+		
+		String targetName = query.get("user");
+		ServletCommon.RedirectToUserPage(request, response, username, targetName);
+	}
 
-		String head_url = user.getHeadUrl();
-		String profile_url = user.getProfileUrl();
-		Integer[] genres = user.getLikeGenres();
-		String description = user.getDescription();
+	private void handleUserFansGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			ServletCommon.redirectToLoginPage(request, response);
+			return;
+		}
+		//url:     /follow_user?user=jason
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		if(query == null || query.get("user") == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
+			return;
+		}
+		
+		String targetName = query.get("user");
+		UserListView ulv = db.loadFansList(targetName);
+		request.setAttribute("UserListView", null); 
+		request.setAttribute("UserListView", ulv); 
 
-		UserSettingView usv =  new UserSettingView(head_url,profile_url, genres, description);
-		request.setAttribute("UserSettingView", usv);
-
-		String location = "/jsp/UserSettings.jsp";
+		String location = "/jsp/UserList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
-	private void handleUserSettingsPost(HttpServletRequest request, HttpServletResponse response) 
+	private void handleFollowingGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			System.out.println("handleFollowUser username is null"); 
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.redirectToLoginPage(request, response);
 			return;
 		}
-
-		initDB();
-
-		UserEntity user = db.getUserEntity(username);
-		if(user == null)
+		//url:     /follow_user?user=jason
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		if(query == null || query.get("user") == null)
 		{
-			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
+		
+		String targetName = query.get("user");
+		UserListView ulv = db.loadFollowingsList(targetName); 
+		request.setAttribute("UserListView", null); 
+		request.setAttribute("UserListView", ulv); 
 
-		String head_url = request.getParameter("HEAD_URL");
-		String profile_url = request.getParameter("PROFILE_URL");
-		String description = request.getParameter("DESC");
-		String[] genres = request.getParameterValues("GENRES");
-		Integer[] genres_integer = null; 
-		if(genres != null)
-		{
-			genres_integer = new Integer[genres.length];
-			for(int i = 0; i < genres_integer.length; ++i)
-			{
-				genres_integer[i] = Const.GENRE_MAP.get(genres[i]);
-			}
-		}
-		db.upUserSettings(username, head_url, profile_url, description, genres_integer);
-		db.sync();
+		String location = "/jsp/UserList.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 
-		ServletCommon.RedirectToUserPage(request, response, username, username);
-	} 
+	}
+
+	private void handleMailBoxGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		//TODO:
+		ServletCommon.PrintErrorPage("handleMailBoxGet is developing......",  request, response);
+	}
+
+
+
+
 
 	private void handleFollowUserPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			System.out.println("handleFollowUser username is null"); 
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.redirectToLoginPage(request, response);
 			return;
 		}
 
@@ -280,16 +287,14 @@ public class UserPage extends HttpServlet
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
 		if(query == null || query.get("user") == null)
 		{
-			System.out.println("handleFollowUser query user is null"); 
-			ServletCommon.redirect404(request, response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
 
 		String targetName = query.get("user").trim().toLowerCase();
 		if(targetName == null || targetName.isEmpty())
 		{
-			System.out.println("handleFollowUser targetName is null"); 
-			ServletCommon.redirect404(request, response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
 
@@ -298,7 +303,7 @@ public class UserPage extends HttpServlet
 		UserEntity user = db.getUserEntity(targetName);
 		if(user == null)
 		{
-			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
 			return;
 		}
 
@@ -320,23 +325,21 @@ public class UserPage extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			System.out.println("handleUserPageGet username is null"); 
-			ServletCommon.redirect404(request, response);
+			ServletCommon.redirectToLoginPage(request, response);
+			return;
 		}
 
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
 		if(query == null || query.get("user") == null)
 		{
-			System.out.println("handleUserPageGet query is null"); 
-			ServletCommon.redirect404(request, response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
 
 		String targetName = query.get("user").trim().toLowerCase();
 		if(targetName == null || targetName.isEmpty())
 		{
-			System.out.println("handleUserPageGet targetName is null"); 
-			ServletCommon.redirect404(request, response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
 
@@ -345,7 +348,7 @@ public class UserPage extends HttpServlet
 		UserEntity user = db.getUserEntity(targetName);
 		if(user == null)
 		{
-			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
 			return;
 		}
 

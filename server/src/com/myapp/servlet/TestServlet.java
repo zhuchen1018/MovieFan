@@ -49,7 +49,7 @@ public class TestServlet extends HttpServlet
 	{
 		if(!ServletCommon.hasLoginSession(request))
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 		String url = request.getServletPath();
@@ -145,7 +145,7 @@ public class TestServlet extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null || username.isEmpty())
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 
@@ -249,7 +249,7 @@ public class TestServlet extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null || username.isEmpty())
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 
@@ -296,7 +296,7 @@ public class TestServlet extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null || username.isEmpty())
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 

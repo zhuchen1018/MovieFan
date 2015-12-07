@@ -5,7 +5,7 @@
 <head>
 <link rel = "stylesheet" type ="text/css" href = "../css/Search.css">
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
-<title>MovieFans.com</title>
+<title>MovieFans</title>
 <link rel="shortcut icon" href="/images/1.png">
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

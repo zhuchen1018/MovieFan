@@ -2,15 +2,13 @@ package com.myapp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
 import com.myapp.storage.DBWrapper;
+import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.MD5Encryptor;
+import com.myapp.view.UserSettingView;
 import com.myapp.utils.Const;
 
 
@@ -50,18 +48,56 @@ public class Account extends HttpServlet
 		{
 			handleLoginPost(request, response);
 		}
-		else if(url.equals(Const.ACCOUNT_SETTING_URL))
+		else if(url.equals(Const.USER_SETTINGS_URL))
 		{
-			handleSettingPost(request, response);
+			handleUserSettingsPost(request, response);
 		}
 	}
+
+	private void handleUserSettingsPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			System.out.println("handleFollowUser username is null"); 
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
+			return;
+		}
+
+		initDB();
+
+		UserEntity user = db.getUserEntity(username);
+		if(user == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
+			return;
+		}
+
+		String head_url = request.getParameter("HEAD_URL");
+		String profile_url = request.getParameter("PROFILE_URL");
+		String description = request.getParameter("DESC");
+		String[] genres = request.getParameterValues("GENRES");
+		Integer[] genres_integer = null; 
+		if(genres != null)
+		{
+			genres_integer = new Integer[genres.length];
+			for(int i = 0; i < genres_integer.length; ++i)
+			{
+				genres_integer[i] = Const.GENRE_MAP.get(genres[i]);
+			}
+		}
+		db.upUserSettings(username, head_url, profile_url, description, genres_integer);
+		db.sync();
+
+		ServletCommon.RedirectToUserPage(request, response, username, username);
+	} 
 
 	private void handleRegisterPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String name = request.getParameter("USERNAME");
 		if(name == null)
 		{
-			ServletCommon.PrintErrorPage("Please enter a username.",  response);
+			ServletCommon.PrintErrorPage("Please enter a username.",  request, response);
 			return;
 		}
 		name = name.trim();
@@ -72,7 +108,7 @@ public class Account extends HttpServlet
 		String password = request.getParameter("PASSWORD");
 		if(password == null)
 		{
-			ServletCommon.PrintErrorPage("Please enter a password.",  response);
+			ServletCommon.PrintErrorPage("Please enter a password.",  request, response);
 			return;
 		}
 		password = password.trim();
@@ -85,7 +121,7 @@ public class Account extends HttpServlet
 
 		if(db.hasUser(name))
 		{
-			ServletCommon.PrintErrorPage("Sorry, this username has already been registered!",  response);
+			ServletCommon.PrintErrorPage("Sorry, this username has already been registered!",  request, response);
 			return;
 		}
 
@@ -99,6 +135,37 @@ public class Account extends HttpServlet
 		ServletCommon.RedirectToHome(request, response);	
 	}
 
+	private void handleUserSettingsGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			System.out.println("handleFollowUser username is null"); 
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
+			return;
+		}
+
+		initDB();
+
+		UserEntity user = db.getUserEntity(username);
+		if(user == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
+			return;
+		}
+
+		String head_url = user.getHeadUrl();
+		String profile_url = user.getProfileUrl();
+		Integer[] genres = user.getLikeGenres();
+		String description = user.getDescription();
+
+		UserSettingView usv =  new UserSettingView(head_url,profile_url, genres, description);
+		request.setAttribute("UserSettingView", usv);
+
+		String location = "/jsp/UserSettings.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
+	}
+			
 	private void handleSettingPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 
@@ -111,7 +178,7 @@ public class Account extends HttpServlet
 		String name = request.getParameter("USERNAME");
 		if(name == null)
 		{
-			ServletCommon.PrintErrorPage("Please enter a username.",  response);
+			ServletCommon.PrintErrorPage("Please enter a username.",  request, response);
 			return;
 		}
 
@@ -119,21 +186,21 @@ public class Account extends HttpServlet
 		/* Check db if the user exists*/
 		if(!db.hasUser(name))
 		{
-			ServletCommon.PrintErrorPage("Sorry, this username has not been registered!",  response);
+			ServletCommon.PrintErrorPage("Sorry, this username has not been registered!",  request, response);
 			return;
 		}
 
 		String password = request.getParameter("PASSWORD");
 		if(password == null)
 		{
-			ServletCommon.PrintErrorPage("Please enter a password.",  response);
+			ServletCommon.PrintErrorPage("Please enter a password.",  request, response);
 			return;
 		}
 
 		String real_password = MD5Encryptor.crypt(password);
 		if(!db.checkLoginPassword(name, real_password))
 		{
-			ServletCommon.PrintErrorPage("Your password is wrong!",  response);
+			ServletCommon.PrintErrorPage("Your password is wrong!",  request, response);
 			return;
 		}
 
@@ -226,18 +293,13 @@ public class Account extends HttpServlet
 		{
 			handleRegister(request, response);
 		}
-		else if(url.equals(Const.ACCOUNT_SETTING_URL))
+		else if(url.equals(Const.USER_SETTINGS_URL))
 		{
-			handleSetting(request, response);
+			handleUserSettingsGet(request, response);
 		}
-	}
-
-	private void handleSetting(HttpServletRequest request, HttpServletResponse response) 
-	{
-		// TODO Auto-generated method stub
 
 	}
-
+	
 	private void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String location = "/htmls/RegisterPage.html";
@@ -262,17 +324,17 @@ public class Account extends HttpServlet
 	{
 		if(name.isEmpty())
 		{
-			ServletCommon.PrintErrorPage("Please enter a username.",  response);
+			ServletCommon.PrintErrorPage("Please enter a username.",  request, response);
 			return false;
 		}
 		if(name.length() < 6)
 		{
-			ServletCommon.PrintErrorPage("Username length should be >= 6.",  response);
+			ServletCommon.PrintErrorPage("Username length should be >= 6.",  request, response);
 			return false;
 		}
 		if(!name.matches("[A-Za-z_][\\w]*"))
 		{
-			ServletCommon.PrintErrorPage("Username should begin with letters and only contain numbers and letters.",  response);
+			ServletCommon.PrintErrorPage("Username should begin with letters and only contain numbers and letters.",  request, response);
 			return false;
 		}
 		return true;
@@ -282,17 +344,17 @@ public class Account extends HttpServlet
 	{
 		if(password.isEmpty())
 		{
-			ServletCommon.PrintErrorPage("Please enter a password.",  response);
+			ServletCommon.PrintErrorPage("Please enter a password.",  request, response);
 			return false;
 		}
 		if(password.length() < 6)
 		{
-			ServletCommon.PrintErrorPage("Password length should be >= 6.",  response);
+			ServletCommon.PrintErrorPage("Password length should be >= 6.",  request, response);
 			return false;
 		}
 		if(password.matches(".*\\s+.*"))
 		{
-			ServletCommon.PrintErrorPage("Password should not contain spaces.",  response);
+			ServletCommon.PrintErrorPage("Password should not contain spaces.",  request, response);
 			return false;
 		}
 		return true;

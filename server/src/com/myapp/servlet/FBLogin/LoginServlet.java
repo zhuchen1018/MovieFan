@@ -35,21 +35,13 @@ public class LoginServlet extends HttpServlet {
 		FBGraph fbGraph = new FBGraph(accessToken);
 		String graph = fbGraph.getFBGraph();
 		Map<String, String> fbProfileData = fbGraph.getGraphData(graph);
-		try 
-		{
-			ServletOutputStream out = res.getOutputStream();
-			out.println("<h1>Facebook Login </h1>");
-			out.println("<div>Id "+fbProfileData.get("id"));
-			String name = fbProfileData.get("name");
-			String[] names = name.split(" ");
-			name = names[0];
-			out.println("<div>Welcome " +  name);
-			out.println("<a href=\"/user_page" + "?" + "user=" + name + "\" class=\"button\">My Page</a>");
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+
+		System.out.println("Login FacebookId:" + fbProfileData.get("id"));
+		String name = fbProfileData.get("name");
+		String[] names = name.split(" ");
+		//use first name
+		name = names[0];
+		ServletCommon.RedirectToUserPage(req, res, name, name);
 	}
 
 	public void initDB()
@@ -85,28 +77,22 @@ public class LoginServlet extends HttpServlet {
 	{
 		initDB();
 
-		//already registered in my system
-		if(db.hasFBUser(fbid))
+		//first login
+		if(!db.hasFBUser(fbid))
 		{
-			String id2 = db.getUserFBId(name);
-			if(id2 == null || !id2.equals(fbid))
+			//name duplicated, should sign in
+			if(db.hasUser(name))
 			{
-				
+				//TODO ERROR ask user to change name
+				ServletCommon.redirectToLoginPage(request, response);
 			}
-			return;
+			else
+			{
+				db.createFBUser(name, MD5Encryptor.crypt(name), fbid);			
+			}
 		}
 
-		/*: DB add new user*/
-		db.createUser(name, MD5Encryptor.crypt(name));
-
-		/*auto login*/
 		ServletCommon.addLoginSession(request, response, name);
-
-		/*
-		 * result page:
-		 */
-		response.setContentType("text/html");
-		PrintWriter out;
 
 		db.sync();
 	}

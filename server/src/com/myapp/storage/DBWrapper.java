@@ -22,6 +22,7 @@ import com.myapp.view.GroupObjectView;
 import com.myapp.view.GroupPageView;
 import com.myapp.view.NewsListView;
 import com.myapp.view.NewsObjectView;
+import com.myapp.view.UserInfoView;
 import com.myapp.view.UserListView;
 import com.myapp.view.UserObjectView;
 import com.myapp.view.UserSettingView;
@@ -610,6 +611,78 @@ public class DBWrapper
 		}
 		return flv;
 	}
+		
+	/**
+	 * Show Followings list
+	 * @param username
+	 * @param request
+	 * @param response
+	 */
+	public UserListView loadFollowingsList(String username) 
+	{
+		UserListView ulv = new UserListView(); 
+		ArrayList<String>fans = getUserFollowings(username);
+		if(fans != null)
+		{
+			for(String fname: fans)
+			{
+				UserEntity friend = getUserEntity(fname);
+				if(friend == null) continue;
+				String url = friend.getHeadUrl();
+				UserObjectView fov = new UserObjectView(url, fname);
+				ulv.add(fov);
+			}
+		}
+		return ulv;
+	}
+	
+	/**
+	 * Show Fans list
+	 * @param username
+	 * @param request
+	 * @param response
+	 */
+	public UserListView loadFansList(String username) 
+	{
+		UserListView ulv = new UserListView(); 
+		ArrayList<String>fans = getUserFans(username);
+		if(fans != null)
+		{
+			for(String fname: fans)
+			{
+				UserEntity friend = getUserEntity(fname);
+				if(friend == null) continue;
+				String url = friend.getHeadUrl();
+				UserObjectView fov = new UserObjectView(url, fname);
+				ulv.add(fov);
+			}
+		}
+		return ulv;
+	}
+
+
+
+	private ArrayList<String> getUserFollowings(String username) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			return user.getFollowings();
+		}
+		return null;
+	}
+	
+	private ArrayList<String> getUserFans(String username) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			return user.getFans();
+		}
+		return null;
+	}
+
+
 
 	/**
 	 * display a user's all news
@@ -625,17 +698,8 @@ public class DBWrapper
 		for(long id: newids)
 		{
 			NewsEntity newsEntity = getNewsEntityByIds(id);
-			if(newsEntity == null) continue;
-			int type = newsEntity.getNewsType();
-			String text = newsEntity.getBody(); 
-			String url = newsEntity.getMoviePosterUrl() ;
-			String title = newsEntity.getTitle(); 
-			String movieId = newsEntity.getMovidId(); 
-			String movieName = newsEntity.getMovieName(); 
-			long releaseTime = newsEntity.getReleaseTime(); 
-			int likeNums = newsEntity.getLikeNums(); 
-			ArrayList<String>ToList = newsEntity.getReceivers();
-			NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
+			if(newsEntity == null) continue;	
+			NewsObjectView newsViewObj = new NewsObjectView(newsEntity);
 			nlv.addNews(newsViewObj);
 		}
 		return nlv;
@@ -650,7 +714,6 @@ public class DBWrapper
 	public NewsListView loadAllNews(String username) 
 	{
 		NewsListView nlv = new NewsListView();
-
 		//all
 		ArrayList<Long>allnews = new ArrayList<Long>(); 
 
@@ -835,7 +898,7 @@ public class DBWrapper
 		UserEntity user = getUserEntity(username);
 		if(user != null)
 		{
-			user.upSettings(username, head_url, profile_url, description, genres);
+			user.upSettings(head_url, profile_url, description, genres);
 			userEA.putEntity(user);
 		}		
 	}
@@ -845,10 +908,33 @@ public class DBWrapper
 		UserEntity user = getUserEntity(username);
 		if(user != null)
 		{
-			String head_url = user.getHeadUrl(); 
-			String profile_url = user.getProfileUrl(); 
-			String description = user.getDescription();
-			return new UserSettingView(head_url, profile_url, null, description);
+			return new UserSettingView(
+					user.getHeadUrl(), 
+					user.getProfileUrl(), 
+					user.getLikeGenres(),
+					user.getDescription());
+		}		
+		return null;
+	}
+	
+	public UserInfoView loadUserInfoView(String username, boolean isMyPage, boolean isMyFriend) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			return new UserInfoView(
+					user.getHeadUrl(), 
+					user.getProfileUrl(), 
+					user.getLikeGenres(),
+					user.getDescription(),
+					user.getFansNum(),
+					user.getFollowingNum(),
+					user.getNewsNum(),
+					new Boolean(isMyPage), 
+					new Boolean(isMyFriend), 
+					user.getLikeMovies()
+					);
+
 		}		
 		return null;
 	}
@@ -891,5 +977,10 @@ public class DBWrapper
 			}
 		}
 		return nlv;
+	}
+
+	public void createFBUser(String name, String password, String fbid) 
+	{
+		userEA.add(name, password, fbid);
 	}
 }
