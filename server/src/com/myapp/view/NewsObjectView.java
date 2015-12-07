@@ -2,6 +2,7 @@ package com.myapp.view;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import com.myapp.storage.entity.NewsEntity;
 import com.myapp.utils.Const;
@@ -129,9 +130,16 @@ public class NewsObjectView {
 		return type;
 	}
 
-	public String getReleaseTime(){
-		Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		return formatter.format(releaseTime);
+	/**
+	 * use relative time
+	 * @return
+	 */
+	public String getReleaseTime()
+	{
+		//Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		//return formatter.format(releaseTime);
+		PrettyTime p = new PrettyTime();
+		return p.format(new Date(releaseTime));
 	}
 
 	public long getReleaseTimeLong(){
