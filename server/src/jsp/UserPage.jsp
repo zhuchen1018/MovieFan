@@ -30,17 +30,17 @@
 
 
 
-<%Boolean myPageFlag = (Boolean)request.getAttribute("isMyPage");%>
-<%Boolean myfriendFlag = (Boolean)request.getAttribute("isMyFriend");%> 
 <%String curUser = "?"; 
 curUser+=request.getQueryString();
 %>
 
 <%@ page import="com.myapp.view.*" %>
-<% UserSettingView usv = (UserSettingView)request.getAttribute("UserSettingView");
-	String headURL = usv.getHeadUrl();
-	String profileURL = usv.getProfileUrl();
-	String description = usv.getDescription();
+<% UserInfoView uiv = (UserInfoView)request.getAttribute("UserInfoView");
+	String headURL = uiv.getHeadUrl();
+	String profileURL = uiv.getProfileUrl();
+	String description = uiv.getDescription();
+    Boolean myPageFlag = uiv.isMyPage(); 
+    Boolean myfriendFlag = uiv.isMyFriend(); 
 %>
 
 
@@ -67,13 +67,13 @@ curUser+=request.getQueryString();
 	<%if(!myfriendFlag){ %>
 		<form action=<%="/follow"+curUser %> method="POST">
 			<button type="submit" name="UserFollow">
-    			Follow
+    			+Follow
 			</button>
 		</form>
 	<%}else { %>
 		<form action=<%="/unfollow"+curUser %> method="POST">
 			<button type="submit" name="UserUnFollow">
-	    		UnFollow
+	    		-Unfollow
 			</button>
 		</form>
 	<%} %>		
@@ -88,8 +88,8 @@ curUser+=request.getQueryString();
   	<% if(myPageFlag) {%>
 	<form action="/tweet_user" method="POST">
 		<div align="center">
-			<textarea cols="65" rows="5" name="TWEET" placeholder="Share Something"></textarea>
-			<INPUT TYPE=SUBMIT VALUE="submit">
+			<textarea cols="65" rows="5" name="TWEET" placeholder="What's on your mind?"></textarea>
+			<INPUT TYPE=SUBMIT VALUE="Post">
 		</div>
   	</form>
   	<%} %>
