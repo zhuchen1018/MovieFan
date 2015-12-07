@@ -17,10 +17,12 @@
 	String note = nov.getNote();
 	String friend = nov.getToList().get(0);
 	String friendurl = "userpage?user="+friend;
+	String userUrl = nov.getUserUrl();
+	if(userUrl==null) userUrl="/images/not-found.png";
 %>
       
 	<p>
-    	<img src="/images/not-found.png" class="user"></img>
+    	<img src=<%=userUrl%> class="user"></img>
     	<b class="name"><%=userName%></b>
     	&nbsp;
     	<b class="note"><%=note%></b>

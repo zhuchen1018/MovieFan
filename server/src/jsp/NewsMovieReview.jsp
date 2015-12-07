@@ -20,10 +20,12 @@
 	String movieName = nov.getMovieName();
 	String movieUrl = nov.getUrl();
 	String moviePage="moviepage?movie_id="+movieid;
+	String userUrl = nov.getUserUrl();
+	if(userUrl==null) userUrl="/images/not-found.png";
 %>
     
     <p>
-    	<img src="/images/not-found.png" class="user"></img>
+    	<img src=<%=userUrl%> class="user"></img>
     	<b class="name"><%=userName%></b>
     	&nbsp;
     	<b class="note"><%=note%></b>
