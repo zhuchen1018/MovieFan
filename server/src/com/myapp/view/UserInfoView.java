@@ -1,6 +1,7 @@
 package com.myapp.view;
 
 import java.util.ArrayList;
+import com.myapp.utils.*;
 
 public class UserInfoView extends UserSettingView 
 {
@@ -45,6 +46,15 @@ public class UserInfoView extends UserSettingView
 	public Integer[] getGenres()
 	{
 		return genres;
+	}
+	
+	public String[] getString_Genres()
+	{
+		String[] string_genres=new String[genres.length];
+		for(int i=0;i<string_genres.length;++i){
+			string_genres[i]=Const.REVERSE_GENRE_MAP.get(genres[i]);
+		}
+		return string_genres;
 	}
 	
 	public String getDescription()

@@ -163,7 +163,7 @@ public class TestServlet extends HttpServlet
 		int type = Const.NEWS_TWITTER; 
 		long releaseTime = (new Date()).getTime(); 
 		int likeNums = 2; 
-		NewsObjectView newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
+		NewsObjectView newsViewObj = new NewsObjectView(username, text, url, null,title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
 		db.addNewsTwitter(username, text);
 
@@ -175,7 +175,7 @@ public class TestServlet extends HttpServlet
 		movieName = "this is movie name"; 
 		ToList = null;
 		type = Const.NEWS_MOVIE_REVIEW; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
+		newsViewObj = new NewsObjectView(username, text, url, null,title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
 		db.addNewsMovieReview(username, title, text, movieId, movieName, url);
 
@@ -189,7 +189,7 @@ public class TestServlet extends HttpServlet
 		ToList = new ArrayList<String>();
 		ToList.add(receiver);
 		type = Const.NEWS_MAKE_FRIENDS; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
+		newsViewObj = new NewsObjectView(username, text, url, null,title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
 		db.userAddNewsMakeFriends(username, receiver); 
 
@@ -204,7 +204,7 @@ public class TestServlet extends HttpServlet
 		ToList = new ArrayList<String>();	
 		ToList.add(gname);
 		type = Const.NEWS_ADD_GROUP; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
+		newsViewObj = new NewsObjectView(username, text, url, null, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
 		db.addNewsJoinGroup(username, groupid); 
 
@@ -219,7 +219,7 @@ public class TestServlet extends HttpServlet
 		ToList.add("jason2");
 		ToList.add("jason3");
 		type = Const.NEWS_SHARE_MOVIE; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
+		newsViewObj = new NewsObjectView(username, text, url, null, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
 		db.addNewsShareMovies(username, movieId, movieName, url, ToList); 
 
@@ -231,7 +231,7 @@ public class TestServlet extends HttpServlet
 		movieName = null; 
 		ToList = null;
 		type = Const.NEWS_LIKE_MOVIE; 
-		newsViewObj = new NewsObjectView(username, text, url, title, movieId, movieName, ToList, type, releaseTime, likeNums);
+		newsViewObj = new NewsObjectView(username, text, url, null, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
 		db.addNewsLikeMovie(username, movieId, url); 
 

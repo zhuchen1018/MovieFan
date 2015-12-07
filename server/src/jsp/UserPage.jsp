@@ -39,11 +39,13 @@ curUser+=request.getQueryString();
 	String profileURL = uiv.getProfileUrl();
 	if(profileURL==null) profileURL="../images/nobackground.jpg";
 	String description = uiv.getDescription();
+	String[] genres = uiv.getString_Genres();
     Boolean myPageFlag = uiv.isMyPage(); 
     Boolean myfriendFlag = uiv.isMyFriend(); 
     int fansNum = uiv.getFansNum();
     int followingNum = uiv.getFollowingNum();
     int newsNum = uiv.getNewsNum(); 
+    System.out.println(profileURL);
 %>
 
 <div width=100% height=100% id="Outer">
@@ -59,7 +61,7 @@ curUser+=request.getQueryString();
 		</div>
 		<div class="left_bottom">
 			<div class="left_bottom_left">
-				<div>
+				<div class="description">
 					<h2 id="title">About Me</h2>
 					<p>
 						<%if(description!=null){ %>
@@ -70,8 +72,13 @@ curUser+=request.getQueryString();
 					</p>
 				</div>
 				<br>
-				<div>
+				<div class="genres">
 					<h3 id="title">Favorite Genres</h3>
+					<%for(int i=0;i<genres.length;++i){%>
+						<h2 class="genre"><em><%=genres[i]%></em></h2>
+					<%
+					}
+					%>
 				</div>
 			</div>
 			<div class="left_bottom_right">
