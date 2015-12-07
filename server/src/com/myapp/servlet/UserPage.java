@@ -185,10 +185,35 @@ public class UserPage extends HttpServlet
 		{
 			handleUserFansGet(request, response);
 		}	
+		else if(url.equals(Const.USER_NEWS_URL))
+		{
+			handleUserNewsGet(request, response);
+		}	
 		else
 		{
 			ServletCommon.redirect404(request, response);
 		}
+	}
+
+	private void handleUserNewsGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			ServletCommon.redirectToLoginPage(request, response);
+			return;
+		}
+		//url:     /follow_user?user=jason
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		if(query == null || query.get("user") == null)
+		{
+			System.out.println("handleFollowUser query user is null"); 
+			ServletCommon.redirect404(request, response);
+			return;
+		}
+		
+		String targetName = query.get("user");
+		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
 
 	private void handleUserFansGet(HttpServletRequest request, HttpServletResponse response) 
