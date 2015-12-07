@@ -7,6 +7,37 @@
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>MovieFans.com</title>
 <link rel="shortcut icon" href="/images/1.png">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#movieS").click(function(){
+    	$("#movieSearch").show();
+    	$("#userSearch").hide();
+    	$("#groupSearch").hide();
+    	$("#hashtagSearch").hide();
+    });
+    $("#userS").click(function(){
+        $("#userSearch").show();
+        $("#movieSearch").hide();
+        $("#groupSearch").hide();
+        $("#hashtagSearch").hide();
+    });
+    $("#groupS").click(function(){
+    	$("#groupSearch").show();
+    	$("#userSearch").hide();
+        $("#movieSearch").hide();
+        $("#hashtagSearch").hide();
+    });
+    $("#hashtagS").click(function(){
+        $("#hashtagSearch").show();
+    	$("#groupSearch").hide();
+    	$("#userSearch").hide();
+        $("#movieSearch").hide();
+    });
+});
+</script>
+
 </head>
 <%@ page import="java.util.Date" %>
 <%@ page import="com.myapp.servlet.*" %>
@@ -23,24 +54,41 @@
          <a href=<%=myUrl%>>My Page</a>
     </li>
     <li id="search">    
-      <form action= "/search_movie_result" method="post">
+      <form id ="movieSearch" action= "/search_movie_result" method="post">
          <input type="text" name="search_movie" value="" id="search_text" placeholder="Find Movies"/>
+         <input type="submit" id="search_button" id="search_text" value = "Search"> 
+      </form>
+      <form id ="userSearch" action= "/search_user" method="post" style="display:none">
+         <input type="text" name="USER" value="" id="search_text" placeholder="Find Users"/>
+         <input type="submit" id="search_button" value = "Search"> 
+      </form>
+      <form id ="groupSearch" action= "/search_group_result" method="post" style="display:none">
+         <input type="text" name="search_group" value="" id="search_text" placeholder="Find Groups"/>
+         <input type="submit" id="search_button" value = "Search"> 
+      </form>
+      
+      <form id ="hashtagSearch" action= "/search_hashtag_result" method="post" style="display:none">
+         <input type="text" name="search_hashtag" value="" id="search_text" placeholder="Search For News"/>
          <input type="submit" id="search_button" value = "Search"> 
       </form>
     <li id="options">
-        <a href="#">Options</a>
+        <a href="#">Search Options</a>
         <ul class="subnav">
-            <li><a href="#">Movie</a></li>
-            <li><a href="#">User</a></li>
-            <li><a href="#">Group</a></li> 			
+            <li><a id = "movieS" href="#">Movie</a></li>
+            <li><a id = "userS"  href="#">User</a></li>
+            <li><a id = "groupS" href="#">Group</a></li>
+            <li><a id = "hashtagS" href="#">HashTagNews</a></li> 			
         </ul>
     </li>
     <li>
     <a href="/usersettings">Setting</a>
     </li> 
     <li>
+    <a href="/#">Email</a>
+    </li>  
+    <li>
     <a href="/logoff">Logout</a>
-    </li>   
+    </li>  
     
 </ul>
 
