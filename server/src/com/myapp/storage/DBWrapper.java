@@ -611,6 +611,78 @@ public class DBWrapper
 		}
 		return flv;
 	}
+		
+	/**
+	 * Show Followings list
+	 * @param username
+	 * @param request
+	 * @param response
+	 */
+	public UserListView loadFollowingsList(String username) 
+	{
+		UserListView ulv = new UserListView(); 
+		ArrayList<String>fans = getUserFollowings(username);
+		if(fans != null)
+		{
+			for(String fname: fans)
+			{
+				UserEntity friend = getUserEntity(fname);
+				if(friend == null) continue;
+				String url = friend.getHeadUrl();
+				UserObjectView fov = new UserObjectView(url, fname);
+				ulv.add(fov);
+			}
+		}
+		return ulv;
+	}
+	
+	/**
+	 * Show Fans list
+	 * @param username
+	 * @param request
+	 * @param response
+	 */
+	public UserListView loadFansList(String username) 
+	{
+		UserListView ulv = new UserListView(); 
+		ArrayList<String>fans = getUserFans(username);
+		if(fans != null)
+		{
+			for(String fname: fans)
+			{
+				UserEntity friend = getUserEntity(fname);
+				if(friend == null) continue;
+				String url = friend.getHeadUrl();
+				UserObjectView fov = new UserObjectView(url, fname);
+				ulv.add(fov);
+			}
+		}
+		return ulv;
+	}
+
+
+
+	private ArrayList<String> getUserFollowings(String username) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			return user.getFollowings();
+		}
+		return null;
+	}
+	
+	private ArrayList<String> getUserFans(String username) 
+	{
+		UserEntity user = getUserEntity(username);
+		if(user != null)
+		{
+			return user.getFans();
+		}
+		return null;
+	}
+
+
 
 	/**
 	 * display a user's all news

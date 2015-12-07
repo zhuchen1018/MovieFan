@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.myapp.utils.Const;
+import com.myapp.view.UserListView;
 import com.myapp.view.UserSettingView;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.UserEntity;
@@ -74,8 +75,7 @@ public class UserPage extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			System.out.println("handleFollowUser username is null"); 
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.redirectToLoginPage(request, response);
 			return;
 		}
 
@@ -115,6 +115,7 @@ public class UserPage extends HttpServlet
 	private void handleArticlePost(HttpServletRequest request, HttpServletResponse response) 
 	{
 
+
 	}
 
 	private void handleCommentPost(HttpServletRequest request, HttpServletResponse response) 
@@ -138,7 +139,7 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage("Please say something.",  response);
 			return;
 		}
-		
+
 		if(info.length() > Const.MAX_TWEET_LENGTH)
 		{
 			ServletCommon.PrintErrorPage("Your tweet is too long....",  response);
@@ -172,15 +173,75 @@ public class UserPage extends HttpServlet
 		{
 			handleUserPageGet(request, response);
 		}	
-		
 		else if(url.equals(Const.USER_MAILBOX_URL))
 		{
 			handleMailBoxGet(request, response);
+		}	
+		else if(url.equals(Const.USER_FOLLOWING_URL))
+		{
+			handleFollowingGet(request, response);
+		}	
+		else if(url.equals(Const.USER_FANS_URL))
+		{
+			handleUserFansGet(request, response);
 		}	
 		else
 		{
 			ServletCommon.redirect404(request, response);
 		}
+	}
+
+	private void handleUserFansGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			ServletCommon.redirectToLoginPage(request, response);
+			return;
+		}
+		//url:     /follow_user?user=jason
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		if(query == null || query.get("user") == null)
+		{
+			System.out.println("handleFollowUser query user is null"); 
+			ServletCommon.redirect404(request, response);
+			return;
+		}
+		
+		String targetName = query.get("user");
+		UserListView ulv = db.loadFansList(targetName);
+		request.setAttribute("UserListView", null); 
+		request.setAttribute("UserListView", ulv); 
+
+		String location = "/jsp/UserList.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
+	}
+
+	private void handleFollowingGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			ServletCommon.redirectToLoginPage(request, response);
+			return;
+		}
+		//url:     /follow_user?user=jason
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		if(query == null || query.get("user") == null)
+		{
+			System.out.println("handleFollowUser query user is null"); 
+			ServletCommon.redirect404(request, response);
+			return;
+		}
+		
+		String targetName = query.get("user");
+		UserListView ulv = db.loadFollowingsList(targetName); 
+		request.setAttribute("UserListView", null); 
+		request.setAttribute("UserListView", ulv); 
+
+		String location = "/jsp/UserList.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
+
 	}
 
 	private void handleMailBoxGet(HttpServletRequest request, HttpServletResponse response) 

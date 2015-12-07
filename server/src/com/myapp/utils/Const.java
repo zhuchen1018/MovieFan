@@ -58,9 +58,12 @@ public class Const
 	public static final String TEST_USER_NEWS_URL = "/test_news";
 	public static final String TEST_FRIENDS_URL = "/test_friends";
 	public static final String TEST_GROUPS_URL = "/test_groups";
-
+	//dopost
 	public static final String FOLLOW_USER_URL = "/follow";
 	public static final String UNFOLLOW_USER_URL = "/unfollow";
+	//doget
+	public static final String USER_FOLLOWING_URL = "/userfollowing";
+	public static final String USER_FANS_URL = "/usefans";
 
 	
 	//Movie

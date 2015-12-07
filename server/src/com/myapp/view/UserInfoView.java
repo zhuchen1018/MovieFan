@@ -57,4 +57,19 @@ public class UserInfoView extends UserSettingView
 		return isMyFriend;
 	}
 	
+	public int getFansNum()
+	{
+		return fansNum;
+	}
+	
+	public int getFollowingNum()
+	{
+		return followingNum;
+	}
+
+	public int getNewsNum()
+	{
+		return newsNum;
+	}
+	
 }

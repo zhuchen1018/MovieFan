@@ -40,6 +40,9 @@ curUser+=request.getQueryString();
 	String description = uiv.getDescription();
     Boolean myPageFlag = uiv.isMyPage(); 
     Boolean myfriendFlag = uiv.isMyFriend(); 
+    int fansNum = uiv.getFansNum();
+    int followingNum = uiv.getFollowingNum();
+    int newsNum = uiv.getNewsNum(); 
 %>
 
 <div width=100% height=100% id="Outer">

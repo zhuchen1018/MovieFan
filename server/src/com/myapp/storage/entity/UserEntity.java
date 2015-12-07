@@ -267,4 +267,14 @@ public class UserEntity
 	{
 		return news.size();
 	}
+
+	public ArrayList<String> getFollowings() 
+	{
+		return friends;
+	}
+	
+	public ArrayList<String> getFans() 
+	{
+		return fans;
+	}
 }
