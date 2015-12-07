@@ -144,6 +144,8 @@ public class Const
 	*/
 
 	public static HashMap<String,Integer> GENRE_MAP;
+	
+	public static HashMap<Integer,String> REVERSE_GENRE_MAP;
 
 	public static String PLEASE_ENTER_SOMETHING = "Please enter something....";
 
@@ -165,6 +167,26 @@ public class Const
 		GENRE_MAP.put("Documentary", 14);
 		GENRE_MAP.put("War", 15);
 		GENRE_MAP.put("Musical", 16);
+	}
+	
+	static{
+		REVERSE_GENRE_MAP = new HashMap<Integer,String>();
+		REVERSE_GENRE_MAP.put(0, "Adventure");
+		REVERSE_GENRE_MAP.put(1, "Animation");
+		REVERSE_GENRE_MAP.put(2, "Children");
+		REVERSE_GENRE_MAP.put(3, "Comedy");
+		REVERSE_GENRE_MAP.put(4, "Fantasy");
+		REVERSE_GENRE_MAP.put(5, "Romance");
+		REVERSE_GENRE_MAP.put(6, "Drama");
+		REVERSE_GENRE_MAP.put(7, "Action");
+		REVERSE_GENRE_MAP.put(8, "Crime");
+		REVERSE_GENRE_MAP.put(9, "Thriller");
+		REVERSE_GENRE_MAP.put(10, "Horror");
+		REVERSE_GENRE_MAP.put(11, "Mystery");
+		REVERSE_GENRE_MAP.put(12, "Sci-Fi");
+		REVERSE_GENRE_MAP.put(14, "Documentary");
+		REVERSE_GENRE_MAP.put(15, "War");
+		REVERSE_GENRE_MAP.put(16, "Musical");
 	}
 	
 	
