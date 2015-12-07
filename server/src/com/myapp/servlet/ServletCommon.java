@@ -30,6 +30,7 @@ import com.myapp.view.GroupPageView;
 import com.myapp.view.MoviePageView;
 import com.myapp.view.MoviePageViewCache;
 import com.myapp.view.NewsListView;
+import com.myapp.view.UserListView;
 import com.myapp.view.UserSettingView;
 
 public class ServletCommon 
@@ -306,7 +307,7 @@ public class ServletCommon
 	}
 
 	public static void RedirectToGroupPage(HttpServletRequest request, HttpServletResponse response, 
-			String username, Long gid) 
+			String username, Long gid, NewsListView nlv, UserListView ulv) 
 	{
 		DBWrapper db = null; 
 		try 
@@ -319,12 +320,19 @@ public class ServletCommon
 			return;
 		}
 
-		GroupPageView gpv = db.loadGroupPageView(gid, username);
+		GroupPageView gpv = db.loadGroupPageView(gid, username); 
 		if(gpv == null)
 		{
 			ServletCommon.redirect404(request, response);
 			return;
 		}
+
+		request.setAttribute("NewsListView", null); 
+		request.setAttribute("NewsListView", nlv); 
+
+		request.setAttribute("UserListView", null); 
+		request.setAttribute("UserListView", ulv); 
+
 		request.setAttribute("GroupPageView", null); 
 		request.setAttribute("GroupPageView", gpv); 
 	

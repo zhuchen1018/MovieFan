@@ -7,6 +7,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.EnvironmentConfig;
 import com.sleepycat.je.EnvironmentFailureException;
 import com.sleepycat.persist.StoreConfig;
+import com.myapp.servlet.ServletCommon;
 import com.myapp.storage.accessor.*;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.HashTagEntity;
@@ -637,6 +638,29 @@ public class DBWrapper
 	}
 	
 	/**
+	 * Show Followings list
+	 * @param username
+	 * @param request
+	 * @param response
+	 */
+	public UserListView getUserViewListFromNameList(ArrayList<String>nameList) 
+	{
+		UserListView ulv = new UserListView(); 
+		if(nameList != null)
+		{
+			for(String name: nameList)
+			{
+				UserEntity friend = getUserEntity(name);
+				if(friend == null) continue;
+				String url = friend.getHeadUrl();
+				UserObjectView fov = new UserObjectView(url, name);
+				ulv.add(fov);
+			}
+		}
+		return ulv;
+	}
+	
+	/**
 	 * Show Fans list
 	 * @param username
 	 * @param request
@@ -945,7 +969,7 @@ public class DBWrapper
 		if(gobj != null) 
 		{
 			boolean inGroup = gobj.hasMember(username);
-			return new GroupPageView(gid, gobj.getName(), gobj.getCreator(), gobj.getMembers(), inGroup); 
+			return new GroupPageView(gid, gobj.getName(), gobj.getCreator(), inGroup); 
 		}
 		return null;
 	}
@@ -982,5 +1006,38 @@ public class DBWrapper
 	public void createFBUser(String name, String password, String fbid) 
 	{
 		userEA.add(name, password, fbid);
+	}
+
+	public NewsListView getNewsListViewFromNewsIds(ArrayList<Long> news) 
+	{
+		NewsListView nlv = new NewsListView(); 	
+		for(Long newsid: news) 
+		{
+			NewsEntity obj = newsEA.getNewsEntityById(newsid);
+			NewsObjectView newsViewObj = new NewsObjectView(obj);
+			nlv.addNews(newsViewObj);
+		}
+		return nlv;
+	}
+
+	/**
+	 * group news store in groupEntity, not userEntity
+	 * @param username
+	 * @param gid
+	 * @param info
+	 */
+	public void addGroupNews(String username, Long gid, String info) 
+	{
+		GroupEntity gobj = getGroupEntity(gid);
+		if(gobj == null)
+		{
+			return;
+		}
+
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), info, Const.NEWS_TWITTER);
+		newsEA.addNews(news_obj);
+
+		gobj.addNews(news_obj.getId());
+		groupEA.putEntity(gobj);
 	}
 }

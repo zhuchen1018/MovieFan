@@ -74,6 +74,11 @@ public class GroupEntity
 	{
 		return head_url;
 	}
+	
+	public ArrayList<Long>getNews() 
+	{
+		return news;
+	}
 
 	public void addMember(String username) 
 	{
@@ -96,5 +101,10 @@ public class GroupEntity
 	public void addHeadUrl(String url) 
 	{
 		head_url = url;
+	}
+
+	public void addNews(long id) 
+	{
+		news.add(id);
 	}
 }
