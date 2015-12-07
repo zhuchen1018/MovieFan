@@ -250,14 +250,12 @@ public class Account extends HttpServlet
 		{
 			ServletCommon.delSession(request, response);
 		}
-
-		ServletCommon.RedirectToHome(request, response);
+		ServletCommon.redirectToLoginPage(request, response);
 	}
 
 	public void handleLogin(HttpServletRequest request, HttpServletResponse response) throws IOException
 	{
-		String location = "/jsp/Login.jsp";
-		ServletCommon.forwardRequestDispatch(request, response, location);
+		ServletCommon.redirectToLoginPage(request, response);
 	}
 
 	private boolean checkNameLegal(String name, HttpServletRequest request, HttpServletResponse response)

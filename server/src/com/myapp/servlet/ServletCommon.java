@@ -234,6 +234,13 @@ public class ServletCommon
 
 	public static void RedirectToHome(HttpServletRequest request, HttpServletResponse response) 
 	{
+		String username = getSessionUsername(request);
+		if(username == null)
+		{
+			redirectToLoginPage(request, response);
+			return;
+		}
+		
 		DBWrapper db = null; 
 		try 
 		{
@@ -242,13 +249,6 @@ public class ServletCommon
 		catch (IOException e) 
 		{
 			e.printStackTrace();
-			return;
-		}
-
-		String username = getSessionUsername(request);
-		if(username == null)
-		{
-			PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
 			return;
 		}
 
@@ -303,10 +303,8 @@ public class ServletCommon
 		boolean isMyPage = username.equals(targetName);
 		request.setAttribute("isMyPage", new Boolean(isMyPage));
 	
-	
 		boolean isMyFriend = db.isMyFriend(username, targetName); 
 		request.setAttribute("isMyFriend", new Boolean(isMyFriend));
-
 		
 		String location = "/jsp/UserPage.jsp";
 		forwardRequestDispatch(request, response, location);
@@ -416,5 +414,11 @@ public class ServletCommon
 		{
 			e.printStackTrace();
 		}
+	}
+
+	public static void redirectToLoginPage(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String location = "/jsp/Login.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}	
 }
