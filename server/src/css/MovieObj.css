@@ -12,8 +12,17 @@ div.movieObj{
 }
 
 div.overview{
-	width: 200px;
-	height: 210px;
+	width: 45%;
+	height: 64%;
+	position: relative;
+	overflow: scroll;
+	float: left;
+}
+
+div.info{
+	width:45%;
+	height: 30%;
+	position: relative;
 	overflow: scroll;
 	float: left;
 }

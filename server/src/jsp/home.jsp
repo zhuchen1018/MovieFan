@@ -16,7 +16,7 @@
 
 
 <!-- Begin Wrapper -->
-<div width=100% height=100% id="Outer">
+<div id="Outer">
   <div id="BasicDiv" class = "GroupList"> <jsp:include page="GroupList.jsp"/> </div>
   <!-- End Left Column -->
   <!-- Begin Left Middle Column -->

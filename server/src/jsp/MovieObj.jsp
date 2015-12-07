@@ -28,16 +28,21 @@
 	<% } else { %>
 		<a href = <%=directURL %>><img src="/images/not-found.png" alt="Poster"></a><br>
 	<%}%>
-	<a class="link" href = <%=directURL %>><b class="name"><%=mov.getName()%></b></a>
-	<br>
-	<b class="rating">Rating: <%=rating%> </b>
-	<b class="vote">(<%=votes%> votes)<b>
-	<br>
-	<b class="releaseDate">Release Date: <%=releaseDate %>
-	<br>
-	<b class="runtime">Runtime: <%=movieLength %></td>	
+	<div class="info">
+		<!--<a class="link" href = <%=directURL %>><b class="name"><%=mov.getName()%></b></a>-->
+		<div style="width:auto;overflow:scroll;">
+			<b class="name"><%=mov.getName()%></b>
+		</div>
+		<br>
+		<b class="rating">Rating: <%=rating%> </b>
+		<b class="vote">(<%=votes%> votes)<b>
+		<br>
+		<b class="releaseDate">Release Date: <%=releaseDate %>
+		<br>
+		<b class="runtime">Runtime: <%=movieLength %></td>
+	</div>	
     <br><br>
-    <b class="overview">Overview: </b>
+   	<b class="overview">Overview: </b>
     <div class="overview"><p class="paragraph"><%=mov.getOverview()%></p> </div>
 
 </body>

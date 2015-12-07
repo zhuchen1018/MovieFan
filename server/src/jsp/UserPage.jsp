@@ -39,6 +39,7 @@ curUser+=request.getQueryString();
 <% UserSettingView usv = (UserSettingView)request.getAttribute("UserSettingView");
 	String headURL = usv.getHeadUrl();
 	String profileURL = usv.getProfileUrl();
+	if(profileURL==null) profileURL="../images/noprofile.jpg";
 	String description = usv.getDescription();
 %>
 
@@ -55,7 +56,15 @@ curUser+=request.getQueryString();
 		</div>
 		<div class="left_bottom">
 			<div class="left_bottom_left">
-				<div class="introduction">
+				<div>
+					<h2 id="title">About Me</h2>
+					<p>
+						<%=description%>
+					</p>
+				</div>
+				<br>
+				<div>
+					<h3 id="title">Favorate Genre</h3>
 				</div>
 			</div>
 			<div class="left_bottom_right">
