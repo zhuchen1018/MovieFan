@@ -38,6 +38,10 @@ public class HashTagAccessor
 	
 	public ArrayList<HashTagEntity> searchHashTag(String tag) 
 	{
+		if(tag.startsWith("#"))
+		{
+			tag = tag.substring(1);  
+		}
 		ArrayList<HashTagEntity>result = new ArrayList<HashTagEntity>();
 		for(String key: tags.keys())
 		{

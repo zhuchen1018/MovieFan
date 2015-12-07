@@ -1,34 +1,15 @@
 package com.myapp.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Hashtable;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import com.myapp.SQL.SQLDBMovieQuery;
 import com.myapp.storage.DBWrapper;
-import com.myapp.storage.entity.GroupEntity;
 import com.myapp.utils.Const;
-import com.myapp.view.GoogleListView;
-import com.myapp.view.GoogleObjectView;
 import com.myapp.view.GroupListView;
-import com.myapp.view.GroupObjectView;
 import com.myapp.view.NewsListView;
 import com.myapp.view.UserListView;
-import com.myapp.utils.Const;
 
 public class Search extends HttpServlet 
 {
@@ -113,6 +94,7 @@ public class Search extends HttpServlet
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
+	/*
 	private void handleSearchGooglePost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String search = request.getParameter("search_google"); 
@@ -125,6 +107,7 @@ public class Search extends HttpServlet
 		String location = "/jsp/GoogleList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
+	*/
 
 	private void handleSearchMovieAdvancedPost(HttpServletRequest request, HttpServletResponse response) 
 	{

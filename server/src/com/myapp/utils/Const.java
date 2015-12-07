@@ -49,6 +49,7 @@ public class Const
 	public static final String USER_SETTINGS_URL = "/usersettings";
 	public static final String USER_TWEET_HOME_URL = "/tweet_home";
 	public static final String USER_TWEET_URL = "/tweet_user";
+	public static final String USER_MAILBOX_URL = "/mailbox";
 
 	public static final String USER_COMMENT_URL = "/comment";
 	public static final String USER_ARTICLE_URL = "/article";
@@ -59,6 +60,7 @@ public class Const
 
 	public static final String FOLLOW_USER_URL = "/follow";
 	public static final String UNFOLLOW_USER_URL = "/unfollow";
+
 	
 	//Movie
 	public static final String MOVIE_PAGE_URL = "/moviepage";
@@ -175,6 +177,7 @@ public class Const
 	public static final int MAX_TWEET_LENGTH = 200;
 
 	public static final int MOVIEPAGEVIEW_CACHE_SIZE = 10000;
+
 
 
 

@@ -55,39 +55,39 @@ $(document).ready(function(){
     </li>
     <li id="search">    
       <form id ="movieSearch" action= "/search_movie_result" method="post">
-         <input type="text" name="search_movie" value="" id="search_text" placeholder="Find Movies"/>
+         <input type="text" name="search_movie" value="" id="search_text" placeholder="Search Movies"/>
          <input type="submit" id="search_button" id="search_text" value = "Search"> 
       </form>
       <form id ="userSearch" action= "/search_user" method="post" style="display:none">
-         <input type="text" name="USER" value="" id="search_text" placeholder="Find Users"/>
+         <input type="text" name="USER" value="" id="search_text" placeholder="Search Users"/>
          <input type="submit" id="search_button" value = "Search"> 
       </form>
       <form id ="groupSearch" action= "/search_group_result" method="post" style="display:none">
-         <input type="text" name="search_group" value="" id="search_text" placeholder="Find Groups"/>
+         <input type="text" name="search_group" value="" id="search_text" placeholder="Search Groups"/>
          <input type="submit" id="search_button" value = "Search"> 
       </form>
       
       <form id ="hashtagSearch" action= "/search_hashtag_result" method="post" style="display:none">
-         <input type="text" name="search_hashtag" value="" id="search_text" placeholder="Search For News"/>
+         <input type="text" name="search_hashtag" value="" id="search_text" placeholder="Search Hashtag"/>
          <input type="submit" id="search_button" value = "Search"> 
       </form>
     <li id="options">
-        <a href="#">Search Options</a>
+        <a href="#">Options</a>
         <ul class="subnav">
             <li><a id = "movieS" href="#">Movie</a></li>
             <li><a id = "userS"  href="#">User</a></li>
             <li><a id = "groupS" href="#">Group</a></li>
-            <li><a id = "hashtagS" href="#">HashTagNews</a></li> 			
+            <li><a id = "hashtagS" href="#">HashTag</a></li> 			
         </ul>
     </li>
     <li>
-    <a href="/usersettings">Setting</a>
+    <a href="/usersettings">Settings</a>
     </li> 
     <li>
-    <a href="/#">Email</a>
+    <a href="/mailbox">Messages</a>
     </li>  
     <li>
-    <a href="/logoff">Logout</a>
+    <a href="/logoff">Log Out</a>
     </li>  
     
 </ul>

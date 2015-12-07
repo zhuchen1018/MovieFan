@@ -180,10 +180,21 @@ public class UserPage extends HttpServlet
 		{
 			handleUserSettingsGet(request, response);
 		}	
+		
+		else if(url.equals(Const.USER_MAILBOX_URL))
+		{
+			handleMailBoxGet(request, response);
+		}	
 		else
 		{
 			ServletCommon.redirect404(request, response);
 		}
+	}
+
+	private void handleMailBoxGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		//TODO:
+		ServletCommon.PrintErrorPage("handleMailBoxGet is developing......",  response);
 	}
 
 	private void handleUserSettingsGet(HttpServletRequest request, HttpServletResponse response) 
