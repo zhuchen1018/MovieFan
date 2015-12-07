@@ -64,7 +64,7 @@ public class Account extends HttpServlet
 		if(username == null)
 		{
 			System.out.println("handleFollowUser username is null"); 
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 
@@ -73,7 +73,7 @@ public class Account extends HttpServlet
 		UserEntity user = db.getUserEntity(username);
 		if(user == null)
 		{
-			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
 			return;
 		}
 
@@ -101,7 +101,7 @@ public class Account extends HttpServlet
 		String name = request.getParameter("USERNAME");
 		if(name == null)
 		{
-			ServletCommon.PrintErrorPage("Please enter a username.",  response);
+			ServletCommon.PrintErrorPage("Please enter a username.",  request, response);
 			return;
 		}
 		name = name.trim();
@@ -112,7 +112,7 @@ public class Account extends HttpServlet
 		String password = request.getParameter("PASSWORD");
 		if(password == null)
 		{
-			ServletCommon.PrintErrorPage("Please enter a password.",  response);
+			ServletCommon.PrintErrorPage("Please enter a password.",  request, response);
 			return;
 		}
 		password = password.trim();
@@ -125,7 +125,7 @@ public class Account extends HttpServlet
 
 		if(db.hasUser(name))
 		{
-			ServletCommon.PrintErrorPage("Sorry, this username has already been registered!",  response);
+			ServletCommon.PrintErrorPage("Sorry, this username has already been registered!",  request, response);
 			return;
 		}
 
@@ -145,7 +145,7 @@ public class Account extends HttpServlet
 		if(username == null)
 		{
 			System.out.println("handleFollowUser username is null"); 
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 
@@ -154,7 +154,7 @@ public class Account extends HttpServlet
 		UserEntity user = db.getUserEntity(username);
 		if(user == null)
 		{
-			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
 			return;
 		}
 
@@ -182,7 +182,7 @@ public class Account extends HttpServlet
 		String name = request.getParameter("USERNAME");
 		if(name == null)
 		{
-			ServletCommon.PrintErrorPage("Please enter a username.",  response);
+			ServletCommon.PrintErrorPage("Please enter a username.",  request, response);
 			return;
 		}
 
@@ -190,21 +190,21 @@ public class Account extends HttpServlet
 		/* Check db if the user exists*/
 		if(!db.hasUser(name))
 		{
-			ServletCommon.PrintErrorPage("Sorry, this username has not been registered!",  response);
+			ServletCommon.PrintErrorPage("Sorry, this username has not been registered!",  request, response);
 			return;
 		}
 
 		String password = request.getParameter("PASSWORD");
 		if(password == null)
 		{
-			ServletCommon.PrintErrorPage("Please enter a password.",  response);
+			ServletCommon.PrintErrorPage("Please enter a password.",  request, response);
 			return;
 		}
 
 		String real_password = MD5Encryptor.crypt(password);
 		if(!db.checkLoginPassword(name, real_password))
 		{
-			ServletCommon.PrintErrorPage("Your password is wrong!",  response);
+			ServletCommon.PrintErrorPage("Your password is wrong!",  request, response);
 			return;
 		}
 
@@ -328,17 +328,17 @@ public class Account extends HttpServlet
 	{
 		if(name.isEmpty())
 		{
-			ServletCommon.PrintErrorPage("Please enter a username.",  response);
+			ServletCommon.PrintErrorPage("Please enter a username.",  request, response);
 			return false;
 		}
 		if(name.length() < 6)
 		{
-			ServletCommon.PrintErrorPage("Username length should be >= 6.",  response);
+			ServletCommon.PrintErrorPage("Username length should be >= 6.",  request, response);
 			return false;
 		}
 		if(!name.matches("[A-Za-z_][\\w]*"))
 		{
-			ServletCommon.PrintErrorPage("Username should begin with letters and only contain numbers and letters.",  response);
+			ServletCommon.PrintErrorPage("Username should begin with letters and only contain numbers and letters.",  request, response);
 			return false;
 		}
 		return true;
@@ -348,17 +348,17 @@ public class Account extends HttpServlet
 	{
 		if(password.isEmpty())
 		{
-			ServletCommon.PrintErrorPage("Please enter a password.",  response);
+			ServletCommon.PrintErrorPage("Please enter a password.",  request, response);
 			return false;
 		}
 		if(password.length() < 6)
 		{
-			ServletCommon.PrintErrorPage("Password length should be >= 6.",  response);
+			ServletCommon.PrintErrorPage("Password length should be >= 6.",  request, response);
 			return false;
 		}
 		if(password.matches(".*\\s+.*"))
 		{
-			ServletCommon.PrintErrorPage("Password should not contain spaces.",  response);
+			ServletCommon.PrintErrorPage("Password should not contain spaces.",  request, response);
 			return false;
 		}
 		return true;

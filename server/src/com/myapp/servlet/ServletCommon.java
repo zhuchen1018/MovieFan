@@ -34,25 +34,11 @@ import com.myapp.view.UserSettingView;
 
 public class ServletCommon 
 {
-	public static void PrintErrorPage(String info, HttpServletResponse response) 
+	public static void PrintErrorPage(String info, HttpServletRequest request, HttpServletResponse response) 
 	{
-		response.setContentType("text/html");
-		PrintWriter out;
-		try 
-		{
-			out = response.getWriter();
-			out.println("<HTML><HEAD><TITLE>ERROR</TITLE></HEAD><BODY>");
-			out.println("<P>" + "Sorry:"+ "</P>");
-			out.println("<P>" + info + "</P>");
-
-			showHomeLink(response);
-
-			out.println("</BODY></HTML>");		
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+		String location = "/jsp/ErrorPage.jsp";
+		request.setAttribute("ERROR_MESSAGE", info);
+		forwardRequestDispatch(request, response, location);
 	}
 
 	public static boolean isSessionValid(HttpServletRequest request)

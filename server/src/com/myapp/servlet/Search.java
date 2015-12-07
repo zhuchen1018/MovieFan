@@ -79,7 +79,7 @@ public class Search extends HttpServlet
 		String search = request.getParameter("search_hashtag"); 
 		if(search == null || search.isEmpty())
 		{
-			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING, response);
+			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING, request, response);
 			return;
 		}
 		
@@ -146,7 +146,7 @@ public class Search extends HttpServlet
 		String search = request.getParameter("search_group"); 
 		if(search == null || search.isEmpty())
 		{
-			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING, response);
+			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING, request, response);
 			return;
 		}
 	
@@ -165,7 +165,7 @@ public class Search extends HttpServlet
 		String tarname = request.getParameter("USER");
 		if(tarname == null || tarname.isEmpty())
 		{
-			ServletCommon.PrintErrorPage("Please input search user name",  response);
+			ServletCommon.PrintErrorPage("Please input search user name",  request, response);
 			return;
 		}
 
@@ -189,7 +189,7 @@ public class Search extends HttpServlet
 		String key = request.getParameter("search_movie");
 		if(key == null || key.isEmpty())
 		{
-			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING, response);
+			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING, request, response);
 			return;
 		}
 		SQLDBMovieQuery sql=null;
@@ -219,7 +219,7 @@ public class Search extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 
