@@ -25,12 +25,7 @@
      <servlet-name>user_page</servlet-name>
      <url-pattern>/mailbox</url-pattern>
    </servlet-mapping>  
-   
-     <servlet-mapping>
-     <servlet-name>user_page</servlet-name>
-     <url-pattern>/usersettings</url-pattern>
-   </servlet-mapping>  
-   
+     
     <servlet-mapping>
      <servlet-name>user_page</servlet-name>
      <url-pattern>/tweet_user</url-pattern>
@@ -112,7 +107,7 @@
 
   <servlet-mapping>
      <servlet-name>account</servlet-name>
-     <url-pattern>/setting</url-pattern>
+     <url-pattern>/usersettings</url-pattern>
    </servlet-mapping>  
 
     <servlet>

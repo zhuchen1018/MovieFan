@@ -15,7 +15,8 @@ b.friendName{
 
 div.friend{
 	width: 100px;
-	height: 100%;
+	height: 40px;
+	overflow: auto;
 	float: left;
 	margin: 5px 0px 0px 0px;
 }

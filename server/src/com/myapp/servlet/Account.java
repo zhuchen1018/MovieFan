@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import com.myapp.storage.DBWrapper;
+import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.MD5Encryptor;
+import com.myapp.view.UserSettingView;
 import com.myapp.utils.Const;
 
 
@@ -50,11 +52,49 @@ public class Account extends HttpServlet
 		{
 			handleLoginPost(request, response);
 		}
-		else if(url.equals(Const.ACCOUNT_SETTING_URL))
+		else if(url.equals(Const.USER_SETTINGS_URL))
 		{
-			handleSettingPost(request, response);
+			handleUserSettingsPost(request, response);
 		}
 	}
+
+	private void handleUserSettingsPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			System.out.println("handleFollowUser username is null"); 
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			return;
+		}
+
+		initDB();
+
+		UserEntity user = db.getUserEntity(username);
+		if(user == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			return;
+		}
+
+		String head_url = request.getParameter("HEAD_URL");
+		String profile_url = request.getParameter("PROFILE_URL");
+		String description = request.getParameter("DESC");
+		String[] genres = request.getParameterValues("GENRES");
+		Integer[] genres_integer = null; 
+		if(genres != null)
+		{
+			genres_integer = new Integer[genres.length];
+			for(int i = 0; i < genres_integer.length; ++i)
+			{
+				genres_integer[i] = Const.GENRE_MAP.get(genres[i]);
+			}
+		}
+		db.upUserSettings(username, head_url, profile_url, description, genres_integer);
+		db.sync();
+
+		ServletCommon.RedirectToUserPage(request, response, username, username);
+	} 
 
 	private void handleRegisterPost(HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -99,6 +139,37 @@ public class Account extends HttpServlet
 		ServletCommon.RedirectToHome(request, response);	
 	}
 
+	private void handleUserSettingsGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			System.out.println("handleFollowUser username is null"); 
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
+			return;
+		}
+
+		initDB();
+
+		UserEntity user = db.getUserEntity(username);
+		if(user == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
+			return;
+		}
+
+		String head_url = user.getHeadUrl();
+		String profile_url = user.getProfileUrl();
+		Integer[] genres = user.getLikeGenres();
+		String description = user.getDescription();
+
+		UserSettingView usv =  new UserSettingView(head_url,profile_url, genres, description);
+		request.setAttribute("UserSettingView", usv);
+
+		String location = "/jsp/UserSettings.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
+	}
+			
 	private void handleSettingPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 
@@ -226,18 +297,13 @@ public class Account extends HttpServlet
 		{
 			handleRegister(request, response);
 		}
-		else if(url.equals(Const.ACCOUNT_SETTING_URL))
+		else if(url.equals(Const.USER_SETTINGS_URL))
 		{
-			handleSetting(request, response);
+			handleUserSettingsGet(request, response);
 		}
-	}
-
-	private void handleSetting(HttpServletRequest request, HttpServletResponse response) 
-	{
-		// TODO Auto-generated method stub
 
 	}
-
+	
 	private void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String location = "/htmls/RegisterPage.html";

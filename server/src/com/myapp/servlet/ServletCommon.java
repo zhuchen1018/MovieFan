@@ -266,7 +266,6 @@ public class ServletCommon
 
 		String location = "/jsp/home.jsp";
 		forwardRequestDispatch(request, response, location);
-		
 		db.close();
 	}
 
@@ -296,16 +295,12 @@ public class ServletCommon
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
 		
-		UserSettingView usv = db.loadUserSettingView(targetName);
-		request.setAttribute("UserSettingView", null); 
-		request.setAttribute("UserSettingView", usv); 
-		
 		boolean isMyPage = username.equals(targetName);
-		request.setAttribute("isMyPage", new Boolean(isMyPage));
-	
 		boolean isMyFriend = db.isMyFriend(username, targetName); 
-		request.setAttribute("isMyFriend", new Boolean(isMyFriend));
-		
+		UserSettingView usv = db.loadUserInfoView(username, isMyPage, isMyFriend);
+		request.setAttribute("UserInfoView", null); 
+		request.setAttribute("UserInfoView", usv); 
+			
 		String location = "/jsp/UserPage.jsp";
 		forwardRequestDispatch(request, response, location);
 		
@@ -393,7 +388,7 @@ public class ServletCommon
 		{
 			GoogleListView glv = new GoogleListView();
 			Elements links = Jsoup.connect(google + URLEncoder.encode(search, charset)).userAgent(userAgent).get().select("li.g>h3>a");
-			System.out.println("google links size: " + links.size());
+			//System.out.println("google links size: " + links.size());
 			for (Element link : links) 
 			{
 				String title = link.text();

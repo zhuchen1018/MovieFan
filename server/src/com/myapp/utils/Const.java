@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 public class Const 
 {
 	public final static String ROOT = "./database/"; 
@@ -42,11 +44,10 @@ public class Const
 	public static final String REGISTER_URL = "/register";
 	public final static String LOGIN_URL = "/login"; 
 	public final static String LOGOFF_URL = "/logoff";
-	public static final String ACCOUNT_SETTING_URL = "/setting";
+	public static final String USER_SETTINGS_URL = "/usersettings";
 	
 	//User
 	public static final String USER_PAGE_URL = "/userpage";
-	public static final String USER_SETTINGS_URL = "/usersettings";
 	public static final String USER_TWEET_HOME_URL = "/tweet_home";
 	public static final String USER_TWEET_URL = "/tweet_user";
 	public static final String USER_MAILBOX_URL = "/mailbox";
@@ -178,11 +179,7 @@ public class Const
 
 	public static final int MOVIEPAGEVIEW_CACHE_SIZE = 10000;
 
-
-
-
-
-
+	public static final PrettyTime PRETTY_TIME  = new PrettyTime();
 
 
 	/**

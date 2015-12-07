@@ -57,10 +57,6 @@ public class UserPage extends HttpServlet
 		{
 			handleUnFollowUserPost(request, response);
 		}
-		else if(url.equals(Const.USER_SETTINGS_URL))
-		{
-			handleUserSettingsPost(request, response);
-		}
 		/*
 		else if(url.equals(Const.USER_COMMENT_URL))
 		{
@@ -176,10 +172,6 @@ public class UserPage extends HttpServlet
 		{
 			handleUserPageGet(request, response);
 		}	
-		else if(url.equals(Const.USER_SETTINGS_URL))
-		{
-			handleUserSettingsGet(request, response);
-		}	
 		
 		else if(url.equals(Const.USER_MAILBOX_URL))
 		{
@@ -197,74 +189,9 @@ public class UserPage extends HttpServlet
 		ServletCommon.PrintErrorPage("handleMailBoxGet is developing......",  response);
 	}
 
-	private void handleUserSettingsGet(HttpServletRequest request, HttpServletResponse response) 
-	{
-		String username = ServletCommon.getSessionUsername(request);
-		if(username == null)
-		{
-			System.out.println("handleFollowUser username is null"); 
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
-			return;
-		}
 
-		initDB();
 
-		UserEntity user = db.getUserEntity(username);
-		if(user == null)
-		{
-			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
-			return;
-		}
 
-		String head_url = user.getHeadUrl();
-		String profile_url = user.getProfileUrl();
-		Integer[] genres = user.getLikeGenres();
-		String description = user.getDescription();
-
-		UserSettingView usv =  new UserSettingView(head_url,profile_url, genres, description);
-		request.setAttribute("UserSettingView", usv);
-
-		String location = "/jsp/UserSettings.jsp";
-		ServletCommon.forwardRequestDispatch(request, response, location);
-	}
-
-	private void handleUserSettingsPost(HttpServletRequest request, HttpServletResponse response) 
-	{
-		String username = ServletCommon.getSessionUsername(request);
-		if(username == null)
-		{
-			System.out.println("handleFollowUser username is null"); 
-			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  response);
-			return;
-		}
-
-		initDB();
-
-		UserEntity user = db.getUserEntity(username);
-		if(user == null)
-		{
-			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  response);
-			return;
-		}
-
-		String head_url = request.getParameter("HEAD_URL");
-		String profile_url = request.getParameter("PROFILE_URL");
-		String description = request.getParameter("DESC");
-		String[] genres = request.getParameterValues("GENRES");
-		Integer[] genres_integer = null; 
-		if(genres != null)
-		{
-			genres_integer = new Integer[genres.length];
-			for(int i = 0; i < genres_integer.length; ++i)
-			{
-				genres_integer[i] = Const.GENRE_MAP.get(genres[i]);
-			}
-		}
-		db.upUserSettings(username, head_url, profile_url, description, genres_integer);
-		db.sync();
-
-		ServletCommon.RedirectToUserPage(request, response, username, username);
-	} 
 
 	private void handleFollowUserPost(HttpServletRequest request, HttpServletResponse response) 
 	{
