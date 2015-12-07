@@ -37,7 +37,7 @@ curUser+=request.getQueryString();
 <% UserInfoView uiv = (UserInfoView)request.getAttribute("UserInfoView");
 	String headURL = uiv.getHeadUrl();
 	String profileURL = uiv.getProfileUrl();
-	if(profileURL==null) profileURL="../images/noprofile.jpg";
+	if(profileURL==null) profileURL="../images/nobackground.jpg";
 	String description = uiv.getDescription();
     Boolean myPageFlag = uiv.isMyPage(); 
     Boolean myfriendFlag = uiv.isMyFriend(); 
@@ -51,7 +51,7 @@ curUser+=request.getQueryString();
 		<div class="left_top" style="background-image: url(<%=profileURL%>); background-size:cover;">
     		<div class="avatar">
 	   			<%if(headURL==null||headURL.isEmpty()) {%>
-   					<img src="../images/nobackground.jpg" class="avatar" />
+   					<img src="../images/noprofile.jpg" class="avatar" />
     			<%}else{ %>
     				<img src=<%=headURL %> class="avatar" />
 				<%} %>
@@ -62,7 +62,11 @@ curUser+=request.getQueryString();
 				<div>
 					<h2 id="title">About Me</h2>
 					<p>
-						<%=description%>
+						<%if(description!=null){ %>
+							<em><%=description%></em>
+						<%}else{ %>
+							<em>No Description Available</em>
+						<%} %>
 					</p>
 				</div>
 				<br>
