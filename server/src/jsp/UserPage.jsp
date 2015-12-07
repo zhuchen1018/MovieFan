@@ -57,6 +57,23 @@ curUser+=request.getQueryString();
     			<%}else{ %>
     				<img src=<%=headURL %> class="avatar" />
 				<%} %>
+				
+				<%if(!myPageFlag) {%>
+					<%if(!myfriendFlag){ %>
+						<form action=<%="/follow"+curUser %> method="POST">
+							<button type="submit" name="UserFollow">
+    							+Follow
+							</button>
+						</form>
+					<%}
+					else { %>
+						<form action=<%="/unfollow"+curUser %> method="POST">
+							<button type="submit" name="UserUnFollow">
+	    						-Unfollow
+							</button>
+						</form>
+					<%} %>		
+				<%} %>
 			</div>
 		</div>
 		<div class="left_bottom">
