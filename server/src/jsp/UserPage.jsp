@@ -24,6 +24,7 @@
 </head>
 <%@ page import="java.util.*" %>
 <%@ page import="java.lang.*" %>
+<%@ page import="com.myapp.servlet.*" %>
 
 <body>
 
@@ -45,7 +46,7 @@ curUser+=request.getQueryString();
     int fansNum = uiv.getFansNum();
     int followingNum = uiv.getFollowingNum();
     int newsNum = uiv.getNewsNum(); 
-    System.out.println(profileURL);
+    String userName = ServletCommon.getSessionUsername(request);
 %>
 
 <div width=100% height=100% id="Outer">
@@ -58,6 +59,7 @@ curUser+=request.getQueryString();
     				<img src=<%=headURL %> class="avatar" />
 				<%} %>
 				
+				<font color=#FFFFFF><%=userName%></font>
 				<%if(!myPageFlag) {%>
 					<%if(!myfriendFlag){ %>
 						<form action=<%="/follow"+curUser %> method="POST">
@@ -74,6 +76,7 @@ curUser+=request.getQueryString();
 						</form>
 					<%} %>		
 				<%} %>
+				
 			</div>
 		</div>
 		<div class="left_bottom">

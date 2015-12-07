@@ -151,7 +151,7 @@ public class NewsObjectView {
 		if(type==Const.NEWS_MAKE_FRIENDS) return "follow ";
 		if(type==Const.NEWS_LIKE_MOVIE) return "liked ";
 		if(type==Const.NEWS_MOVIE_REVIEW) return "review movie";
-		if(type==Const.NEWS_SHARE_MOVIE) return "shared group";
+		if(type==Const.NEWS_SHARE_MOVIE) return "shared movie";
 		if(type==Const.NEWS_ADD_GROUP) return "joined group";
 		if(type==Const.NEWS_CREATE_GROUP) return "created group";
 		if(type==Const.NEWS_TWEET_IN_GROUP) return "said in group";
