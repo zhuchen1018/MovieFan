@@ -62,6 +62,11 @@ public class HashTagPage extends HttpServlet
 		}
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
 	private void handleHashTagGet(HttpServletRequest request, HttpServletResponse response) 
 	{
 		initDB();

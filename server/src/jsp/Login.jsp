@@ -12,17 +12,17 @@
 <title>Login</title>
 <style>
 body {
-    background: url('http://i.imgur.com/Eor57Ae.jpg') no-repeat fixed center center;
+    background: url('/images/login_bg3.jpg') no-repeat fixed center center;
     background-size: cover;
     font-family: Montserrat;
 }
 
 .logo {
 	position:absolute;
-	left: 40%;
-    width: 339px;
-    height: 248px;
-    background: url("/images/movieFanL.png") no-repeat;
+	left: 10%;
+    width: 600px;
+    height: 100px;
+    background: url("/images/login_logo1.png") no-repeat;
     margin: 30px auto;
 }
 
@@ -195,7 +195,7 @@ body {
     <h1>Login</h1>
     <input type="text" value="" placeholder="Username" id="username" name="USERNAME" />
     <input type="password" value="" placeholder="Password" id="password" name="PASSWORD" />
-    <button>Sign In</button>
+    <button>Log in</button>
 </div>
 </form>
 
@@ -208,10 +208,10 @@ body {
 
 <form action= "/register" method="post" style="width: 1px; height: 1px;">
 <div class="signup-block">
-    <h1>Sign Up</h1>
+    <h1>New here? Sign Up</h1>
     <input type="text" value="" placeholder="Username" id="username" name="USERNAME" />
     <input type="password" value="" placeholder="Password" id="password"  name="PASSWORD"/>
-    <button>Sign Up</button>
+    <button>Sign up</button>
 </div>
 </form>
 </body>
