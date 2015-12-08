@@ -216,7 +216,7 @@ public class GroupServlet extends HttpServlet
 
 		if(url.equals(Const.GROUP_PAGE_URL))
 		{
-			//http://localhost:8080/grouppage?group=123&news=1&members=0
+			//http://localhost:8080/grouppage?group=123
 			handleGroupPageGet(request, response);
 		}	
 	}
@@ -248,6 +248,8 @@ public class GroupServlet extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
 			return;
 		}
+		
+		initDB();
 
 		GroupEntity gobj = db.getGroupEntity(gid);
 		if(gobj == null)
@@ -256,7 +258,6 @@ public class GroupServlet extends HttpServlet
 			return;
 		}
 
-		initDB();
 
 		ArrayList<Long>news = gobj.getNews();
 		NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
