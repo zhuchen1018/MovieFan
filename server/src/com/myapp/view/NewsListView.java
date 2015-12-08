@@ -1,6 +1,11 @@
 package com.myapp.view;
 import java.util.*;
 
+/**
+ * From lastest news to oldest
+ * @author Haoyun 
+ *
+ */
 public class NewsListView {
 	private PriorityQueue<NewsObjectView> newsList;
 		
@@ -24,12 +29,17 @@ public class NewsListView {
 		return newsList;
 	}
 	
-	public int getNewsNumber(){
+	public int size(){
 		return newsList.size();
 	}
 
-	public NewsObjectView getNextItem()
+	public NewsObjectView pop()
 	{
 		return newsList.poll();
+	}
+	
+	public boolean isEmpty()
+	{
+		return newsList.isEmpty();
 	}
 }

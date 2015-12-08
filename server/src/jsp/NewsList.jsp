@@ -15,49 +15,60 @@
 <%
 
 if(nlv==null)
-	System.out.println("null la!!!!!!!!!");
+{
+	System.out.println("NewsList.jsp NewsListView is null!!!!");
+}
 else
-for(int i=0;i<nlv.getNewsNumber();++i){
-	NewsObjectView nov = nlv.getNextItem();
- 	int type = nov.getType();
-	if(nov != null){
-		switch(type){
-		case Const.NEWS_TWITTER:
-			request.getSession().setAttribute("nt", nov); %>
-			<div class="Tweet"><jsp:include page="NewsTweet.jsp"/></div><%
-			request.getSession().setAttribute("nt", null);
-			break;
-		case Const.NEWS_MAKE_FRIENDS:
-			request.getSession().setAttribute("nmf", nov); %>
-			<div class="MakeFriend"><jsp:include page="NewsMakeFriend.jsp"/></div><%
-			request.getSession().setAttribute("nmf", null);
-			break;
-		case Const.NEWS_LIKE_MOVIE:
-			request.getSession().setAttribute("nlm", nov); %>
-			<div class="LikeMovie"><jsp:include page="NewsLikeMovie.jsp"/></div><%
-			request.getSession().setAttribute("nlm", null);
-			break;
-		case Const.NEWS_SHARE_MOVIE:
-			request.getSession().setAttribute("nsm", nov); %>
-			<div class="ShareMovie"><jsp:include page="NewsShareMovie.jsp"/></div><%
-			request.getSession().setAttribute("nsm", null);
-			break;
-		case Const.NEWS_MOVIE_REVIEW:
-			request.getSession().setAttribute("nmr", nov); %>
-			<div class="MovieReview"><jsp:include page="NewsMovieReview.jsp"/></div><%
-			request.getSession().setAttribute("nmr", null);
-			break;
-		case Const.NEWS_ADD_GROUP:
-			request.getSession().setAttribute("nag", nov); %>
-			<div class="AddGroup"><jsp:include page="NewsAddGroup.jsp"/></div><%
-			request.getSession().setAttribute("nag", null);
-			break;
-		}
-	}%>
-	<br>
-	<%
+{
+    HttpSession s= request.getSession();
+	System.out.println("print NewsList: size: " + nlv.size());
+    while(!nlv.isEmpty())
+    {
+        NewsObjectView nov = nlv.pop();
+        if(nov != null){
+            int type = nov.getType();
+	        System.out.println("print NewsList: type: " + type);
+            switch(type){
+            case Const.NEWS_TWITTER:
+                s.setAttribute("nt", nov); %>
+                <div class="Tweet"><jsp:include page="NewsTweet.jsp"/></div><%
+                s.setAttribute("nt", null);
+                break;
+            case Const.NEWS_MAKE_FRIENDS:
+                s.setAttribute("nmf", nov); %>
+                <div class="MakeFriend"><jsp:include page="NewsMakeFriend.jsp"/></div><%
+                s.setAttribute("nmf", null);
+                break;
+            case Const.NEWS_LIKE_MOVIE:
+                s.setAttribute("nlm", nov); %>
+                <div class="LikeMovie"><jsp:include page="NewsLikeMovie.jsp"/></div><%
+                s.setAttribute("nlm", null);
+                break;
+            case Const.NEWS_SHARE_MOVIE:
+                s.setAttribute("nsm", nov); %>
+                <div class="ShareMovie"><jsp:include page="NewsShareMovie.jsp"/></div><%
+                s.setAttribute("nsm", null);
+                break;
+            case Const.NEWS_MOVIE_REVIEW:
+                s.setAttribute("nmr", nov); %>
+                <div class="MovieReview"><jsp:include page="NewsMovieReview.jsp"/></div><%
+                s.setAttribute("nmr", null);
+                break;
+            case Const.NEWS_ADD_GROUP:
+                s.setAttribute("nag", nov); %>
+                <div class="AddGroup"><jsp:include page="NewsAddGroup.jsp"/></div><%
+                s.setAttribute("nag", null);
+                break;
+            }
+        }%>
+        <br>
+    <%
+    } 
+    %>
+<%
 } 
 %>
+
 
 </body>
 </html>
