@@ -71,7 +71,7 @@ curUser+=request.getQueryString();
 				</div>
 				<br>
 				<div>
-					<h3 id="title">Favorate Genre</h3>
+					<h3 id="title">Favorite Genres</h3>
 				</div>
 			</div>
 			<div class="left_bottom_right">
