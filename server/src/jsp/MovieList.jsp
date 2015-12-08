@@ -16,7 +16,7 @@
 
 <jsp:include page="NavigationBar.jsp"/>
 
-<div class="movieList">
+<div class="movieList" id="Outer">
 <%
 for(int i=0;i<mlv.getMovieNumber();++i){%>
  <% MovieObjectView mov = mlv.getMovies().get(i);

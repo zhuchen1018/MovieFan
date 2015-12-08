@@ -54,7 +54,7 @@ public class SQLDBMovieQuery {
 				throw new Exception("Name search fail!");
 			}
 		}
-		else if(searchMode==Const.PARI_SEARCH){
+		else if(searchMode==Const.PAIR_SEARCH){
 			this.pairId=value;
 			if(!searchMovieByPairId()){
 				throw new Exception("Name search fail!");
