@@ -22,11 +22,23 @@ public class SQLDBMovieQuery {
 	private PersonListView personList;
 	private static HashMap<String,Integer> map;
 	private ArrayList<String> names;
+	private ArrayList<Integer> genres;
+	private ArrayList<String> simple_url,simple_movie_id;
+	private HashMap<String,Integer> simple_movie_id_map;
+	private String pairId;
 		
 	static {
 		map = Const.GENRE_MAP; 
 	}
 
+	public SQLDBMovieQuery(ArrayList<Integer> genres) throws Exception{
+		conn=SQLDBWrapper.getConnection();
+		if(conn==null) throw new Exception("connection not created!");
+		this.genres=genres;
+		searchMovieByGenres();
+		conn.close();
+	}
+	
 	public SQLDBMovieQuery(String value,int searchMode) throws Exception{
 		conn=SQLDBWrapper.getConnection();
 		if(conn==null) throw new Exception("connection not created!");
@@ -39,6 +51,12 @@ public class SQLDBMovieQuery {
 		else if(searchMode==Const.NAME_SEARCH){
 			this.name=value;
 			if(!searchMovieByName()){
+				throw new Exception("Name search fail!");
+			}
+		}
+		else if(searchMode==Const.PARI_SEARCH){
+			this.pairId=value;
+			if(!searchMovieByPairId()){
 				throw new Exception("Name search fail!");
 			}
 		}
@@ -55,6 +73,53 @@ public class SQLDBMovieQuery {
 			throw new Exception("Advanced search fail!");
 		}
 		conn.close();
+	}
+	
+	private boolean QuerySimpleMovieObjectByGenre(){
+		try{
+			state=conn.createStatement();
+			rs=state.executeQuery(sql);
+			int count=0;
+			while(rs.next()&&count<5){
+				String s=rs.getString("movieId");
+				if(simple_movie_id_map.containsKey(s)) continue;
+				simple_movie_id_map.put(s, 0);
+				simple_url.add(rs.getString("poster"));
+				simple_movie_id.add(s);
+				count++;
+			}
+			return true;
+		}
+		catch(SQLException ex){
+			ex.printStackTrace();
+			System.out.println("search fail!");
+			return false;
+		}
+	}
+	
+	private boolean QuerySimpleMovieObjectByPairId(int n){
+		try{
+			state=conn.createStatement();
+			rs=state.executeQuery(sql);
+			int count=0;
+			while(rs.next()&&count<5){
+				String s=rs.getString("movieId"+n);
+				if(simple_movie_id_map.containsKey(s)) continue;
+				simple_movie_id_map.put(s, 0);
+				simple_movie_id.add(s);
+				
+				sql="select poster from basicTMDBInfo where movieId='"+s+"'";
+				ResultSet rtmp=state.executeQuery(sql);
+				simple_url.add(rtmp.getString("poster"));
+				count++;
+			}
+			return true;
+		}
+		catch(SQLException ex){
+			ex.printStackTrace();
+			System.out.println("search fail!");
+			return false;
+		}
 	}
 	
 	private boolean QueryMovieObject(){
@@ -177,6 +242,38 @@ public class SQLDBMovieQuery {
 		}
 	}
 	
+	private boolean searchMovieByGenres() throws Exception{
+		conn=SQLDBWrapper.getConnection();
+		if(conn==null) throw new Exception("connection not created!");
+		
+		simple_url=new ArrayList<String>();
+		simple_movie_id=new ArrayList<String>();
+		simple_movie_id_map=new HashMap<String,Integer>();
+		for(int i=0;i<genres.size();++i){
+			sql="select * from basicTMDBInfo b join movieGenre m on b.movieId=m.movieId where m.genreId='";
+			sql=sql+genres.get(i)+"' order by userrating Desc";
+			if(!QuerySimpleMovieObjectByGenre()) return false;
+			System.out.println(sql);
+		}
+		return true;
+	}
+	
+	private boolean searchMovieByPairId() throws Exception{
+		conn=SQLDBWrapper.getConnection();
+		if(conn==null) throw new Exception("connection not created!");
+		simple_url=new ArrayList<String>();
+		simple_movie_id=new ArrayList<String>();
+		simple_movie_id_map=new HashMap<String,Integer>();
+		
+		sql ="select * from movieConnection where movieId1='";
+		sql+=pairId+"' order by connection Desc";
+		if(!QuerySimpleMovieObjectByPairId(1)) return false;
+		
+		sql ="select * from movieConnection where movieId2='";
+		sql+=pairId+"' order by connection Desc";
+		return QuerySimpleMovieObjectByPairId(2);
+	}
+	
 	private boolean searchMovieByName() throws Exception{
 		conn=SQLDBWrapper.getConnection();
 		if(conn==null) throw new Exception("connection not created!");
@@ -246,6 +343,14 @@ public class SQLDBMovieQuery {
 		return homepage;
 	}
 	
+	public ArrayList<String> getSimpleUrl(){
+		return simple_url;
+	}
+	
+	public ArrayList<String> getSimpleMovieId(){
+		return simple_movie_id;
+	}
+	
 	public void closeConnection(){
 		if(conn!=null){
 			try{
@@ -261,20 +366,25 @@ public class SQLDBMovieQuery {
 		// TODO Auto-generated method stub
 		SQLDBMovieQuery sql=null;
 		try{
-			sql=new SQLDBMovieQuery("USERRATING","Adventure",5);
-			//sql=new SQLDBMovieQuery("A P",Const.NAME_SEARCH);
+			//sql=new SQLDBMovieQuery("USERRATING","Adventure",5);
+			sql=new SQLDBMovieQuery("A P",Const.NAME_SEARCH);
+			/*ArrayList<Integer> input=new ArrayList<Integer>();
+			input.add(1);
+			input.add(2);
+			sql=new SQLDBMovieQuery(input);*/
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
-		MovieListView m=sql.getMovieObject();
+		
+		/*MovieListView m=sql.getMovieObject();
 		for(int i=0;i<m.getMovieNumber();++i){
 			System.out.println("-------------------");
 			System.out.println(m.getMovies().get(i).getName());
 			System.out.println(m.getMovies().get(i).getOverview());
 			System.out.println("-------------------");
 		}
-		System.out.println(m.getMovieNumber());
+		System.out.println(m.getMovieNumber());*/
 		/*
 		try{
 			sql=new SQLDBMovieQuery("843",Const.ID_SEARCH);

@@ -26,7 +26,7 @@ public class Const
 	
 	
 	public static final int ORDERBY_RATING=0,ORDERBY_TIME=1,ORDERBY_VOTES=2;//orderby
-	public static final int ID_SEARCH=0,NAME_SEARCH=1;
+	public static final int ID_SEARCH=0,NAME_SEARCH=1,GENRE_SEARCH=2,PARI_SEARCH=3;
 	// 7 days
 	public final static int LOGIN_SESSION_AGE = 24  * 3600 * 7; 
 
