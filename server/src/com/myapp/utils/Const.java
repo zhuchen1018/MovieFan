@@ -182,7 +182,7 @@ public class Const
 	public final static Pattern HASHTAG_PATTERN = Pattern.compile("#\\w+");
 
 	//for @username
-	public final static Pattern AT_PATTERN = Pattern.compile("@\\w+");
+	public final static Pattern TAG_PATTERN = Pattern.compile("@\\w+");
 
 	public static final int MAX_TWEET_LENGTH = 200;
 
@@ -214,10 +214,15 @@ public class Const
         }
 		return result;
 	}
-	
-	public static HashSet<String> extractAtUser(String text) 
+
+	/**
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public static HashSet<String> extractTagUser(String text) 
 	{
-        Matcher matcher = Const.AT_PATTERN.matcher(text);
+        Matcher matcher = Const.TAG_PATTERN.matcher(text);
         HashSet<String>result = new HashSet<String>();
         while(matcher.find()) 
         {
@@ -226,5 +231,48 @@ public class Const
         	result.add(tag.toLowerCase());
         }
 		return result;
+	}
+
+	/**
+	 *
+	 * Transder a text which contains # or @ to text contains href
+	 * 
+	 */
+	public static String transferTextToLink(String text)
+	{
+		Matcher hashTagMatcher = Const.HASHTAG_PATTERN.matcher(text);
+		StringBuilder sb = new StringBuilder();
+
+		//"  #nihao #NIHAO    #jason @ashidahsd",
+		int last_end = 0;
+		while(hashTagMatcher.find())
+		{
+			int st = hashTagMatcher.start();
+			int end = hashTagMatcher.end();
+			//System.out.println(text);
+			String tag =  hashTagMatcher.group(0); 
+			String new_tag = "<a href=\"hashtag?" + tag.substring(1) + "\">" +  tag + "</a>";
+			sb.append(text.substring(last_end, st));
+			sb.append(new_tag);
+			last_end = end;
+		}
+		sb.append(text.substring(last_end));
+
+		last_end = 0;
+		text = sb.toString();
+		sb = new StringBuilder();
+		Matcher tagMatcher = Const.TAG_PATTERN.matcher(text);
+		while(tagMatcher.find())
+		{
+			int st = tagMatcher.start();
+			int end = tagMatcher.end();
+			String tag =  tagMatcher.group(0); 
+			String new_tag = "<a href=\"userpage?user=" + tag.substring(1) + "\">" +  tag + "</a>";
+			sb.append(text.substring(last_end, st));
+			sb.append(new_tag);
+			last_end = end;
+		}
+		sb.append(text.substring(last_end));
+		return sb.toString();
 	}
 }

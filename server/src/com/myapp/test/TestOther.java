@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Properties;
+import java.util.regex.Matcher;
 
 import org.junit.Test;
 
@@ -28,20 +29,23 @@ public class TestOther extends TestCase
 	@Test
 	public void testHashTag()
 	{
-		String[] words = {"hello world",
-				"  #nihao a asdahsdiahsdi",
-				"  #nihao #NIHAO              ashidahsd",
-				"  #### ",
+		String[] words = {
+				"  #nihao #NIHAO    #jason @ashidahsd             jasojn #hello    hhh",
+				"hello", 
 		};
 
 		for(String a: words)
 		{
-			HashSet<String> tags = Const.extractHashTag(a); 
-			System.out.println(a + " include tags: " );
+			//HashSet<String> tags = Const.extractHashTag(a); 
+			//System.out.println(a + " include tags: " );
+			/*
 			for(String tag: tags)
 			{
 				System.out.println(tag);
 			}
+			*/
+			String res = Const.transferTextToLink(a);
+			System.out.println(res);
 		}
 	}
 }

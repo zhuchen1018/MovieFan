@@ -45,6 +45,11 @@ public class NewsObjectView {
 		username = newsEntity.getCreator();
 		type = newsEntity.getNewsType();
 		text = newsEntity.getBody(); 
+		//transfer to href
+		if(type == Const.NEWS_TWITTER || type == Const.NEWS_TWEET_IN_GROUP)
+		{
+			text = Const.transferTextToLink(text);
+		}
 		url = newsEntity.getMoviePosterUrl() ;
 		this.userUrl = userUrl;
 		title = newsEntity.getTitle(); 
