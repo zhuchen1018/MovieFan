@@ -719,11 +719,13 @@ public class DBWrapper
 		NewsListView nlv = new NewsListView();
 
 		ArrayList<Long>newids = getUserNews(username);
+		
 		for(long id: newids)
 		{
 			NewsEntity newsEntity = getNewsEntityByIds(id);
 			if(newsEntity == null) continue;	
-			NewsObjectView newsViewObj = new NewsObjectView(newsEntity);
+			String userUrl = getUserEntity(newsEntity.getCreator()).getHeadUrl();
+			NewsObjectView newsViewObj = new NewsObjectView(newsEntity, userUrl);
 			nlv.addNews(newsViewObj);
 		}
 		return nlv;
@@ -769,7 +771,8 @@ public class DBWrapper
 		{
 			NewsEntity newsEntity = getNewsEntityByIds(id);
 			if(newsEntity == null) continue;
-			NewsObjectView newsViewObj = new NewsObjectView(newsEntity);
+			String userUrl = getUserEntity(newsEntity.getCreator()).getHeadUrl();
+			NewsObjectView newsViewObj = new NewsObjectView(newsEntity, userUrl);
 			nlv.addNews(newsViewObj);
 		}
 		return nlv;
@@ -996,7 +999,8 @@ public class DBWrapper
 			for(Long newsid: tag.getNews())
 			{
 				NewsEntity news = newsEA.getNewsEntityById(newsid);
-				NewsObjectView newsViewObj = new NewsObjectView(news);
+				String userUrl = getUserEntity(news.getCreator()).getHeadUrl();
+				NewsObjectView newsViewObj = new NewsObjectView(news, userUrl);
 				nlv.addNews(newsViewObj);
 			}
 		}
@@ -1008,13 +1012,14 @@ public class DBWrapper
 		userEA.add(name, password, fbid);
 	}
 
-	public NewsListView getNewsListViewFromNewsIds(ArrayList<Long> news) 
+	public NewsListView getNewsListViewFromNewsIds(ArrayList<Long> newsList) 
 	{
 		NewsListView nlv = new NewsListView(); 	
-		for(Long newsid: news) 
+		for(Long newsid: newsList) 
 		{
-			NewsEntity obj = newsEA.getNewsEntityById(newsid);
-			NewsObjectView newsViewObj = new NewsObjectView(obj);
+			NewsEntity news = newsEA.getNewsEntityById(newsid);
+			String userUrl = getUserEntity(news.getCreator()).getHeadUrl();
+			NewsObjectView newsViewObj = new NewsObjectView(news, userUrl);
 			nlv.addNews(newsViewObj);
 		}
 		return nlv;

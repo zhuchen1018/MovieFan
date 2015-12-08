@@ -36,7 +36,7 @@ public class NewsObjectView {
 		this.likeNums = likeNums;
 	}
 
-	public NewsObjectView(NewsEntity newsEntity)
+	public NewsObjectView(NewsEntity newsEntity, String userUrl)
 	{
 		if(newsEntity == null)
 		{
@@ -52,17 +52,6 @@ public class NewsObjectView {
 		releaseTime = newsEntity.getReleaseTime(); 
 		likeNums = newsEntity.getLikeNums(); 
 		ToList = newsEntity.getReceivers();
-	}
-
-	public NewsObjectView(){
-		text=null;
-		username=null;
-		url=null;
-		title=null;
-		movieId=null;
-		ToList=null;
-		releaseTime=-1;
-		type=-1;
 	}
 
 	public void setText(String text){
