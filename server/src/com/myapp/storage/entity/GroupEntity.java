@@ -134,4 +134,9 @@ public class GroupEntity
 	{
 		return creator.equals(username);
 	}
+
+	public boolean canUserTweet(String username) 
+	{
+		return hasMember(username);
+	}
 }

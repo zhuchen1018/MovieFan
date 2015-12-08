@@ -19,6 +19,8 @@ public class NewsEntity extends TextBase
 
 	//for make friends, share movie to friends etc.
 	ArrayList<String>receiver = null;
+	
+	//long group_id;
 
 	int repost_nums ;
 
@@ -39,6 +41,21 @@ public class NewsEntity extends TextBase
 		newsType = type;
 		comments = new ArrayList<Long>();
 		repost_nums = 0;
+	}	
+	
+	/**
+	 * 
+	 * For twitter in group type
+	 * @param body
+	 * @param type
+	 */
+	public NewsEntity(String username,long id, long gid, String body, int type) 
+	{ 
+		super(username, id, body);
+		newsType = type;
+		comments = new ArrayList<Long>();
+		repost_nums = 0;
+		//group_id = gid;
 	}	
 
 	/**

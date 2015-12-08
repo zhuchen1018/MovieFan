@@ -19,7 +19,7 @@ import com.myapp.view.UserListView;
 import com.myapp.view.UserObjectView;
 import com.myapp.view.UserSettingView;
 
-public class GroupServlet extends HttpServlet 
+public class GroupPage extends HttpServlet 
 {
 	/**
 	 * 
@@ -27,7 +27,7 @@ public class GroupServlet extends HttpServlet
 	private static final long serialVersionUID = -1849777603528766598L;
 	private DBWrapper db; 
 
-	public GroupServlet () throws IOException
+	public GroupPage () throws IOException
 	{
 	}
 
@@ -149,7 +149,7 @@ public class GroupServlet extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  request, response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
@@ -178,7 +178,7 @@ public class GroupServlet extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  request, response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 
@@ -352,7 +352,7 @@ public class GroupServlet extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  request, response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
@@ -399,7 +399,7 @@ public class GroupServlet extends HttpServlet
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{
-			ServletCommon.PrintErrorPage(Const.SESSION_USERNAME_NULL_INFO,  request, response);
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
 

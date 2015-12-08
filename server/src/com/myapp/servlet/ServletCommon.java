@@ -134,11 +134,6 @@ public class ServletCommon
 		 */
 	}
 
-	public static void showHomeLink(HttpServletResponse res) 
-	{
-		ShowLink(Const.HOME_URL, "Go to Home", res);
-	}
-
 	public static void ShowLink(String link, String name,  HttpServletResponse res) 
 	{
 		PrintWriter out;

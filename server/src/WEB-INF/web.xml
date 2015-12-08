@@ -235,7 +235,7 @@
    
    <servlet>
      <servlet-name>group</servlet-name>
-     <servlet-class>com.myapp.servlet.GroupServlet</servlet-class> 
+     <servlet-class>com.myapp.servlet.GroupPage</servlet-class> 
    </servlet>
    
      <servlet-mapping>

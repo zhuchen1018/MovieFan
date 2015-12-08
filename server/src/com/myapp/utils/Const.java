@@ -32,10 +32,10 @@ public class Const
 
 	/*message*/
 	public final static String LOGIN_FIRST_INFO = "Please login first.";
-	public static final String NO_THIS_GROUP_INFO = "No this group...";
-	public final static String SESSION_USERNAME_NULL_INFO = "Session username is null!";
-	public static final String CAN_NOT_JOIN_GROUP_INFO = "You cannot join this group!";
-	public static final String NO_THIS_USER_INFO = "No this user!";
+	public static final String NO_THIS_GROUP_INFO = "This group is not exists...";
+	public static final String CAN_NOT_JOIN_GROUP_INFO = "You cannot join this group...";
+	public static final String NO_THIS_USER_INFO = "This user is not exists...";
+	public static final String PLEASE_ENTER_SOMETHING = "Please enter something....";
 
 	/*URL*/
 	public final static String HOME_URL = "/home"; 
@@ -128,31 +128,10 @@ public class Const
 	/**
 	 * movie genre
 	 */
-
-	/*
-	public final static int GENRE_ACTION 			= 1;
-	public final static int GENRE_ADVENTURE = 2;
-	public final static int GENRE_HORROR 		= 3;
-	public final static int GENRE_ROMANCE 	= 4;
-	public final static int GENRE_WAR 				= 5;
-	public final static int GENRE_DOCUMENTARY = 6;
-	public final static int GENRE_DRAMA 			= 7;
-	public final static int GENRE_THRILLER 		= 8;
-	public final static int GENRE_CRIME 			= 9;
-	public final static int GENRE_MYSTERY 		= 10; 
-	public final static int GENRE_ANIMAITON 	= 11; 
-	public final static int GENRE_FANTASY 		= 12;
-	public final static int GENRE_COMEDY  		= 13;
-	public final static int GENRE_CHILDREN 	= 14;
-	public final static int GENRE_SCIFI 				= 15;
-	public final static int GENRE_MUSICAL 		= 16;
-	*/
-
 	public static HashMap<String,Integer> GENRE_MAP;
 	
 	public static HashMap<Integer,String> REVERSE_GENRE_MAP;
 
-	public static String PLEASE_ENTER_SOMETHING = "Please enter something....";
 
 	static {
 		GENRE_MAP = new HashMap<String,Integer>();

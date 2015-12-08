@@ -769,6 +769,17 @@ public class DBWrapper
 				}
 			}
 		}
+		//groups
+		UserEntity user = userEA.getEntity(username);
+		ArrayList<Long>groups = user.getJoinGroups(); 
+		for(Long gid: groups)
+		{
+			GroupEntity group = groupEA.getEntity(gid);
+			if(group != null)
+			{
+				allnews.addAll(group.getNews());
+			}
+		}
 
 		print("all news size: " + allnews.size());
 
@@ -776,6 +787,7 @@ public class DBWrapper
 		{
 			NewsEntity newsEntity = getNewsEntityByIds(id);
 			if(newsEntity == null) continue;
+			//user head
 			String userUrl = getUserEntity(newsEntity.getCreator()).getHeadUrl();
 			NewsObjectView newsViewObj = new NewsObjectView(newsEntity, userUrl);
 			nlv.addNews(newsViewObj);
@@ -1096,7 +1108,7 @@ public class DBWrapper
 			return;
 		}
 
-		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), info, Const.NEWS_TWITTER);
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), info, Const.NEWS_TWEET_IN_GROUP);
 		newsEA.addNews(news_obj);
 
 		gobj.addNews(news_obj.getId());

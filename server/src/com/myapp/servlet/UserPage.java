@@ -138,7 +138,7 @@ public class UserPage extends HttpServlet
 		String info = request.getParameter("TWEET"); 
 		if(info == null || info.trim().isEmpty())
 		{
-			ServletCommon.PrintErrorPage("Please say something.",  request, response);
+			ServletCommon.PrintErrorPage(Const.PLEASE_ENTER_SOMETHING,  request, response);
 			return;
 		}
 
@@ -166,7 +166,7 @@ public class UserPage extends HttpServlet
 			String group = query.get("group");
 			if(group == null)
 			{
-				ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  request, response);
+				ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO,  request, response);
 				return;
 			}
 
@@ -183,9 +183,16 @@ public class UserPage extends HttpServlet
 				ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO,  request, response);
 				return;
 			}
+			
+			if(!gobj.canUserTweet(username))
+			{
+				ServletCommon.PrintErrorPage("You can discuss in this group",  request, response);
+				return;
+			}
 
 			db.addGroupNews(username, gid, info); 
 
+			//refresh group info
 			ArrayList<Long>news = gobj.getNews();
 			NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
 			//System.out.println("NewsListView size: " + nlv.getNewsNumber());
