@@ -46,6 +46,7 @@ public class NewsObjectView {
 		type = newsEntity.getNewsType();
 		text = newsEntity.getBody(); 
 		url = newsEntity.getMoviePosterUrl() ;
+		this.userUrl = userUrl;
 		title = newsEntity.getTitle(); 
 		movieId = newsEntity.getMovidId(); 
 		movieName = newsEntity.getMovieName(); 
