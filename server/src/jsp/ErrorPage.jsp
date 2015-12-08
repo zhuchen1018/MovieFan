@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<% String info = (String) request.getAttribute("ERROR_MESSAGE"); 
-%>
+<% String info = (String) request.getAttribute("ERROR_MESSAGE");%>
+<h1><center><%=info %></center></h1>
 </body>
 </html>
