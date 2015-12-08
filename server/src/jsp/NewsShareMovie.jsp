@@ -27,19 +27,23 @@
       
     <p>
     	<img src=<%=userUrl%> class="user"></img>
-    	<b class="name"><%=userName%></b>
+    	<b class="name"><font size="5"><%=userName%></font></b>
     	&nbsp;
-    	<b class="note"><%=note%></b>
-    	<b style="float:right";>To Friends</b>
+    	<b class="note"><font size="4"><%=note%></font></b>
+    	<b style="float:right";><font size="5">To Friends</font></b>
     </p>
     <br>
     <p>
-    	<sub><%=time %></sub>
+    	<sub><<font size="4"><%=time %></font></sub>
     </p>
-    <a class="link" href=<%=moviePage%>><%=movieName%></a><br>
-    <p>
-    	<a href=<%=moviePage%>><img src=<%=movieUrl%> class="movie"></img></a>
-    </p>
+    <!--<a class="link" href=<%=moviePage%>><%=movieName%></a><br>-->
+    <br>
+    
+    <div class="movieImage">
+	    <p>
+    		<a href=<%=moviePage%>><img src=<%=movieUrl%> class="movie"></img></a>
+    	</p>
+    </div>
     
 </body>
 </html>

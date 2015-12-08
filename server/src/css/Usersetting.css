@@ -16,6 +16,10 @@ body{
 	font-size: 80;
 }
 
+textarea{
+	font-size: larger;
+}
+
 .field{
 	text-align: center; 
 	margin: 0 auto;

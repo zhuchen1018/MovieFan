@@ -105,7 +105,8 @@ curUser+=request.getQueryString();
 				<% if(myPageFlag) {%>
 					<form action="/tweet_user" method="POST">
 						<div align="center">
-							<textarea cols="65" rows="5" name="TWEET" placeholder="Share Something"></textarea>
+							<textarea cols="25" rows="5" name="TWEET" placeholder="Share Something"></textarea>
+							<br>
 							<INPUT TYPE=SUBMIT VALUE="submit">
 						</div>
   					</form>

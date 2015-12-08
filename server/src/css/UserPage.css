@@ -4,6 +4,10 @@ body{
 	background-color: #DDDDDD;
 }
 
+textarea{
+	font-size: 30px;
+}
+
 #BasicDiv{
 	margin: 1px auto;
 	border: 1px solid #ccc;

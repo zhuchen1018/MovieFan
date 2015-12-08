@@ -21,14 +21,15 @@
 
 	<p>
     	<img src=<%=userUrl%> class="user"></img>
-    	<b class="name"><%=userName%></b>
+    	<b class="name"><font size="5"><%=userName%></font></b>
     	&nbsp;
-    	<b class="note"><%=note%></b>
+    	<b class="note"><font size="4"><%=note%></font></b>
     </p>
     <br>
     <p>
-    	<sub><%=tweetTime %></sub>
+    	<sub><font size="4"><%=tweetTime %></font></sub>
     </p>
+    <br>
     <p class="paragraph">
     	<%=tweetContent %>
     </p>

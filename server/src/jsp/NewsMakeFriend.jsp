@@ -23,14 +23,14 @@
       
 	<p>
     	<img src=<%=userUrl%> class="user"></img>
-    	<b class="name"><%=userName%></b>
+    	<b class="name"><font size="5"><%=userName%></font></b>
     	&nbsp;
-    	<b class="note"><%=note%></b>
-    	<a class="link" href=<%=friendurl %>><%=friend %></a><br>
+    	<b class="note"><font size="4"><%=note%></font></b>
+    	<a class="link" href=<%=friendurl%>><font size="5"><%=friend %></font></a><br>
     </p>
     <br>
     <p>
-    	<sub><%=time %></sub>
+    	<sub><font size="4"><%=time %></font></sub>
     </p>
 
 

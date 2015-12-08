@@ -18,6 +18,8 @@
 	if(headURL==null) headURL=" ";
 	if(profileURL==null) profileURL=" ";
 	if(description==null) description=" ";
+	System.out.println(description);
+	description="test test test";
 %>
 
 <jsp:include page="NavigationBar.jsp"/>
@@ -25,13 +27,13 @@
 <form action= "/usersettings" method="post">
 <br><br>
 <h1 id="text_title">Avatar URL:</h1>
-<input class="depth" size="100" type="text" name="HEAD_URL" value="" placeholder=<%=headURL %> value=<%=headURL %>>
+<input class="depth" size="100" type="text" name="HEAD_URL"  placeholder=<%=headURL%> value=<%=headURL %>>
 <br><br>
 <h1 id="text_title">Profile URL:</h1>
-<input class="depth" size="100"type="text" name="PROFILE_URL" value="" placeholder=<%=profileURL %> value=<%=profileURL %>>
+<input class="depth" size="100"type="text" name="PROFILE_URL"  placeholder=<%=profileURL%> value=<%=profileURL %>>
 <br><br>
 <h1 id="text_title">Personal Description:</h1>
-<textarea class="depth" cols="80" rows="20" name="DESC" placeholder = <%=description%> value=<%=description%>></textarea>
+<textarea class="depth" cols="80" rows="20" name="DESC" value=<%=description%>></textarea>
 <br><br>
 <h1 id="text_title">Movie Genres You Like:</h1>
 <div align="center">
