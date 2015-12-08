@@ -22,7 +22,7 @@
   <!-- End Left Column -->
   <!-- Begin Left Middle Column -->
   <div id="BasicDiv" class = "NewsList"> 
-	<form action="/tweet_user" method="POST">
+	<form action="/tweet_home" method="POST">
 		<div align="center">
 			<textarea cols="28" rows="5" name="TWEET" placeholder="Share Something"></textarea>
 			<br>

@@ -17,12 +17,12 @@
 	String note = nov.getNote();
 	String userUrl = nov.getUserUrl();
 	if(userUrl==null) userUrl="/images/noprofile.jpg";
-	System.out.println(userUrl);
+	String userLink="userpage?user="+userName;
 %>      
 
 	<p>
-    	<img src=<%=userUrl%> class="user"></img>
-    	<b class="name"><font size="5" color="blue><%=userName%></font></b>
+    	<a href=<%=userLink%>><img src=<%=userUrl%> class="user"></img></a>
+    	<a href=<%=userLink%>><b class="name"><font size="5" color="blue"><%=userName%></font></b></a>
     	&nbsp;
     	<b class="note"><font size="4"><%=note%></font></b>
     </p>

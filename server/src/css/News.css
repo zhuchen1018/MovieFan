@@ -92,7 +92,7 @@ b.name{
 
 a.link{
 	font-size: 30;
-	color: #FF3333;
+	color: #7777FF;
 	text-align: right;
 	float :right;
 	font: bold;
@@ -105,8 +105,8 @@ p.paragraph{
 
 img.user{
 	float: left;
-	width: 48px;
-	height: 48px;
+	width: 60px;
+	height: 60px;
 	margin: 0px 0px 0px 0px;
 }
 
