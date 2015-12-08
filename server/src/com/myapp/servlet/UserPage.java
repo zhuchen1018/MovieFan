@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import com.myapp.utils.Const;
+import com.myapp.view.NewsListView;
 import com.myapp.view.UserListView;
 import com.myapp.view.UserSettingView;
 import com.myapp.storage.DBWrapper;
+import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.UserEntity;
 
 
@@ -44,11 +46,15 @@ public class UserPage extends HttpServlet
 		String url = request.getServletPath();
 		if(url.equals(Const.USER_TWEET_HOME_URL))
 		{
-			handleTweetPost(request, response, true);
+			handleTweetPost(request, response, Const.TWEET_FROM_HOME);
 		}
 		else if(url.equals(Const.USER_TWEET_URL))
 		{
-			handleTweetPost(request, response, false);
+			handleTweetPost(request, response, Const.TWEET_FROM_USER);
+		}
+		else if(url.equals(Const.USER_TWEET_GROUP_URL))
+		{
+			handleTweetPost(request, response, Const.TWEET_FROM_GROUP);
 		}
 		else if(url.equals(Const.FOLLOW_USER_URL))
 		{
@@ -121,7 +127,7 @@ public class UserPage extends HttpServlet
 
 	}
 
-	private void handleTweetPost(HttpServletRequest request, HttpServletResponse response, boolean fromHome) throws IOException
+	private void handleTweetPost(HttpServletRequest request, HttpServletResponse response, int From) throws IOException
 	{
 		HttpSession session = request.getSession(false);
 		String username = (String) session.getAttribute("username");
@@ -148,13 +154,47 @@ public class UserPage extends HttpServlet
 		db.addNewsTwitter(username, info); 
 		db.sync();
 
-		if(fromHome)
+		if(From == Const.TWEET_FROM_HOME)
 		{
 			ServletCommon.RedirectToHome(request, response);
 		}
-		else
+		else if(From == Const.TWEET_FROM_USER)
 		{
 			ServletCommon.RedirectToUserPage(request, response, username, username);
+		}
+		else if(From == Const.TWEET_FROM_GROUP) //tweet_group?group=123
+		{
+			Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+			String group = query.get("group");
+			if(group == null)
+			{
+				ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  request, response);
+				return;
+			}
+
+			initDB();
+
+			Long gid = Long.parseLong(group);
+			if(!db.hasGroup(gid))
+			{
+				ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO,  request, response);
+				return;
+			}
+			
+			GroupEntity gobj = db.getGroupEntity(gid);
+			if(gobj == null)
+			{
+				ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO,  request, response);
+				return;
+			}
+
+			ArrayList<Long>news = gobj.getNews();
+			NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
+
+			ArrayList<String>members = gobj.getMembers();
+			UserListView ulv = db.getUserViewListFromNameList(members);	
+
+			ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv);	
 		}
 	}
 
@@ -208,7 +248,7 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
-		
+
 		String targetName = query.get("user");
 		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
@@ -228,7 +268,7 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
-		
+
 		String targetName = query.get("user");
 		UserListView ulv = db.loadFansList(targetName);
 		request.setAttribute("UserListView", null); 
@@ -253,7 +293,7 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
-		
+
 		String targetName = query.get("user");
 		UserListView ulv = db.loadFollowingsList(targetName); 
 		request.setAttribute("UserListView", null); 

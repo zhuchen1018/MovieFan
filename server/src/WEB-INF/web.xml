@@ -37,6 +37,11 @@
      <url-pattern>/tweet_home</url-pattern>
    </servlet-mapping>  
    
+      <servlet-mapping>
+     <servlet-name>user_page</servlet-name>
+     <url-pattern>/tweet_group</url-pattern>
+   </servlet-mapping>  
+   
     <servlet-mapping>
      <servlet-name>user_page</servlet-name>
      <url-pattern>/follow</url-pattern>
@@ -237,12 +242,7 @@
      <servlet-name>group</servlet-name>
      <url-pattern>/grouppage</url-pattern>
    </servlet-mapping>  
-   
-      <servlet-mapping>
-     <servlet-name>group</servlet-name>
-     <url-pattern>/groupmember</url-pattern>
-   </servlet-mapping>  
-    
+  
    <servlet-mapping>
      <servlet-name>group</servlet-name>
      <url-pattern>/create_group</url-pattern>

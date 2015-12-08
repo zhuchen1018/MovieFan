@@ -50,6 +50,7 @@ public class Const
 	//User
 	public static final String USER_PAGE_URL = "/userpage";
 	public static final String USER_TWEET_HOME_URL = "/tweet_home";
+	public static final String USER_TWEET_GROUP_URL = "/tweet_group";
 	public static final String USER_TWEET_URL = "/tweet_user";
 	public static final String USER_MAILBOX_URL = "/mailbox";
 
@@ -114,6 +115,7 @@ public class Const
 	public final static int NEWS_SHARE_MOVIE = 5; 
 	public final static int NEWS_LIKE_MOVIE = 6; 
 	public final static int NEWS_CREATE_GROUP = 7; 
+	public static final int NEWS_TWEET_IN_GROUP = 8;
 	
 	public final static int MOVIE_LENGTH_0_30=0;
 	public final static int MOVIE_LENGTH_30_60=1;
@@ -207,6 +209,12 @@ public class Const
 	public static final int MOVIEPAGEVIEW_CACHE_SIZE = 10000;
 
 	public static final PrettyTime PRETTY_TIME  = new PrettyTime();
+
+	public static final int TWEET_FROM_HOME = 0;
+	public static final int TWEET_FROM_USER = 1;
+	public static final int TWEET_FROM_GROUP = 2;
+
+
 
 
 
