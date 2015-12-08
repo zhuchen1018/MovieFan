@@ -25,8 +25,22 @@ public class UserAccessor
 		userByName = store.getPrimaryIndex(String.class, UserEntity.class);
 	}
 
+	/**
+	 * TODO
+	 * @param fbid
+	 * @return
+	 */
 	private UserEntity getEntityByFBId(String fbid) 
 	{
+		for(String name: userByName.keys())
+		{
+			UserEntity user = userByName.get(name);
+			String id = user.getFacebookId();
+			if(id != null && id.equals(fbid)) 
+			{
+				return user;
+			}
+		}
 		return null;
 	}
 
@@ -131,5 +145,11 @@ public class UserAccessor
 		return result;
 	}
 
+	public void add(String name, String password, String fbid) 
+	{
+		long time = (new Date()).getTime();
+		UserEntity user = new UserEntity(name, password, fbid, time);
+		putEntity(user);
+	}
 }
 

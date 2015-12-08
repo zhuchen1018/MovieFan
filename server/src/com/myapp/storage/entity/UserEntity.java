@@ -13,6 +13,8 @@ public class UserEntity
 {
 	@PrimaryKey
 	private String name;
+	
+	private String facebookId;
 
 	private String password;
 	//jpeg
@@ -64,6 +66,14 @@ public class UserEntity
 		name = n;
 		password = p;
 		login_time = time;
+	}
+
+	public UserEntity(String name, String password, String fbid, long time) 
+	{
+		this.name = name;
+		this.password = password;
+		this.facebookId = fbid;
+		this.login_time = time;
 	}
 
 	/*get funcs*/
@@ -195,6 +205,11 @@ public class UserEntity
 		}
 	}
 	
+	public ArrayList<String> getLikeMovies()
+	{
+		return likeMovies;
+	}
+	
 	public void unlikeMovie(String movieId) 
 	{
 		if(isLikeMovie(movieId))
@@ -276,5 +291,10 @@ public class UserEntity
 	public ArrayList<String> getFans() 
 	{
 		return fans;
+	}
+
+	public String getFacebookId() 
+	{
+		return facebookId;
 	}
 }

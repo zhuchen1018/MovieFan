@@ -2,13 +2,9 @@ package com.myapp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.MD5Encryptor;
