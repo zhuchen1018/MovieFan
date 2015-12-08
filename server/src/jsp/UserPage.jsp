@@ -115,6 +115,7 @@ curUser+=request.getQueryString();
 		</div>
 	</div>
 	<div class="centerColumn" id="BasicDiv">
+		<jsp:include page="SimpleMovieList.jsp"/>
 	</div> 
 	<div class="rightColumn" id="BasicDiv">
 		<jsp:include page="FriendList.jsp"/>
