@@ -409,18 +409,28 @@ public class DBWrapper
 		storeHashTag(news_obj);
 	}
 
-	public void userAddNewsMakeFriends(String username, String receiver) 
+	public void userAddNewsFollowUser(String username, String othername) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
 		{
-			print("addNewsMakeFriends: user is null " + username);
 			return;
 		}
+		
+		UserEntity other = getUserEntity(othername);
+		if(other  == null)
+		{
+			return;
+		}
+
+		
 		ArrayList<String>receivers = new ArrayList<String>();
-		receivers.add(receiver);
+		receivers.add(othername);
+
 		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), receivers, Const.NEWS_MAKE_FRIENDS);
 		storeNews(news_obj, user);
+		
+		userEA.addMail(othername, news_obj.getId());
 	}
 
 	public void addNewsJoinGroup(String username, String groupname) 

@@ -36,6 +36,8 @@ public class Const
 	public static final String CAN_NOT_JOIN_GROUP_INFO = "You cannot join this group...";
 	public static final String NO_THIS_USER_INFO = "This user is not exists...";
 	public static final String PLEASE_ENTER_SOMETHING = "Please enter something....";
+	public static final String HAVE_NO_RIGHT_TO_CHANEG_GROUP_SETTINGS 
+		= "Sorry, you have no right to change group settings";
 
 	/*URL*/
 	public final static String HOME_URL = "/home"; 
@@ -194,8 +196,7 @@ public class Const
 	public static final int TWEET_FROM_USER = 1;
 	public static final int TWEET_FROM_GROUP = 2;
 
-	public static final String HAVE_NO_RIGHT_TO_CHANEG_GROUP_SETTINGS 
-		= "Sorry, you have no right to change group settings";
+
 
 	/**
 	 *  match all hashtag: ignoecaese, no duplicates

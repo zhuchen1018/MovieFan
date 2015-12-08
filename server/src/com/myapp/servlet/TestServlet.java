@@ -172,7 +172,7 @@ public class TestServlet extends HttpServlet
 		type = Const.NEWS_MAKE_FRIENDS; 
 		newsViewObj = new NewsObjectView(username, text, url, null,title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
-		db.userAddNewsMakeFriends(username, receiver); 
+		db.userAddNewsFollowUser(username, receiver); 
 
 		//add group
 		text = null;
@@ -243,7 +243,7 @@ public class TestServlet extends HttpServlet
 		db.userAddHeadUrl(friend, url);
 
 		db.userAddFollow(username, friend);
-		db.userAddNewsMakeFriends(username, friend);
+		db.userAddNewsFollowUser(username, friend);
 		db.userAddFans(friend, username);
 	
 
@@ -252,7 +252,7 @@ public class TestServlet extends HttpServlet
 		db.userAddHeadUrl(friend, url);
 
 		db.userAddFollow(username, friend); 
-		db.userAddNewsMakeFriends(username, friend);
+		db.userAddNewsFollowUser(username, friend);
 		db.userAddFans(friend, username);
 		
 
@@ -261,7 +261,7 @@ public class TestServlet extends HttpServlet
 		db.userAddHeadUrl(friend, url);
 
 		db.userAddFollow(username, friend); 
-		db.userAddNewsMakeFriends(username, friend);
+		db.userAddNewsFollowUser(username, friend);
 		db.userAddFans(friend, username);
 
 		db.close();

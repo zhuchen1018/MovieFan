@@ -114,7 +114,7 @@ public class UserPage extends HttpServlet
 	{
 
 	}
-	*/
+	 */
 
 	private void handleTweetPost(HttpServletRequest request, HttpServletResponse response, int From) throws IOException
 	{
@@ -167,14 +167,14 @@ public class UserPage extends HttpServlet
 				ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO,  request, response);
 				return;
 			}
-			
+
 			GroupEntity gobj = db.getGroupEntity(gid);
 			if(gobj == null)
 			{
 				ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO,  request, response);
 				return;
 			}
-			
+
 			if(!gobj.canUserTweet(username))
 			{
 				ServletCommon.PrintErrorPage("You can discuss in this group",  request, response);
@@ -261,14 +261,14 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
-		
+
 		DBWrapper db = initDB();
 
 		String targetName = query.get("user");
 		UserListView ulv = db.loadFansList(targetName);
 		request.setAttribute("UserListView", null); 
 		request.setAttribute("UserListView", ulv); 
-		
+
 		db.sync();
 
 		String location = "/jsp/UserList.jsp";
@@ -297,7 +297,7 @@ public class UserPage extends HttpServlet
 		UserListView ulv = db.loadFollowingsList(targetName); 
 		request.setAttribute("UserListView", null); 
 		request.setAttribute("UserListView", ulv); 
-		
+
 		String location = "/jsp/UserList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
@@ -326,7 +326,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-DBWrapper db = initDB();
+		DBWrapper db = initDB();
 
 		UserEntity user = db.getUserEntity(targetName);
 		if(user == null)
@@ -336,7 +336,7 @@ DBWrapper db = initDB();
 		}
 
 		db.userAddFollow(username, targetName);
-		db.userAddNewsMakeFriends(username, targetName);
+		db.userAddNewsFollowUser(username, targetName);
 		db.userAddFans(targetName, username);
 		db.sync();
 
