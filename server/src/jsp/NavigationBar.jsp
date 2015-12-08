@@ -85,7 +85,12 @@ $(document).ready(function(){
     <a href="/usersettings">Settings</a>
     </li> 
     <li>
-    <a href="/mailbox">Messages</a>
+    <%if (unread != 0 ) { %>
+      <a href="/mailbox">Messages (<%=unread%>)</a>
+    <% } 
+    else { %>
+      <a href="/mailbox">Messages (0)</a>
+    <% } %>
     </li>  
     <li>
     <a href="/logoff">Log Out</a>
