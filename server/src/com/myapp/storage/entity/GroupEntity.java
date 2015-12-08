@@ -12,10 +12,12 @@ public class GroupEntity
 	private Long id;
 	private String name;
 	private String head_url;
+	private String profile_url;
 	private String creator;
-	private ArrayList<String> keywords = new ArrayList<String>();
+	//private ArrayList<String> keywords = new ArrayList<String>();
 	private ArrayList<String> members = new ArrayList<String>();
 	private ArrayList<Long> news = new ArrayList<Long>();
+	private String description;
 	
 	public GroupEntity()
 	{
@@ -26,7 +28,6 @@ public class GroupEntity
 		this.id = id;
 		this.name = name;
 		this.creator = creator;
-		this.keywords = new ArrayList<String>();
 		this.members = new ArrayList<String>();
 	}
 
@@ -52,18 +53,7 @@ public class GroupEntity
 	}
 	
 	/*set funcs*/
-	public void addKeyword(String word)
-	{
-		keywords.add(word);
-	}
 	
-	public void delKeyword(String word)
-	{
-		if(keywords.contains(word))
-		{
-			keywords.remove(word);
-		}
-	}
 	
 	private static void print(String s)
 	{
@@ -103,8 +93,45 @@ public class GroupEntity
 		head_url = url;
 	}
 
+	public void setHeadUrl(String data) 
+	{
+		head_url = data;
+	}
+
 	public void addNews(long id) 
 	{
 		news.add(id);
+	}
+	
+	public String getProfileUrl()
+	{
+		return profile_url;
+	}
+	
+	public void setProfileUrl(String data)
+	{
+		profile_url = data;
+	}
+	
+	public String getDescription()
+	{
+		return description;
+	}
+	
+	public void setDescription(String data)
+	{
+		description = data; 
+	}
+
+	public void upSettings(String head_url , String profile_url , String description) 
+	{
+		this.head_url = head_url;
+		this.profile_url = profile_url; 
+		this.description = description;
+	}
+
+	public boolean isCreator(String username) 
+	{
+		return creator.equals(username);
 	}
 }

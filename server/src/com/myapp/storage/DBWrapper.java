@@ -1045,4 +1045,14 @@ public class DBWrapper
 		gobj.addNews(news_obj.getId());
 		groupEA.putEntity(gobj);
 	}
+
+	public void upGroupSettings(Long gid, String head_url, String profile_url, String description) 
+	{
+		GroupEntity obj = getGroupEntity(gid); 
+		if(obj != null)
+		{
+			obj.upSettings(head_url, profile_url, description);
+			groupEA.putEntity(obj);
+		}		
+	}
 }

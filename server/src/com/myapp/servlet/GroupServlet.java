@@ -13,9 +13,11 @@ import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.Const;
+import com.myapp.view.GroupSettingView;
 import com.myapp.view.NewsListView;
 import com.myapp.view.UserListView;
 import com.myapp.view.UserObjectView;
+import com.myapp.view.UserSettingView;
 
 public class GroupServlet extends HttpServlet 
 {
@@ -49,9 +51,9 @@ public class GroupServlet extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
 			return;
 		}
-		
+
 		String url = request.getServletPath();
-		
+
 		if(url.equals(Const.JOIN_GROUP_URL))
 		{
 			handleJoinGroupPost(request, response);
@@ -64,6 +66,11 @@ public class GroupServlet extends HttpServlet
 		{
 			handleCreateGroupPost(request, response);
 		}
+		else if(url.equals(Const.GROUP_SETTINGS_URL))
+		{
+			handleGroupSettingsPost(request, response);
+		}
+		/*
 		else if(url.equals(Const.JOIN_EVENT_URL))
 		{
 			handleJoinEventPost(request, response);
@@ -76,6 +83,65 @@ public class GroupServlet extends HttpServlet
 		{
 			handleCreateEventPost(request, response);
 		}
+		 */
+	}
+
+	private void handleGroupSettingsPost(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			System.out.println("handleFollowUser username is null"); 
+			ServletCommon.PrintErrorPage(Const.LOGIN_FIRST_INFO,  request, response);
+			return;
+		}
+
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		String group = query.get("group");
+		if(group == null)
+		{
+			ServletCommon.redirect404(request, response);
+			return;
+		}
+		Long gid = null; try
+		{
+			gid = Long.parseLong(group);
+		}
+		catch(NumberFormatException e)
+		{
+			e.printStackTrace();
+			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
+			return;
+		}
+
+		GroupEntity gobj = db.getGroupEntity(gid);
+		if(gobj == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
+			return;
+		}
+
+		if(!gobj.isCreator(username))
+		{
+			ServletCommon.PrintErrorPage(Const.HAVE_NO_RIGHT_TO_CHANEG_GROUP_SETTINGS, request, response);
+			return;
+		}
+
+		String head_url = request.getParameter("HEAD_URL");
+		String profile_url = request.getParameter("PROFILE_URL");
+		String description = request.getParameter("DESC");
+
+		initDB();
+		db.upGroupSettings(gid, head_url, profile_url, description);
+		db.sync();
+
+		ArrayList<Long>news = gobj.getNews();
+		NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
+
+		ArrayList<String>members = gobj.getMembers();
+		UserListView ulv = db.getUserViewListFromNameList(members);	
+
+		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv); 
 	}
 
 	private void handleLeaveGroupPost(HttpServletRequest request, HttpServletResponse response) 
@@ -128,7 +194,7 @@ public class GroupServlet extends HttpServlet
 		Long gid = Long.parseLong(group);
 		db.userJoinGroup(username, gid);
 		db.sync();
-	
+
 		GroupEntity gobj = db.getGroupEntity(gid);
 		if(gobj == null)
 		{
@@ -145,6 +211,7 @@ public class GroupServlet extends HttpServlet
 		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv);
 	}
 
+	/*
 	private void handleCreateEventPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 
@@ -159,6 +226,7 @@ public class GroupServlet extends HttpServlet
 	{
 
 	}
+	*/
 
 	private void handleCreateGroupPost(HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -189,7 +257,7 @@ public class GroupServlet extends HttpServlet
 				UserListView ulv = db.getUserViewListFromNameList(members);	
 
 				ServletCommon.RedirectToGroupPage(request, response, username, gobj.getId(), nlv, ulv);
-				
+
 				db.sync();
 			}
 			else
@@ -218,6 +286,65 @@ public class GroupServlet extends HttpServlet
 			//http://localhost:8080/grouppage?group=123
 			handleGroupPageGet(request, response);
 		}	
+		else if(url.equals(Const.GROUP_SETTINGS_URL))
+		{
+			handleGroupSettingsGet(request, response);
+		}	
+	}
+
+	private void handleGroupSettingsGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			ServletCommon.redirectToLoginPage(request, response);
+			return;
+		}
+
+		Hashtable<String, String>query = ServletCommon.parseQueryString(request.getQueryString());
+		String group = query.get("group");
+		if(group == null)
+		{
+			ServletCommon.redirect404(request, response);
+			return;
+		}
+
+		Long gid = null;
+		try
+		{
+			gid = Long.parseLong(group);
+		}
+		catch(NumberFormatException e)
+		{
+			e.printStackTrace();
+			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
+			return;
+		}
+	
+		initDB();
+
+		GroupEntity gobj = db.getGroupEntity(gid);
+		if(gobj == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
+			return;
+		}
+
+		if(!gobj.isCreator(username))
+		{
+			ServletCommon.PrintErrorPage(Const.HAVE_NO_RIGHT_TO_CHANEG_GROUP_SETTINGS, request, response);
+			return;
+		}
+
+		String head_url = gobj.getHeadUrl();
+		String profile_url = gobj.getProfileUrl();
+		String description = gobj.getDescription();
+
+		GroupSettingView usv =  new GroupSettingView(head_url,profile_url, description);
+		request.setAttribute("GroupSettingView", usv);
+
+		String location = "/jsp/GroupSettings.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private void handleGroupPageGet(HttpServletRequest request, HttpServletResponse response) 
@@ -247,7 +374,7 @@ public class GroupServlet extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
 			return;
 		}
-		
+
 		initDB();
 
 		GroupEntity gobj = db.getGroupEntity(gid);
@@ -263,7 +390,7 @@ public class GroupServlet extends HttpServlet
 
 		ArrayList<String>members = gobj.getMembers();
 		UserListView ulv = db.getUserViewListFromNameList(members);	
-		
+
 		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv);	
 	}
 

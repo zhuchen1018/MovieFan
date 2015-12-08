@@ -165,16 +165,9 @@ public class Account extends HttpServlet
 		String location = "/jsp/UserSettings.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
-			
-	private void handleSettingPost(HttpServletRequest request, HttpServletResponse response) 
-	{
-
-	}
-
+	
 	private void handleLoginPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
-		PrintWriter out = response.getWriter();
-
 		String name = request.getParameter("USERNAME");
 		if(name == null)
 		{

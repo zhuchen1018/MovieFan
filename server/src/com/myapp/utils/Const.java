@@ -84,6 +84,7 @@ public class Const
 	public static final String LEAVE_EVENT_URL = "/leave_event";
 	public static final String CREATE_EVENT_URL = "/create_event";
 	public static final String GROUP_MEMBER_URL = "/groupmember";
+	public static final String GROUP_SETTINGS_URL = "/groupsettings";
 
 	//Search
 	public static final String SEARCH_MOVIE = "/search_movie";
@@ -214,10 +215,8 @@ public class Const
 	public static final int TWEET_FROM_USER = 1;
 	public static final int TWEET_FROM_GROUP = 2;
 
-
-
-
-
+	public static final String HAVE_NO_RIGHT_TO_CHANEG_GROUP_SETTINGS 
+		= "Sorry, you have no right to change group settings";
 
 	/**
 	 *  match all hashtag: ignoecaese, no duplicates
