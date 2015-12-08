@@ -284,7 +284,7 @@ public class ServletCommon
 		
 		boolean isMyPage = username.equals(targetName);
 		boolean isMyFriend = db.isMyFriend(username, targetName); 
-		UserSettingView usv = db.loadUserInfoView(username, isMyPage, isMyFriend);
+		UserSettingView usv = db.loadUserInfoView(targetName, isMyPage, isMyFriend);
 		request.setAttribute("UserInfoView", null); 
 		request.setAttribute("UserInfoView", usv); 
 			
