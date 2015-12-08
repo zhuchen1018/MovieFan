@@ -972,7 +972,8 @@ public class DBWrapper
 		if(gobj != null) 
 		{
 			boolean inGroup = gobj.hasMember(username);
-			return new GroupPageView(gid, gobj.getName(), gobj.getCreator(), inGroup); 
+			return new GroupPageView(gid, gobj.getName(), gobj.getCreator(), gobj.getHeadUrl(), 
+					gobj.getProfileUrl(), gobj.getDescription(), inGroup); 
 		}
 		return null;
 	}
