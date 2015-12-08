@@ -46,7 +46,7 @@ curUser+=request.getQueryString();
     int fansNum = uiv.getFansNum();
     int followingNum = uiv.getFollowingNum();
     int newsNum = uiv.getNewsNum(); 
-    String userName = ServletCommon.getSessionUsername(request);
+    String userName = uiv.getName(); 
 %>
 
 <div width=100% height=100% id="Outer">

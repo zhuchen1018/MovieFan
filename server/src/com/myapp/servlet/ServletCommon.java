@@ -251,6 +251,13 @@ public class ServletCommon
 		db.close();
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 * @param username
+	 * @param targetName
+	 */
 	public static void RedirectToUserPage(HttpServletRequest request, HttpServletResponse response, 
 			String username, String targetName) 
 	{
