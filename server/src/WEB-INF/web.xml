@@ -237,35 +237,40 @@
      <servlet-name>group</servlet-name>
      <url-pattern>/grouppage</url-pattern>
    </servlet-mapping>  
+   
+      <servlet-mapping>
+     <servlet-name>group</servlet-name>
+     <url-pattern>/groupmember</url-pattern>
+   </servlet-mapping>  
     
    <servlet-mapping>
      <servlet-name>group</servlet-name>
-     <url-pattern>/group/create_group</url-pattern>
+     <url-pattern>/create_group</url-pattern>
    </servlet-mapping>  
    
    <servlet-mapping>
      <servlet-name>group</servlet-name>
-     <url-pattern>/group/join_group</url-pattern>
+     <url-pattern>/join_group</url-pattern>
    </servlet-mapping>  
    
    <servlet-mapping>
      <servlet-name>group</servlet-name>
-     <url-pattern>/group/leave_group</url-pattern>
+     <url-pattern>/leave_group</url-pattern>
    </servlet-mapping>  
    
      <servlet-mapping>
      <servlet-name>group</servlet-name>
-     <url-pattern>/group/create_event</url-pattern>
+     <url-pattern>/create_event</url-pattern>
    </servlet-mapping>  
    
      <servlet-mapping>
      <servlet-name>group</servlet-name>
-     <url-pattern>/group/leave_event</url-pattern>
+     <url-pattern>/leave_event</url-pattern>
    </servlet-mapping>  
    
      <servlet-mapping>
      <servlet-name>group</servlet-name>
-     <url-pattern>/group/join_event</url-pattern>
+     <url-pattern>/join_event</url-pattern>
    </servlet-mapping>  
    
     <servlet>

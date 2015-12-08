@@ -6,16 +6,18 @@ public class GroupPageView
 	private long gid;
 	private String gname;
 	private String creator;
-	private ArrayList<String>members; 
 	private Boolean isJoined; 
+	private NewsListView nlv;
+	private UserListView ulv;
 		
-	public GroupPageView(long gid, String gname, String creator, ArrayList<String>members, boolean inGroup)
+	public GroupPageView(long gid, String gname, String creator, NewsListView nlv, UserListView ulv, boolean inGroup)
 	{
 		this.gid = gid;
 		this.gname = gname;
 		this.creator = creator;
-		this.members = members;
 		this.isJoined = new Boolean(inGroup);
+		this.nlv = nlv;
+		this.ulv = ulv;
 	}	
 	
 	public long getId()
@@ -33,9 +35,14 @@ public class GroupPageView
 		return creator; 
 	}
 	
-	public ArrayList<String>getMembers()
+	public NewsListView getNewsListView() 
 	{
-		return members; 
+		return nlv; 
+	}
+	
+	public UserListView getUserListView()
+	{
+		return ulv;
 	}
 	
 	public Boolean isJoined() 

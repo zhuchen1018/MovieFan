@@ -32,6 +32,7 @@ public class Const
 
 	/*message*/
 	public final static String LOGIN_FIRST_INFO = "Please login first.";
+	public static final String NO_THIS_GROUP_INFO = "No this group...";
 	public final static String SESSION_USERNAME_NULL_INFO = "Session username is null!";
 	public static final String CAN_NOT_JOIN_GROUP_INFO = "You cannot join this group!";
 	public static final String NO_THIS_USER_INFO = "No this user!";
@@ -75,12 +76,13 @@ public class Const
 
 	//Group
 	public static final String GROUP_PAGE_URL = "/grouppage";
-	public static final String CREATE_GROUP_URL = "/group/create_group";
-	public static final String JOIN_GROUP_URL = "/group/join_group";
-	public static final String LEAVE_GROUP_URL = "/group/leave_group";
-	public static final String JOIN_EVENT_URL = "/group/join_event";
-	public static final String LEAVE_EVENT_URL = "/group/leave_event";
-	public static final String CREATE_EVENT_URL = "/group/create_event";
+	public static final String CREATE_GROUP_URL = "/create_group";
+	public static final String JOIN_GROUP_URL = "/join_group";
+	public static final String LEAVE_GROUP_URL = "/leave_group";
+	public static final String JOIN_EVENT_URL = "/join_event";
+	public static final String LEAVE_EVENT_URL = "/leave_event";
+	public static final String CREATE_EVENT_URL = "/create_event";
+	public static final String GROUP_MEMBER_URL = "/groupmember";
 
 	//Search
 	public static final String SEARCH_MOVIE = "/search_movie";
@@ -183,6 +185,8 @@ public class Const
 	public static final int MOVIEPAGEVIEW_CACHE_SIZE = 10000;
 
 	public static final PrettyTime PRETTY_TIME  = new PrettyTime();
+
+
 
 
 	/**

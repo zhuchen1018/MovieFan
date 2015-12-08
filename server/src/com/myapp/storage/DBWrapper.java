@@ -637,6 +637,29 @@ public class DBWrapper
 	}
 	
 	/**
+	 * Show Followings list
+	 * @param username
+	 * @param request
+	 * @param response
+	 */
+	public UserListView getUserViewListFromNameList(ArrayList<String>nameList) 
+	{
+		UserListView ulv = new UserListView(); 
+		if(nameList != null)
+		{
+			for(String name: nameList)
+			{
+				UserEntity friend = getUserEntity(name);
+				if(friend == null) continue;
+				String url = friend.getHeadUrl();
+				UserObjectView fov = new UserObjectView(url, name);
+				ulv.add(fov);
+			}
+		}
+		return ulv;
+	}
+	
+	/**
 	 * Show Fans list
 	 * @param username
 	 * @param request
@@ -939,13 +962,13 @@ public class DBWrapper
 		return null;
 	}
 
-	public GroupPageView loadGroupPageView(Long gid, String username) 
+	public GroupPageView loadGroupPageView(Long gid, String username, NewsListView nlv, UserListView ulv) 
 	{
 		GroupEntity gobj = groupEA.getEntity(gid);
 		if(gobj != null) 
 		{
 			boolean inGroup = gobj.hasMember(username);
-			return new GroupPageView(gid, gobj.getName(), gobj.getCreator(), gobj.getMembers(), inGroup); 
+			return new GroupPageView(gid, gobj.getName(), gobj.getCreator(), nlv, ulv, inGroup); 
 		}
 		return null;
 	}
@@ -982,5 +1005,17 @@ public class DBWrapper
 	public void createFBUser(String name, String password, String fbid) 
 	{
 		userEA.add(name, password, fbid);
+	}
+
+	public NewsListView getNewsListViewFromNewsIds(ArrayList<Long> news) 
+	{
+		NewsListView nlv = new NewsListView(); 	
+		for(Long newsid: news) 
+		{
+			NewsEntity obj = newsEA.getNewsEntityById(newsid);
+			NewsObjectView newsViewObj = new NewsObjectView(obj);
+			nlv.addNews(newsViewObj);
+		}
+		return nlv;
 	}
 }

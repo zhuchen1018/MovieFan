@@ -74,6 +74,11 @@ public class GroupEntity
 	{
 		return head_url;
 	}
+	
+	public ArrayList<Long>getNews() 
+	{
+		return news;
+	}
 
 	public void addMember(String username) 
 	{
