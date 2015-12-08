@@ -22,6 +22,7 @@
 }
 </style>
 
+
 </head>
 <body>
 <%@ page import="com.myapp.view.*" %>
@@ -32,6 +33,10 @@ GroupPageView gpv = (GroupPageView) request.getAttribute("GroupPageView");
     String gname = gpv.getName(); 
     String creator = gpv.getCreator(); 
     Boolean joined = gpv.isJoined();
+    String headURL = gpv.getHeadUrl();
+	String profileURL = gpv.getProfileUrl();
+	if(profileURL==null) profileURL="../images/nobackground.jpg";
+	String description = gpv.getDescription(); 
 %>
 
 <%String curGroup = "?"; 
@@ -40,27 +45,34 @@ curGroup+=request.getQueryString();
 
 <div width=100% height=100% id="Outer">
 	<div class="leftColumn" id="BasicDiv">
-		<%-- <div class="left_top" style="background-image: url(<%=profileURL%>); background-size:cover;">
+		<div class="left_top" style="background-image: url(<%=profileURL%>); background-size:cover;">
     		<div class="avatar">
 	   			<%if(headURL==null||headURL.isEmpty()) {%>
-   					<img src="../images/nobackground.jpg" class="avatar" />
+   					<img src="../images/noprofile.jpg" class="avatar" />
     			<%}else{ %>
     				<img src=<%=headURL %> class="avatar" />
 				<%} %>
+				
+				<font color=#FFFFFF><%=gname%></font>
+				
 			</div>
-		</div> --%>
+		</div>
 		<div class="left_bottom">
 			<div class="left_bottom_left">
-				<div>
-					<h2 id="title">About This Group</h2>
-					<%-- <p>
-						<%=description%>
-					</p> --%>
+				<div class="description">
+					<h2 id="title">About Me</h2>
+					<p>
+						<%if(description!=null){ %>
+							<em><%=description%></em>
+						<%}else{ %>
+							<em>No Description Available</em>
+						<%} %>
+					</p>
 				</div>
 				<br>
 			</div>
 			<div class="left_bottom_right">
-					<form action=<%="/tweet_group"+curGroup%> method="POST">
+					<form action=<%="/tweet_group"+curGroup %> method="POST">
 						<div align="center">
 							<textarea cols="65" rows="5" name="TWEET" placeholder="Share Something"></textarea>
 							<INPUT TYPE=SUBMIT VALUE="submit">
@@ -76,33 +88,6 @@ curGroup+=request.getQueryString();
 	</div>
 </div>
 
-	<div id="content"> 
-	    <% if(!joined){ %>
-			<form action=<%="/group/join_group" + "?" + "group=" + gid%> method="POST">
-				<button class="myButton" type="submit" name="JoinThisGroup">
-                    Join
-				</button>
-			</form>
-			<form action="#" method="POST">
-				<button class="myButton" type="submit" name="Members">
-                    Members
-				</button>
-			</form>
-		<%
-		}
-		else { %>		
-			<form action=<%="/group/leave_group" + "?" + "group=" + gid%> method="POST">
-			<button class="myButton" type="submit" name="LeaveThisGroup">
-                Leave
-			</button>
-			</form>
-			<form action="#" method="POST">
-			<button class="myButton" type="submit" name="Members">
-                Members
-			</button>
-			</form>
-		<% } %> 
-	</div> 
     
 </body>
 </html>
