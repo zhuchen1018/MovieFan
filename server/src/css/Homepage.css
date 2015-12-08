@@ -47,7 +47,7 @@ div.NewsList{
 
 div.RecommendationList{
 	width: 20%;
-	min-height: 700px;
+	height: 700px;
 	background: #DDDDDD;
 	float: left;
 	position: relative;
@@ -55,7 +55,7 @@ div.RecommendationList{
 
 div.FriendList{
 	width:14%;
-	min-height: 700px;
+	height: 700px;
 	background: #DDDDDD;
 	float: left;
 	position: relative;
