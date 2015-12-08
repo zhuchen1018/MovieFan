@@ -228,21 +228,6 @@ public class DBWrapper
 		idEA.getNextNewsId();
 	}
 
-	/*
-	public void addTweet(String username, String body) throws IOException 
-	{
-		UserEntity user  = getUserEntity(username);
-		if(user != null)
-		{
-			NewsEntity t = newsEA.addTweet(idEA.getNextTweetId(), username, body);
-			userEA.addTweet(username, t.getId());
-		}
-		else
-		{
-			//TODO: error log
-		}
-	}
-	 */
 
 	public void createUser(String name, String password) 
 	{
@@ -392,7 +377,6 @@ public class DBWrapper
 		UserEntity user = getUserEntity(username);
 		if(user == null)
 		{
-			print("addNewsTwitter: user is null " + username);
 			return;
 		}
 		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), tweet, Const.NEWS_TWITTER);
@@ -974,6 +958,7 @@ public class DBWrapper
 		if(user != null)
 		{
 			return new UserSettingView(
+					user.getName(),
 					user.getHeadUrl(), 
 					user.getProfileUrl(), 
 					user.getLikeGenres(),
@@ -1017,6 +1002,7 @@ public class DBWrapper
 			ArrayList<String>posterUrl = loadMoviePagePosterUrl(movieId); 
 
 			return new UserInfoView(
+					user.getName(),
 					user.getHeadUrl(), 
 					user.getProfileUrl(), 
 					user.getLikeGenres(),

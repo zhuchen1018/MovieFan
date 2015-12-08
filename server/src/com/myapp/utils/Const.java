@@ -243,7 +243,6 @@ public class Const
 		Matcher hashTagMatcher = Const.HASHTAG_PATTERN.matcher(text);
 		StringBuilder sb = new StringBuilder();
 
-		//"  #nihao #NIHAO    #jason @ashidahsd",
 		int last_end = 0;
 		while(hashTagMatcher.find())
 		{

@@ -159,7 +159,7 @@ public class Account extends HttpServlet
 		Integer[] genres = user.getLikeGenres();
 		String description = user.getDescription();
 
-		UserSettingView usv =  new UserSettingView(head_url,profile_url, genres, description);
+		UserSettingView usv =  new UserSettingView(username, head_url,profile_url, genres, description);
 		request.setAttribute("UserSettingView", usv);
 
 		String location = "/jsp/UserSettings.jsp";

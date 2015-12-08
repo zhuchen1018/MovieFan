@@ -16,7 +16,7 @@
 	String tweetTime = nov.getReleaseTime();
 	String note = nov.getNote();
 	String userUrl = nov.getUserUrl();
-	if(userUrl==null) userUrl="/images/not-found.png";
+	if(userUrl==null) userUrl="/images/noprofile.jpg";
 %>      
 
 	<p>

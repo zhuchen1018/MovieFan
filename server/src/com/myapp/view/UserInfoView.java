@@ -18,10 +18,11 @@ public class UserInfoView extends UserSettingView
 		
 	}
 	
-	public UserInfoView(String head_url,String profile_url, Integer[] genres, 
+	public UserInfoView(String username, String head_url,String profile_url, Integer[] genres, 
 			String description, int fansNum, int followingNum, int newsNum, 
 			Boolean isMyPage, Boolean isMyFriend, ArrayList<String>movieId, ArrayList<String>posterUrl)
 	{
+		this.username = username;
 		this.head_url = head_url;
 		this.profile_url = profile_url;
 		this.genres = genres;
