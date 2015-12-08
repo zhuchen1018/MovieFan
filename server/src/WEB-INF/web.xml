@@ -242,6 +242,11 @@
      <servlet-name>group</servlet-name>
      <url-pattern>/grouppage</url-pattern>
    </servlet-mapping>  
+   
+     <servlet-mapping>
+     <servlet-name>group</servlet-name>
+     <url-pattern>/groupsettings</url-pattern>
+   </servlet-mapping>  
   
    <servlet-mapping>
      <servlet-name>group</servlet-name>

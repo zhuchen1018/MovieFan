@@ -320,12 +320,19 @@ public class ServletCommon
 			return;
 		}
 
-		GroupPageView gpv = db.loadGroupPageView(gid, username, nlv, ulv);
+		GroupPageView gpv = db.loadGroupPageView(gid, username); 
 		if(gpv == null)
 		{
 			ServletCommon.redirect404(request, response);
 			return;
 		}
+
+		request.setAttribute("NewsListView", null); 
+		request.setAttribute("NewsListView", nlv); 
+
+		request.setAttribute("UserListView", null); 
+		request.setAttribute("UserListView", ulv); 
+
 		request.setAttribute("GroupPageView", null); 
 		request.setAttribute("GroupPageView", gpv); 
 	

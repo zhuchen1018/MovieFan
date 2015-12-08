@@ -109,7 +109,6 @@ public class GroupServlet extends HttpServlet
 
 	private void handleJoinGroupPost(HttpServletRequest request, HttpServletResponse response) 
 	{
-
 		String username = ServletCommon.getSessionUsername(request);
 		if(username == null)
 		{

@@ -151,15 +151,15 @@ public class UserPage extends HttpServlet
 		}
 
 		initDB();
-		db.addNewsTwitter(username, info); 
-		db.sync();
 
 		if(From == Const.TWEET_FROM_HOME)
 		{
+			db.addNewsTwitter(username, info); 
 			ServletCommon.RedirectToHome(request, response);
 		}
 		else if(From == Const.TWEET_FROM_USER)
 		{
+			db.addNewsTwitter(username, info); 
 			ServletCommon.RedirectToUserPage(request, response, username, username);
 		}
 		else if(From == Const.TWEET_FROM_GROUP) //tweet_group?group=123
@@ -171,8 +171,6 @@ public class UserPage extends HttpServlet
 				ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  request, response);
 				return;
 			}
-
-			initDB();
 
 			Long gid = Long.parseLong(group);
 			if(!db.hasGroup(gid))
@@ -188,8 +186,11 @@ public class UserPage extends HttpServlet
 				return;
 			}
 
+			db.addGroupNews(username, gid, info); 
+
 			ArrayList<Long>news = gobj.getNews();
 			NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
+			//System.out.println("NewsListView size: " + nlv.getNewsNumber());
 
 			ArrayList<String>members = gobj.getMembers();
 			UserListView ulv = db.getUserViewListFromNameList(members);	

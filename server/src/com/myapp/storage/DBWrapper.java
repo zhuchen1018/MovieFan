@@ -7,6 +7,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.EnvironmentConfig;
 import com.sleepycat.je.EnvironmentFailureException;
 import com.sleepycat.persist.StoreConfig;
+import com.myapp.servlet.ServletCommon;
 import com.myapp.storage.accessor.*;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.HashTagEntity;
@@ -962,13 +963,13 @@ public class DBWrapper
 		return null;
 	}
 
-	public GroupPageView loadGroupPageView(Long gid, String username, NewsListView nlv, UserListView ulv) 
+	public GroupPageView loadGroupPageView(Long gid, String username) 
 	{
 		GroupEntity gobj = groupEA.getEntity(gid);
 		if(gobj != null) 
 		{
 			boolean inGroup = gobj.hasMember(username);
-			return new GroupPageView(gid, gobj.getName(), gobj.getCreator(), nlv, ulv, inGroup); 
+			return new GroupPageView(gid, gobj.getName(), gobj.getCreator(), inGroup); 
 		}
 		return null;
 	}
@@ -1017,5 +1018,26 @@ public class DBWrapper
 			nlv.addNews(newsViewObj);
 		}
 		return nlv;
+	}
+
+	/**
+	 * group news store in groupEntity, not userEntity
+	 * @param username
+	 * @param gid
+	 * @param info
+	 */
+	public void addGroupNews(String username, Long gid, String info) 
+	{
+		GroupEntity gobj = getGroupEntity(gid);
+		if(gobj == null)
+		{
+			return;
+		}
+
+		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), info, Const.NEWS_TWITTER);
+		newsEA.addNews(news_obj);
+
+		gobj.addNews(news_obj.getId());
+		groupEA.putEntity(gobj);
 	}
 }

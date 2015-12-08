@@ -102,4 +102,9 @@ public class GroupEntity
 	{
 		head_url = url;
 	}
+
+	public void addNews(long id) 
+	{
+		news.add(id);
+	}
 }
