@@ -1,12 +1,15 @@
 package com.myapp.view;
 
+import java.util.ArrayList;
+
 public class UserInfoView extends UserSettingView 
 {
 	private int fansNum; 
 	private int followingNum; 
 	private int newsNum; 
-	Boolean isMyPage; 
-	Boolean isMyFriend; 
+	private Boolean isMyPage; 
+	private Boolean isMyFriend; 
+	private ArrayList<String>likeMovies = new ArrayList<String>(); 
 	
 	public UserInfoView()
 	{
@@ -14,7 +17,8 @@ public class UserInfoView extends UserSettingView
 	}
 	
 	public UserInfoView(String head_url,String profile_url, Integer[] genres, 
-			String description, int fansNum, int followingNum, int newsNum, Boolean isMyPage, Boolean isMyFriend)
+			String description, int fansNum, int followingNum, int newsNum, 
+			Boolean isMyPage, Boolean isMyFriend, ArrayList<String>likeMovies)
 	{
 		this.head_url = head_url;
 		this.profile_url = profile_url;
@@ -25,6 +29,7 @@ public class UserInfoView extends UserSettingView
 		this.newsNum = newsNum;
 		this.isMyPage = isMyPage;
 		this.isMyFriend = isMyFriend;
+		this.likeMovies = likeMovies;
 	}
 	
 	public String getHeadUrl()
@@ -72,4 +77,8 @@ public class UserInfoView extends UserSettingView
 		return newsNum;
 	}
 	
+	public ArrayList<String> getLikeMovies()
+	{
+		return likeMovies;
+	}	
 }

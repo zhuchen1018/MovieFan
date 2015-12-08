@@ -1,35 +1,13 @@
 package com.myapp.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Hashtable;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import com.myapp.SQL.SQLDBMovieQuery;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.HashTagEntity;
-import com.myapp.storage.entity.NewsEntity;
 import com.myapp.utils.Const;
-import com.myapp.view.GoogleListView;
-import com.myapp.view.GoogleObjectView;
-import com.myapp.view.GroupListView;
-import com.myapp.view.GroupObjectView;
 import com.myapp.view.NewsListView;
-import com.myapp.view.NewsObjectView;
-import com.myapp.utils.Const;
 
 public class HashTagPage extends HttpServlet 
 {

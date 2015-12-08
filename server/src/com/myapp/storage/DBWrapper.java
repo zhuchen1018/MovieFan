@@ -931,7 +931,8 @@ public class DBWrapper
 					user.getFollowingNum(),
 					user.getNewsNum(),
 					new Boolean(isMyPage), 
-					new Boolean(isMyFriend) 
+					new Boolean(isMyFriend), 
+					user.getLikeMovies()
 					);
 
 		}		
@@ -976,5 +977,10 @@ public class DBWrapper
 			}
 		}
 		return nlv;
+	}
+
+	public void createFBUser(String name, String password, String fbid) 
+	{
+		userEA.add(name, password, fbid);
 	}
 }
