@@ -55,6 +55,38 @@ curGroup+=request.getQueryString();
 				
 				<font color=#FFFFFF><%=gname%></font>
 				
+				<% if(!joined){ %>
+					<form action=<%="join_group" + "?" + "group=" + gid%> method="POST">
+						<button type="button" id="discussionB">
+		                    Discussion
+						</button>
+					
+						<button type="button" id="memberB">
+		                    Members
+						</button>
+					
+						<button type="submit" name="JoinThisGroup">
+		                    Join
+						</button>
+					</form>
+				<% }
+					else { %>		
+						<form action=<%="leave_group" + "?" + "group=" + gid%> method="POST">
+						<button type="button" id="discussionB">
+			           	Discussion
+						</button>
+						
+						<button type="button" id="memberB">
+			            Members
+						</button>
+						
+						<button type="submit" name="LeaveThisGroup">
+			            Leave
+						</button>
+						</form>
+			
+					<% } %>
+				
 			</div>
 		</div>
 		<div class="left_bottom">
