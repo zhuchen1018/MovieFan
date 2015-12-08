@@ -10,12 +10,9 @@ import javax.servlet.http.HttpSession;
 import com.myapp.utils.Const;
 import com.myapp.view.NewsListView;
 import com.myapp.view.UserListView;
-import com.myapp.view.UserSettingView;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.UserEntity;
-
-
 
 public class UserPage extends HttpServlet 
 {
@@ -115,7 +112,7 @@ public class UserPage extends HttpServlet
 		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
 
-
+	/*
 	private void handleArticlePost(HttpServletRequest request, HttpServletResponse response) 
 	{
 
@@ -126,6 +123,7 @@ public class UserPage extends HttpServlet
 	{
 
 	}
+	*/
 
 	private void handleTweetPost(HttpServletRequest request, HttpServletResponse response, int From) throws IOException
 	{
@@ -311,10 +309,6 @@ public class UserPage extends HttpServlet
 		ServletCommon.PrintErrorPage("handleMailBoxGet is developing......",  request, response);
 	}
 
-
-
-
-
 	private void handleFollowUserPost(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String username = ServletCommon.getSessionUsername(request);
@@ -378,7 +372,7 @@ public class UserPage extends HttpServlet
 		}
 
 		String targetName = query.get("user").trim().toLowerCase();
-		if(targetName == null || targetName.isEmpty())
+		if(targetName.isEmpty())
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
@@ -395,27 +389,5 @@ public class UserPage extends HttpServlet
 
 		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
-
-
-	/*
-	private void showTweetWindow(String username, HttpServletResponse response)
-	{
-		response.setContentType("text/html");
-		try 
-		{
-			PrintWriter out = response.getWriter();
-			out.println("<form action=\"/tweet\" method=\"post\">");
-
-			out.println("<P>" + "Say something..." + "</P>");
-			out.println("<input type=\"text\" name=\"TWEET\" value=\"\" />");
-
-			out.println("<input type=\"submit\" />");
-			out.println("</form>");
-		} 
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	 */
 }
 

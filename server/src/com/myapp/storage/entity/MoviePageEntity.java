@@ -10,7 +10,9 @@ public class MoviePageEntity
 {
 	@PrimaryKey
 	private String movieId;
-	
+
+	private String name;
+	private String posterUrl; 
 	private int likeNum;
 
 	//news id
@@ -39,21 +41,41 @@ public class MoviePageEntity
 		System.out.println(s);
 	}
 
-	public void addReview(Long newsId) 
+	synchronized public void addReview(Long newsId) 
 	{
 		reviewList.add(newsId);
 	}
 
-	public void addLike() 
+	synchronized public void addLike() 
 	{
 		likeNum ++;
 	}	
 	
-	public void removeLike() 
+	synchronized public void removeLike() 
 	{
 		if(likeNum > 0)
 		{
 			likeNum --;
 		}
 	}	
+	
+	public void setPoster(String url)
+	{
+		posterUrl = url; 
+	}
+
+	public void setName(String name) 
+	{
+		this.name = name;
+	}
+
+	public String getPoster() 
+	{
+		return posterUrl;
+	}
+
+	public String getName() 
+	{
+		return name;
+	}
 }

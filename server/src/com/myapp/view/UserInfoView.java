@@ -10,7 +10,8 @@ public class UserInfoView extends UserSettingView
 	private int newsNum; 
 	private Boolean isMyPage; 
 	private Boolean isMyFriend; 
-	private ArrayList<String>likeMovies = new ArrayList<String>(); 
+	private ArrayList<String>posterUrl = new ArrayList<String>(); 
+	private ArrayList<String>movieId = new ArrayList<String>(); 
 	
 	public UserInfoView()
 	{
@@ -19,7 +20,7 @@ public class UserInfoView extends UserSettingView
 	
 	public UserInfoView(String head_url,String profile_url, Integer[] genres, 
 			String description, int fansNum, int followingNum, int newsNum, 
-			Boolean isMyPage, Boolean isMyFriend, ArrayList<String>likeMovies)
+			Boolean isMyPage, Boolean isMyFriend, ArrayList<String>movieId, ArrayList<String>posterUrl)
 	{
 		this.head_url = head_url;
 		this.profile_url = profile_url;
@@ -30,7 +31,8 @@ public class UserInfoView extends UserSettingView
 		this.newsNum = newsNum;
 		this.isMyPage = isMyPage;
 		this.isMyFriend = isMyFriend;
-		this.likeMovies = likeMovies;
+		this.movieId = movieId;
+		this.posterUrl = posterUrl;
 	}
 	
 	public String getHeadUrl()
@@ -87,8 +89,13 @@ public class UserInfoView extends UserSettingView
 		return newsNum;
 	}
 	
-	public ArrayList<String> getLikeMovies()
+	public ArrayList<String> getPosterUrl()
 	{
-		return likeMovies;
+		return posterUrl;
+	}	
+	
+	public ArrayList<String> getMovieId()
+	{
+		return movieId;
 	}	
 }

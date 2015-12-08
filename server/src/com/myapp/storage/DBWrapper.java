@@ -11,6 +11,7 @@ import com.myapp.servlet.ServletCommon;
 import com.myapp.storage.accessor.*;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.HashTagEntity;
+import com.myapp.storage.entity.MoviePageEntity;
 import com.myapp.storage.entity.NewsEntity;
 import com.myapp.storage.entity.UserEntity;
 import com.sleepycat.je.Environment;
@@ -21,6 +22,8 @@ import com.myapp.view.FriendObjectView;
 import com.myapp.view.GroupListView;
 import com.myapp.view.GroupObjectView;
 import com.myapp.view.GroupPageView;
+import com.myapp.view.MoviePageView;
+import com.myapp.view.MoviePageViewCache;
 import com.myapp.view.NewsListView;
 import com.myapp.view.NewsObjectView;
 import com.myapp.view.UserInfoView;
@@ -55,6 +58,7 @@ public class DBWrapper
 	private NewsAccessor newsEA;
 	private IdGeneratorAccessor idEA;
 	private HashTagAccessor hashtagEA;
+	private MoviePageAccessor moviepageEA; 
 
 	private boolean is_close;
 
@@ -97,6 +101,7 @@ public class DBWrapper
 		newsEA = new NewsAccessor(store);
 		idEA = new IdGeneratorAccessor(store);
 		hashtagEA = new HashTagAccessor(store);
+		moviepageEA = new MoviePageAccessor(store);
 
 		//logger.info("db setup!!");
 	}
@@ -612,7 +617,7 @@ public class DBWrapper
 		}
 		return flv;
 	}
-		
+
 	/**
 	 * Show Followings list
 	 * @param username
@@ -636,7 +641,7 @@ public class DBWrapper
 		}
 		return ulv;
 	}
-	
+
 	/**
 	 * Show Followings list
 	 * @param username
@@ -659,7 +664,7 @@ public class DBWrapper
 		}
 		return ulv;
 	}
-	
+
 	/**
 	 * Show Fans list
 	 * @param username
@@ -695,7 +700,7 @@ public class DBWrapper
 		}
 		return null;
 	}
-	
+
 	private ArrayList<String> getUserFans(String username) 
 	{
 		UserEntity user = getUserEntity(username);
@@ -719,7 +724,7 @@ public class DBWrapper
 		NewsListView nlv = new NewsListView();
 
 		ArrayList<Long>newids = getUserNews(username);
-		
+
 		for(long id: newids)
 		{
 			NewsEntity newsEntity = getNewsEntityByIds(id);
@@ -900,6 +905,12 @@ public class DBWrapper
 		return ulv;
 	}
 
+	/**
+	 * may trigger MoviePageEntity to create: 
+	 * mainly store user's like and reviews
+	 * @param username
+	 * @param movieId
+	 */
 	public void userLikeMovie(String username, String movieId) 
 	{
 		UserEntity user = getUserEntity(username);
@@ -907,6 +918,21 @@ public class DBWrapper
 		{
 			user.likeMovie(movieId);
 			userEA.putEntity(user);
+
+			MoviePageEntity movie = moviepageEA.getEntity(movieId);
+			//is new
+			if(movie == null)
+			{
+				movie = moviepageEA.createEntity(movieId);
+				MoviePageView mpv = MoviePageViewCache.get(movieId);
+				if(mpv != null)
+				{
+					movie.setName(mpv.getName());
+					movie.setPoster(mpv.getPoster());
+				}
+			}
+			movie.addLike();
+			moviepageEA.putEntity(movie);
 		}	
 	}	
 
@@ -943,12 +969,41 @@ public class DBWrapper
 		}		
 		return null;
 	}
-	
+
+
+	public ArrayList<String> loadMoviePagePosterUrl(ArrayList<String>movieId)
+	{
+		ArrayList<String>posterUrl = new ArrayList<String>(); 
+		for(String mid: movieId)
+		{
+			MoviePageEntity mpe = moviepageEA.getEntity(mid);
+			if(mpe != null)
+			{
+				posterUrl.add(mpe.getPoster());
+				//print("movie : " + mpe.getName() + " " + posterUrl);
+			}
+			else
+			{
+				posterUrl.add("/images/not-found.png");
+			}
+		}
+		return posterUrl;
+	}
+	/**
+	 * 
+	 * @param username
+	 * @param isMyPage
+	 * @param isMyFriend
+	 * @return
+	 */
 	public UserInfoView loadUserInfoView(String username, boolean isMyPage, boolean isMyFriend) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
 		{
+			ArrayList<String>movieId = user.getLikeMovies(); 
+			ArrayList<String>posterUrl = loadMoviePagePosterUrl(movieId); 
+
 			return new UserInfoView(
 					user.getHeadUrl(), 
 					user.getProfileUrl(), 
@@ -959,7 +1014,8 @@ public class DBWrapper
 					user.getNewsNum(),
 					new Boolean(isMyPage), 
 					new Boolean(isMyFriend), 
-					user.getLikeMovies()
+					movieId,
+					posterUrl
 					);
 
 		}		

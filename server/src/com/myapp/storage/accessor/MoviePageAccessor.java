@@ -19,7 +19,6 @@ public class MoviePageAccessor
 {
 	private PrimaryIndex<String, MoviePageEntity> moviePageById;
 
-
 	public MoviePageAccessor(EntityStore store)
 	{
 		moviePageById = store.getPrimaryIndex(String.class, MoviePageEntity.class);
@@ -75,28 +74,35 @@ public class MoviePageAccessor
 
 	public MoviePageEntity add(String id) 
 	{
-		MoviePageEntity g = new MoviePageEntity(id); 
-		putEntity(g);
-		return g;
+		MoviePageEntity movie = new MoviePageEntity(id); 
+		putEntity(movie);
+		return movie;
 	}
 
 	public void addLike(String id)
 	{
-		MoviePageEntity g = getEntity(id);
-		if(g != null)
+		MoviePageEntity movie = getEntity(id);
+		if(movie != null)
 		{
-			g.addLike();
+			movie.addLike();
 		}
-		putEntity(g);
+		putEntity(movie);
 	}
 	
 	public void removeLike(String id)
 	{
-		MoviePageEntity g = getEntity(id);
-		if(g != null)
+		MoviePageEntity movie = getEntity(id);
+		if(movie != null)
 		{
-			g.removeLike();
+			movie.removeLike();
 		}
-		putEntity(g);
+		putEntity(movie);
+	}
+
+	public MoviePageEntity createEntity(String movieId) 
+	{
+		MoviePageEntity movie = new MoviePageEntity(movieId);
+		putEntity(movie);
+		return movie;
 	}
 }

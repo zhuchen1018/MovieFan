@@ -18,7 +18,7 @@ public class MoviePageViewCache
 	{
 	}
 	
-	public static MoviePageView get(String key)
+	synchronized public static MoviePageView get(String key)
 	{
 		if(key == null) return null;
 
