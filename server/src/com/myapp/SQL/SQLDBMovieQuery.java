@@ -1,6 +1,5 @@
 package com.myapp.SQL;
 import com.myapp.view.*;
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 import com.myapp.utils.*;

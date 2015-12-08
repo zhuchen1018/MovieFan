@@ -20,22 +20,13 @@ public class UserPage extends HttpServlet
 	 * 
 	 */
 	private static final long serialVersionUID = -6232737047776432110L;
-	private DBWrapper db; 
 	public UserPage() 
 	{
 	}
 
-	public void initDB()
+	public DBWrapper initDB()
 	{
-		if(db != null) return;
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+		return new DBWrapper();
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -97,7 +88,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 
 		UserEntity user = db.getUserEntity(targetName);
 		if(user == null)
@@ -106,7 +97,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		db.userRemoveFriend(username, targetName);
+		db.userUnfollow(username, targetName);
 		db.sync();	
 
 		ServletCommon.RedirectToUserPage(request, response, username, targetName);
@@ -148,7 +139,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 
 		if(From == Const.TWEET_FROM_HOME)
 		{
@@ -217,10 +208,6 @@ public class UserPage extends HttpServlet
 		{
 			handleUserPageGet(request, response);
 		}	
-		else if(url.equals(Const.USER_MAILBOX_URL))
-		{
-			handleMailBoxGet(request, response);
-		}	
 		else if(url.equals(Const.USER_FOLLOWING_URL))
 		{
 			handleFollowingGet(request, response);
@@ -274,11 +261,15 @@ public class UserPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
 			return;
 		}
+		
+		DBWrapper db = initDB();
 
 		String targetName = query.get("user");
 		UserListView ulv = db.loadFansList(targetName);
 		request.setAttribute("UserListView", null); 
 		request.setAttribute("UserListView", ulv); 
+		
+		db.sync();
 
 		String location = "/jsp/UserList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
@@ -300,20 +291,15 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
+		DBWrapper db = initDB();
+
 		String targetName = query.get("user");
 		UserListView ulv = db.loadFollowingsList(targetName); 
 		request.setAttribute("UserListView", null); 
 		request.setAttribute("UserListView", ulv); 
-
+		
 		String location = "/jsp/UserList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
-
-	}
-
-	private void handleMailBoxGet(HttpServletRequest request, HttpServletResponse response) 
-	{
-		//TODO:
-		ServletCommon.PrintErrorPage("handleMailBoxGet is developing......",  request, response);
 	}
 
 	private void handleFollowUserPost(HttpServletRequest request, HttpServletResponse response) 
@@ -340,7 +326,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		initDB();
+DBWrapper db = initDB();
 
 		UserEntity user = db.getUserEntity(targetName);
 		if(user == null)
@@ -349,7 +335,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		db.userAddFriend(username, targetName);
+		db.userAddFollow(username, targetName);
 		db.userAddNewsMakeFriends(username, targetName);
 		db.userAddFans(targetName, username);
 		db.sync();
@@ -385,7 +371,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 
 		UserEntity user = db.getUserEntity(targetName);
 		if(user == null)

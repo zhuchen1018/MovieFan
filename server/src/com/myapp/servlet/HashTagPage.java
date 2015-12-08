@@ -16,19 +16,10 @@ public class HashTagPage extends HttpServlet
 	 */
 	private static final long serialVersionUID = -2835467381465359391L;
 
-	private DBWrapper db;
 
-	public void initDB()
+	public DBWrapper initDB()
 	{
-		if(db != null) return;
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+		return new DBWrapper();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -47,7 +38,7 @@ public class HashTagPage extends HttpServlet
 	 */
 	private void handleHashTagGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		initDB();
+		DBWrapper db = initDB();
 
 		String tag = request.getQueryString(); 
 		HashTagEntity hashtags = db.getHashTagEntity(tag);
@@ -57,12 +48,12 @@ public class HashTagPage extends HttpServlet
 			ServletCommon.redirect404(request, response);
 			return;
 		}
-
-		initDB();
-		
+	
 		NewsListView nlv = db.loadSearchHashTag(tag);
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", nlv); 
+		
+		db.sync();
 
 		String location = "/jsp/NewsList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);	

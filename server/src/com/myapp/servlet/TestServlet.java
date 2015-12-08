@@ -2,7 +2,6 @@ package com.myapp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Hashtable;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,38 +10,20 @@ import com.myapp.storage.entity.GroupEntity;
 import com.myapp.utils.Const;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpSession;
+
 import com.myapp.utils.MD5Encryptor;
-import com.myapp.storage.entity.NewsEntity;
-import com.myapp.storage.entity.UserEntity;
-import com.myapp.view.FriendListView;
-import com.myapp.view.FriendObjectView;
-import com.myapp.view.GroupListView;
-import com.myapp.view.GroupObjectView;
 import com.myapp.view.NewsListView;
 import com.myapp.view.NewsObjectView;
 
 public class TestServlet extends HttpServlet 
 {
-	private DBWrapper db; 
-
 	public TestServlet()
 	{
 	}
 
-	public void initDB()
+	public DBWrapper initDB()
 	{
-		if(db != null) return;
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+		return new DBWrapper();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -149,7 +130,7 @@ public class TestServlet extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 
 		NewsListView newsListView = new NewsListView();
 
@@ -235,7 +216,7 @@ public class TestServlet extends HttpServlet
 		newsListView.addNews(newsViewObj);
 		db.addNewsLikeMovie(username, movieId, url); 
 
-		db.sync();
+		db.close();
 
 		ServletCommon.RedirectToHome(request, response);
 	}
@@ -253,7 +234,7 @@ public class TestServlet extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 
 
 		String friend = "a_friend";
@@ -261,7 +242,7 @@ public class TestServlet extends HttpServlet
 		db.createUser(friend, MD5Encryptor.crypt(friend));
 		db.userAddHeadUrl(friend, url);
 
-		db.userAddFriend(username, friend);
+		db.userAddFollow(username, friend);
 		db.userAddNewsMakeFriends(username, friend);
 		db.userAddFans(friend, username);
 	
@@ -270,7 +251,7 @@ public class TestServlet extends HttpServlet
 		db.createUser(friend, MD5Encryptor.crypt(friend));
 		db.userAddHeadUrl(friend, url);
 
-		db.userAddFriend(username, friend); 
+		db.userAddFollow(username, friend); 
 		db.userAddNewsMakeFriends(username, friend);
 		db.userAddFans(friend, username);
 		
@@ -279,11 +260,11 @@ public class TestServlet extends HttpServlet
 		db.createUser(friend, MD5Encryptor.crypt(friend));
 		db.userAddHeadUrl(friend, url);
 
-		db.userAddFriend(username, friend); 
+		db.userAddFollow(username, friend); 
 		db.userAddNewsMakeFriends(username, friend);
 		db.userAddFans(friend, username);
 
-		db.sync();
+		db.close();
 		ServletCommon.RedirectToHome(request, response);
 	}
 	/**
@@ -300,7 +281,7 @@ public class TestServlet extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 
 		//new group
 		String gname1 = "group name 1";
@@ -316,7 +297,7 @@ public class TestServlet extends HttpServlet
 		GroupEntity g3 = db.createNewGroup(gname3, username); 
 		db.addGroupHeadUrl(g3.getId(), url);
 	
-		db.sync();
+		db.close();
 		ServletCommon.RedirectToHome(request, response);
 	}
 }

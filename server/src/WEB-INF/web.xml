@@ -21,11 +21,7 @@
      <url-pattern>/userpage</url-pattern>
    </servlet-mapping>  
    
-     <servlet-mapping>
-     <servlet-name>user_page</servlet-name>
-     <url-pattern>/mailbox</url-pattern>
-   </servlet-mapping>  
-     
+      
     <servlet-mapping>
      <servlet-name>user_page</servlet-name>
      <url-pattern>/tweet_user</url-pattern>
@@ -110,13 +106,17 @@
      <servlet-name>account</servlet-name>
      <servlet-class>com.myapp.servlet.Account</servlet-class> 
    </servlet>
+   
+   <servlet-mapping>
+     <servlet-name>account</servlet-name>
+     <url-pattern>/mailbox</url-pattern>
+   </servlet-mapping>  
     
    <servlet-mapping>
      <servlet-name>account</servlet-name>
      <url-pattern>/register</url-pattern>
    </servlet-mapping>  
    
- 
    <servlet-mapping>
      <servlet-name>account</servlet-name>
      <url-pattern>/login</url-pattern>

@@ -16,19 +16,10 @@ public class MoviePage extends HttpServlet
 	 * 
 	 */
 	private static final long serialVersionUID = -2835467381465359391L;
-	private DBWrapper db; 
 
-	public void initDB()
+	public DBWrapper initDB()
 	{
-		if(db != null) return;
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+		return new DBWrapper();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 
@@ -103,7 +94,7 @@ public class MoviePage extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 		db.userUnlikeMovie(username, movie_id); 
 		db.sync();
 
@@ -144,7 +135,7 @@ public class MoviePage extends HttpServlet
 			ServletCommon.redirect404(request, response);
 			return;
 		}
-		initDB();
+		DBWrapper db = initDB();
 		db.addNewsMovieReview(username, title, body, mpv.getMovieId(), mpv.getName(), mpv.getPoster()); 
 		db.sync();
 		
@@ -176,7 +167,7 @@ public class MoviePage extends HttpServlet
 			ServletCommon.redirect404(request, response);
 			return;
 		}
-		initDB();
+		DBWrapper db = initDB();
 		db.addNewsShareMovies(username, movie_id, mpv.getName(), mpv.getPoster(), db.getFriends(username)); 
 		db.sync();
 		
@@ -203,7 +194,7 @@ public class MoviePage extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 		db.userLikeMovie(username, movie_id); 
 		db.sync();
 			

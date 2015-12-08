@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 
@@ -22,7 +21,6 @@ import org.jsoup.select.Elements;
 import com.myapp.storage.DBWrapper;
 import com.myapp.utils.Const;
 import com.myapp.view.FriendListView;
-import com.myapp.view.FriendObjectView;
 import com.myapp.view.GoogleListView;
 import com.myapp.view.GoogleObjectView;
 import com.myapp.view.GroupListView;
@@ -35,6 +33,11 @@ import com.myapp.view.UserSettingView;
 
 public class ServletCommon 
 {
+	public static DBWrapper initDB()
+	{
+		return new DBWrapper();
+	}
+
 	public static void PrintErrorPage(String info, HttpServletRequest request, HttpServletResponse response) 
 	{
 		String location = "/jsp/ErrorPage.jsp";
@@ -143,22 +146,13 @@ public class ServletCommon
 			out.println("<P>" + "\n" + "</P>");
 			out.println("<a href= \"" + link +  "\" class=\"button\">" + name + "</a>");
 			out.println("<P>" + "\n" + "</P>");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} 
+		catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 	}
 
-	/*
-	public static DBWrapper initDB(DBWrapper db) throws IOException 
-	{
-		if(db == null || db.isClose())
-		{
-			db = new DBWrapper();
-		}
-		return db;
-	}
-	 */
 
 	/**
 	 * eg:field1=value1&field2=value2&field3=value3...
@@ -223,16 +217,7 @@ public class ServletCommon
 			return;
 		}
 		
-		DBWrapper db = null; 
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-			return;
-		}
+		DBWrapper db = initDB();
 
 		NewsListView nlv = db.loadAllNews(username);
 		request.setAttribute("NewsListView", null); 
@@ -248,7 +233,6 @@ public class ServletCommon
 
 		String location = "/jsp/home.jsp";
 		forwardRequestDispatch(request, response, location);
-		db.close();
 	}
 
 	/**
@@ -261,16 +245,7 @@ public class ServletCommon
 	public static void RedirectToUserPage(HttpServletRequest request, HttpServletResponse response, 
 			String username, String targetName) 
 	{
-		DBWrapper db = null; 
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-			return;
-		}
+		DBWrapper db = initDB();
 		
 		NewsListView nlv = db.loadMyNews(targetName);
 		request.setAttribute("NewsListView", null); 
@@ -292,13 +267,7 @@ public class ServletCommon
 			
 		String location = "/jsp/UserPage.jsp";
 		forwardRequestDispatch(request, response, location);
-		
-		db.close();
-	}
-
-	private static void print(String a)
-	{
-		System.out.println(a);
+	
 	}
 
 	public static void addLoginCookies(String name, HttpServletResponse res) 
@@ -311,16 +280,7 @@ public class ServletCommon
 	public static void RedirectToGroupPage(HttpServletRequest request, HttpServletResponse response, 
 			String username, Long gid, NewsListView nlv, UserListView ulv) 
 	{
-		DBWrapper db = null; 
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-			return;
-		}
+		DBWrapper db = initDB();
 
 		GroupPageView gpv = db.loadGroupPageView(gid, username); 
 		if(gpv == null)
@@ -339,9 +299,7 @@ public class ServletCommon
 		request.setAttribute("GroupPageView", gpv); 
 	
 		String location = "/jsp/GroupPage.jsp";
-		forwardRequestDispatch(request, response, location);
-		
-		db.close();
+		forwardRequestDispatch(request, response, location);	
 	}
 
 	public static void RedirectToMoviePage(HttpServletRequest request, HttpServletResponse response, String username,
@@ -358,16 +316,8 @@ public class ServletCommon
 			return;
 		}	
 			
-		DBWrapper db = null; 
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-			return;
-		}
+		
+		DBWrapper db = initDB();
 
 		request.setAttribute("MoviePageView", mpv); 
 		request.setAttribute("isLiked", new Boolean(db.isUserLikeMovie(username, movie_id)));

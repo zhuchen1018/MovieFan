@@ -7,7 +7,6 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.EnvironmentConfig;
 import com.sleepycat.je.EnvironmentFailureException;
 import com.sleepycat.persist.StoreConfig;
-import com.myapp.servlet.ServletCommon;
 import com.myapp.storage.accessor.*;
 import com.myapp.storage.entity.GroupEntity;
 import com.myapp.storage.entity.HashTagEntity;
@@ -34,14 +33,19 @@ import com.myapp.view.UserSettingView;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Matcher;
-
-
 
 /**
- * NoSQL part using Berkeley DB
- * store data of User, Group
- * @author Wingszero
+ * Berkeley DB Wrapper/Handle
+ * For external interface read/write
+ * store data:
+ * 		===User 
+ * 		===Group
+ * 		===News
+ * 		===ID
+ * 		===HashTag
+ * 		===MoviePage
+ * 
+ * @author Haoyun 
  *
  */
 public class DBWrapper 
@@ -62,9 +66,7 @@ public class DBWrapper
 
 	private boolean is_close;
 
-	//static final Logger logger = Logger.getLogger(DBWrapper.class);	
-
-	public DBWrapper() throws IOException
+	public DBWrapper() 
 	{
 		setup();
 	}
@@ -85,8 +87,8 @@ public class DBWrapper
 		}
 		catch(EnvironmentFailureException e)
 		{
-			//logger.error(e.getCause());
-			System.exit(-1);
+			e.printStackTrace();
+			return;
 		}
 
 		/*store config*/
@@ -103,7 +105,6 @@ public class DBWrapper
 		hashtagEA = new HashTagAccessor(store);
 		moviepageEA = new MoviePageAccessor(store);
 
-		//logger.info("db setup!!");
 	}
 
 
@@ -182,7 +183,6 @@ public class DBWrapper
 		File dir = new File(dir_name);
 		if (!dir.exists()) 
 		{
-			//logger.info("creating directory: " + dir_name);
 			boolean res = false;
 			try
 			{
@@ -191,29 +191,14 @@ public class DBWrapper
 			} 
 			catch(SecurityException se)
 			{
-				//logger.error("Create dir " + dir_name + " failed");
 			}        
 			if(res) 
 			{    
-				//logger.info("Create dir " + dir_name + " successed");
 			}
 		}
 		return dir;
 	}
 
-	/*
-	private static File createFile(String root, String name) throws IOException
-	{
-		print("DBWrapper createFile: root: " + root + ", file: " + name);
-		File file = new File(root, name);
-		if(!file.exists())
-		{
-			file.getParentFile().mkdirs();
-			file.createNewFile();
-		}
-		return file;
-	}
-	 */
 
 	/**
 	 ******************* Accessor funcs****************************
@@ -366,12 +351,9 @@ public class DBWrapper
 		//update user store
 		user.addNews(news_obj.getId());
 		userEA.putEntity(user);	
-
-		store.sync();
 	}
 
 	/*All kinds of add news functions*/
-
 	public void addNewsTwitter(String username, String tweet) 
 	{
 		UserEntity user = getUserEntity(username);
@@ -382,6 +364,22 @@ public class DBWrapper
 		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), tweet, Const.NEWS_TWITTER);
 		storeNews(news_obj, user);
 		storeHashTag(news_obj);
+		storeMailBox(news_obj);
+	}
+
+	//extract tag user in news body, put news in user's mailbox to notfify them.
+	private void storeMailBox(NewsEntity news_obj) 
+	{
+		int type = news_obj.getNewsType();
+		Long newsId = news_obj.getId();
+		if(type == Const.NEWS_TWITTER || type == Const.NEWS_TWEET_IN_GROUP) 
+		{
+			HashSet<String> tags = Const.extractTagUser(news_obj.getBody()); 
+			for(String name: tags)
+			{
+				userEA.addMail(name, newsId);
+			}
+		}
 	}
 
 	/**
@@ -488,24 +486,14 @@ public class DBWrapper
 		return null;
 	}
 
-	public void userAddFriend(String username, String friendname) 
+	public void userAddFollow(String username, String friendname) 
 	{
-		UserEntity user = getUserEntity(username);
-		if(user != null)
-		{
-			user.addFriend(friendname);
-			userEA.putEntity(user);
-		}
+		userEA.followUser(username, friendname);	
 	}
 
-	public void userRemoveFriend(String username, String targetName) 
+	public void userUnfollow(String username, String targetName) 
 	{
-		UserEntity user = getUserEntity(username);
-		if(user != null)
-		{
-			user.removeFriend(targetName);
-			userEA.putEntity(user);
-		}
+		userEA.unfollowUser(username, targetName);	
 	}	
 
 	public ArrayList<String> getUserFriends(String username) 
@@ -1099,6 +1087,8 @@ public class DBWrapper
 
 		gobj.addNews(news_obj.getId());
 		groupEA.putEntity(gobj);
+		
+		storeMailBox(news_obj);
 	}
 
 	public void upGroupSettings(Long gid, String head_url, String profile_url, String description) 
@@ -1109,5 +1099,32 @@ public class DBWrapper
 			obj.upSettings(head_url, profile_url, description);
 			groupEA.putEntity(obj);
 		}		
+	}
+
+	public NewsListView loadMyMailBoxNews(String username) 
+	{
+		NewsListView nlv = new NewsListView();
+
+		ArrayList<Long>newids = getUserMailBox(username);
+
+		for(long id: newids)
+		{
+			NewsEntity newsEntity = getNewsEntityByIds(id);
+			if(newsEntity == null) continue;	
+			String userUrl = getUserEntity(newsEntity.getCreator()).getHeadUrl();
+			NewsObjectView newsViewObj = new NewsObjectView(newsEntity, userUrl);
+			nlv.addNews(newsViewObj);
+		}
+		return nlv;
+	}
+
+	private ArrayList<Long> getUserMailBox(String username) 
+	{
+		UserEntity user = userEA.getEntity(username);
+		if(user != null)
+		{
+			return user.getMailBox();
+		}
+		return null;
 	}
 }

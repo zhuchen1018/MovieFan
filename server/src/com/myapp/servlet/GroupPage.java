@@ -11,13 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.GroupEntity;
-import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.Const;
 import com.myapp.view.GroupSettingView;
 import com.myapp.view.NewsListView;
 import com.myapp.view.UserListView;
-import com.myapp.view.UserObjectView;
-import com.myapp.view.UserSettingView;
 
 public class GroupPage extends HttpServlet 
 {
@@ -25,23 +22,14 @@ public class GroupPage extends HttpServlet
 	 * 
 	 */
 	private static final long serialVersionUID = -1849777603528766598L;
-	private DBWrapper db; 
 
 	public GroupPage () throws IOException
 	{
 	}
 
-	public void initDB()
+	public DBWrapper initDB()
 	{
-		if(db != null) return;
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+		return new DBWrapper();
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) 
@@ -113,6 +101,8 @@ public class GroupPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
 			return;
 		}
+		
+		DBWrapper db = initDB();
 
 		GroupEntity gobj = db.getGroupEntity(gid);
 		if(gobj == null)
@@ -131,15 +121,15 @@ public class GroupPage extends HttpServlet
 		String profile_url = request.getParameter("PROFILE_URL");
 		String description = request.getParameter("DESC");
 
-		initDB();
 		db.upGroupSettings(gid, head_url, profile_url, description);
-		db.sync();
 
 		ArrayList<Long>news = gobj.getNews();
 		NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
 
 		ArrayList<String>members = gobj.getMembers();
 		UserListView ulv = db.getUserViewListFromNameList(members);	
+		
+		db.sync();
 
 		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv); 
 	}
@@ -159,6 +149,8 @@ public class GroupPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  request, response);
 			return;
 		}
+		
+		DBWrapper db = initDB();
 
 		Long gid = Long.parseLong(group);
 		if(!db.hasGroup(gid))
@@ -190,10 +182,9 @@ public class GroupPage extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 		Long gid = Long.parseLong(group);
 		db.userJoinGroup(username, gid);
-		db.sync();
 
 		GroupEntity gobj = db.getGroupEntity(gid);
 		if(gobj == null)
@@ -207,6 +198,8 @@ public class GroupPage extends HttpServlet
 
 		ArrayList<String>members = gobj.getMembers();
 		UserListView ulv = db.getUserViewListFromNameList(members);	
+		
+		db.sync();
 
 		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv);
 	}
@@ -243,6 +236,8 @@ public class GroupPage extends HttpServlet
 			ServletCommon.PrintErrorPage("Please enter a group name.",  request, response);
 			return;
 		}
+		
+		DBWrapper db = initDB();
 
 		boolean canCreateGroup = db.canCreateGroup(username);
 		if(canCreateGroup)
@@ -255,10 +250,10 @@ public class GroupPage extends HttpServlet
 
 				ArrayList<String>members = gobj.getMembers();
 				UserListView ulv = db.getUserViewListFromNameList(members);	
+				
+				db.sync();
 
 				ServletCommon.RedirectToGroupPage(request, response, username, gobj.getId(), nlv, ulv);
-
-				db.sync();
 			}
 			else
 			{
@@ -321,7 +316,7 @@ public class GroupPage extends HttpServlet
 			return;
 		}
 	
-		initDB();
+		DBWrapper db = initDB();
 
 		GroupEntity gobj = db.getGroupEntity(gid);
 		if(gobj == null)
@@ -375,7 +370,7 @@ public class GroupPage extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 
 		GroupEntity gobj = db.getGroupEntity(gid);
 		if(gobj == null)
@@ -384,14 +379,15 @@ public class GroupPage extends HttpServlet
 			return;
 		}
 
-
 		ArrayList<Long>news = gobj.getNews();
 		NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
 
 		ArrayList<String>members = gobj.getMembers();
 		UserListView ulv = db.getUserViewListFromNameList(members);	
+		
+		db.sync();
 
-		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv);	
+		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv);		
 	}
 
 	private void handleCreateGroupGet(HttpServletRequest request, HttpServletResponse response) 

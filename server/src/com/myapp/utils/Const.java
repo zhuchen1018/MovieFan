@@ -204,8 +204,12 @@ public class Const
 	 */
 	public static HashSet<String> extractHashTag(String text) 
 	{
-        Matcher matcher = Const.HASHTAG_PATTERN.matcher(text);
         HashSet<String>result = new HashSet<String>();
+        if(text == null || text.isEmpty())
+        {
+        	return result;
+        }
+        Matcher matcher = Const.HASHTAG_PATTERN.matcher(text);
         while(matcher.find()) 
         {
         	//remove #
@@ -222,8 +226,12 @@ public class Const
 	 */
 	public static HashSet<String> extractTagUser(String text) 
 	{
-        Matcher matcher = Const.TAG_PATTERN.matcher(text);
         HashSet<String>result = new HashSet<String>();
+        if(text == null || text.isEmpty())
+        {
+        	return result;
+        }
+        Matcher matcher = Const.TAG_PATTERN.matcher(text);
         while(matcher.find()) 
         {
         	//remove @ 
@@ -240,6 +248,11 @@ public class Const
 	 */
 	public static String transferTextToLink(String text)
 	{
+		if(text == null || text.isEmpty())
+		{
+			return text;
+		}
+
 		Matcher hashTagMatcher = Const.HASHTAG_PATTERN.matcher(text);
 		StringBuilder sb = new StringBuilder();
 

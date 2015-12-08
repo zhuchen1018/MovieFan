@@ -2,12 +2,14 @@ package com.myapp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.MD5Encryptor;
+import com.myapp.view.NewsListView;
 import com.myapp.view.UserSettingView;
 import com.myapp.utils.Const;
 
@@ -18,23 +20,14 @@ public class Account extends HttpServlet
 	 * 
 	 */
 	private static final long serialVersionUID = 3178943864946251513L;
-	private DBWrapper db; 
 
 	public Account() throws IOException
 	{
 	}
 
-	public void initDB()
+	public DBWrapper initDB()
 	{
-		if(db != null) return;
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+		return  new DBWrapper();
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException 
@@ -64,7 +57,7 @@ public class Account extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 
 		UserEntity user = db.getUserEntity(username);
 		if(user == null)
@@ -87,9 +80,10 @@ public class Account extends HttpServlet
 			}
 		}
 		db.upUserSettings(username, head_url, profile_url, description, genres_integer);
-		db.sync();
 
 		ServletCommon.RedirectToUserPage(request, response, username, username);
+		
+		db.sync();
 	} 
 
 	private void handleRegisterPost(HttpServletRequest request, HttpServletResponse response) 
@@ -117,7 +111,7 @@ public class Account extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 
 		if(db.hasUser(name))
 		{
@@ -127,12 +121,13 @@ public class Account extends HttpServlet
 
 		/*: DB add new user*/
 		db.createUser(name, MD5Encryptor.crypt(password));
-		db.sync();
 
 		/*auto login*/
 		ServletCommon.addLoginSession(request, response, name);
 
 		ServletCommon.RedirectToHome(request, response);	
+		
+		db.sync();
 	}
 
 	private void handleUserSettingsGet(HttpServletRequest request, HttpServletResponse response) 
@@ -145,7 +140,7 @@ public class Account extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 
 		UserEntity user = db.getUserEntity(username);
 		if(user == null)
@@ -175,7 +170,7 @@ public class Account extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 		/* Check db if the user exists*/
 		if(!db.hasUser(name))
 		{
@@ -290,9 +285,32 @@ public class Account extends HttpServlet
 		{
 			handleUserSettingsGet(request, response);
 		}
-
+		
+		else if(url.equals(Const.USER_MAILBOX_URL))
+		{
+			handleUserMailBoxGet(request, response);
+		}
 	}
 	
+	private void handleUserMailBoxGet(HttpServletRequest request, HttpServletResponse response) 
+	{
+		String username = ServletCommon.getSessionUsername(request);
+		if(username == null)
+		{
+			ServletCommon.redirectToLoginPage(request, response);
+			return;
+		}
+
+		DBWrapper db = initDB();
+	
+		NewsListView nlv = db.loadMyMailBoxNews(username);
+		request.setAttribute("NewsListView", null); 
+		request.setAttribute("NewsListView", nlv); 
+	
+		String location = "/jsp/NewsList.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
+	}
+
 	private void handleRegister(HttpServletRequest request, HttpServletResponse response) throws IOException 
 	{
 		String location = "/htmls/RegisterPage.html";

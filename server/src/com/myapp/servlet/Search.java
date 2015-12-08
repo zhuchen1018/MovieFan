@@ -17,19 +17,10 @@ public class Search extends HttpServlet
 	 * 
 	 */
 	private static final long serialVersionUID = -2835467381465359391L;
-	private DBWrapper db; 
 
-	public void initDB()
+	public DBWrapper initDB()
 	{
-		if(db != null) return;
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+		return new DBWrapper();
 	}
 
 	public void init()
@@ -83,7 +74,7 @@ public class Search extends HttpServlet
 			return;
 		}
 		
-		initDB();
+		DBWrapper db = initDB();
 		
 		NewsListView nlv = db.loadSearchHashTag(search);
 		request.setAttribute("NewsListView", null); 
@@ -150,7 +141,7 @@ public class Search extends HttpServlet
 			return;
 		}
 	
-		initDB();
+		DBWrapper db = initDB();
 
 		GroupListView glv =  db.loadSearchGroupList(search);
 		request.setAttribute("GroupListView", null); 
@@ -169,7 +160,7 @@ public class Search extends HttpServlet
 			return;
 		}
 
-		initDB();
+		DBWrapper db = initDB();
 
 		UserListView ulv = db.loadSearchUserByName(tarname); 
 		request.setAttribute("UserListView", null); 

@@ -1,11 +1,7 @@
 package com.myapp.servlet.FBLogin;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
+import java.util.Map;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +14,6 @@ public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private String code="";
-
-	private DBWrapper db; 
 
 	public void service(HttpServletRequest req, HttpServletResponse res)
 	{		
@@ -44,17 +38,9 @@ public class LoginServlet extends HttpServlet {
 		ServletCommon.RedirectToUserPage(req, res, name, name);
 	}
 
-	public void initDB()
+	public DBWrapper initDB()
 	{
-		if(db != null) return;
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+		return new DBWrapper();
 	}
 
 	/**
@@ -75,7 +61,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	public void handleUser(HttpServletRequest request, HttpServletResponse response, String fbid, String name)
 	{
-		initDB();
+		DBWrapper db = initDB();
 
 		//first login
 		if(!db.hasFBUser(fbid))
@@ -83,17 +69,16 @@ public class LoginServlet extends HttpServlet {
 			//name duplicated, should sign in
 			if(db.hasUser(name))
 			{
-				//TODO ERROR ask user to change name
-				ServletCommon.redirectToLoginPage(request, response);
+				ServletCommon.PrintErrorPage("You username has been registered, please sign up a new one", request, response); 
+				return;
 			}
 			else
 			{
 				db.createFBUser(name, MD5Encryptor.crypt(name), fbid);			
 			}
 		}
+		db.sync();
 
 		ServletCommon.addLoginSession(request, response, name);
-
-		db.sync();
 	}
 }

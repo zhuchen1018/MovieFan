@@ -48,7 +48,7 @@ public class UserEntity
 
 	//contain private message: 
 	//user follow you, user tag you
-	//private ArrayList<Long>mailbox= new ArrayList<Long>(); 
+	private ArrayList<Long>mailbox= new ArrayList<Long>(); 
 
 	//description
 	private String description;
@@ -296,5 +296,15 @@ public class UserEntity
 	public String getFacebookId() 
 	{
 		return facebookId;
+	}
+
+	public void addMail(Long id)
+	{
+		mailbox.add(id);
+	}
+
+	public ArrayList<Long> getMailBox() 
+	{
+		return mailbox;
 	}
 }

@@ -1,19 +1,10 @@
 package com.myapp.servlet;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Hashtable;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.myapp.storage.DBWrapper;
 import com.myapp.utils.Const;
-import com.myapp.view.FriendListView;
-import com.myapp.view.GroupListView;
-import com.myapp.view.NewsListView;
 
 
 /**
@@ -27,7 +18,6 @@ public class HomePage  extends HttpServlet
 	 * 
 	 */
 	private static final long serialVersionUID = 8696988485281625971L;
-	private DBWrapper db; 
 
 	public HomePage () 
 	{
@@ -38,17 +28,9 @@ public class HomePage  extends HttpServlet
 
 	}
 
-	public void initDB()
+	public DBWrapper initDB()
 	{
-		if(db != null) return;
-		try 
-		{
-			db = new DBWrapper();
-		} 
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
+		return new DBWrapper();
 	}
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) 

@@ -26,7 +26,6 @@ public class UserAccessor
 	}
 
 	/**
-	 * TODO
 	 * @param fbid
 	 * @return
 	 */
@@ -150,6 +149,36 @@ public class UserAccessor
 		long time = (new Date()).getTime();
 		UserEntity user = new UserEntity(name, password, fbid, time);
 		putEntity(user);
+	}
+
+	public void addMail(String name, Long newsId) 
+	{
+		UserEntity user = getEntity(name);
+		if(user != null)
+		{
+			user.addMail(newsId);
+			putEntity(user);
+		}
+	}
+
+	public void followUser(String username, String friendname) 
+	{
+		UserEntity user = getEntity(username);
+		if(user != null)
+		{
+			user.addFriend(friendname);
+			putEntity(user);
+		}
+	}
+
+	public void unfollowUser(String username, String targetName) 
+	{
+		UserEntity user = getEntity(username);
+		if(user != null)
+		{
+			user.removeFriend(targetName);
+			putEntity(user);
+		}
 	}
 }
 
