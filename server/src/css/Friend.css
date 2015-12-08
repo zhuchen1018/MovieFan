@@ -13,14 +13,14 @@ div.name{
 	float:right;
 }
 
-div.image{
+div.friendImage{
 	width: 30%;
 	height: auto;
 	position: relative;
 	float:left;
 }
 
-img{
+img.friend{
 	width: 30px;
 	height: 30px;
 }

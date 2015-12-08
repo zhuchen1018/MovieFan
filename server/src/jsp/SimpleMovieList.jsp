@@ -31,7 +31,7 @@
 		<%
 			for(int i=0;i<url.size();++i){%>
 				<div class="image">
-					<a href=<%="moviepage?movie_id="+id.get(i)%>><img src=<%=url.get(i)%>></img></a>
+					<a href=<%="moviepage?movie_id="+id.get(i)%>><img class="simpleImage" src=<%=url.get(i)%>></img></a>
 				</div>
 				<br>
 			<%

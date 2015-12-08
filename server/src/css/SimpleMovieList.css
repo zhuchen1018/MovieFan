@@ -14,7 +14,7 @@ div.image{
 	background: #BBBBBB;
 }
 
-img{
+img.simpleImage{
 	width: 96%;
 	height: 96%;
 	left: 2%;
