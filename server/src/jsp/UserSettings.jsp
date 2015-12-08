@@ -15,9 +15,9 @@
 	String headURL = usv.getHeadUrl();
 	String profileURL = usv.getProfileUrl();
 	String description = usv.getDescription();
-	if(headURL==null) headURL="";
-	if(profileURL==null) profileURL="";
-	if(description==null) description="";
+	if(headURL==null) headURL=" ";
+	if(profileURL==null) profileURL=" ";
+	if(description==null) description=" ";
 %>
 
 <jsp:include page="NavigationBar.jsp"/>
