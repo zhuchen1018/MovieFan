@@ -17,12 +17,12 @@
 	String group = nov.getToList().get(0);
 	String groupurl = "grouppage?group="+group;
 	String userUrl = nov.getUserUrl();
-	if(userUrl==null) userUrl="/images/not-found.png";
+	if(userUrl==null) userUrl="/images/noprofile.jpg";
 %>
     
     <p>
     	<img src=<%=userUrl%> class="user"></img>
-    	<b class="name"><font size="5"><%=userName%><font></b>
+    	<b class="name"><font size="5" color="blue"><%=userName%><font></b>
     	&nbsp;
     	<b class="note"><font size="4"><%=note%></font></b>
     	<a class="link" href=<%=groupurl%>><%=group %></a><br>

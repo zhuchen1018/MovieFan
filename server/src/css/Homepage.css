@@ -9,6 +9,10 @@ div{
 	margin: auto;
 }
 
+textarea{
+	font-size: 30px;
+}
+
 /*
 basic div structure
 */
