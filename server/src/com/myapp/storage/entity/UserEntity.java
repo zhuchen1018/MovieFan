@@ -49,6 +49,7 @@ public class UserEntity
 	//contain private message: 
 	//user follow you, user tag you
 	private ArrayList<Long>mailbox= new ArrayList<Long>(); 
+	private int unReadMail = 0;
 
 	//description
 	private String description;
@@ -301,10 +302,21 @@ public class UserEntity
 	public void addMail(Long id)
 	{
 		mailbox.add(id);
+		unReadMail ++;
 	}
 
 	public ArrayList<Long> getMailBox() 
 	{
 		return mailbox;
+	}
+	
+	public int getUnReadMailNum()
+	{
+		return unReadMail;
+	}
+
+	public void clearMarkMailAsAllRead() 
+	{
+		unReadMail = 0;
 	}
 }

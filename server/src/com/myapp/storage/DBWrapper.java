@@ -1125,6 +1125,9 @@ public class DBWrapper
 			NewsObjectView newsViewObj = new NewsObjectView(newsEntity, userUrl);
 			nlv.addNews(newsViewObj);
 		}
+		
+		UserEntity user = getUserEntity(username);
+		user.clearMarkMailAsAllRead();
 		return nlv;
 	}
 

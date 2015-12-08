@@ -306,6 +306,8 @@ public class Account extends HttpServlet
 		NewsListView nlv = db.loadMyMailBoxNews(username);
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", nlv); 
+		
+		db.sync();
 	
 		String location = "/jsp/NewsList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);

@@ -19,6 +19,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.myapp.storage.DBWrapper;
+import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.Const;
 import com.myapp.view.FriendListView;
 import com.myapp.view.GoogleListView;
@@ -362,4 +363,16 @@ public class ServletCommon
 		String location = "/jsp/Login.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}	
+	
+	public static int getUnReadMailNum(String username)
+	{
+		DBWrapper db = initDB();
+
+		UserEntity user = db.getUserEntity(username);
+		if(user != null)
+		{
+			return user.getUnReadMailNum();
+		}
+		return 0;
+	}
 }

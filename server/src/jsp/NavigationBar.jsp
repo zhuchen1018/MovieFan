@@ -43,8 +43,9 @@ $(document).ready(function(){
 <%@ page import="com.myapp.servlet.*" %>
 <body>
 <%
-	String username=ServletCommon.getSessionUsername(request);
+	String username = ServletCommon.getSessionUsername(request);
 	String myUrl="/userpage?user="+username;
+	int unread = ServletCommon.getUnReadMailNum(username);
 %>
 <ul class="nav">
     <li>
