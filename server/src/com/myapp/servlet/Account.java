@@ -80,10 +80,9 @@ public class Account extends HttpServlet
 			}
 		}
 		db.upUserSettings(username, head_url, profile_url, description, genres_integer);
+		db.sync();
 
 		ServletCommon.RedirectToUserPage(request, response, username, username);
-		
-		db.sync();
 	} 
 
 	private void handleRegisterPost(HttpServletRequest request, HttpServletResponse response) 
