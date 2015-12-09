@@ -23,11 +23,8 @@ public class GroupAccessor
 {
 	private PrimaryIndex<Long, GroupEntity> groupsById;
 
-	private Environment env;
-
 	public GroupAccessor(Environment env, EntityStore store)
 	{
-		this.env = env;
 		groupsById = store.getPrimaryIndex(Long.class, GroupEntity.class);
 	}
 
@@ -38,14 +35,14 @@ public class GroupAccessor
 
 	public List<GroupEntity> getAllEntities()
 	{
-		List<GroupEntity> gannelList = new ArrayList<GroupEntity>();
-		EntityCursor<GroupEntity> gannel_cursor = this.groupsById.entities();
+		List<GroupEntity> groupList = new ArrayList<GroupEntity>();
+		EntityCursor<GroupEntity> cursors = this.groupsById.entities();
 		try
 		{
-			Iterator<GroupEntity> iter = gannel_cursor.iterator();
+			Iterator<GroupEntity> iter = cursors.iterator();
 			while(iter.hasNext())
 			{
-				gannelList.add(iter.next());
+				groupList.add(iter.next());
 			}
 		}
 		catch(DatabaseException dbe) 
@@ -54,9 +51,9 @@ public class GroupAccessor
 		}
 		finally
 		{
-			gannel_cursor.close();
+			cursors.close();
 		}
-		return gannelList;
+		return groupList;
 	}
 
 	public GroupEntity getEntity(Long id)
@@ -130,9 +127,8 @@ public class GroupAccessor
 	public ArrayList<GroupEntity> getSearchGroup(String name) 
 	{
 		ArrayList<GroupEntity>res = new ArrayList<GroupEntity>();
-		for(Long gid: groupsById.keys())
+		for(GroupEntity gobj: getAllEntities()) 
 		{
-			GroupEntity gobj = getEntity(gid); 
 			String gname = gobj.getName().toLowerCase();
 			if(gname.contains(name))
 			{

@@ -80,8 +80,8 @@ public class DBWrapper
 		ec.setAllowCreate(true);
 		ec.setReadOnly(false);
 		//1GB
-		ec.setCacheSize(1000000000);
-		//ec.setTransactional(true);
+		ec.setCachePercent(50);
+		ec.setTransactional(true);
 		
 		System.out.println("EnvironmentConfig cache size: " + ec.getCacheSize());
 
@@ -100,8 +100,8 @@ public class DBWrapper
 		StoreConfig sc = new StoreConfig();
 		sc.setAllowCreate(true);
 		sc.setReadOnly(false);
-		sc.setDeferredWrite(true);
-		//sc.setTransactional(true);
+		//sc.setDeferredWrite(true);
+		sc.setTransactional(true);
 		store = new EntityStore(env, Const.DB_STORE_NAME, sc);
 
 		userEA = new UserAccessor(env, store);

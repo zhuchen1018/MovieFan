@@ -1,15 +1,19 @@
 package com.myapp.storage.accessor;
 
+import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.LockMode;
 import com.sleepycat.je.LockTimeoutException;
+import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
-import com.myapp.storage.entity.GroupEntity;
+import com.myapp.storage.entity.UserEntity;
 import com.myapp.storage.entity.UserEntity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /*
  * DB Accessor for UserEntity 
@@ -27,6 +31,29 @@ public class UserAccessor
 	{
 		this.env = env;
 		userByName = store.getPrimaryIndex(String.class, UserEntity.class);
+	}
+	
+	public List<UserEntity> getAllEntities()
+	{
+		List<UserEntity> userList = new ArrayList<UserEntity>();
+		EntityCursor<UserEntity> cursors = this.userByName.entities();
+		try
+		{
+			Iterator<UserEntity> iter = cursors.iterator();
+			while(iter.hasNext())
+			{
+				userList.add(iter.next());
+			}
+		}
+		catch(DatabaseException dbe) 
+		{
+			dbe.printStackTrace();
+		}
+		finally
+		{
+			cursors.close();
+		}
+		return userList;
 	}
 
 	/**
@@ -148,8 +175,10 @@ public class UserAccessor
 	{
 		tarname = tarname.toLowerCase();
 		ArrayList<UserEntity>result = new ArrayList<UserEntity>();
-		for(String name: userByName.keys())
+		
+		for(UserEntity user: getAllEntities()) 
 		{
+			String name = user.getName();
 			if(name.toLowerCase().contains(tarname))
 			{
 				result.add(getEntity(name));
