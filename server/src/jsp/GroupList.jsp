@@ -17,7 +17,7 @@
 	  ArrayList<GroupObjectView> grouplist = glv.getGroupList();
 %>
 
-<form action="/create_group" method="POST" id="button">
+<form action="/create_group" method="GET" id="button">
 </form>   
 <div class="button">
 	<button type="submit" form="button">Create Group!</button>
