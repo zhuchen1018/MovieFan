@@ -21,13 +21,13 @@
 	String moviePage="moviepage?movie_id="+movieid;
 	ArrayList<String> ToList = nov.getToList();
 	String userUrl = nov.getUserUrl();
-	if(userUrl==null) userUrl="/images/not-found.png";
+	if(userUrl==null) userUrl="/images/noprofile.jpg";
 %>
       
       
     <p>
     	<img src=<%=userUrl%> class="user"></img>
-    	<b class="name"><font size="5"><%=userName%></font></b>
+    	<b class="name"><font size="5" color="blue"><%=userName%></font></b>
     	&nbsp;
     	<b class="note"><font size="4"><%=note%></font></b>
     	<b style="float:right";><font size="5">To Friends</font></b>

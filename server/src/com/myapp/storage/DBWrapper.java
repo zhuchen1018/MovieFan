@@ -1127,7 +1127,9 @@ public class DBWrapper
 		}
 		
 		UserEntity user = getUserEntity(username);
-		user.clearMarkMailAsAllRead();
+		user.clearUnReadMail();
+		userEA.putEntity(user);
+
 		return nlv;
 	}
 

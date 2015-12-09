@@ -315,7 +315,7 @@ public class UserEntity
 		return unReadMail;
 	}
 
-	public void clearMarkMailAsAllRead() 
+	public void clearUnReadMail() 
 	{
 		unReadMail = 0;
 	}
