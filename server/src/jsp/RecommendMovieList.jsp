@@ -17,7 +17,7 @@
 <body>
 
 <% 
-	ArrayList<String> url=(ArrayList<String>)request.getAttribute("RecommendMoviePosters");
+	ArrayList<String> url=(ArrayList<String>)request.getAttribute("RecommendPosters");
 	ArrayList<String> id=(ArrayList<String>)request.getAttribute("RecommendMovieIds");
 %>
 

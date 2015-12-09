@@ -271,7 +271,7 @@ public class ServletCommon
 
 		ArrayList<String>movieIds = (ArrayList<String>)request.getAttribute("RecommendMovieIds");
 		ArrayList<String>urls = (ArrayList<String>)request.getAttribute("RecommendPosters");
-		if(movieIds == null || urls == null)
+		if(movieIds == null || movieIds.size() == 0) 
 		{
 			movieIds = new ArrayList<String>();
 			urls = new ArrayList<String>();
