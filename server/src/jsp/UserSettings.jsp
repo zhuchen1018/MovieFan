@@ -33,7 +33,7 @@
 <input class="depth" size="100"type="text" name="PROFILE_URL"  placeholder=<%=profileURL%> value=<%=profileURL %>>
 <br><br>
 <h1 id="text_title">Personal Description:</h1>
-<textarea class="depth" cols="80" rows="20" name="DESC" value=<%=description%>></textarea>
+<textarea class="depth" cols="50" rows="10" name="DESC" value=<%=description%>></textarea>
 <br><br>
 <h1 id="text_title">Movie Genres You Like:</h1>
 <div align="center">
