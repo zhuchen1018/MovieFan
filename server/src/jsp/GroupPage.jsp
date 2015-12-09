@@ -37,6 +37,7 @@ GroupPageView gpv = (GroupPageView) request.getAttribute("GroupPageView");
 	String profileURL = gpv.getProfileUrl();
 	if(profileURL==null) profileURL="../images/nobackground.jpg";
 	String description = gpv.getDescription(); 
+	int switchFlag = gpv.getShowTab();
 %>
 
 <%String curGroup = "?"; 
@@ -57,14 +58,6 @@ curGroup+=request.getQueryString();
 				
 				<% if(!joined){ %>
 					<form action=<%="join_group" + "?" + "group=" + gid%> method="POST">
-						<button type="button" id="discussionB" style="width: 130px;">
-		                    Discussion
-						</button>
-					
-						<button type="button" id="memberB" style="width: 130px;">
-		                    Members
-						</button>
-					
 						<button type="submit" name="JoinThisGroup" style="width: 130px;">
 		                    Join
 						</button>
@@ -72,21 +65,24 @@ curGroup+=request.getQueryString();
 				<% }
 					else { %>		
 						<form action=<%="leave_group" + "?" + "group=" + gid%> method="POST">
-						<button type="button" id="discussionB" style="width: 80px; display:inline-block;">
-			           	Discussion
-						</button>
-						
-						<button type="button" id="memberB" style="width: 80px; display:inline-block;">
-			            Members
-						</button>
-						
-						<button type="submit" name="LeaveThisGroup" style="width:80px; display:inline-block;">
-			            Leave
-						</button>
+							<button type="submit" name="LeaveThisGroup" style="width:130px;">
+				            Leave
+							</button>
 						</form>
 			
 					<% } %>
-				
+					<form action=<%="grouppage"+curGroup+"&showtab=1"%> method="POST">	
+						<button type="submit" name="discussionB" style="width: 130px;">
+		                    Discussion
+						</button>
+					</form>
+					
+					<form action=<%="grouppage"+curGroup+"&showtab=2"%> method="POST">	
+						<button type="submit" name="memberB" style="width: 130px;">
+		                    Members
+						</button>
+					</form>
+					
 			</div>
 		</div>
 		<div class="left_bottom">
@@ -110,8 +106,7 @@ curGroup+=request.getQueryString();
 							<INPUT TYPE=SUBMIT VALUE="submit">
 						</div>
   					</form>
-  					<%int type=2; %>
-					<%switch(type){
+					<%switch(switchFlag){
             			case 1:%>
         					<jsp:include page="NewsList.jsp"/><%
                 		break;
