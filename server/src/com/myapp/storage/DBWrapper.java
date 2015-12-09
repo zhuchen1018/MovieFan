@@ -1018,14 +1018,21 @@ public class DBWrapper
 		return null;
 	}
 
-	public GroupPageView loadGroupPageView(Long gid, String username) 
+	/**
+	 * 
+	 * @param gid
+	 * @param username
+	 * @param showTab
+	 * @return
+	 */
+	public GroupPageView loadGroupPageView(Long gid, String username, int showTab) 
 	{
 		GroupEntity gobj = groupEA.getEntity(gid);
 		if(gobj != null) 
 		{
 			boolean inGroup = gobj.hasMember(username);
 			return new GroupPageView(gid, gobj.getName(), gobj.getCreator(), gobj.getHeadUrl(), 
-					gobj.getProfileUrl(), gobj.getDescription(), inGroup); 
+					gobj.getProfileUrl(), gobj.getDescription(), inGroup, showTab); 
 		}
 		return null;
 	}
