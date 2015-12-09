@@ -10,10 +10,13 @@ public class GroupPageView
 	private String head_url;
 	private String profile_url;
 	private String description; 
+	//1-->group news
+	//2-->group members
+	private int showTab; 
 
 		
 	public GroupPageView(long gid, String gname, String creator, String head_url, 
-			String profile_url, String description, boolean inGroup)
+			String profile_url, String description, boolean inGroup, int showTab)
 	{
 		this.gid = gid;
 		this.gname = gname;
@@ -22,7 +25,7 @@ public class GroupPageView
 		this.profile_url = profile_url;
 		this.description = description;
 		this.isJoined = new Boolean(inGroup);
-		
+		this.showTab = showTab;
 	}	
 	
 	public long getId()
@@ -58,5 +61,10 @@ public class GroupPageView
 	public String getDescription()
 	{
 		return description;
+	}
+	
+	public int getShowTab()
+	{
+		return showTab;
 	}
 }

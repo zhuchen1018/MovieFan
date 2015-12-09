@@ -191,7 +191,7 @@ public class UserPage extends HttpServlet
 			ArrayList<String>members = gobj.getMembers();
 			UserListView ulv = db.getUserViewListFromNameList(members);	
 
-			ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv);	
+			ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv, 1);	
 		}
 	}
 

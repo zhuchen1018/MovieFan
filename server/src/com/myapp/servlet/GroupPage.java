@@ -131,7 +131,7 @@ public class GroupPage extends HttpServlet
 		
 		db.sync();
 
-		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv); 
+		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv, 1); 
 	}
 
 	private void handleLeaveGroupPost(HttpServletRequest request, HttpServletResponse response) 
@@ -201,7 +201,7 @@ public class GroupPage extends HttpServlet
 		
 		db.sync();
 
-		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv);
+		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv, 1);
 	}
 
 	/*
@@ -253,7 +253,7 @@ public class GroupPage extends HttpServlet
 				
 				db.sync();
 
-				ServletCommon.RedirectToGroupPage(request, response, username, gobj.getId(), nlv, ulv);
+				ServletCommon.RedirectToGroupPage(request, response, username, gobj.getId(), nlv, ulv, 1);
 			}
 			else
 			{
@@ -278,7 +278,7 @@ public class GroupPage extends HttpServlet
 
 		if(url.equals(Const.GROUP_PAGE_URL))
 		{
-			//http://localhost:8080/grouppage?group=123
+			//http://localhost:8080/grouppage?group=123&showtab=1
 			handleGroupPageGet(request, response);
 		}	
 		else if(url.equals(Const.GROUP_SETTINGS_URL))
@@ -357,6 +357,14 @@ public class GroupPage extends HttpServlet
 			ServletCommon.redirect404(request, response);
 			return;
 		}
+		
+		String showTabStr = query.get("showtab");
+		int showTab;
+		if(showTabStr == null)
+		{
+			showTab = 1;
+		}
+		showTab = Integer.parseInt(showTabStr);
 
 		Long gid = null;
 		try
@@ -387,7 +395,7 @@ public class GroupPage extends HttpServlet
 		
 		db.sync();
 
-		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv);		
+		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv, showTab);		
 	}
 
 	private void handleCreateGroupGet(HttpServletRequest request, HttpServletResponse response) 

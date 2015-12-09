@@ -278,11 +278,11 @@ public class ServletCommon
 	}
 
 	public static void RedirectToGroupPage(HttpServletRequest request, HttpServletResponse response, 
-			String username, Long gid, NewsListView nlv, UserListView ulv) 
+			String username, Long gid, NewsListView nlv, UserListView ulv, int showTab) 
 	{
 		DBWrapper db = initDB();
 
-		GroupPageView gpv = db.loadGroupPageView(gid, username); 
+		GroupPageView gpv = db.loadGroupPageView(gid, username, showTab); 
 		if(gpv == null)
 		{
 			ServletCommon.redirect404(request, response);
