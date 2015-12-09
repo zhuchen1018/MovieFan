@@ -17,12 +17,12 @@
 <body>
 
 <% 
-	ArrayList<String> url=request.getAttribute("RecommendMoviePosters");
-	ArrayList<String> id=request.getAttribute("RecommendMovieIds");
+	ArrayList<String> url=(ArrayList<String>)request.getAttribute("RecommendMoviePosters");
+	ArrayList<String> id=(ArrayList<String>)request.getAttribute("RecommendMovieIds");
 %>
 
 <%
-	if(url.size()==0){%>
+	if(url==null||url.size()==0){%>
 		<h2 id="note">No Like List</h2>
 	<%}
 	else{%>
