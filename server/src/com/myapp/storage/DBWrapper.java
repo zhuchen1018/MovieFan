@@ -78,7 +78,7 @@ public class DBWrapper
 		EnvironmentConfig ec = new EnvironmentConfig();
 		ec.setAllowCreate(true);
 		ec.setReadOnly(false);
-		//ec.setTransactional(true);
+		ec.setTransactional(true);
 
 		env_home = createDir(Const.ROOT);
 		try
@@ -95,7 +95,7 @@ public class DBWrapper
 		StoreConfig sc = new StoreConfig();
 		sc.setAllowCreate(true);
 		sc.setReadOnly(false);
-		//sc.setTransactional(true);
+		sc.setTransactional(true);
 		store = new EntityStore(env, Const.DB_STORE_NAME, sc);
 
 		userEA = new UserAccessor(store);
@@ -123,7 +123,10 @@ public class DBWrapper
 
 	public void sync()
 	{
+		/*
 		store.sync();
+		env.sync();
+		*/
 	}
 
 	// Close the store and environment.
