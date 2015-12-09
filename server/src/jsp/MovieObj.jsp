@@ -31,7 +31,7 @@
 	<div class="info">
 		<!--<a class="link" href = <%=directURL %>><b class="name"><%=mov.getName()%></b></a>-->
 		<div style="width:auto;overflow:scroll;">
-			<b class="name"><%=mov.getName()%></b>
+			<a href = <%=directURL %>><b class="name"><%=mov.getName()%></b></a>
 		</div>
 		<br>
 		<b class="rating">Rating: <%=rating%> </b>
