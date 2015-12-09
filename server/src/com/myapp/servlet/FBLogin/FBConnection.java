@@ -14,7 +14,7 @@ public class FBConnection
 	public static final String FB_APP_ID = "1574620219446066";
 	public static final String FB_APP_SECRET = "f931763466c1354b0b490132c0a87829";
 	//public static final String REDIRECT_URI = "http://localhost:8080/fb_login";
-	public static final String REDIRECT_URI = "http://moviefans.elasticbeanstalk.com/";
+	public static final String REDIRECT_URI = "http://moviefans.elasticbeanstalk.com/fb_login";
 
 	/*
 	String imdb_sample = "https://www.facebook.com/dialog/oauth?client_id=" + "127059960673829"

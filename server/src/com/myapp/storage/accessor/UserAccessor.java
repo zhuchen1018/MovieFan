@@ -127,7 +127,8 @@ public class UserAccessor
 
 	public String getUserFBId(String name) 
 	{
-		return null;
+		UserEntity user = getEntity(name); 
+		return user.getFacebookId();
 	}
 
 	public ArrayList<UserEntity> searchSimilarUserName(String tarname) 

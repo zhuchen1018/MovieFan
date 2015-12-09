@@ -81,7 +81,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		String targetName = query.get("user").trim().toLowerCase();
+		String targetName = query.get("user");
 		if(targetName == null || targetName.isEmpty())
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
@@ -319,7 +319,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		String targetName = query.get("user").trim().toLowerCase();
+		String targetName = query.get("user");
 		if(targetName == null || targetName.isEmpty())
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);
@@ -364,7 +364,7 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		String targetName = query.get("user").trim().toLowerCase();
+		String targetName = query.get("user");
 		if(targetName.isEmpty())
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO, request, response);

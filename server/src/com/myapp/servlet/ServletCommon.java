@@ -268,7 +268,6 @@ public class ServletCommon
 			
 		String location = "/jsp/UserPage.jsp";
 		forwardRequestDispatch(request, response, location);
-	
 	}
 
 	public static void addLoginCookies(String name, HttpServletResponse res) 

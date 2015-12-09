@@ -10,7 +10,7 @@ import com.myapp.servlet.ServletCommon;
 import com.myapp.storage.DBWrapper;
 import com.myapp.utils.MD5Encryptor;
 
-public class LoginServlet extends HttpServlet {
+public class FBLoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private String code="";
@@ -30,12 +30,16 @@ public class LoginServlet extends HttpServlet {
 		String graph = fbGraph.getFBGraph();
 		Map<String, String> fbProfileData = fbGraph.getGraphData(graph);
 
-		System.out.println("Login FacebookId:" + fbProfileData.get("id"));
 		String name = fbProfileData.get("name");
 		String[] names = name.split(" ");
+		String fbid = fbProfileData.get("id");
+
 		//use first name
 		name = names[0];
-		ServletCommon.RedirectToUserPage(req, res, name, name);
+		
+		System.out.println("LoginServlet service :" + fbid + " " + name); 
+		
+		handleUser(req, res, fbid, name);
 	}
 
 	public DBWrapper initDB()
@@ -45,15 +49,6 @@ public class LoginServlet extends HttpServlet {
 
 	/**
 	 * 
-	 * To be able to log in a user by his/her Facebook account, you need to know which user in the datastore 
-	 * we are talking about. 
-	 * If it's a new user, create a new user object (with a field called "facebookId"), persist it in the datastore and log the user in.
-	 * If the user exist, you need to have the field with the facebookId. When the user is redirected from Facebook, you can grab the facebookId, 
-	 * and look in the datastore to find the user you want to log in.
-	 *If you already have users, you will need to let them log in the way you usually do, 
-	 *so you know who they are, then send them to Facebook, get the facebookId back and update their user object. 
-	 *This way, they can log in using Facebook the next time.
-	 *
 	 * @param request
 	 * @param response
 	 * @param fbid
@@ -74,11 +69,11 @@ public class LoginServlet extends HttpServlet {
 			}
 			else
 			{
-				db.createFBUser(name, MD5Encryptor.crypt(name), fbid);			
+				db.createFBUser(name, MD5Encryptor.crypt(fbid+name), fbid);			
+				db.sync();
 			}
 		}
-		db.sync();
-
 		ServletCommon.addLoginSession(request, response, name);
+		ServletCommon.RedirectToUserPage(request, response, name, name);
 	}
 }

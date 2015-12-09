@@ -93,7 +93,7 @@
    
    <servlet>
      <servlet-name>fblogin</servlet-name>
-     <servlet-class>com.myapp.servlet.FBLogin.LoginServlet</servlet-class> 
+     <servlet-class>com.myapp.servlet.FBLogin.FBLoginServlet</servlet-class> 
    </servlet>
     
    <servlet-mapping>

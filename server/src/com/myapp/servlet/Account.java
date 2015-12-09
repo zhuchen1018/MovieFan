@@ -121,13 +121,28 @@ public class Account extends HttpServlet
 
 		/*: DB add new user*/
 		db.createUser(name, MD5Encryptor.crypt(password));
+		db.sync();
 
 		/*auto login*/
 		ServletCommon.addLoginSession(request, response, name);
 
-		ServletCommon.RedirectToHome(request, response);	
-		
-		db.sync();
+		UserEntity user = db.getUserEntity(name);
+		if(user == null)
+		{
+			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
+			return;
+		}
+
+		String head_url = user.getHeadUrl();
+		String profile_url = user.getProfileUrl();
+		Integer[] genres = user.getLikeGenres();
+		String description = user.getDescription();
+
+		UserSettingView usv =  new UserSettingView(name, head_url,profile_url, genres, description);
+		request.setAttribute("UserSettingView", usv);
+
+		String location = "/jsp/UserSettings.jsp";
+		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
 
 	private void handleUserSettingsGet(HttpServletRequest request, HttpServletResponse response) 
