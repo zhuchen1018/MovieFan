@@ -88,17 +88,17 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
-		UserEntity user = db.getUserEntity(targetName);
+		UserEntity user = DBWrapper.getUserEntity(targetName);
 		if(user == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
 			return;
 		}
 
-		db.userUnfollow(username, targetName);
-		db.sync();	
+		DBWrapper.userUnfollow(username, targetName);
+		//DBWrapper.close();
 
 		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
@@ -139,16 +139,16 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
 		if(From == Const.TWEET_FROM_HOME)
 		{
-			db.addNewsTwitter(username, info); 
+			DBWrapper.addNewsTwitter(username, info); 
 			ServletCommon.RedirectToHome(request, response);
 		}
 		else if(From == Const.TWEET_FROM_USER)
 		{
-			db.addNewsTwitter(username, info); 
+			DBWrapper.addNewsTwitter(username, info); 
 			ServletCommon.RedirectToUserPage(request, response, username, username);
 		}
 		else if(From == Const.TWEET_FROM_GROUP) //tweet_group?group=123
@@ -157,39 +157,40 @@ public class UserPage extends HttpServlet
 			String group = query.get("group");
 			if(group == null)
 			{
+				//DBWrapper.close();
 				ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO,  request, response);
 				return;
 			}
 
 			Long gid = Long.parseLong(group);
-			if(!db.hasGroup(gid))
+			if(!DBWrapper.hasGroup(gid))
 			{
+				//DBWrapper.close();
 				ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO,  request, response);
 				return;
 			}
-
-			GroupEntity gobj = db.getGroupEntity(gid);
-			if(gobj == null)
+	
+			if(!DBWrapper.canUserTweetInGroup(username, gid))
 			{
-				ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO,  request, response);
+				//DBWrapper.close();
+				ServletCommon.PrintErrorPage("You cannot discuss in this group",  request, response);
 				return;
 			}
 
-			if(!gobj.canUserTweet(username))
-			{
-				ServletCommon.PrintErrorPage("You can discuss in this group",  request, response);
-				return;
-			}
-
-			db.addGroupNews(username, gid, info); 
+			//write DBWrapper
+			DBWrapper.addGroupNews(username, gid, info); 
+			
+			GroupEntity gobj = DBWrapper.getGroupEntity(gid);
 
 			//refresh group info
 			ArrayList<Long>news = gobj.getNews();
-			NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
+			NewsListView nlv = DBWrapper.getNewsListViewFromNewsIds(news);	
 			//System.out.println("NewsListView size: " + nlv.getNewsNumber());
 
 			ArrayList<String>members = gobj.getMembers();
-			UserListView ulv = db.getUserViewListFromNameList(members);	
+			UserListView ulv = DBWrapper.getUserViewListFromNameList(members);	
+				
+			//DBWrapper.close();
 
 			ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv, 1);	
 		}
@@ -262,14 +263,14 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
 		String targetName = query.get("user");
-		UserListView ulv = db.loadFansList(targetName);
+		UserListView ulv = DBWrapper.loadFansList(targetName);
 		request.setAttribute("UserListView", null); 
 		request.setAttribute("UserListView", ulv); 
 
-		db.sync();
+		//DBWrapper.close();
 
 		String location = "/jsp/UserList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
@@ -291,12 +292,14 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
 		String targetName = query.get("user");
-		UserListView ulv = db.loadFollowingsList(targetName); 
+		UserListView ulv = DBWrapper.loadFollowingsList(targetName); 
 		request.setAttribute("UserListView", null); 
 		request.setAttribute("UserListView", ulv); 
+		
+		//DBWrapper.close();
 
 		String location = "/jsp/UserList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
@@ -326,19 +329,20 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
-		UserEntity user = db.getUserEntity(targetName);
+		UserEntity user = DBWrapper.getUserEntity(targetName);
 		if(user == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
 			return;
 		}
 
-		db.userAddFollow(username, targetName);
-		db.userAddNewsFollowUser(username, targetName);
-		db.userAddFans(targetName, username);
-		db.sync();
+		DBWrapper.userAddFollow(username, targetName);
+		DBWrapper.userAddNewsFollowUser(username, targetName);
+		DBWrapper.userAddFans(targetName, username);
+		
+		//DBWrapper.close();
 
 		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
@@ -371,14 +375,16 @@ public class UserPage extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
-		UserEntity user = db.getUserEntity(targetName);
+		UserEntity user = DBWrapper.getUserEntity(targetName);
 		if(user == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
 			return;
 		}
+
+		//DBWrapper.close();
 
 		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}

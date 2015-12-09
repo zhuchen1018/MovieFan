@@ -101,19 +101,21 @@ public class GroupPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
 			return;
 		}
-		
-		DBWrapper db = initDB();
 
-		GroupEntity gobj = db.getGroupEntity(gid);
+		////DBWrapper DBWrapper = initDB();
+
+		GroupEntity gobj = DBWrapper.getGroupEntity(gid);
 		if(gobj == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
+			////DBWrapper.close();
 			return;
 		}
 
 		if(!gobj.isCreator(username))
 		{
 			ServletCommon.PrintErrorPage(Const.HAVE_NO_RIGHT_TO_CHANEG_GROUP_SETTINGS, request, response);
+			////DBWrapper.close();
 			return;
 		}
 
@@ -121,15 +123,15 @@ public class GroupPage extends HttpServlet
 		String profile_url = request.getParameter("PROFILE_URL");
 		String description = request.getParameter("DESC");
 
-		db.upGroupSettings(gid, head_url, profile_url, description);
+		DBWrapper.upGroupSettings(gid, head_url, profile_url, description);
 
 		ArrayList<Long>news = gobj.getNews();
-		NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
+		NewsListView nlv = DBWrapper.getNewsListViewFromNewsIds(news);	
 
 		ArrayList<String>members = gobj.getMembers();
-		UserListView ulv = db.getUserViewListFromNameList(members);	
-		
-		db.sync();
+		UserListView ulv = DBWrapper.getUserViewListFromNameList(members);	
+	
+		////DBWrapper.close();
 
 		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv, 1); 
 	}
@@ -149,18 +151,19 @@ public class GroupPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  request, response);
 			return;
 		}
-		
-		DBWrapper db = initDB();
+
+		////DBWrapper DBWrapper = initDB();
 
 		Long gid = Long.parseLong(group);
-		if(!db.hasGroup(gid))
+		if(!DBWrapper.hasGroup(gid))
 		{
 			ServletCommon.PrintErrorPage(Const.CAN_NOT_JOIN_GROUP_INFO,  request, response);
+			////DBWrapper.close();
 			return;
 		}
 
-		db.userLeaveGroup(username, gid);
-		db.sync();
+		DBWrapper.userLeaveGroup(username, gid);
+		////DBWrapper.close();
 
 		ServletCommon.RedirectToHome(request, response);
 	}
@@ -182,24 +185,25 @@ public class GroupPage extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		////DBWrapper DBWrapper = initDB();
 		Long gid = Long.parseLong(group);
-		db.userJoinGroup(username, gid);
+		DBWrapper.userJoinGroup(username, gid);
 
-		GroupEntity gobj = db.getGroupEntity(gid);
+		GroupEntity gobj = DBWrapper.getGroupEntity(gid);
 		if(gobj == null)
 		{
+			////DBWrapper.close();
 			ServletCommon.redirect404(request, response);
 			return;
 		}
 
 		ArrayList<Long>news = gobj.getNews();
-		NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
+		NewsListView nlv = DBWrapper.getNewsListViewFromNewsIds(news);	
 
 		ArrayList<String>members = gobj.getMembers();
-		UserListView ulv = db.getUserViewListFromNameList(members);	
-		
-		db.sync();
+		UserListView ulv = DBWrapper.getUserViewListFromNameList(members);	
+
+		////DBWrapper.close();
 
 		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv, 1);
 	}
@@ -219,7 +223,7 @@ public class GroupPage extends HttpServlet
 	{
 
 	}
-	*/
+	 */
 
 	private void handleCreateGroupPost(HttpServletRequest request, HttpServletResponse response) 
 	{
@@ -236,32 +240,34 @@ public class GroupPage extends HttpServlet
 			ServletCommon.PrintErrorPage("Please enter a group name.",  request, response);
 			return;
 		}
-		
-		DBWrapper db = initDB();
 
-		boolean canCreateGroup = db.canCreateGroup(username);
+		////DBWrapper DBWrapper = initDB();
+
+		boolean canCreateGroup = DBWrapper.canCreateGroup(username);
 		if(canCreateGroup)
 		{
-			GroupEntity gobj = db.createNewGroup(name,  username);
+			GroupEntity gobj = DBWrapper.createNewGroup(name,  username);
 			if(gobj != null)
 			{
 				ArrayList<Long>news = gobj.getNews();
-				NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
+				NewsListView nlv = DBWrapper.getNewsListViewFromNewsIds(news);	
 
 				ArrayList<String>members = gobj.getMembers();
-				UserListView ulv = db.getUserViewListFromNameList(members);	
-				
-				db.sync();
+				UserListView ulv = DBWrapper.getUserViewListFromNameList(members);	
+
+				////DBWrapper.close();
 
 				ServletCommon.RedirectToGroupPage(request, response, username, gobj.getId(), nlv, ulv, 1);
 			}
 			else
 			{
 				ServletCommon.redirect500(request, response);
+
 			}
 		}
 		else
 		{
+			////DBWrapper.close();
 			ServletCommon.PrintErrorPage("You create too much groups! Maximum: 3",  request, response);
 			return;
 		}	
@@ -319,19 +325,21 @@ public class GroupPage extends HttpServlet
 			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
 			return;
 		}
-	
-		DBWrapper db = initDB();
 
-		GroupEntity gobj = db.getGroupEntity(gid);
+		//DBWrapper DBWrapper = initDB();
+
+		GroupEntity gobj = DBWrapper.getGroupEntity(gid);
 		if(gobj == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
+			////DBWrapper.close();
 			return;
 		}
 
 		if(!gobj.isCreator(username))
 		{
 			ServletCommon.PrintErrorPage(Const.HAVE_NO_RIGHT_TO_CHANEG_GROUP_SETTINGS, request, response);
+			//DBWrapper.close();
 			return;
 		}
 
@@ -341,6 +349,8 @@ public class GroupPage extends HttpServlet
 
 		GroupSettingView usv =  new GroupSettingView(head_url,profile_url, description);
 		request.setAttribute("GroupSettingView", usv);
+			
+		//DBWrapper.close();
 
 		String location = "/jsp/GroupSettings.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
@@ -361,7 +371,7 @@ public class GroupPage extends HttpServlet
 			ServletCommon.redirect404(request, response);
 			return;
 		}
-		
+
 		String showTabStr = query.get("showtab");
 		int showTab;
 		if(showTabStr == null)
@@ -372,6 +382,7 @@ public class GroupPage extends HttpServlet
 		{
 			showTab = Integer.parseInt(showTabStr);
 		}
+		System.out.println("showtab: " + showTab);
 
 		Long gid = null;
 		try
@@ -385,23 +396,38 @@ public class GroupPage extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		////DBWrapper DBWrapper = initDB();
 
-		GroupEntity gobj = db.getGroupEntity(gid);
+		GroupEntity gobj = DBWrapper.getGroupEntity(gid);
 		if(gobj == null)
 		{
+			////DBWrapper.close();
 			ServletCommon.PrintErrorPage(Const.NO_THIS_GROUP_INFO, request, response);
 			return;
 		}
 
-		ArrayList<Long>news = gobj.getNews();
-		NewsListView nlv = db.getNewsListViewFromNewsIds(news);	
-
-		ArrayList<String>members = gobj.getMembers();
-		UserListView ulv = db.getUserViewListFromNameList(members);	
+		ArrayList<Long>news = new ArrayList<Long>(); 
+		ArrayList<String>members = new ArrayList<String>(); 
+		if(gobj.hasMember(username))
+		{
+			//can see infomation 
+			news = gobj.getNews();
+			members = gobj.getMembers();
+		}
 		
-		db.sync();
+		NewsListView nlv = new NewsListView();
+		UserListView ulv = new UserListView();
+		if(showTab == 1)
+		{
+			nlv = DBWrapper.getNewsListViewFromNewsIds(news);	
+		}
+		else if(showTab == 2)
+		{
+			ulv = DBWrapper.getUserViewListFromNameList(members);	
+		}
 
+		////DBWrapper.close();
+		
 		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv, showTab);		
 	}
 

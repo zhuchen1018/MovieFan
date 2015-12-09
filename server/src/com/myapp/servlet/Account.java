@@ -57,12 +57,13 @@ public class Account extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
-		UserEntity user = db.getUserEntity(username);
+		UserEntity user = DBWrapper.getUserEntity(username);
 		if(user == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
+			DBWrapper.sync();
 			return;
 		}
 
@@ -79,8 +80,9 @@ public class Account extends HttpServlet
 				genres_integer[i] = Const.GENRE_MAP.get(genres[i]);
 			}
 		}
-		db.upUserSettings(username, head_url, profile_url, description, genres_integer);
-		db.sync();
+		DBWrapper.upUserSettings(username, head_url, profile_url, description, genres_integer);
+			
+		DBWrapper.sync();
 
 		ServletCommon.RedirectToUserPage(request, response, username, username);
 	} 
@@ -110,25 +112,26 @@ public class Account extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
-		if(db.hasUser(name))
+		if(DBWrapper.hasUser(name))
 		{
 			ServletCommon.PrintErrorPage("Sorry, this username has already been registered!",  request, response);
+			DBWrapper.sync();
 			return;
 		}
 
 		/*: DB add new user*/
-		db.createUser(name, MD5Encryptor.crypt(password));
-		db.sync();
+		DBWrapper.createUser(name, MD5Encryptor.crypt(password));
 
 		/*auto login*/
 		ServletCommon.addLoginSession(request, response, name);
 
-		UserEntity user = db.getUserEntity(name);
+		UserEntity user = DBWrapper.getUserEntity(name);
 		if(user == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
+			DBWrapper.sync();
 			return;
 		}
 
@@ -139,6 +142,8 @@ public class Account extends HttpServlet
 
 		UserSettingView usv =  new UserSettingView(name, head_url,profile_url, genres, description);
 		request.setAttribute("UserSettingView", usv);
+			
+		DBWrapper.sync();
 
 		String location = "/jsp/UserSettings.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
@@ -154,12 +159,13 @@ public class Account extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		DBWrapper DBWrapper = initDB();
 
-		UserEntity user = db.getUserEntity(username);
+		UserEntity user = DBWrapper.getUserEntity(username);
 		if(user == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
+			DBWrapper.sync();
 			return;
 		}
 
@@ -170,6 +176,8 @@ public class Account extends HttpServlet
 
 		UserSettingView usv =  new UserSettingView(username, head_url,profile_url, genres, description);
 		request.setAttribute("UserSettingView", usv);
+	
+		DBWrapper.sync();
 
 		String location = "/jsp/UserSettings.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
@@ -184,11 +192,12 @@ public class Account extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
-		/* Check db if the user exists*/
-		if(!db.hasUser(name))
+		DBWrapper DBWrapper = initDB();
+		/* Check DBWrapper if the user exists*/
+		if(!DBWrapper.hasUser(name))
 		{
 			ServletCommon.PrintErrorPage("Sorry, this username has not been registered!",  request, response);
+			DBWrapper.sync();
 			return;
 		}
 
@@ -196,15 +205,19 @@ public class Account extends HttpServlet
 		if(password == null)
 		{
 			ServletCommon.PrintErrorPage("Please enter a password.",  request, response);
+			DBWrapper.sync();
 			return;
 		}
 
 		String real_password = MD5Encryptor.crypt(password);
-		if(!db.checkLoginPassword(name, real_password))
+		if(!DBWrapper.checkLoginPassword(name, real_password))
 		{
 			ServletCommon.PrintErrorPage("Your password is wrong!",  request, response);
+			DBWrapper.sync();
 			return;
 		}
+			
+		DBWrapper.sync();
 
 		ServletCommon.addLoginSession(request, response, name);
 
@@ -315,13 +328,13 @@ public class Account extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		DBWrapper DBWrapper = initDB();
 	
-		NewsListView nlv = db.loadMyMailBoxNews(username);
+		NewsListView nlv = DBWrapper.loadMyMailBoxNews(username);
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", nlv); 
-		
-		db.sync();
+	
+		DBWrapper.sync();
 	
 		String location = "/jsp/NewsList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);

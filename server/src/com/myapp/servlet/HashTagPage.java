@@ -38,22 +38,23 @@ public class HashTagPage extends HttpServlet
 	 */
 	private void handleHashTagGet(HttpServletRequest request, HttpServletResponse response) 
 	{
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
 		String tag = request.getQueryString(); 
-		HashTagEntity hashtags = db.getHashTagEntity(tag);
+		HashTagEntity hashtags = DBWrapper.getHashTagEntity(tag);
 		//no this tag
 		if(hashtags == null)
 		{
+			//DBWrapper.close();
 			ServletCommon.redirect404(request, response);
 			return;
 		}
 	
-		NewsListView nlv = db.loadSearchHashTag(tag);
+		NewsListView nlv = DBWrapper.loadSearchHashTag(tag);
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", nlv); 
 		
-		db.sync();
+		//DBWrapper.close();
 
 		String location = "/jsp/NewsList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);	

@@ -9,6 +9,10 @@ import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
 import com.myapp.storage.entity.GroupEntity;
 import com.sleepycat.je.DatabaseException;
+import com.sleepycat.je.Environment;
+import com.sleepycat.je.LockMode;
+import com.sleepycat.je.LockTimeoutException;
+import com.sleepycat.je.Transaction;
 
 /**
  * DB Accessor for group Entity 
@@ -19,11 +23,11 @@ public class GroupAccessor
 {
 	private PrimaryIndex<Long, GroupEntity> groupsById;
 
-	//TODO
-	//private SecondaryKey<Long, GroupEntity> groupsByName;
+	private Environment env;
 
-	public GroupAccessor(EntityStore store)
+	public GroupAccessor(Environment env, EntityStore store)
 	{
+		this.env = env;
 		groupsById = store.getPrimaryIndex(Long.class, GroupEntity.class);
 	}
 
@@ -57,6 +61,12 @@ public class GroupAccessor
 
 	public GroupEntity getEntity(Long id)
 	{
+		/*
+		Transaction txn = env.beginTransaction(null, null); 
+		GroupEntity gobj = groupsById.get(txn, id, LockMode.READ_UNCOMMITTED);
+		txn.commit();
+		return gobj;
+		*/
 		return groupsById.get(id);
 	}
 
@@ -65,9 +75,30 @@ public class GroupAccessor
 		return groupsById.delete(pKey);
 	}
 
-	public GroupEntity putEntity(GroupEntity entity)
+	public void putEntity(GroupEntity entity)
 	{
-		return groupsById.put(entity);
+		int cnt = 0;
+		while(true && cnt < 3)
+		{
+			try
+			{
+				groupsById.put(entity);
+				return;
+			}
+			catch(LockTimeoutException e)
+			{
+				cnt ++;
+				e.printStackTrace();
+				try 
+				{
+					Thread.sleep(500);
+				} 
+				catch (InterruptedException e1) 
+				{
+					e1.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public boolean containsById(Long id) 
@@ -100,8 +131,8 @@ public class GroupAccessor
 		if(g != null)
 		{
 			g.addMember(username);
+			putEntity(g);
 		}
-		putEntity(g);
 	}
 
 	public void removeMember(Long id, String username) 
@@ -110,8 +141,8 @@ public class GroupAccessor
 		if(g != null)
 		{
 			g.removeMember(username);
+			putEntity(g);
 		}
-		putEntity(g);
 	}
 
 	public ArrayList<GroupEntity> getSearchGroup(String name) 

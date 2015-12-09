@@ -1,5 +1,6 @@
 package com.myapp.storage.accessor;
 
+import com.sleepycat.je.Environment;
 import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
 import com.myapp.storage.entity.GroupEntity;
@@ -18,10 +19,11 @@ public class UserAccessor
 {
 	private PrimaryIndex<String, UserEntity> userByName;
 
-	//static final Logger logger = Logger.getLogger(DBWrapper.class);	
+	private Environment env;
 
-	public UserAccessor(EntityStore store)
+	public UserAccessor(Environment env, EntityStore store)
 	{
+		this.env = env;
 		userByName = store.getPrimaryIndex(String.class, UserEntity.class);
 	}
 

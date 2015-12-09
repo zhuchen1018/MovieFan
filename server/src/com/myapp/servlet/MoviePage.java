@@ -94,9 +94,9 @@ public class MoviePage extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
-		db.userUnlikeMovie(username, movie_id); 
-		db.sync();
+		//DBWrapper DBWrapper = initDB();
+		DBWrapper.userUnlikeMovie(username, movie_id); 
+		//DBWrapper.close();
 
 		ServletCommon.RedirectToMoviePage(request, response, username, movie_id);
 	}
@@ -135,9 +135,9 @@ public class MoviePage extends HttpServlet
 			ServletCommon.redirect404(request, response);
 			return;
 		}
-		DBWrapper db = initDB();
-		db.addNewsMovieReview(username, title, body, mpv.getMovieId(), mpv.getName(), mpv.getPoster()); 
-		db.sync();
+		//DBWrapper DBWrapper = initDB();
+		DBWrapper.addNewsMovieReview(username, title, body, mpv.getMovieId(), mpv.getName(), mpv.getPoster()); 
+		//DBWrapper.close();
 		
 		ServletCommon.RedirectToMoviePage(request, response, username, movie_id);
 	}
@@ -167,9 +167,9 @@ public class MoviePage extends HttpServlet
 			ServletCommon.redirect404(request, response);
 			return;
 		}
-		DBWrapper db = initDB();
-		db.addNewsShareMovies(username, movie_id, mpv.getName(), mpv.getPoster(), db.getFriends(username)); 
-		db.sync();
+		//DBWrapper DBWrapper = initDB();
+		DBWrapper.addNewsShareMovies(username, movie_id, mpv.getName(), mpv.getPoster(), DBWrapper.getFriends(username)); 
+		//DBWrapper.close();
 		
 		ServletCommon.RedirectToMoviePage(request, response, username, movie_id);
 	}
@@ -194,9 +194,9 @@ public class MoviePage extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
-		db.userLikeMovie(username, movie_id); 
-		db.sync();
+		//DBWrapper DBWrapper = initDB();
+		DBWrapper.userLikeMovie(username, movie_id); 
+		//DBWrapper.close();
 			
 		ServletCommon.RedirectToMoviePage(request, response, username, movie_id);
 	}

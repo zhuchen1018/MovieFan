@@ -218,19 +218,21 @@ public class ServletCommon
 			return;
 		}
 		
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
-		NewsListView nlv = db.loadAllNews(username);
+		NewsListView nlv = DBWrapper.loadAllNews(username);
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", nlv); 
 
-		FriendListView flv = db.loadFriendList(username); 
+		FriendListView flv = DBWrapper.loadFriendList(username); 
 		request.setAttribute("FriendListView", null); 
 		request.setAttribute("FriendListView", flv); 
 
-		GroupListView glv = db.loadGroupList(username);
+		GroupListView glv = DBWrapper.loadGroupList(username);
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
+		
+		//db.close();
 
 		String location = "/jsp/home.jsp";
 		forwardRequestDispatch(request, response, location);
@@ -246,26 +248,27 @@ public class ServletCommon
 	public static void RedirectToUserPage(HttpServletRequest request, HttpServletResponse response, 
 			String username, String targetName) 
 	{
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 		
-		NewsListView nlv = db.loadMyNews(targetName);
+		NewsListView nlv = DBWrapper.loadMyNews(targetName);
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", nlv); 
 
-		FriendListView flv = db.loadFriendList(targetName); 
+		FriendListView flv = DBWrapper.loadFriendList(targetName); 
 		request.setAttribute("FriendListView", null); 
 		request.setAttribute("FriendListView", flv); 
 
-		GroupListView glv = db.loadGroupList(targetName);
+		GroupListView glv = DBWrapper.loadGroupList(targetName);
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
 		
 		boolean isMyPage = username.equals(targetName);
-		boolean isMyFriend = db.isMyFriend(username, targetName); 
-		UserSettingView usv = db.loadUserInfoView(targetName, isMyPage, isMyFriend);
+		boolean isMyFriend = DBWrapper.isMyFriend(username, targetName); 
+		UserSettingView usv = DBWrapper.loadUserInfoView(targetName, isMyPage, isMyFriend);
 		request.setAttribute("UserInfoView", null); 
 		request.setAttribute("UserInfoView", usv); 
-			
+		
+		//db.close();
 		String location = "/jsp/UserPage.jsp";
 		forwardRequestDispatch(request, response, location);
 	}
@@ -280,11 +283,12 @@ public class ServletCommon
 	public static void RedirectToGroupPage(HttpServletRequest request, HttpServletResponse response, 
 			String username, Long gid, NewsListView nlv, UserListView ulv, int showTab) 
 	{
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
-		GroupPageView gpv = db.loadGroupPageView(gid, username, showTab); 
+		GroupPageView gpv = DBWrapper.loadGroupPageView(gid, username, showTab); 
 		if(gpv == null)
 		{
+			//db.close();
 			ServletCommon.redirect404(request, response);
 			return;
 		}
@@ -297,6 +301,8 @@ public class ServletCommon
 
 		request.setAttribute("GroupPageView", null); 
 		request.setAttribute("GroupPageView", gpv); 
+		
+		//db.close();
 	
 		String location = "/jsp/GroupPage.jsp";
 		forwardRequestDispatch(request, response, location);	
@@ -317,10 +323,13 @@ public class ServletCommon
 		}	
 			
 		
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
 		request.setAttribute("MoviePageView", mpv); 
-		request.setAttribute("isLiked", new Boolean(db.isUserLikeMovie(username, movie_id)));
+		request.setAttribute("isLiked", new Boolean(DBWrapper.isUserLikeMovie(username, movie_id)));
+		
+		//db.close();
+
 		String location = "/jsp/MoviePage.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}
@@ -365,13 +374,15 @@ public class ServletCommon
 	
 	public static int getUnReadMailNum(String username)
 	{
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
-		UserEntity user = db.getUserEntity(username);
+		UserEntity user = DBWrapper.getUserEntity(username);
 		if(user != null)
 		{
+			//db.close();
 			return user.getUnReadMailNum();
 		}
+		//db.close();
 		return 0;
 	}
 }

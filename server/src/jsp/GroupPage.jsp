@@ -41,7 +41,7 @@ GroupPageView gpv = (GroupPageView) request.getAttribute("GroupPageView");
 %>
 
 <%String curGroup = "?"; 
-curGroup+=request.getQueryString();
+curGroup += ("group=" + String.valueOf(gid));
 %>
 
 <div width=100% height=100% id="Outer">

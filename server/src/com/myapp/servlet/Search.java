@@ -74,12 +74,14 @@ public class Search extends HttpServlet
 			return;
 		}
 		
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 		
-		NewsListView nlv = db.loadSearchHashTag(search);
+		NewsListView nlv = DBWrapper.loadSearchHashTag(search);
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", nlv); 
 		ServletCommon.retrieveGoogleResult(search, request, response);
+		
+		//DBWrapper.close();
 
 		String location = "/jsp/NewsList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
@@ -141,11 +143,13 @@ public class Search extends HttpServlet
 			return;
 		}
 	
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
-		GroupListView glv =  db.loadSearchGroupList(search);
+		GroupListView glv =  DBWrapper.loadSearchGroupList(search);
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
+		
+		//DBWrapper.close();
 		
 		String location = "/jsp/GroupList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
@@ -160,11 +164,13 @@ public class Search extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
-		UserListView ulv = db.loadSearchUserByName(tarname); 
+		UserListView ulv = DBWrapper.loadSearchUserByName(tarname); 
 		request.setAttribute("UserListView", null); 
 		request.setAttribute("UserListView", ulv); 
+		
+		//DBWrapper.close();
 
 		String location = "/jsp/UserList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);

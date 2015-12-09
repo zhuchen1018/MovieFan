@@ -130,7 +130,7 @@ public class TestServlet extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
 		NewsListView newsListView = new NewsListView();
 
@@ -146,7 +146,7 @@ public class TestServlet extends HttpServlet
 		int likeNums = 2; 
 		NewsObjectView newsViewObj = new NewsObjectView(username, text, url, null,title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
-		db.addNewsTwitter(username, text);
+		DBWrapper.addNewsTwitter(username, text);
 
 		//movie review
 		text = "this is the moviee review body";
@@ -158,7 +158,7 @@ public class TestServlet extends HttpServlet
 		type = Const.NEWS_MOVIE_REVIEW; 
 		newsViewObj = new NewsObjectView(username, text, url, null,title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
-		db.addNewsMovieReview(username, title, text, movieId, movieName, url);
+		DBWrapper.addNewsMovieReview(username, title, text, movieId, movieName, url);
 
 		//make friends
 		text = null;
@@ -172,7 +172,7 @@ public class TestServlet extends HttpServlet
 		type = Const.NEWS_MAKE_FRIENDS; 
 		newsViewObj = new NewsObjectView(username, text, url, null,title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
-		db.userAddNewsFollowUser(username, receiver); 
+		DBWrapper.userAddNewsFollowUser(username, receiver); 
 
 		//add group
 		text = null;
@@ -187,7 +187,7 @@ public class TestServlet extends HttpServlet
 		type = Const.NEWS_ADD_GROUP; 
 		newsViewObj = new NewsObjectView(username, text, url, null, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
-		db.addNewsJoinGroup(username, groupid); 
+		DBWrapper.addNewsJoinGroup(username, groupid); 
 
 		//share movies
 		text = null;
@@ -202,7 +202,7 @@ public class TestServlet extends HttpServlet
 		type = Const.NEWS_SHARE_MOVIE; 
 		newsViewObj = new NewsObjectView(username, text, url, null, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
-		db.addNewsShareMovies(username, movieId, movieName, url, ToList); 
+		DBWrapper.addNewsShareMovies(username, movieId, movieName, url, ToList); 
 
 		//like movies
 		text = null;
@@ -214,9 +214,9 @@ public class TestServlet extends HttpServlet
 		type = Const.NEWS_LIKE_MOVIE; 
 		newsViewObj = new NewsObjectView(username, text, url, null, title, movieId, movieName, ToList, type, releaseTime, likeNums);
 		newsListView.addNews(newsViewObj);
-		db.addNewsLikeMovie(username, movieId, url); 
+		DBWrapper.addNewsLikeMovie(username, movieId, url); 
 
-		db.close();
+		//DBWrapper.close();
 
 		ServletCommon.RedirectToHome(request, response);
 	}
@@ -234,37 +234,37 @@ public class TestServlet extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
+		//DBWrapper DBWrapper = initDB();
 
 
 		String friend = "a_friendDSAGsdgasdhlskjfadl;khjl;";
 		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		db.createUser(friend, MD5Encryptor.crypt(friend));
-		db.userAddHeadUrl(friend, url);
+		DBWrapper.createUser(friend, MD5Encryptor.crypt(friend));
+		DBWrapper.userAddHeadUrl(friend, url);
 
-		db.userAddFollow(username, friend);
-		db.userAddNewsFollowUser(username, friend);
-		db.userAddFans(friend, username);
+		DBWrapper.userAddFollow(username, friend);
+		DBWrapper.userAddNewsFollowUser(username, friend);
+		DBWrapper.userAddFans(friend, username);
 	
 
 		friend = "b_friend";
-		db.createUser(friend, MD5Encryptor.crypt(friend));
-		db.userAddHeadUrl(friend, url);
+		DBWrapper.createUser(friend, MD5Encryptor.crypt(friend));
+		DBWrapper.userAddHeadUrl(friend, url);
 
-		db.userAddFollow(username, friend); 
-		db.userAddNewsFollowUser(username, friend);
-		db.userAddFans(friend, username);
+		DBWrapper.userAddFollow(username, friend); 
+		DBWrapper.userAddNewsFollowUser(username, friend);
+		DBWrapper.userAddFans(friend, username);
 		
 
 		friend = "c_friend";
-		db.createUser(friend, MD5Encryptor.crypt(friend));
-		db.userAddHeadUrl(friend, url);
+		DBWrapper.createUser(friend, MD5Encryptor.crypt(friend));
+		DBWrapper.userAddHeadUrl(friend, url);
 
-		db.userAddFollow(username, friend); 
-		db.userAddNewsFollowUser(username, friend);
-		db.userAddFans(friend, username);
+		DBWrapper.userAddFollow(username, friend); 
+		DBWrapper.userAddNewsFollowUser(username, friend);
+		DBWrapper.userAddFans(friend, username);
 
-		db.close();
+		//DBWrapper.close();
 		ServletCommon.RedirectToHome(request, response);
 	}
 	/**
@@ -281,23 +281,21 @@ public class TestServlet extends HttpServlet
 			return;
 		}
 
-		DBWrapper db = initDB();
 
 		//new group
 		String gname1 = "group name 1";
 		String gname2 = "group name 2";
 		String gname3 = "group name 3";
 		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
-		GroupEntity g1 = db.createNewGroup(gname1, username);
-		db.addGroupHeadUrl(g1.getId(), url);
+		GroupEntity g1 = DBWrapper.createNewGroup(gname1, username);
+		DBWrapper.addGroupHeadUrl(g1.getId(), url);
 
-		GroupEntity g2 = db.createNewGroup(gname2, username); 
-		db.addGroupHeadUrl(g2.getId(), url);
+		GroupEntity g2 = DBWrapper.createNewGroup(gname2, username); 
+		DBWrapper.addGroupHeadUrl(g2.getId(), url);
 
-		GroupEntity g3 = db.createNewGroup(gname3, username); 
-		db.addGroupHeadUrl(g3.getId(), url);
+		GroupEntity g3 = DBWrapper.createNewGroup(gname3, username); 
+		DBWrapper.addGroupHeadUrl(g3.getId(), url);
 	
-		db.close();
 		ServletCommon.RedirectToHome(request, response);
 	}
 }

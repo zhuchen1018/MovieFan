@@ -50,24 +50,25 @@ import java.util.List;
  */
 public class DBWrapper 
 {
-	private Environment env;
-	private File env_home;
-	private EntityStore store;
+	private static Environment env;
+	private static File env_home;
+	private static EntityStore store;
 
 	/*
 	 * Entity Accessors to db
 	 */
-	private UserAccessor userEA;
-	private GroupAccessor groupEA;
-	private NewsAccessor newsEA;
-	private IdGeneratorAccessor idEA;
-	private HashTagAccessor hashtagEA;
-	private MoviePageAccessor moviepageEA; 
+	private static UserAccessor userEA;
+	private static GroupAccessor groupEA;
+	private static NewsAccessor newsEA;
+	private static IdGeneratorAccessor idEA;
+	private static HashTagAccessor hashtagEA;
+	private static MoviePageAccessor moviepageEA; 
 
-	private boolean is_close;
+	private static boolean is_close;
 
 	public DBWrapper() 
 	{
+		print("DBWrapper setup....");
 		setup();
 	}
 
@@ -78,7 +79,11 @@ public class DBWrapper
 		EnvironmentConfig ec = new EnvironmentConfig();
 		ec.setAllowCreate(true);
 		ec.setReadOnly(false);
-		ec.setTransactional(true);
+		//1GB
+		ec.setCacheSize(1000000000);
+		//ec.setTransactional(true);
+		
+		System.out.println("EnvironmentConfig cache size: " + ec.getCacheSize());
 
 		env_home = createDir(Const.ROOT);
 		try
@@ -95,19 +100,24 @@ public class DBWrapper
 		StoreConfig sc = new StoreConfig();
 		sc.setAllowCreate(true);
 		sc.setReadOnly(false);
-		sc.setTransactional(true);
+		sc.setDeferredWrite(true);
+		//sc.setTransactional(true);
 		store = new EntityStore(env, Const.DB_STORE_NAME, sc);
 
-		userEA = new UserAccessor(store);
-		groupEA = new GroupAccessor(store);
-		newsEA = new NewsAccessor(store);
-		idEA = new IdGeneratorAccessor(store);
-		hashtagEA = new HashTagAccessor(store);
-		moviepageEA = new MoviePageAccessor(store);
-
+		userEA = new UserAccessor(env, store);
+		groupEA = new GroupAccessor(env, store);
+		newsEA = new NewsAccessor( store);
+		idEA = new IdGeneratorAccessor( store);
+		hashtagEA = new HashTagAccessor( store);
+		moviepageEA = new MoviePageAccessor( store);
 	}
 
 
+	public static void sync()
+	{
+		store.sync();
+		env.sync();
+	}
 	/*
 	public EntityStore getStore(String name) throws DatabaseException
 	{
@@ -121,37 +131,10 @@ public class DBWrapper
 		return env;
 	}
 
-	public void sync()
-	{
-		/*
-		store.sync();
-		env.sync();
-		*/
-	}
-
 	// Close the store and environment.
-	public void close() 
+	public static void close() 
 	{		
 		is_close = true;
-		/*
-		for(String name: store_table.keySet())
-		{
-			EntityStore store = store_table.get(name);
-			if (store != null) 
-			{
-				try 
-				{
-					store.close();
-					//print(name + " store close");
-				} 
-				catch(DatabaseException dbe) 
-				{
-					System.err.println("Error closing store: " + dbe.toString());
-					System.exit(-1);
-				}
-			}
-		}
-		 */
 		if (store != null) 
 		{
 			try 
@@ -206,7 +189,7 @@ public class DBWrapper
 	/**
 	 ******************* Accessor funcs****************************
 	 */
-	public UserAccessor getUserAccessor() 
+	public static UserAccessor getUserAccessor() 
 	{
 		return userEA;
 	}
@@ -217,27 +200,27 @@ public class DBWrapper
 	}
 
 
-	public void createUser(String name, String password) 
+	public static void createUser(String name, String password) 
 	{
 		UserAccessor ua = getUserAccessor();
 		ua.add(name, password);
 	}
 
-	public UserEntity getUserEntity(String name) 
+	public static UserEntity getUserEntity(String name) 
 	{
 		UserAccessor ua = getUserAccessor();
 		return ua.getEntity(name); 
 	}
 
 
-	public boolean hasUser(String name) 
+	public static boolean hasUser(String name) 
 	{
 		UserAccessor ua;
 		ua = getUserAccessor();
 		return ua.hasUser(name);
 	}
 
-	public boolean checkLoginPassword(String name, String password) 
+	public static boolean checkLoginPassword(String name, String password) 
 	{
 		UserAccessor ua;
 		ua = getUserAccessor();
@@ -245,7 +228,7 @@ public class DBWrapper
 
 	}
 
-	public boolean userLogin(String name) throws IOException 
+	public static boolean userLogin(String name) throws IOException 
 	{
 		UserAccessor ua = getUserAccessor();
 		ua.Login(name);
@@ -262,7 +245,7 @@ public class DBWrapper
 		return  groupEA.getAllEntities(); 
 	}
 
-	public GroupEntity createNewGroup(String gname, String username)
+	public static GroupEntity createNewGroup(String gname, String username)
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -276,7 +259,7 @@ public class DBWrapper
 		return null;
 	}
 
-	public GroupEntity getGroupEntity(Long id)
+	public static GroupEntity getGroupEntity(Long id)
 	{
 		return groupEA.getEntity(id);
 	}
@@ -326,7 +309,7 @@ public class DBWrapper
 	 * @param limit
 	 * @return
 	 */
-	public ArrayList<Long> getUserNews(String username)
+	public static ArrayList<Long> getUserNews(String username)
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -341,12 +324,12 @@ public class DBWrapper
 		return newsEA.getNewsEntityByIds(ids);
 	}
 
-	public NewsEntity getNewsEntityByIds(long id)
+	public static NewsEntity getNewsEntityByIds(long id)
 	{
 		return newsEA.getNewsEntityById(id);
 	}
 
-	public void storeNews(NewsEntity news_obj, UserEntity user)
+	public static void storeNews(NewsEntity news_obj, UserEntity user)
 	{
 		//update news store
 		newsEA.addNews(news_obj);
@@ -357,7 +340,7 @@ public class DBWrapper
 	}
 
 	/*All kinds of add news functions*/
-	public void addNewsTwitter(String username, String tweet) 
+	public static void addNewsTwitter(String username, String tweet) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
@@ -371,7 +354,7 @@ public class DBWrapper
 	}
 
 	//extract tag user in news body, put news in user's mailbox to notfify them.
-	private void storeMailBox(NewsEntity news_obj) 
+	private static void storeMailBox(NewsEntity news_obj) 
 	{
 		int type = news_obj.getNewsType();
 		Long newsId = news_obj.getId();
@@ -389,7 +372,7 @@ public class DBWrapper
 	 * extract hashtag from news
 	 * @param news_obj
 	 */
-	private void storeHashTag(NewsEntity news_obj) 
+	private static void storeHashTag(NewsEntity news_obj) 
 	{
 		String body = news_obj.getBody();
 		HashSet<String>tags = Const.extractHashTag(body);
@@ -399,7 +382,7 @@ public class DBWrapper
 		}
 	}
 
-	public void addNewsMovieReview(String username, String title, String body, String movie_id, String movie_name, String movie_url) 
+	public static void addNewsMovieReview(String username, String title, String body, String movie_id, String movie_name, String movie_url) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
@@ -412,7 +395,7 @@ public class DBWrapper
 		storeHashTag(news_obj);
 	}
 
-	public void userAddNewsFollowUser(String username, String othername) 
+	public static void userAddNewsFollowUser(String username, String othername) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
@@ -436,7 +419,7 @@ public class DBWrapper
 		userEA.addMail(othername, news_obj.getId());
 	}
 
-	public void addNewsJoinGroup(String username, String groupname) 
+	public static void addNewsJoinGroup(String username, String groupname) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
@@ -450,7 +433,7 @@ public class DBWrapper
 		storeNews(news_obj, user);
 	}
 
-	public void addNewsCreateGroup(String username, String groupname) 
+	public static void addNewsCreateGroup(String username, String groupname) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
@@ -464,7 +447,7 @@ public class DBWrapper
 		storeNews(news_obj, user);
 	}
 
-	public void addNewsShareMovies(String username, String movie_id, String movie_name, String url, ArrayList<String> friend_list) 
+	public static void addNewsShareMovies(String username, String movie_id, String movie_name, String url, ArrayList<String> friend_list) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
@@ -476,7 +459,7 @@ public class DBWrapper
 		storeNews(news_obj, user);
 	}
 
-	public void addNewsLikeMovie(String username, String movie_id, String url) 
+	public static void addNewsLikeMovie(String username, String movie_id, String url) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user == null)
@@ -489,7 +472,7 @@ public class DBWrapper
 
 	}
 
-	public ArrayList<String> getFriends(String username) 
+	public static ArrayList<String> getFriends(String username) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -499,17 +482,17 @@ public class DBWrapper
 		return null;
 	}
 
-	public void userAddFollow(String username, String friendname) 
+	public static void userAddFollow(String username, String friendname) 
 	{
 		userEA.followUser(username, friendname);	
 	}
 
-	public void userUnfollow(String username, String targetName) 
+	public static void userUnfollow(String username, String targetName) 
 	{
 		userEA.unfollowUser(username, targetName);	
 	}	
 
-	public ArrayList<String> getUserFriends(String username) 
+	public static ArrayList<String> getUserFriends(String username) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -519,7 +502,7 @@ public class DBWrapper
 		return null;
 	}
 
-	public ArrayList<Long> getUserGroup(String username) 
+	public static ArrayList<Long> getUserGroup(String username) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -529,7 +512,7 @@ public class DBWrapper
 		return null;
 	}
 
-	public String getGroupName(long gid) 
+	public static String getGroupName(long gid) 
 	{
 		GroupEntity gobj = getGroupEntity(gid);
 		if(gobj != null)
@@ -544,7 +527,7 @@ public class DBWrapper
 	 * @param username
 	 * @param id
 	 */
-	public void userJoinGroup(String username, Long id) 
+	public static void userJoinGroup(String username, Long id) 
 	{
 		UserEntity user = getUserEntity(username);
 		GroupEntity gobj = getGroupEntity(id);
@@ -558,7 +541,7 @@ public class DBWrapper
 		}	
 	}
 
-	public void userLeaveGroup(String username, Long id) 
+	public static void userLeaveGroup(String username, Long id) 
 	{
 		UserEntity user = getUserEntity(username);
 		GroupEntity gobj = getGroupEntity(id);
@@ -585,7 +568,7 @@ public class DBWrapper
 	 * @param request
 	 * @param response
 	 */
-	public FriendListView loadFriendList(String username) 
+	public static FriendListView loadFriendList(String username) 
 	{
 		FriendListView flv = new FriendListView(); 
 		ArrayList<String>friends = getUserFriends(username);
@@ -609,7 +592,7 @@ public class DBWrapper
 	 * @param request
 	 * @param response
 	 */
-	public UserListView loadFollowingsList(String username) 
+	public static UserListView loadFollowingsList(String username) 
 	{
 		UserListView ulv = new UserListView(); 
 		ArrayList<String>fans = getUserFollowings(username);
@@ -633,7 +616,7 @@ public class DBWrapper
 	 * @param request
 	 * @param response
 	 */
-	public UserListView getUserViewListFromNameList(ArrayList<String>nameList) 
+	public static UserListView getUserViewListFromNameList(ArrayList<String>nameList) 
 	{
 		UserListView ulv = new UserListView(); 
 		if(nameList != null)
@@ -656,7 +639,7 @@ public class DBWrapper
 	 * @param request
 	 * @param response
 	 */
-	public UserListView loadFansList(String username) 
+	public static UserListView loadFansList(String username) 
 	{
 		UserListView ulv = new UserListView(); 
 		ArrayList<String>fans = getUserFans(username);
@@ -676,7 +659,7 @@ public class DBWrapper
 
 
 
-	private ArrayList<String> getUserFollowings(String username) 
+	private static ArrayList<String> getUserFollowings(String username) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -686,7 +669,7 @@ public class DBWrapper
 		return null;
 	}
 
-	private ArrayList<String> getUserFans(String username) 
+	private static ArrayList<String> getUserFans(String username) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -704,7 +687,7 @@ public class DBWrapper
 	 * @param username
 	 * @param response
 	 */
-	public NewsListView loadMyNews(String username) 
+	public static NewsListView loadMyNews(String username) 
 	{
 		NewsListView nlv = new NewsListView();
 
@@ -727,7 +710,7 @@ public class DBWrapper
 	 * @param username
 	 * @param response
 	 */
-	public NewsListView loadAllNews(String username) 
+	public static NewsListView loadAllNews(String username) 
 	{
 		NewsListView nlv = new NewsListView();
 		//all
@@ -787,7 +770,7 @@ public class DBWrapper
 	 * @param request
 	 * @param response
 	 */
-	public GroupListView loadGroupList(String username)
+	public static GroupListView loadGroupList(String username)
 	{
 		GroupListView glv = new GroupListView(); 
 		ArrayList<Long>groups = getUserGroup(username);
@@ -806,7 +789,7 @@ public class DBWrapper
 		return glv;
 	}
 
-	public boolean isMyFriend(String username, String targetName) 
+	public static boolean isMyFriend(String username, String targetName) 
 	{
 		UserEntity user  = getUserEntity(username);
 		if(user != null)
@@ -816,7 +799,7 @@ public class DBWrapper
 		return false;
 	}
 
-	public boolean isUserLikeMovie(String username, String movie_id) 
+	public static boolean isUserLikeMovie(String username, String movie_id) 
 	{
 		UserEntity user  = getUserEntity(username);
 		if(user != null)
@@ -826,7 +809,7 @@ public class DBWrapper
 		return false;
 	}
 
-	public boolean canCreateGroup(String username) 
+	public static boolean canCreateGroup(String username) 
 	{
 		UserEntity user  = getUserEntity(username);
 		if(user != null)
@@ -836,7 +819,7 @@ public class DBWrapper
 		return false;
 	}
 
-	public HashTagEntity getHashTagEntity(String tag) 
+	public static HashTagEntity getHashTagEntity(String tag) 
 	{
 		if(tag == null) return null;
 		tag = tag.trim().toLowerCase();
@@ -852,7 +835,7 @@ public class DBWrapper
 		hashtagEA.put(entity);
 	}
 
-	public void userAddFans(String friend, String username) 
+	public static void userAddFans(String friend, String username) 
 	{
 		UserEntity user = getUserEntity(friend);
 		if(user != null)
@@ -862,7 +845,7 @@ public class DBWrapper
 		}
 	}
 
-	public void userAddHeadUrl(String friend, String url) 
+	public static void userAddHeadUrl(String friend, String url) 
 	{
 		UserEntity user = getUserEntity(friend);
 		if(user != null)
@@ -872,7 +855,7 @@ public class DBWrapper
 		}	
 	}
 
-	public void addGroupHeadUrl(Long id, String url) 
+	public static void addGroupHeadUrl(Long id, String url) 
 	{
 		GroupEntity g = getGroupEntity(id);
 		if(g != null)
@@ -882,13 +865,13 @@ public class DBWrapper
 		}
 	}
 
-	public boolean hasGroup(Long gid) 
+	public static boolean hasGroup(Long gid) 
 	{
 		GroupEntity g = getGroupEntity(gid);
 		return g != null;
 	}
 
-	public UserListView loadSearchUserByName(String tarname) 
+	public static UserListView loadSearchUserByName(String tarname) 
 	{
 		ArrayList<UserEntity>userList = userEA.searchSimilarUserName(tarname);
 
@@ -908,7 +891,7 @@ public class DBWrapper
 	 * @param username
 	 * @param movieId
 	 */
-	public void userLikeMovie(String username, String movieId) 
+	public static void userLikeMovie(String username, String movieId) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -933,7 +916,7 @@ public class DBWrapper
 		}	
 	}	
 
-	public void userUnlikeMovie(String username, String movieId) 
+	public static void userUnlikeMovie(String username, String movieId) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -943,7 +926,7 @@ public class DBWrapper
 		}	
 	}
 
-	public void upUserSettings(String username, String head_url, String profile_url, String description, Integer[] genres) 
+	public static void upUserSettings(String username, String head_url, String profile_url, String description, Integer[] genres) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -969,7 +952,7 @@ public class DBWrapper
 	}
 
 
-	public ArrayList<String> loadMoviePagePosterUrl(ArrayList<String>movieId)
+	public static ArrayList<String> loadMoviePagePosterUrl(ArrayList<String>movieId)
 	{
 		ArrayList<String>posterUrl = new ArrayList<String>(); 
 		for(String mid: movieId)
@@ -994,7 +977,7 @@ public class DBWrapper
 	 * @param isMyFriend
 	 * @return
 	 */
-	public UserInfoView loadUserInfoView(String username, boolean isMyPage, boolean isMyFriend) 
+	public static UserInfoView loadUserInfoView(String username, boolean isMyPage, boolean isMyFriend) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -1028,19 +1011,19 @@ public class DBWrapper
 	 * @param showTab
 	 * @return
 	 */
-	public GroupPageView loadGroupPageView(Long gid, String username, int showTab) 
+	public static GroupPageView loadGroupPageView(Long gid, String username, int showTab) 
 	{
 		GroupEntity gobj = groupEA.getEntity(gid);
 		if(gobj != null) 
 		{
 			boolean inGroup = gobj.hasMember(username);
-			return new GroupPageView(gid, gobj.getName(), gobj.getCreator(), gobj.getHeadUrl(), 
+			return new GroupPageView(gobj.getId(), gobj.getName(), gobj.getCreator(), gobj.getHeadUrl(), 
 					gobj.getProfileUrl(), gobj.getDescription(), inGroup, showTab); 
 		}
 		return null;
 	}
 
-	public GroupListView loadSearchGroupList(String name) 
+	public static GroupListView loadSearchGroupList(String name) 
 	{
 		GroupListView glv = new GroupListView();
 		ArrayList<GroupEntity>glist = groupEA.getSearchGroup(name);
@@ -1052,7 +1035,7 @@ public class DBWrapper
 		return glv;
 	}
 
-	public NewsListView loadSearchHashTag(String search) 
+	public static NewsListView loadSearchHashTag(String search) 
 	{
 		ArrayList<HashTagEntity>taglist = hashtagEA.searchHashTag(search);
 		NewsListView nlv = new NewsListView(); 
@@ -1075,7 +1058,7 @@ public class DBWrapper
 		userEA.add(name, password, fbid);
 	}
 
-	public NewsListView getNewsListViewFromNewsIds(ArrayList<Long> newsList) 
+	public static NewsListView getNewsListViewFromNewsIds(ArrayList<Long> newsList) 
 	{
 		NewsListView nlv = new NewsListView(); 	
 		for(Long newsid: newsList) 
@@ -1094,7 +1077,7 @@ public class DBWrapper
 	 * @param gid
 	 * @param info
 	 */
-	public void addGroupNews(String username, Long gid, String info) 
+	public static void addGroupNews(String username, Long gid, String info) 
 	{
 		GroupEntity gobj = getGroupEntity(gid);
 		if(gobj == null)
@@ -1111,7 +1094,7 @@ public class DBWrapper
 		storeMailBox(news_obj);
 	}
 
-	public void upGroupSettings(Long gid, String head_url, String profile_url, String description) 
+	public static void upGroupSettings(Long gid, String head_url, String profile_url, String description) 
 	{
 		GroupEntity obj = getGroupEntity(gid); 
 		if(obj != null)
@@ -1151,5 +1134,11 @@ public class DBWrapper
 			return user.getMailBox();
 		}
 		return null;
+	}
+
+	public static boolean canUserTweetInGroup(String username, Long gid) 
+	{
+		GroupEntity gobj = groupEA.getEntity(gid);
+		return gobj != null && gobj.canUserTweet(username);
 	}
 }
