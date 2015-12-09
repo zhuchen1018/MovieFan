@@ -342,8 +342,6 @@ public class UserPage extends HttpServlet
 		DBWrapper.userAddNewsFollowUser(username, targetName);
 		DBWrapper.userAddFans(targetName, username);
 		
-		//DBWrapper.close();
-
 		ServletCommon.RedirectToUserPage(request, response, username, targetName);
 	}
 

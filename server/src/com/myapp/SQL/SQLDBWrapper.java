@@ -41,9 +41,9 @@ public class SQLDBWrapper
 		cpds.setUser(username);
 		cpds.setPassword(password);
 
-		cpds.setMinPoolSize(10);
-		cpds.setAcquireIncrement(5);
-		cpds.setMaxPoolSize(50);
+		cpds.setMinPoolSize(100);
+		cpds.setAcquireIncrement(20);
+		cpds.setMaxPoolSize(500);
 		
 		//System.out.println("Init connection pool time:" + (System.currentTimeMillis() - st));
 	}
