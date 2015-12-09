@@ -4,6 +4,7 @@
 <html>
 <head>
 <link rel = "stylesheet" type ="text/css" href = "../css/UserPage.css">
+<link rel = "stylesheet" type ="text/css" href = "../css/Style.css">
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>MovieFans.com</title>
 <link rel="shortcut icon" href="/images/1.png">

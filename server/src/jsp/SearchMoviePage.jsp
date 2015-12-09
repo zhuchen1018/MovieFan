@@ -15,10 +15,10 @@
 <br><br>
 <div align="center">
 
-    <h1>Advance Search</h1>
+    <h1 style="color:#FFA500">Advance Search</h1>
     <br></br>
 	<br></br>
-    <h2>Genre</h2>
+    <h2 style="color:#FFA500">Category</h2>
 	<br>
 	<form action= "/search_movie_result_advanced" method="post">	
 		<input type="radio" name="formDoor[]" value="Action" /><font size="4">Action</font> &nbsp;
@@ -40,7 +40,7 @@
 		
 		<br></br>
 		<br></br>
-		<h2>Choose Length</h2>
+		<h2 style="color:#FFA500">Choose Length</h2>
 		<br></br>
 		<input type="radio" name="MovieLength" value="0" />&#60;<font size="4"> <30 mins </font>&nbsp;
 		<input type="radio" name="MovieLength" value="1" /><font size="4">30 - 60 mins</font>&nbsp;
@@ -50,7 +50,7 @@
 		
 		<br></br>
 		<br></br>
-		<h2>Order By</h2> 
+		<h2 style="color:#FFA500">Order By</h2> 
 		<br></br>
 		<select name ="OrderBy" id = "wgtmsr">
 		  <option selected="true" style="display:none;"></option>
