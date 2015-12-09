@@ -54,18 +54,21 @@ public class SQLDBMovieQuery {
 		if(searchMode==Const.ID_SEARCH){ 
 			this.movieId=value;
 			if(!searchMovieByMovieId()){
+				conn.close();
 				throw new Exception("Id search fail!");
 			}
 		}
 		else if(searchMode==Const.NAME_SEARCH){
 			this.name=value;
 			if(!searchMovieByName()){
+				conn.close();
 				throw new Exception("Name search fail!");
 			}
 		}
 		else if(searchMode==Const.PAIR_SEARCH){
 			this.pairId=value;
 			if(!searchMovieByPairId()){
+				conn.close();
 				throw new Exception("Name search fail!");
 			}
 		}
@@ -79,6 +82,7 @@ public class SQLDBMovieQuery {
 		this.genre=genre;
 		this.length=length;
 		if(!advancedSearch()){
+			conn.close();
 			throw new Exception("Advanced search fail!");
 		}
 		conn.close();
