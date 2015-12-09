@@ -364,7 +364,10 @@ public class GroupPage extends HttpServlet
 		{
 			showTab = 1;
 		}
-		showTab = Integer.parseInt(showTabStr);
+		else
+		{
+			showTab = Integer.parseInt(showTabStr);
+		}
 
 		Long gid = null;
 		try
