@@ -26,7 +26,8 @@
     	<a href=<%=userLink%>><b class="name"><font size="5" color="blue"><%=userName%><font></b></a>
     	&nbsp;
     	<b class="note"><font size="4"><%=note%></font></b>
-    	<a class="link" href=<%=groupurl%>><%=group %></a><br>
+    	<%=group %>
+    	<br>
     </p>
     <br>
     <p>
