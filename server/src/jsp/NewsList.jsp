@@ -59,6 +59,11 @@ else
                 <div class="AddGroup"><jsp:include page="NewsAddGroup.jsp"/></div><%
                 s.setAttribute("nag", null);
                 break;
+            case Const.NEWS_TWEET_IN_GROUP:
+                s.setAttribute("ntig", nov); %>
+                <div class="Tweet"><jsp:include page="GroupNewsTweet.jsp"/></div><%
+                s.setAttribute("ntig", null);
+                break;
             }
         }%>
         <br>

@@ -57,30 +57,30 @@ curGroup+=request.getQueryString();
 				
 				<% if(!joined){ %>
 					<form action=<%="join_group" + "?" + "group=" + gid%> method="POST">
-						<button type="button" id="discussionB">
+						<button type="button" id="discussionB" style="width: 130px;">
 		                    Discussion
 						</button>
 					
-						<button type="button" id="memberB">
+						<button type="button" id="memberB" style="width: 130px;">
 		                    Members
 						</button>
 					
-						<button type="submit" name="JoinThisGroup">
+						<button type="submit" name="JoinThisGroup" style="width: 130px;">
 		                    Join
 						</button>
 					</form>
 				<% }
 					else { %>		
 						<form action=<%="leave_group" + "?" + "group=" + gid%> method="POST">
-						<button type="button" id="discussionB">
+						<button type="button" id="discussionB" style="width: 80px; display:inline-block;">
 			           	Discussion
 						</button>
 						
-						<button type="button" id="memberB">
+						<button type="button" id="memberB" style="width: 80px; display:inline-block;">
 			            Members
 						</button>
 						
-						<button type="submit" name="LeaveThisGroup">
+						<button type="submit" name="LeaveThisGroup" style="width:80px; display:inline-block;">
 			            Leave
 						</button>
 						</form>
@@ -92,7 +92,7 @@ curGroup+=request.getQueryString();
 		<div class="left_bottom">
 			<div class="left_bottom_left">
 				<div class="description">
-					<h2 id="title">About Me</h2>
+					<h2 id="title">About This Group</h2>
 					<p>
 						<%if(description!=null){ %>
 							<em><%=description%></em>
@@ -110,7 +110,16 @@ curGroup+=request.getQueryString();
 							<INPUT TYPE=SUBMIT VALUE="submit">
 						</div>
   					</form>
-				<jsp:include page="NewsList.jsp"/>
+  					<%int type=2; %>
+					<%switch(type){
+            			case 1:%>
+        					<jsp:include page="NewsList.jsp"/><%
+                		break;
+        				
+            			case 2:%>
+    						<jsp:include page="UserList.jsp"/><%
+            			break;
+					 } %>
 			</div>
 		</div>
 	</div>
