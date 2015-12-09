@@ -126,7 +126,7 @@ public class DBWrapper
 	 */
 
 	// Return a handle to the environment
-	public Environment getEnv() 
+	public static Environment getEnv() 
 	{
 		return env;
 	}
@@ -194,7 +194,7 @@ public class DBWrapper
 		return userEA;
 	}
 
-	public void addNextNewsId()
+	public static void addNextNewsId()
 	{
 		idEA.getNextNewsId();
 	}
@@ -215,8 +215,7 @@ public class DBWrapper
 
 	public static boolean hasUser(String name) 
 	{
-		UserAccessor ua;
-		ua = getUserAccessor();
+		UserAccessor ua = getUserAccessor();
 		return ua.hasUser(name);
 	}
 
@@ -235,12 +234,12 @@ public class DBWrapper
 		return true;
 	}
 
-	public boolean isClose()
+	public static boolean isClose()
 	{
 		return is_close;
 	}
 
-	public List<GroupEntity>  getAllGroups() 
+	public static List<GroupEntity>  getAllGroups() 
 	{
 		return  groupEA.getAllEntities(); 
 	}
@@ -264,12 +263,12 @@ public class DBWrapper
 		return groupEA.getEntity(id);
 	}
 
-	public boolean hasGroupByName(String name)
+	public static boolean hasGroupByName(String name)
 	{
 		return groupEA.containsByName(name);
 	}
 
-	public String getGroupCreator(Long id) 
+	public static String getGroupCreator(Long id) 
 	{
 		GroupEntity g = getGroupEntity(id);
 		if(g == null)
@@ -289,7 +288,7 @@ public class DBWrapper
 	 * @param limit
 	 * @return
 	 */
-	public ArrayList<Long> getUserNews(String username, int limit)
+	public static ArrayList<Long> getUserNews(String username, int limit)
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -319,7 +318,7 @@ public class DBWrapper
 		return null; 
 	}
 
-	public ArrayList<NewsEntity> getNewsEntityByIds(ArrayList<Long> ids)
+	public static ArrayList<NewsEntity> getNewsEntityByIds(ArrayList<Long> ids)
 	{
 		return newsEA.getNewsEntityByIds(ids);
 	}
@@ -409,7 +408,6 @@ public class DBWrapper
 			return;
 		}
 
-		
 		ArrayList<String>receivers = new ArrayList<String>();
 		receivers.add(othername);
 
@@ -552,12 +550,12 @@ public class DBWrapper
 		}		
 	}
 
-	public boolean hasFBUser(String fbid) 
+	public static boolean hasFBUser(String fbid) 
 	{
 		return userEA.hasFBUser(fbid);
 	}
 
-	public String getUserFBId(String name) 
+	public static String getUserFBId(String name) 
 	{
 		return userEA.getUserFBId(name);
 	}		
@@ -826,7 +824,7 @@ public class DBWrapper
 		return hashtagEA.getHashTags(tag);
 	}
 
-	public void RemoveHashTagNews(String tag, long id) 
+	public static void RemoveHashTagNews(String tag, long id) 
 	{
 		HashTagEntity entity = hashtagEA.getHashTags(tag);
 		if(entity == null) return;
@@ -936,7 +934,7 @@ public class DBWrapper
 		}		
 	}
 
-	public UserSettingView loadUserSettingView(String username) 
+	public static UserSettingView loadUserSettingView(String username) 
 	{
 		UserEntity user = getUserEntity(username);
 		if(user != null)
@@ -1053,7 +1051,7 @@ public class DBWrapper
 		return nlv;
 	}
 
-	public void createFBUser(String name, String password, String fbid) 
+	public static void createFBUser(String name, String password, String fbid) 
 	{
 		userEA.add(name, password, fbid);
 	}
@@ -1104,7 +1102,7 @@ public class DBWrapper
 		}		
 	}
 
-	public NewsListView loadMyMailBoxNews(String username) 
+	public static NewsListView loadMyMailBoxNews(String username) 
 	{
 		NewsListView nlv = new NewsListView();
 
@@ -1126,7 +1124,7 @@ public class DBWrapper
 		return nlv;
 	}
 
-	private ArrayList<Long> getUserMailBox(String username) 
+	private static ArrayList<Long> getUserMailBox(String username) 
 	{
 		UserEntity user = userEA.getEntity(username);
 		if(user != null)
