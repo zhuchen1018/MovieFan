@@ -33,7 +33,7 @@
   </div>
   <!-- End Left Middle Column -->
   <!-- Begin Right Middle Column -->
-  <div id="BasicDiv" class = "RecommendationList">  </div>
+  <div id="BasicDiv" class = "RecommendationList"> <jsp:include page="RecommendMovieList.jsp"/> </div>
   <!-- End Right Middle Column -->
   <!-- Begin Right Column -->
   <div id="BasicDiv" class = "FriendList"> <jsp:include page="FriendList.jsp"/> </div>

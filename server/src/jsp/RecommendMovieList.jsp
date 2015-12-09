@@ -22,7 +22,7 @@
 %>
 
 <%
-	if(url.size()==0){%>
+	if(url==null||url.size()==0){%>
 		<h2 id="note">No Like List</h2>
 	<%}
 	else{%>
