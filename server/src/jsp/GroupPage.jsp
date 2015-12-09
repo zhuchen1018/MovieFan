@@ -71,17 +71,8 @@ curGroup += ("group=" + String.valueOf(gid));
 						</form>
 			
 					<% } %>
-					<form action=<%="grouppage"+curGroup+"&showtab=1"%> method="POST">	
-						<button type="submit" name="discussionB" style="width: 130px;">
-		                    Discussion
-						</button>
-					</form>
-					
-					<form action=<%="grouppage"+curGroup+"&showtab=2"%> method="POST">	
-						<button type="submit" name="memberB" style="width: 130px;">
-		                    Members
-						</button>
-					</form>
+					<a style="font-size: 15px;" href=<%="grouppage"+curGroup+"&showtab=1"%>>Discussion</a>
+					<a style="font-size: 15px;" href=<%="grouppage"+curGroup+"&showtab=2"%>>Members</a>
 					
 			</div>
 		</div>
