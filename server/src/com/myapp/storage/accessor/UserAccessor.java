@@ -1,6 +1,8 @@
 package com.myapp.storage.accessor;
 
 import com.sleepycat.je.Environment;
+import com.sleepycat.je.LockMode;
+import com.sleepycat.je.LockTimeoutException;
 import com.sleepycat.persist.EntityStore;
 import com.sleepycat.persist.PrimaryIndex;
 import com.myapp.storage.entity.GroupEntity;
@@ -35,7 +37,7 @@ public class UserAccessor
 	{
 		for(String name: userByName.keys())
 		{
-			UserEntity user = userByName.get(name);
+			UserEntity user = getEntity(name); 
 			String id = user.getFacebookId();
 			if(id != null && id.equals(fbid)) 
 			{
@@ -69,12 +71,21 @@ public class UserAccessor
 
 	public UserEntity getEntity(String name)
 	{
-		return userByName.get(name);
+		UserEntity user = userByName.get(null, name, LockMode.READ_UNCOMMITTED);
+		return user;
 	}
 
 	public void putEntity(UserEntity user)
 	{
-		userByName.put(user);
+		try
+		{
+			userByName.putNoReturn(user);
+			return;
+		}
+		catch(LockTimeoutException e)
+		{
+			e.printStackTrace();	
+		}	
 	}
 
 	public boolean checkPassword(String name, String password) 
@@ -141,7 +152,7 @@ public class UserAccessor
 		{
 			if(name.toLowerCase().contains(tarname))
 			{
-				result.add(userByName.get(name));
+				result.add(getEntity(name));
 			}
 		}
 		return result;

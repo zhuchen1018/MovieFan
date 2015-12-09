@@ -32,6 +32,10 @@ public class SQLDBMovieQuery {
 	}
 
 	public SQLDBMovieQuery(ArrayList<Integer> genres) throws Exception{
+		if(genres == null || genres.size() == 0)
+		{
+			return;
+		}
 		conn=SQLDBWrapper.getConnection();
 		if(conn==null) throw new Exception("connection not created!");
 		this.genres=genres;
@@ -39,7 +43,12 @@ public class SQLDBMovieQuery {
 		conn.close();
 	}
 	
-	public SQLDBMovieQuery(String value,int searchMode) throws Exception{
+	public SQLDBMovieQuery(String value,int searchMode) throws Exception
+	{
+		if(value == null || value.isEmpty())
+		{
+			return;
+		}
 		conn=SQLDBWrapper.getConnection();
 		if(conn==null) throw new Exception("connection not created!");
 		if(searchMode==Const.ID_SEARCH){ 

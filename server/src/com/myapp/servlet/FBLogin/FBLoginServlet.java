@@ -58,21 +58,18 @@ public class FBLoginServlet extends HttpServlet {
 	{
 		if(!ServletCommon.hasLoginSession(request))
 		{
-			DBWrapper db = initDB();
-
 			//first login
-			if(!db.hasFBUser(fbid))
+			if(!DBWrapper.hasFBUser(fbid))
 			{
 				//name duplicated, should sign in
-				if(db.hasUser(name))
+				if(DBWrapper.hasUser(name))
 				{
 					ServletCommon.PrintErrorPage("You username has been registered, please sign up a new one", request, response); 
 					return;
 				}
 				else
 				{
-					db.createFBUser(name, MD5Encryptor.crypt(fbid+name), fbid);			
-					db.sync();
+					DBWrapper.createFBUser(name, MD5Encryptor.crypt(fbid+name), fbid);			
 				}
 			}
 			ServletCommon.addLoginSession(request, response, name);

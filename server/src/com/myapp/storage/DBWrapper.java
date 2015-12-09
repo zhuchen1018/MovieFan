@@ -109,15 +109,17 @@ public class DBWrapper
 		newsEA = new NewsAccessor( store);
 		idEA = new IdGeneratorAccessor( store);
 		hashtagEA = new HashTagAccessor( store);
-		moviepageEA = new MoviePageAccessor( store);
+		moviepageEA = new MoviePageAccessor(store);
 	}
 
 
+	/*
 	public static void sync()
 	{
 		store.sync();
 		env.sync();
 	}
+	*/
 	/*
 	public EntityStore getStore(String name) throws DatabaseException
 	{

@@ -217,9 +217,12 @@ public class ServletCommon
 		{
 			ArrayList<Integer>likeList = DBWrapper.getUserLikeGenres(username);
 			System.out.println("like genres:" + likeList.size());
-			SQLDBMovieQuery sql = new SQLDBMovieQuery(likeList);
-			movieIds.addAll(sql.getSimpleMovieId());
-			urls.addAll(sql.getSimpleUrl());
+			if(likeList.size() > 0)
+			{
+				SQLDBMovieQuery sql = new SQLDBMovieQuery(likeList);
+				movieIds.addAll(sql.getSimpleMovieId());
+				urls.addAll(sql.getSimpleUrl());
+			}
 		} 
 		catch (Exception e) 
 		{

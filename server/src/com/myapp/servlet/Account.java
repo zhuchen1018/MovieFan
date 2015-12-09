@@ -63,7 +63,7 @@ public class Account extends HttpServlet
 		if(user == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
-			DBWrapper.sync();
+			//DBWrapper.sync();
 			return;
 		}
 
@@ -82,7 +82,7 @@ public class Account extends HttpServlet
 		}
 		DBWrapper.upUserSettings(username, head_url, profile_url, description, genres_integer);
 			
-		DBWrapper.sync();
+		//DBWrapper.sync();
 
 		ServletCommon.RedirectToUserPage(request, response, username, username);
 	} 
@@ -117,7 +117,7 @@ public class Account extends HttpServlet
 		if(DBWrapper.hasUser(name))
 		{
 			ServletCommon.PrintErrorPage("Sorry, this username has already been registered!",  request, response);
-			DBWrapper.sync();
+			//DBWrapper.sync();
 			return;
 		}
 
@@ -131,7 +131,7 @@ public class Account extends HttpServlet
 		if(user == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
-			DBWrapper.sync();
+			//DBWrapper.sync();
 			return;
 		}
 
@@ -143,7 +143,7 @@ public class Account extends HttpServlet
 		UserSettingView usv =  new UserSettingView(name, head_url,profile_url, genres, description);
 		request.setAttribute("UserSettingView", usv);
 			
-		DBWrapper.sync();
+		//DBWrapper.sync();
 
 		String location = "/jsp/UserSettings.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
@@ -165,7 +165,7 @@ public class Account extends HttpServlet
 		if(user == null)
 		{
 			ServletCommon.PrintErrorPage(Const.NO_THIS_USER_INFO,  request, response);
-			DBWrapper.sync();
+			//DBWrapper.sync();
 			return;
 		}
 
@@ -177,7 +177,7 @@ public class Account extends HttpServlet
 		UserSettingView usv =  new UserSettingView(username, head_url,profile_url, genres, description);
 		request.setAttribute("UserSettingView", usv);
 	
-		DBWrapper.sync();
+		//DBWrapper.sync();
 
 		String location = "/jsp/UserSettings.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
@@ -197,7 +197,7 @@ public class Account extends HttpServlet
 		if(!DBWrapper.hasUser(name))
 		{
 			ServletCommon.PrintErrorPage("Sorry, this username has not been registered!",  request, response);
-			DBWrapper.sync();
+			//DBWrapper.sync();
 			return;
 		}
 
@@ -205,7 +205,7 @@ public class Account extends HttpServlet
 		if(password == null)
 		{
 			ServletCommon.PrintErrorPage("Please enter a password.",  request, response);
-			DBWrapper.sync();
+			//DBWrapper.sync();
 			return;
 		}
 
@@ -213,11 +213,11 @@ public class Account extends HttpServlet
 		if(!DBWrapper.checkLoginPassword(name, real_password))
 		{
 			ServletCommon.PrintErrorPage("Your password is wrong!",  request, response);
-			DBWrapper.sync();
+			//DBWrapper.sync();
 			return;
 		}
 			
-		DBWrapper.sync();
+		//DBWrapper.sync();
 
 		ServletCommon.addLoginSession(request, response, name);
 
@@ -334,7 +334,7 @@ public class Account extends HttpServlet
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", nlv); 
 	
-		DBWrapper.sync();
+		//DBWrapper.sync();
 	
 		String location = "/jsp/NewsList.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);

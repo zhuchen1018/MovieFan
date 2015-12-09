@@ -61,13 +61,8 @@ public class GroupAccessor
 
 	public GroupEntity getEntity(Long id)
 	{
-		/*
-		Transaction txn = env.beginTransaction(null, null); 
-		GroupEntity gobj = groupsById.get(txn, id, LockMode.READ_UNCOMMITTED);
-		txn.commit();
+		GroupEntity gobj = groupsById.get(null, id, LockMode.READ_UNCOMMITTED);
 		return gobj;
-		*/
-		return groupsById.get(id);
 	}
 
 	public boolean delEntity(Long pKey)
@@ -77,27 +72,14 @@ public class GroupAccessor
 
 	public void putEntity(GroupEntity entity)
 	{
-		int cnt = 0;
-		while(true && cnt < 3)
+		try
 		{
-			try
-			{
-				groupsById.put(entity);
-				return;
-			}
-			catch(LockTimeoutException e)
-			{
-				cnt ++;
-				e.printStackTrace();
-				try 
-				{
-					Thread.sleep(500);
-				} 
-				catch (InterruptedException e1) 
-				{
-					e1.printStackTrace();
-				}
-			}
+			groupsById.putNoReturn(entity);
+			return;
+		}
+		catch(LockTimeoutException e)
+		{
+			e.printStackTrace();	
 		}
 	}
 
@@ -150,7 +132,7 @@ public class GroupAccessor
 		ArrayList<GroupEntity>res = new ArrayList<GroupEntity>();
 		for(Long gid: groupsById.keys())
 		{
-			GroupEntity gobj = groupsById.get(gid);
+			GroupEntity gobj = getEntity(gid); 
 			String gname = gobj.getName().toLowerCase();
 			if(gname.contains(name))
 			{
