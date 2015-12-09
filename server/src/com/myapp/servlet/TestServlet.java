@@ -237,7 +237,7 @@ public class TestServlet extends HttpServlet
 		DBWrapper db = initDB();
 
 
-		String friend = "a_friend";
+		String friend = "a_friendDSAGsdgasdhlskjfadl;khjl;";
 		String url = "http://thesource.com/wp-content/uploads/2015/02/Pablo_Picasso1.jpg";
 		db.createUser(friend, MD5Encryptor.crypt(friend));
 		db.userAddHeadUrl(friend, url);

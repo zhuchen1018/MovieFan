@@ -21,15 +21,25 @@
 			String nameurl = "userpage?user="+name;
 	        if(po!=null&&!po.equals("null")){ %>
 	        <div class="friend">
-   			 	<a href=<%=nameurl%>><img src=<%=po%> class="friend"></img></a>
-    			<a href=<%=nameurl%>><b class="friendName"><font size="3"><%=name%></font></b></a>
+	        	<div class="image">
+   			 		<a href=<%=nameurl%>><img src=<%=po%> class="friend"></img></a>
+   			 	</div>
+   			 	<div class="name">
+    				<a href=<%=nameurl%>><p><font size="3"><%=name%></font></p></a>
+    			</div>
 			</div>
+			<br>
 		<% } 
 		 	else { %>
 		 	<div>
-   			 	<a href=<%=nameurl%>><img src="/images/not-found.png" class="friend"></img> </a>
-    			<a href=<%=nameurl%>><b class="friendName"><font size="3"><%=name%></font></b></a>
+		 		<div class="image">
+   			 		<a href=<%=nameurl%>><img src="/images/not-found.png" class="friend"></img> </a>
+   			 	</div>
+   			 	<div class="name">
+	    			<a href=<%=nameurl%>><p><font size="3"><%=name%></font></p></a>
+	    		</div>
     		</div>
+    		<br>
 		<%}
 	}%>
      <br>
