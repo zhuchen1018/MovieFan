@@ -1,12 +1,5 @@
 @CHARSET "UTF-8";
 
-div.movieList{
-	width: 1000px;
-	height: auto;
-	overflow: scroll;
-	float: left;
-}
-
 div.googleList{
 	width: 430px;
 	height: auto;
@@ -17,5 +10,8 @@ div.googleList{
 #Outer {
     width: 95%;
     height: 90%
+    top: 12%;
+    overflow: scroll;
+	float: left;
     position: relative;
 }
