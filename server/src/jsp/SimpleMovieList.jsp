@@ -16,9 +16,9 @@
 
 <body>
 
-<% UserInfoView uiv = (UserInfoView)request.getAttribute("UserInfoView");
-	ArrayList<String> url=uiv.getPosterUrl();
-	ArrayList<String> id=uiv.getMovieId();
+<% 
+	ArrayList<String> url=request.getAttribute("RecommendMoviePosters");
+	ArrayList<String> id=request.getAttribute("RecommendMovieIds");
 %>
 
 <%
