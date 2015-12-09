@@ -2,8 +2,10 @@
 
 div.friend{
 	width: 100%;
-	height: auto:
+	height: auto;
 	position: relative;
+	overflow: scroll;
+	margin: auto;
 }
 
 div.name{
@@ -11,6 +13,8 @@ div.name{
 	height: auto;
 	position: relative;
 	float:right;
+	overflow: scroll;
+	margin: auto;
 }
 
 div.friendImage{
@@ -18,6 +22,8 @@ div.friendImage{
 	height: auto;
 	position: relative;
 	float:left;
+	overflow: scroll;
+	margin: auto;
 }
 
 img.friend{
