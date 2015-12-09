@@ -79,10 +79,9 @@ public class DBWrapper
 		EnvironmentConfig ec = new EnvironmentConfig();
 		ec.setAllowCreate(true);
 		ec.setReadOnly(false);
-		//1GB
 		ec.setCachePercent(50);
 		ec.setTransactional(true);
-		
+
 		System.out.println("EnvironmentConfig cache size: " + ec.getCacheSize());
 
 		env_home = createDir(Const.ROOT);
@@ -119,7 +118,7 @@ public class DBWrapper
 		store.sync();
 		env.sync();
 	}
-	*/
+	 */
 	/*
 	public EntityStore getStore(String name) throws DatabaseException
 	{
@@ -403,7 +402,7 @@ public class DBWrapper
 		{
 			return;
 		}
-		
+
 		UserEntity other = getUserEntity(othername);
 		if(other  == null)
 		{
@@ -415,7 +414,7 @@ public class DBWrapper
 
 		NewsEntity news_obj = new NewsEntity(username, idEA.getNextNewsId(), receivers, Const.NEWS_MAKE_FRIENDS);
 		storeNews(news_obj, user);
-		
+
 		userEA.addMail(othername, news_obj.getId());
 	}
 
@@ -1041,14 +1040,20 @@ public class DBWrapper
 		ArrayList<HashTagEntity>taglist = hashtagEA.searchHashTag(search);
 		NewsListView nlv = new NewsListView(); 
 
+		HashSet<Long>vis = new HashSet<Long>();
 		for(HashTagEntity tag: taglist)
 		{
 			for(Long newsid: tag.getNews())
 			{
-				NewsEntity news = newsEA.getNewsEntityById(newsid);
-				String userUrl = getUserEntity(news.getCreator()).getHeadUrl();
-				NewsObjectView newsViewObj = new NewsObjectView(news, userUrl);
-				nlv.addNews(newsViewObj);
+				if(!vis.contains(newsid))
+				{
+					NewsEntity news = newsEA.getNewsEntityById(newsid);
+					if(news == null) continue;
+					String userUrl = getUserEntity(news.getCreator()).getHeadUrl();
+					NewsObjectView newsViewObj = new NewsObjectView(news, userUrl);
+					nlv.addNews(newsViewObj);
+					vis.add(news.getId());
+				}
 			}
 		}
 		return nlv;
@@ -1091,7 +1096,7 @@ public class DBWrapper
 
 		gobj.addNews(news_obj.getId());
 		groupEA.putEntity(gobj);
-		
+
 		storeMailBox(news_obj);
 	}
 
@@ -1119,7 +1124,7 @@ public class DBWrapper
 			NewsObjectView newsViewObj = new NewsObjectView(newsEntity, userUrl);
 			nlv.addNews(newsViewObj);
 		}
-		
+
 		UserEntity user = getUserEntity(username);
 		user.clearUnReadMail();
 		userEA.putEntity(user);
