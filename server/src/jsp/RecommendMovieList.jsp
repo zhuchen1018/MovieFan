@@ -23,10 +23,10 @@
 
 <%
 	if(url==null||url.size()==0){%>
-		<h2 id="note">No Like List</h2>
+		<h2 id="note">No Recommend</h2>
 	<%}
 	else{%>
-		<h2 id="note">Movie Liked</h2>
+		<h2 id="note">You May Like</h2>
 		<div class="list">
 		<%
 			for(int i=0;i<url.size();++i){%>
