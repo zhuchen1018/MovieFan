@@ -16,7 +16,13 @@
 <% GroupListView glv = (GroupListView) request.getAttribute("GroupListView");
 	  ArrayList<GroupObjectView> grouplist = glv.getGroupList();
 %>
-      
+
+<form action="/create_group" method="POST" id="button">
+</form>   
+<div class="button">
+	<button type="submit" form="button">Create Group!</button>
+</div> 
+
 	<% for(int i=0;i<grouplist.size();i++){
 			GroupObjectView gov = grouplist.get(i);
 			String po = gov.getImageUrl();

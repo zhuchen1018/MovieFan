@@ -285,6 +285,10 @@ public class GroupPage extends HttpServlet
 		{
 			handleGroupSettingsGet(request, response);
 		}	
+		else if(url.equals(Const.CREATE_GROUP_URL))
+		{
+			handleCreateGroupGet(request, response);
+		}	
 	}
 
 	private void handleGroupSettingsGet(HttpServletRequest request, HttpServletResponse response) 
@@ -401,6 +405,11 @@ public class GroupPage extends HttpServlet
 		ServletCommon.RedirectToGroupPage(request, response, username, gid, nlv, ulv, showTab);		
 	}
 
+	/**
+	 * 
+	 * @param request
+	 * @param response
+	 */
 	private void handleCreateGroupGet(HttpServletRequest request, HttpServletResponse response) 
 	{ 
 		String username = ServletCommon.getSessionUsername(request);

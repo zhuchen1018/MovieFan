@@ -14,3 +14,11 @@ b.groupName{
 	font: bold;
 }
 
+div.button{
+	text-align: center;
+	font-size: 30px;	
+}
+
+button{
+	font-size: 15px;
+}
