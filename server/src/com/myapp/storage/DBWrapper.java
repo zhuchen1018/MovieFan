@@ -968,6 +968,7 @@ public class DBWrapper
 		}
 		return posterUrl;
 	}
+
 	/**
 	 * 
 	 * @param username
@@ -1138,5 +1139,25 @@ public class DBWrapper
 	{
 		GroupEntity gobj = groupEA.getEntity(gid);
 		return gobj != null && gobj.canUserTweet(username);
+	}
+
+	public static ArrayList<Integer> getUserLikeGenres(String username) 
+	{
+		UserEntity user = userEA.getEntity(username);
+		if(user != null)
+		{
+			return user.getLikeGenresArrayList(); 
+		}
+		return null;
+	}
+
+	public static ArrayList<String>  getUserlikeMovies(String username) 
+	{
+		UserEntity user = userEA.getEntity(username);
+		if(user != null)
+		{
+			return user.getLikeMovies();
+		}
+		return null;
 	}
 }

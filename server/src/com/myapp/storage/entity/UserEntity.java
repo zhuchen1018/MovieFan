@@ -228,6 +228,11 @@ public class UserEntity
 	{
 		return likeGenres.toArray(new Integer[likeGenres.size()]);
 	}
+	
+	public ArrayList<Integer> getLikeGenresArrayList() 
+	{
+		return likeGenres; 
+	}
 
 	public String getDescription() 
 	{

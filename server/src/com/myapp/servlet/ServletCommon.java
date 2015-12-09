@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 
@@ -18,6 +19,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.myapp.SQL.SQLDBMovieQuery;
 import com.myapp.storage.DBWrapper;
 import com.myapp.storage.entity.UserEntity;
 import com.myapp.utils.Const;
@@ -209,6 +211,38 @@ public class ServletCommon
 		forwardRequestDispatch(request, response, "/htmls/500.html");
 	}
 
+	public static void getRecommend(String username, ArrayList<String>movieIds, ArrayList<String>urls)
+	{
+		try 
+		{
+			ArrayList<Integer>likeList = DBWrapper.getUserLikeGenres(username);
+			System.out.println("like genres:" + likeList.size());
+			SQLDBMovieQuery sql = new SQLDBMovieQuery(likeList);
+			movieIds.addAll(sql.getSimpleMovieId());
+			urls.addAll(sql.getSimpleUrl());
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+
+		try 
+		{
+			ArrayList<String> likeList = DBWrapper.getUserlikeMovies(username);
+			System.out.println("like movie list:" + likeList.size());
+			for(String movieId: likeList)
+			{
+				SQLDBMovieQuery sql = new SQLDBMovieQuery(movieId, Const.PAIR_SEARCH); 
+				movieIds.addAll(sql.getSimpleMovieId());
+				urls.addAll(sql.getSimpleUrl());
+			}
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	}
+
 	public static void RedirectToHome(HttpServletRequest request, HttpServletResponse response) 
 	{
 		String username = getSessionUsername(request);
@@ -217,7 +251,7 @@ public class ServletCommon
 			redirectToLoginPage(request, response);
 			return;
 		}
-		
+
 		//DBWrapper DBWrapper = initDB();
 
 		NewsListView nlv = DBWrapper.loadAllNews(username);
@@ -231,9 +265,24 @@ public class ServletCommon
 		GroupListView glv = DBWrapper.loadGroupList(username);
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
-		
-		//db.close();
 
+		//ArrayList<String>movieIds = new ArrayList<String>(); 
+		//ArrayList<String>urls = new ArrayList<String>();
+
+		ArrayList<String>movieIds = (ArrayList<String>)request.getAttribute("RecommendMovieIds");
+		ArrayList<String>urls = (ArrayList<String>)request.getAttribute("RecommendPosters");
+		if(movieIds == null || urls == null)
+		{
+			movieIds = new ArrayList<String>();
+			urls = new ArrayList<String>();
+			getRecommend(username, movieIds, urls);
+			request.setAttribute("RecommendMovieIds", movieIds);
+			request.setAttribute("RecommendPosters", urls);
+		}
+		
+		System.out.println("movieIds size:" + movieIds.size());
+		System.out.println("urls size:" + urls.size()); 
+	
 		String location = "/jsp/home.jsp";
 		forwardRequestDispatch(request, response, location);
 	}
@@ -249,7 +298,7 @@ public class ServletCommon
 			String username, String targetName) 
 	{
 		//DBWrapper DBWrapper = initDB();
-		
+
 		NewsListView nlv = DBWrapper.loadMyNews(targetName);
 		request.setAttribute("NewsListView", null); 
 		request.setAttribute("NewsListView", nlv); 
@@ -261,13 +310,13 @@ public class ServletCommon
 		GroupListView glv = DBWrapper.loadGroupList(targetName);
 		request.setAttribute("GroupListView", null); 
 		request.setAttribute("GroupListView", glv); 
-		
+
 		boolean isMyPage = username.equals(targetName);
 		boolean isMyFriend = DBWrapper.isMyFriend(username, targetName); 
 		UserSettingView usv = DBWrapper.loadUserInfoView(targetName, isMyPage, isMyFriend);
 		request.setAttribute("UserInfoView", null); 
 		request.setAttribute("UserInfoView", usv); 
-		
+
 		//db.close();
 		String location = "/jsp/UserPage.jsp";
 		forwardRequestDispatch(request, response, location);
@@ -301,9 +350,9 @@ public class ServletCommon
 
 		request.setAttribute("GroupPageView", null); 
 		request.setAttribute("GroupPageView", gpv); 
-		
+
 		//db.close();
-	
+
 		String location = "/jsp/GroupPage.jsp";
 		forwardRequestDispatch(request, response, location);	
 	}
@@ -321,13 +370,13 @@ public class ServletCommon
 			ServletCommon.redirect404(request, response);
 			return;
 		}	
-			
-		
+
+
 		//DBWrapper DBWrapper = initDB();
 
 		request.setAttribute("MoviePageView", mpv); 
 		request.setAttribute("isLiked", new Boolean(DBWrapper.isUserLikeMovie(username, movie_id)));
-		
+
 		//db.close();
 
 		String location = "/jsp/MoviePage.jsp";
@@ -371,7 +420,7 @@ public class ServletCommon
 		String location = "/jsp/Login.jsp";
 		ServletCommon.forwardRequestDispatch(request, response, location);
 	}	
-	
+
 	public static int getUnReadMailNum(String username)
 	{
 		//DBWrapper DBWrapper = initDB();
