@@ -5,6 +5,7 @@
 <head>
 <link rel = "stylesheet" type ="text/css" href = "../css/Homepage.css">
 <link rel = "stylesheet" type ="text/css" href = "../css/Search.css">
+<link rel = "stylesheet" type ="text/css" href = "../css/Style.css">
 <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
 <title>MovieFans.com</title>
 <link rel="shortcut icon" href="/images/1.png">
@@ -23,7 +24,7 @@
   <div id="BasicDiv" class = "NewsList"> 
 	<form action="/tweet_user" method="POST">
 		<div align="center">
-			<textarea cols="25" rows="5" name="TWEET" placeholder="Share Something"></textarea>
+			<textarea cols="28" rows="5" name="TWEET" placeholder="Share Something"></textarea>
 			<br>
 			<INPUT TYPE=SUBMIT VALUE="submit">
 		</div>
