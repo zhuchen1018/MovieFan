@@ -6,7 +6,7 @@
 <head>
 <link rel = "stylesheet" type ="text/css" href = "../css/Style.css">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>MoviePage</title>
 </head>
 <body>
 <%@ page import="com.myapp.view.*" %>
@@ -39,8 +39,8 @@ MoviePageView mpv = (MoviePageView) request.getAttribute("MoviePageView");
 <h1><%=name%> (<%=releaseYear%>) </h1><br>    
 <div id="container">
     <%if(!poster.equals("null")){ %>
-		<div id="photo"><a href = "/jsp/MoviePage.jsp"><img src=<%=poster%> alt="Poster" 
-		style="width:200px;height:300px"> </a></div>
+		<div id="photo"><img src=<%=poster%> alt="Poster" 
+		style="width:200px;height:300px"></div>
 	<%
 	} else { %>
 		<img src="/images/not-found.png" alt="Poster" style="width:145px;height:300px;">
