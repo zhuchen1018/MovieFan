@@ -100,6 +100,7 @@ public class SQLDBMovieQuery {
 	private boolean QuerySimpleMovieObjectByPairId(int n){
 		try{
 			state=conn.createStatement();
+			Statement tmpState=conn.createStatement();
 			rs=state.executeQuery(sql);
 			int count=0;
 			while(rs.next()&&count<5){
@@ -109,7 +110,8 @@ public class SQLDBMovieQuery {
 				simple_movie_id.add(s);
 				
 				sql="select poster from basicTMDBInfo where movieId='"+s+"'";
-				ResultSet rtmp=state.executeQuery(sql);
+				ResultSet rtmp=tmpState.executeQuery(sql);
+				rtmp.next();
 				simple_url.add(rtmp.getString("poster"));
 				count++;
 			}
@@ -267,11 +269,13 @@ public class SQLDBMovieQuery {
 		
 		sql ="select * from movieConnection where movieId1='";
 		sql+=pairId+"' order by connection Desc";
-		if(!QuerySimpleMovieObjectByPairId(1)) return false;
+		System.out.println(sql);
+		if(!QuerySimpleMovieObjectByPairId(2)) return false;
 		
 		sql ="select * from movieConnection where movieId2='";
 		sql+=pairId+"' order by connection Desc";
-		return QuerySimpleMovieObjectByPairId(2);
+		System.out.println(sql);
+		return QuerySimpleMovieObjectByPairId(1);
 	}
 	
 	private boolean searchMovieByName() throws Exception{
@@ -367,14 +371,23 @@ public class SQLDBMovieQuery {
 		SQLDBMovieQuery sql=null;
 		try{
 			//sql=new SQLDBMovieQuery("USERRATING","Adventure",5);
-			sql=new SQLDBMovieQuery("A P",Const.NAME_SEARCH);
+			//sql=new SQLDBMovieQuery("A P",Const.NAME_SEARCH);
 			/*ArrayList<Integer> input=new ArrayList<Integer>();
 			input.add(1);
 			input.add(2);
 			sql=new SQLDBMovieQuery(input);*/
+			sql=new SQLDBMovieQuery("863",Const.PAIR_SEARCH);
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
+		}
+		
+		ArrayList<String> id=sql.getSimpleMovieId();
+		ArrayList<String> url=sql.getSimpleUrl();
+		for(int i=0;i<id.size();++i){
+			System.out.println(id.get(i));
+			System.out.println(url.get(i));
+			System.out.println("----------");
 		}
 		
 		/*MovieListView m=sql.getMovieObject();
