@@ -55,7 +55,6 @@
 		<select name ="OrderBy" id = "wgtmsr">
 		  <option selected="true" style="display:none;"></option>
 		  <option selected = "selected" value="USERRATING">Rating</option>
-		  <option value="RELEASEDATE">Year</option>
 		  <option value="VOTE">Votes</option>
 		</select>	
 	<input type="submit" /> 
