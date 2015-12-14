@@ -50,7 +50,8 @@ public class SQLDBMovieQuery {
 			return;
 		}
 		conn=SQLDBWrapper.getConnection();
-		if(conn==null) throw new Exception("connection not created!");
+		if(conn==null) 
+			throw new Exception("connection not created!");
 		if(searchMode==Const.ID_SEARCH){ 
 			this.movieId=value;
 			if(!searchMovieByMovieId()){
@@ -105,7 +106,7 @@ public class SQLDBMovieQuery {
 		}
 		catch(SQLException ex){
 			ex.printStackTrace();
-			System.out.println("search fail!");
+			System.out.println("QuerySimpleMovieObjectByGenre search fail!");
 			return false;
 		}
 	}
@@ -132,7 +133,7 @@ public class SQLDBMovieQuery {
 		}
 		catch(SQLException ex){
 			ex.printStackTrace();
-			System.out.println("search fail!");
+			System.out.println("QuerySimpleMovieObjectByPairId search fail!");
 			return false;
 		}
 	}
@@ -175,7 +176,7 @@ public class SQLDBMovieQuery {
 		}
 		catch(SQLException ex){
 			ex.printStackTrace();
-			System.out.println("search fail!");
+			System.out.println("QueryMovieObject search fail!");
 			return false;
 		}
 	}
@@ -252,7 +253,7 @@ public class SQLDBMovieQuery {
 		}
 		catch(SQLException ex){
 			ex.printStackTrace();
-			System.out.println("search fail!");
+			System.out.println("QueryMoviePage search fail!");
 			return false;
 		}
 	}
